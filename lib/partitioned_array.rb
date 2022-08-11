@@ -1,5 +1,5 @@
+# rubocop:disable Style/MutableConstant
 # rubocop:disable Style/GuardClause
-# rubocop:disable Style/ParenthesesAroundCondition
 # rubocop:disable Style/ConditionalAssignment
 # rubocop:disable Style/StringLiterals
 # rubocop:disable Metrics/ClassLength
@@ -10,7 +10,10 @@
 # rubocop:disable Metrics/MethodLength
 # rubocop:disable Style/IfUnlessModifier
 # rubocop:disable Layout/LineLength
-# frozen_string_literal: true
+
+# VERSION v1.2.0 - Cleanup according to rubocop and solargraph linter; clarification in places added (8/11/2022 - 6:01am)
+# VERSION v1.1.1 - Documenting code and scanning for bugs and any version wrap-ups
+#     -   v1.1.2 - PartitionedArray#add(return_added_element_id: true, &block): return element id of the location of the addition 
 # VERSION v1.1.0a (8/11/2022 - 5:11am)
 # -- PartitionedArray#add_partition now works correctly.
 #    Various bug fixes that lead to array variable inconsistencies
@@ -19,22 +22,19 @@
 # -- So far the partitioned array works with allocation of partitions, saving to files, and loading from files.
 # PROBLEM/BUG: PartitionedArray#add_partition does not allocate and manage the variables correctly
 # IT: upon the need to add a new partition, it adds but the entry is added to the end of the @data_arr
-# partition, extending its length by one which is not what we want. 
+# partition, extending its length by one which is not what we want.
 # VERSION v1.0.5 (7/30/2022)
 # More bug fixes, notable in saving and loading data from files.
-# Example: 
-=begin
-partition0: [{"log"=>"Hello World"}, {"log"=>"Hello World"}, {"log"=>"Hello World"}, {"log"=>"Hello World"}, {"log"=>"Hello World"}]
-partition1: [{"log"=>"Hello World"}, {"log"=>"Hello World"}, {"log"=>"Hello World"}, {"log"=>"Hello World"}, {"log"=>"Hello World", :log=>"Hello World"}]
-partition2: [{}, {}, {}, {}, {}]S
-partition3: [{}, {}, {}, {}, {}]
-partition4: [{}, {}, {}, {}, {}]
+# Example:
 
-partition0 is the length that the partitions should be in this case, p_1 had an entry appended to itself somehow, and 
-PartitionedArray won't add any more entries to it, once it reaches its max and has an additional element added.
+# partition0: [{"log"=>"Hello World"}, {"log"=>"Hello World"}, {"log"=>"Hello World"}, {"log"=>"Hello World"}, {"log"=>"Hello World"}]
+# partition1: [{"log"=>"Hello World"}, {"log"=>"Hello World"}, {"log"=>"Hello World"}, {"log"=>"Hello World"}, {"log"=>"Hello World", :log=>"Hello World"}]
+# partition2: [{}, {}, {}, {}, {}]S
+# partition3: [{}, {}, {}, {}, {}]
+# partition4: [{}, {}, {}, {}, {}]
 
-=end
-
+# partition0 is the length that the partitions should be in this case, p_1 had an entry appended to itself somehow, and 
+# PartitionedArray won't add any more entries to it, once it reaches its max and has an additional element added.
 
 # VERSION v1.0.4 (7/30/2022 9:37PM)
 # Various bug fixes and improvements.
@@ -45,7 +45,6 @@ PartitionedArray won't add any more entries to it, once it reaches its max and h
 # - last_entry
 # => last_entry is a variable that keeps track of the last entry that was added to the database, in terms of a @data_arr
 # since PartitionedArray is dynamically allocated, it is not possible to know the last entry that was added to the database
-
 
 # VERSION v1.0.2a
 # All necessary instance methods have been implemented, ready for real world testing...
@@ -104,7 +103,7 @@ class PartitionedArray
 
   # DB_SIZE > PARTITION_AMOUNT
   PARTITION_AMOUNT = 3 # The initial, + 1
-  OFFSET = 1 # This came with the math
+  OFFSET = 1 # This came with the math, but you can just state the partition amount in total and not worry about the offset in the end
   DB_SIZE = 10 # Caveat: The DB_SIZE is the total # of partitions, but you subtract it by one since the first partition is 0, in code.
   DEFAULT_PATH = './CGMFS' # default fallSback/write to current path
   DEBUGGING = false
@@ -204,59 +203,41 @@ class PartitionedArray
 
   # We define the add_left routine as starting from the end of @data_arr, and working the way back
   # until we find the first element that is nilm if no elements return nil, then return nil as well
-  def add(&block)
-    #do__full_break = false
+  def add(return_added_element_id: true, &block) 
+    # figure out what to have add return, but for now its technically in a programming sense "void", because this
+    # function always works, so long as you have a block
+    # Proposal: have add return the id of the element that was added, and have the caller know if it was added successfully
+    # What's currently implemented: since its pointless to check for truthiness, we set everything up to generally only return the added element id
+    # Why? This could become useful as a shortcut in game development, where you can just use the id to reference the element in the array
+    # and you use the block to modify the element if you want to
+
     # add the data to the array, searching until an empty hash elemet is found
-    add_partition_and_add_success = false
-    successful_add_overall = false
+    element_id_to_return = nil
     @data_arr.each_with_index do |element, element_index|
       if element == {} && block_given? # (if element is nill, no data is added because the partition is "offline")
         block.call(@data_arr[element_index]) # seems == to block.call(element)
         # how do you make sure that things are only added once per add entry?
-        puts "first block in add called"
-        successful_add_overall = true
-        #gets
-        
-        #debug_and_pause("first block in add called")
-        #if it reaches the max, then just add in partitions now
-        puts "element_index: #{element_index}"
+        debug "first block in add called"
+        # if it reaches the max, then just add in partitions now
+        debug "element_index: #{element_index}"
         PARTITION_ADDITION_AMOUNT.times { add_partition } if element_index == @data_arr.size - 1 # easier code; add if you reach the end of the array
+        element_id_to_return = element_index
         break
-=begin   elsif ((element_index == @data_arr.size - 1) && block_given?)
-       
-        debug_and_pause "adding partition"
-        puts "element_index: #{element_index}"
-        puts "add partition in add called"
-        gets
-        puts "@data_arr before adding partitions: #{@data_arr}"
-        PARTITION_ADDITION_AMOUNT.times { add_partition }
-        puts "@data_arr.size: #{@data_arr.size}"
-        puts "@data_arr after adding partitions: #{@data_arr}"
-       
-        block.call(@data_arr[element_index+1])
-        puts "@data_arr after adding element to new partition: #{@data_arr}"
-        gets
-        puts "end: #{@data_arr}"
-        break
-=end
-    elsif !block_given?
+      elsif !block_given?
         raise "No block given for element #{element}"
       end
-
     end
-    #PARTITION_ADDITION_AMOUNT.times { add_partition } if add_partition_and_add_success
+    return element_id_to_return if return_added_element_id
   end
+
   # create an initial database (instance variable)
   # later on, make this so it will load a database if its there, and if there's no data, create a standard database then save it
   # Set to work with the default constants
-
   def allocate(db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, override: false)
     if !@allocated || override
       @allocated = false
-     # @rel_arr = (0..(db_size * partition_amount_and_offset)).to_a # this can be fixed and match @data_arr's size and create a numbered set
-     
       partition = 0
-      
+
       # TODO: @range_arr does not create a range index correctly and numbers may overlap
       db_size.times do
         if @range_arr.empty?
@@ -271,12 +252,11 @@ class PartitionedArray
 
       x = 0 # offset test, for debug purposes
       @data_arr = (0..(db_size * (partition_amount_and_offset - x))).to_a.map { {} } # for an array that fills to less than the max of @rel_arr
-      
-      @rel_arr = (@data_arr.size).times.map { |i| i } # for an array that fills to less than the max of @rel_arr
-     # debug_and_pause("@rel_arr: #{@rel_arr}")
-     # debug_and_pause("@data_arr: #{@data_arr}")  
-     # debug_and_pause("@data_arr size: #{@data_arr.size}")    
-      #debug_and_pause("@rel_arr right size: #{db_size * partition_amount_and_offset}")
+      @rel_arr = @data_arr.size.times.map { |i| i } # for an array that fills to less than the max of @rel_arr
+      # debug_and_pause("@rel_arr: #{@rel_arr}")
+      # debug_and_pause("@data_arr: #{@data_arr}")
+      # debug_and_pause("@data_arr size: #{@data_arr.size}")
+      # debug_and_pause("@rel_arr right size: #{db_size * partition_amount_and_offset}")
       # @data_arr = (0..(db_size * (partition_amount_and_offset - x))).to_a.map { nil }
       @allocated = true
     else
@@ -288,8 +268,7 @@ class PartitionedArray
     @allocated = true
   end
 
-  # Returns a hash based on the array element if you are searching for.
-
+  # Returns a hash based on the array element you are searching for.
   def get(id, hash: false)
     return nil unless @allocated # if the database has not been allocated, return nil
     return @data_arr if id.nil?
@@ -338,39 +317,19 @@ class PartitionedArray
   def add_partition
     # NOTE: add_partition is not working properly, and has to look at PARTITION_ADDITION_AMOUNT to determine how many partitions to add. Keep this in mind when debugging.
     # add a partition to the @range_arr, add partition_amount_and_offset to @rel_arr, @db_size increases by one
-    debug_and_pause("add_partition called")
+    # debug_and_pause("add_partition called")
     last_range_num = @range_arr.last.to_a.last + 1
-    puts "last_range_num: #{last_range_num}"
-    @range_arr << ((last_range_num)..(last_range_num + @partition_amount_and_offset - 1)) #works
-    
-    ((last_range_num)..(last_range_num + @partition_amount_and_offset -1)).to_a.each do |i|
+    debug "last_range_num: #{last_range_num}"
+    @range_arr << (last_range_num..(last_range_num + @partition_amount_and_offset - 1)) #works
+
+    (last_range_num..(last_range_num + @partition_amount_and_offset -1)).to_a.each do |i|
       @data_arr << {}
       @rel_arr << i
     end
 
-   
-    # rel_arr_last = @rel_arr.last
-   # rel_arr_last.upto((rel_arr_last + @partition_amount_and_offset)) do |i|
-   #   puts "@rel_arr.last: #{rel_arr_last} | @rel_arr.last + @partition_amount_and_offset: #{@rel_arr.last + @partition_amount_and_offset}"
-   #   gets
-   #   @rel_arr << i
-   #   @data_arr << {}
-   #   
-   #   puts "Adding #{i} to @rel_arr"
-   # end
-
-
-
-
     @db_size += 1
-   
-    
-    #@partition_amount_and_offset.times { @data_arr << {}}
-   # @db_size += 1  # initialize new partition within array to nils
-    # @partition_amount_and_offset.times { @data_arr << nil} # initialize new partition within array to nils
     debug "Partition added successfully; data allocated"
     debug "@data_arr: #{@data_arr}"
-    # @partition_amount_and_offset.times { nil }
   end
 
   def string2range(range_string)
@@ -382,7 +341,6 @@ class PartitionedArray
     puts message if PAUSE_DEBUG
     gets if PAUSE_DEBUG
   end
-
 
   # loads the files within the directory CGMFS/partitioned_array_slice
   # needed things
@@ -400,18 +358,16 @@ class PartitionedArray
     @db_size = File.open("#{path}/db_size.json", 'r') { |f| JSON.parse(f.read) }
     data_arr_set_partitions = []
     0.upto(@db_size - 1) do |partition_element_index|
-      #puts DB_SIZE
-     data_arr_set_partitions << File.open("#{path}/#{@db_name}_part_#{partition_element_index}.json", 'r') { |f| JSON.parse(f.read) }
-     #puts "partition_element_index: #{partition_element_index}"
-     #p  "@data_arr before flatten: #{@data_arr}"
-     #puts "data_arr_set_partitions: #{data_arr_set_partitions}"
-     @data_arr = data_arr_set_partitions.flatten # side effect: if you don't flatten it, you get an array with partitioned array elements
-     #p "data_arr: #{@data_arr}"
-     #p "data_arr loaded"
-     #gets
+      # debug "Loading partition #{partition_element_index}"
+      data_arr_set_partitions << File.open("#{path}/#{@db_name}_part_#{partition_element_index}.json", 'r') { |f| JSON.parse(f.read) }
+      # debug "partition_element_index: #{partition_element_index}"
+      # debug "@data_arr before flatten: #{@data_arr}"
+      # debug "data_arr_set_partitions: #{data_arr_set_partitions}"
+      @data_arr = data_arr_set_partitions.flatten # side effect: if you don't flatten it, you get an array with partitioned array elements
+      # debug "data_arr: #{@data_arr}"
+      # debug "data_arr loaded"
     end
     @allocated = true
-
   end
 
   def all_nils?(array)
@@ -420,7 +376,7 @@ class PartitionedArray
 
   def load_partition_from_file!(partition_id)
     path = "#{@db_path}/#{@db_name}"
-    #@data_arr = File.open("#{path}/data_arr.json", 'r') { |f| JSON.parse(f.read) }
+    # @data_arr = File.open("#{path}/data_arr.json", 'r') { |f| JSON.parse(f.read) } # can write the entire array to disk for certain operations
     @partition_amount_and_offset = File.open("#{path}/partition_amount_and_offset.json", 'r') { |f| JSON.parse(f.read) }
     @range_arr = File.open("#{path}/range_arr.json", 'r') { |f| JSON.parse(f.read) }
     @range_arr.map!{|range_element| string2range(range_element) }
@@ -429,7 +385,6 @@ class PartitionedArray
     partition_data = File.open("#{path}/#{@db_name}_part_#{partition_id}.json", 'r') { |f| JSON.parse(f.read) }
     ((sliced_range_arr[0].to_i)..(sliced_range_arr[-1].to_i)).to_a.each do |range_element|
       @data_arr[range_element] = partition_data[range_element]
-      
     end
     @data_arr[@range_arr[partition_id]]
   end
@@ -442,6 +397,7 @@ class PartitionedArray
 
   def save_all_to_files!(db_folder: @db_folder, db_path: @db_path, db_name: @db_name)
     # Bug: files are not being written correctly.
+    # Fix: (8/11/2022 - 5:55am) - add db_size.json
     unless Dir.exist?(db_path)
       Dir.mkdir(db_path)
     end
@@ -453,13 +409,10 @@ class PartitionedArray
 
     File.open("#{path}/#{db_folder}/partition_amount_and_offset.json", 'w'){|f| f.write(@partition_amount_and_offset.to_json) }
     File.open("#{path}/#{db_folder}/range_arr.json", 'w'){|f| f.write(@range_arr.to_json) }
-    #File.open("#{path}/#{db_folder}/data_arr.json", 'w'){|f| f.write(@data_arr.to_json) }
     File.open("#{path}/#{db_folder}/rel_arr.json", 'w'){|f| f.write(@rel_arr.to_json) }
     File.open("#{path}/#{db_folder}/db_size.json", 'w'){|f| f.write(@db_size.to_json) }
     debug path
     0.upto(@db_size-1) do |index|
-      
-      #gets
       FileUtils.touch("#{path}/#{db_folder}/#{@db_name}_part_#{index}.json")
       File.open("#{path}/#{@db_name}_part_#{index}.json", 'w') do |f|
         partition = get_partition(index)
@@ -471,15 +424,11 @@ class PartitionedArray
         debug "@range_arr: #{@range_arr}"
         debug "@data_arr: #{@data_arr.size}"
         debug "@data_arr: #{@data_arr}"
-       # gets
-       # gets
-        f.write(partition.to_json)       
+        f.write(partition.to_json)
       end
     end
   end
 end
-
-
 
 # rubocop:enable Layout/LineLength
 # rubocop:enable Style/IfUnlessModifier
@@ -491,5 +440,5 @@ end
 # rubocop:enable Metrics/ClassLength
 # rubocop:enable Style/StringLiterals
 # rubocop:enable Style/ConditionalAssignment
-# rubocop:enable Style/ParenthesesAroundCondition
 # rubocop:enable Style/GuardClause
+# rubocop:enable Style/MutableConstant

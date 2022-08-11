@@ -11,7 +11,11 @@
 # rubocop:disable Style/IfUnlessModifier
 # rubocop:disable Layout/LineLength
 # frozen_string_literal: true
-# VERSION v1.0.6a (7/30/2022)
+# VERSION v1.1.0a (8/11/2022 - 5:11am)
+# -- PartitionedArray#add_partition now works correctly.
+#    Various bug fixes that lead to array variable inconsistencies
+
+# VERSION v1.0.5a (7/30/2022)
 # -- So far the partitioned array works with allocation of partitions, saving to files, and loading from files.
 # PROBLEM/BUG: PartitionedArray#add_partition does not allocate and manage the variables correctly
 # IT: upon the need to add a new partition, it adds but the entry is added to the end of the @data_arr
@@ -30,9 +34,7 @@ partition0 is the length that the partitions should be in this case, p_1 had an 
 PartitionedArray won't add any more entries to it, once it reaches its max and has an additional element added.
 
 =end
-# VERSION v1.0.5a (8/11/2022 - 5:11am)
-# -- PartitionedArray#add_partition now works correctly.
-#    Various bug fixes that lead to array variable inconsistencies
+
 
 # VERSION v1.0.4 (7/30/2022 9:37PM)
 # Various bug fixes and improvements.

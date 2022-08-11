@@ -30,6 +30,10 @@ partition0 is the length that the partitions should be in this case, p_1 had an 
 PartitionedArray won't add any more entries to it, once it reaches its max and has an additional element added.
 
 =end
+# VERSION v1.0.5a (8/11/2022 - 5:11am)
+# -- PartitionedArray#add_partition now works correctly.
+#    Various bug fixes that lead to array variable inconsistencies
+
 # VERSION v1.0.4 (7/30/2022 9:37PM)
 # Various bug fixes and improvements.
 # PartitionedArray#load_from_files! now works without throwing nil entries.
@@ -54,8 +58,9 @@ PartitionedArray won't add any more entries to it, once it reaches its max and h
 # 1) allocate range_arr and get the DB running
 # 2) allocate rel_arr based on range_arr
 # 3) allocate the actual array (@data_arr)
-# VERSION: v1.0.0 - set_partition_subelement
-# VERSION: v1.0.1a - all essential functions implemented
+# VERSION: v1.0.2
+# VERSION: v1.0.1a - set_partition_subelement
+# VERSION: v1.0.0 - all essential functions implemented
 # 5/9/20 - 5:54PM
 # TODO:
 # def save_partition_element_to_file!(partition_id, element_id, db_folder: @db_folder)
@@ -101,6 +106,7 @@ class PartitionedArray
   DB_SIZE = 10 # Caveat: The DB_SIZE is the total # of partitions, but you subtract it by one since the first partition is 0, in code.
   DEFAULT_PATH = './CGMFS' # default fallSback/write to current path
   DEBUGGING = false
+  PAUSE_DEBUG = false
   DB_NAME = 'partitioned_array_slice'
   PARTITION_ADDITION_AMOUNT = 3
 
@@ -197,22 +203,46 @@ class PartitionedArray
   # We define the add_left routine as starting from the end of @data_arr, and working the way back
   # until we find the first element that is nilm if no elements return nil, then return nil as well
   def add(&block)
+    #do__full_break = false
     # add the data to the array, searching until an empty hash elemet is found
+    add_partition_and_add_success = false
+    successful_add_overall = false
     @data_arr.each_with_index do |element, element_index|
-      if element == {} && block_given?  # (if element is nill, no data is added because the partition is "offline")
-        block.call(element)
+      if element == {} && block_given? # (if element is nill, no data is added because the partition is "offline")
+        block.call(@data_arr[element_index]) # seems == to block.call(element)
+        # how do you make sure that things are only added once per add entry?
+        puts "first block in add called"
+        successful_add_overall = true
+        #gets
+        
+        #debug_and_pause("first block in add called")
+        #if it reaches the max, then just add in partitions now
+        puts "element_index: #{element_index}"
+        PARTITION_ADDITION_AMOUNT.times { add_partition } if element_index == @data_arr.size - 1 # easier code; add if you reach the end of the array
         break
-     elsif ((element_index == @data_arr.size - 1) && block_given?)
-        puts "adding partition"
+=begin   elsif ((element_index == @data_arr.size - 1) && block_given?)
+       
+        debug_and_pause "adding partition"
+        puts "element_index: #{element_index}"
+        puts "add partition in add called"
+        gets
+        puts "@data_arr before adding partitions: #{@data_arr}"
         PARTITION_ADDITION_AMOUNT.times { add_partition }
-        #PARTITION_ADDITION_AMOUNT.times { @data_arr << {} }
-        block.call(element)
+        puts "@data_arr.size: #{@data_arr.size}"
+        puts "@data_arr after adding partitions: #{@data_arr}"
+       
+        block.call(@data_arr[element_index+1])
+        puts "@data_arr after adding element to new partition: #{@data_arr}"
+        gets
         puts "end: #{@data_arr}"
         break
-      else
-        debug "No block given for element #{element}"
+=end
+    elsif !block_given?
+        raise "No block given for element #{element}"
       end
+
     end
+    #PARTITION_ADDITION_AMOUNT.times { add_partition } if add_partition_and_add_success
   end
   # create an initial database (instance variable)
   # later on, make this so it will load a database if its there, and if there's no data, create a standard database then save it
@@ -221,10 +251,11 @@ class PartitionedArray
   def allocate(db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, override: false)
     if !@allocated || override
       @allocated = false
-      @rel_arr = (0..(db_size * partition_amount_and_offset)).to_a
-      debug "@rel_arr: #{@rel_arr}"
+     # @rel_arr = (0..(db_size * partition_amount_and_offset)).to_a # this can be fixed and match @data_arr's size and create a numbered set
+     
       partition = 0
-
+      
+      # TODO: @range_arr does not create a range index correctly and numbers may overlap
       db_size.times do
         if @range_arr.empty?
           partition += partition_amount_and_offset
@@ -233,11 +264,17 @@ class PartitionedArray
         end
         partition += partition_amount_and_offset
         @range_arr << ((partition - partition_amount_and_offset + 1)..partition)
-        debug "@range_arr: #{@range_arr}"
+        debug_and_pause "@range_arr: #{@range_arr}"
       end
 
       x = 0 # offset test, for debug purposes
       @data_arr = (0..(db_size * (partition_amount_and_offset - x))).to_a.map { {} } # for an array that fills to less than the max of @rel_arr
+      
+      @rel_arr = (@data_arr.size).times.map { |i| i } # for an array that fills to less than the max of @rel_arr
+     # debug_and_pause("@rel_arr: #{@rel_arr}")
+     # debug_and_pause("@data_arr: #{@data_arr}")  
+     # debug_and_pause("@data_arr size: #{@data_arr.size}")    
+      #debug_and_pause("@rel_arr right size: #{db_size * partition_amount_and_offset}")
       # @data_arr = (0..(db_size * (partition_amount_and_offset - x))).to_a.map { nil }
       @allocated = true
     else
@@ -297,20 +334,37 @@ class PartitionedArray
   end
 
   def add_partition
+    # NOTE: add_partition is not working properly, and has to look at PARTITION_ADDITION_AMOUNT to determine how many partitions to add. Keep this in mind when debugging.
     # add a partition to the @range_arr, add partition_amount_and_offset to @rel_arr, @db_size increases by one
+    debug_and_pause("add_partition called")
     last_range_num = @range_arr.last.to_a.last + 1
     puts "last_range_num: #{last_range_num}"
-    @range_arr << ((last_range_num)..(last_range_num + @partition_amount_and_offset - 1))
-    @rel_arr.last.upto(@rel_arr.last + @partition_amount_and_offset - 1) do |i|
-      @rel_arr << i
+    @range_arr << ((last_range_num)..(last_range_num + @partition_amount_and_offset - 1)) #works
+    
+    ((last_range_num)..(last_range_num + @partition_amount_and_offset -1)).to_a.each do |i|
       @data_arr << {}
-      puts "Adding #{i} to @rel_arr"
+      @rel_arr << i
     end
 
    
+    # rel_arr_last = @rel_arr.last
+   # rel_arr_last.upto((rel_arr_last + @partition_amount_and_offset)) do |i|
+   #   puts "@rel_arr.last: #{rel_arr_last} | @rel_arr.last + @partition_amount_and_offset: #{@rel_arr.last + @partition_amount_and_offset}"
+   #   gets
+   #   @rel_arr << i
+   #   @data_arr << {}
+   #   
+   #   puts "Adding #{i} to @rel_arr"
+   # end
+
+
+
+
+    @db_size += 1
+   
     
-    @partition_amount_and_offset.times { @data_arr << {}}
-    @db_size += 1  # initialize new partition within array to nils
+    #@partition_amount_and_offset.times { @data_arr << {}}
+   # @db_size += 1  # initialize new partition within array to nils
     # @partition_amount_and_offset.times { @data_arr << nil} # initialize new partition within array to nils
     debug "Partition added successfully; data allocated"
     debug "@data_arr: #{@data_arr}"
@@ -322,6 +376,12 @@ class PartitionedArray
     split_range[0].to_i..split_range[1].to_i
   end
 
+  def debug_and_pause(message)
+    puts message if PAUSE_DEBUG
+    gets if PAUSE_DEBUG
+  end
+
+
   # loads the files within the directory CGMFS/partitioned_array_slice
   # needed things
   # range_arr => it is the array of ranges that the database is divided into
@@ -329,19 +389,24 @@ class PartitionedArray
   # rel_arr => it is output to json
   # part_} => it is taken from the range_arr subdivisions; perform a map and load it into the database, one by one
   def load_from_files!(db_folder: @db_folder)
+    # @db_size needs to be taken into account and changed accordingly
     path = "#{@db_path}/#{@db_name}"    
     @partition_amount_and_offset = File.open("#{path}/partition_amount_and_offset.json", 'r') { |f| JSON.parse(f.read) }
     @range_arr = File.open("#{path}/range_arr.json", 'r') { |f| JSON.parse(f.read) }
     @range_arr.map!{ |range_element| string2range(range_element) }
     @rel_arr = File.open("#{path}/rel_arr.json", 'r') { |f| JSON.parse(f.read) }
+    @db_size = File.open("#{path}/db_size.json", 'r') { |f| JSON.parse(f.read) }
     data_arr_set_partitions = []
     0.upto(@db_size - 1) do |partition_element_index|
-      puts DB_SIZE
+      #puts DB_SIZE
      data_arr_set_partitions << File.open("#{path}/#{@db_name}_part_#{partition_element_index}.json", 'r') { |f| JSON.parse(f.read) }
-     puts partition_element_index
-     
+     #puts "partition_element_index: #{partition_element_index}"
+     #p  "@data_arr before flatten: #{@data_arr}"
+     #puts "data_arr_set_partitions: #{data_arr_set_partitions}"
      @data_arr = data_arr_set_partitions.flatten # side effect: if you don't flatten it, you get an array with partitioned array elements
-     p "data_arr: #{@data_arr}"
+     #p "data_arr: #{@data_arr}"
+     #p "data_arr loaded"
+     #gets
     end
     @allocated = true
 
@@ -374,6 +439,7 @@ class PartitionedArray
   end
 
   def save_all_to_files!(db_folder: @db_folder, db_path: @db_path, db_name: @db_name)
+    # Bug: files are not being written correctly.
     unless Dir.exist?(db_path)
       Dir.mkdir(db_path)
     end
@@ -387,12 +453,24 @@ class PartitionedArray
     File.open("#{path}/#{db_folder}/range_arr.json", 'w'){|f| f.write(@range_arr.to_json) }
     #File.open("#{path}/#{db_folder}/data_arr.json", 'w'){|f| f.write(@data_arr.to_json) }
     File.open("#{path}/#{db_folder}/rel_arr.json", 'w'){|f| f.write(@rel_arr.to_json) }
+    File.open("#{path}/#{db_folder}/db_size.json", 'w'){|f| f.write(@db_size.to_json) }
     debug path
     0.upto(@db_size-1) do |index|
+      
+      #gets
       FileUtils.touch("#{path}/#{db_folder}/#{@db_name}_part_#{index}.json")
       File.open("#{path}/#{@db_name}_part_#{index}.json", 'w') do |f|
         partition = get_partition(index)
-        puts "partition: #{partition}"
+        debug_and_pause("partition index: #{index}")
+        debug "partition index: #{index}"
+        debug "@db_size: #{@db_size}"
+        debug "partition: #{partition}"
+        debug "@rel_arr: #{@rel_arr}"
+        debug "@range_arr: #{@range_arr}"
+        debug "@data_arr: #{@data_arr.size}"
+        debug "@data_arr: #{@data_arr}"
+       # gets
+       # gets
         f.write(partition.to_json)       
       end
     end

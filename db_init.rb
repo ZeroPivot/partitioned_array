@@ -1,8 +1,8 @@
 require 'json'
 require 'fileutils'
 require_relative "lib/managed_partitioned_array"
-DB_SIZE = 10
-PARTITION_AMOUNT = 4
+DB_SIZE = 3
+PARTITION_AMOUNT = 3
 OFFSET = 1
 DEFAULT_PATH = './sl_api_db'
 DB_NAME = 'sl_api_db'

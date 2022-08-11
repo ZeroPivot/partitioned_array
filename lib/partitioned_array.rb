@@ -11,6 +11,8 @@
 # rubocop:disable Style/IfUnlessModifier
 # rubocop:disable Layout/LineLength
 
+# VERSION v1.2.1 - fixed PartitionedArray#get(id, &block) bugs
+#                 - file cleanup
 # VERSION v1.2.0 - Cleanup according to rubocop and solargraph linter; clarification in places added (8/11/2022 - 6:01am)
 # VERSION v1.1.1 - Documenting code and scanning for bugs and any version wrap-ups
 #     -   v1.1.2 - PartitionedArray#add(return_added_element_id: true, &block): return element id of the location of the addition 
@@ -103,7 +105,7 @@ class PartitionedArray
 
   # DB_SIZE > PARTITION_AMOUNT
   PARTITION_AMOUNT = 3 # The initial, + 1
-  OFFSET = 1 # This came with the math, but you can just state the partition amount in total and not worry about the offset in the end
+  OFFSET = 1 # This came with the math, but you can just state the PARTITION_AMOUNT in total and not worry about the offset in the end
   DB_SIZE = 10 # Caveat: The DB_SIZE is the total # of partitions, but you subtract it by one since the first partition is 0, in code.
   DEFAULT_PATH = './CGMFS' # default fallSback/write to current path
   DEBUGGING = false
@@ -269,11 +271,17 @@ class PartitionedArray
   end
 
   # Returns a hash based on the array element you are searching for.
+  # Haven't done much research afterwards on the idea of
+  # whether the binary search is necessary, but it seems like it is.
+  # The idea first came up during the research of the partitioned array equation.
   def get(id, hash: false)
     return nil unless @allocated # if the database has not been allocated, return nil
-    return @data_arr if id.nil?
-    return @data_arr.first if id.zero?
-    return @data_arr.last if id == @data_arr.count - 1
+    #return nil if id.nil? # if the id is nil, return nil. This is a safety check.
+
+    ### Commented this code out on 2022-08-11 in light of fixing add_partition
+    # return @data_arr.first if id.zero?
+    # return @data_arr.last if id == @data_arr.count - 1
+    # If you do this, you will not be able to request a hash in these cases
 
     data = nil
     db_index = nil
@@ -306,7 +314,7 @@ class PartitionedArray
 
       debug "The value was found at #{array_id} in the array (data_arr)"
       if hash
-        data = { "data_partition" => @data_arr[@range_arr[db_index]], "db_index" => db_index, "array_id" => array_id, "data" => @data_arr[@range_arr[db_index].to_a[array_id]] }
+        data = { "data_partition" => @data_arr[@range_arr[db_index]], "db_index" => db_index, "array_id" => array_id, "data" => @data_arr[@range_arr[db_index].to_a[array_id]], "db_size" => @db_size }
       else
         data = @data_arr[@range_arr[db_index].to_a[array_id]]
       end

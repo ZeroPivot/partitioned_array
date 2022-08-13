@@ -1,0 +1,1 @@
+require 'pure_managed_partitioned_array'

@@ -1,0 +1,6 @@
+{
+  "bookmarks.experimental.enableNewStickyEngine": true,
+  "editor.experimental.stickyScroll.enabled": true,
+  "editor.stickyTabStops": true,
+  "bookmarks.useWorkaroundForFormatters": true
+}

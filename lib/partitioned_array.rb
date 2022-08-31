@@ -1,3 +1,4 @@
+# rubocop:disable Style/FrozenStringLiteralComment
 # rubocop:disable Style/MutableConstant
 # rubocop:disable Style/GuardClause
 # rubocop:disable Style/ConditionalAssignment
@@ -330,7 +331,7 @@ class PartitionedArray
     debug "last_range_num: #{last_range_num}"
     @range_arr << (last_range_num..(last_range_num + @partition_amount_and_offset - 1)) #works
 
-    (last_range_num..(last_range_num + @partition_amount_and_offset -1)).to_a.each do |i|
+    (last_range_num..(last_range_num + @partition_amount_and_offset - 1)).to_a.each do |i|
       @data_arr << {}
       @rel_arr << i
     end
@@ -450,3 +451,4 @@ end
 # rubocop:enable Style/ConditionalAssignment
 # rubocop:enable Style/GuardClause
 # rubocop:enable Style/MutableConstant
+# rubocop:enable Style/FrozenStringLiteralComment

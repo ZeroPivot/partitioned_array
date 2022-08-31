@@ -1,4 +1,5 @@
-# frozen_string_literal: true
+# rubocop:disable Style/FrozenStringLiteralComment
+## frozen_string_literal: true
 
 # rubocop:disable Style/StringLiterals
 # rubocop:disable Lint/RedundantCopDisableDirective
@@ -19,6 +20,10 @@
 
 # 1) eval string to ruby data structure
 # 2) convert to json using parse_string
+
+# VERSION: v1.0a - initial release
+
+#require 'json'
 class JSONeval
   def self.range_arr2ruby(json_string)
     eval(json_string)
@@ -26,19 +31,15 @@ class JSONeval
 
   def self.data_arr2ruby(json_string)
     eval(json_string)
-
   end
-  def self.partition_amount_and_offset2ruby(json_string);end
 
   def self.rel_arr2ruby(json_string);end
 
   def self.ruby2json(ruby_ds)
     u_string = ruby_ds.to_s
     u_string.gsub! "=>", ":" # replace ruby's hashrocket with JSON's :
-    #u_string.gsub! '"', '\"' 
-    # TODO: FIX The idea that the nil as a hash key could be replaced by not having quotations, which wouldn't work
-    # caveat with self.ruby2json: if the "nil" is a hash key, it will be replaced by a nil object
     u_string.gsub! "nil", "\"null\"" # replace Ruby's nil with null
+    u_string.gsub! "\"null\"", "null"
   end
 
   def self.json2ruby(json_string)
@@ -46,13 +47,23 @@ class JSONeval
     u_string.gsub! ":", "=>" # replace ruby's hashrocket with JSON's :
     u_string.gsub! '\"', '"'
     u_string.gsub! "null", "nil" # replace json's null with nil\
-    u_string = eval(u_string)
+    u_string.gsub! "\"nil\"", "nil" # replace json's null with nil\
+    eval(u_string)
   end
 end
 
 
+#hash = "{ \"lol\": 2, \"rofl\": \"hehe\", \"hehe\": null }"
+#p JSONeval.json2ruby(hash)
+#jsond = JSON.parse(JSONeval.ruby2json(hash))
+#jsond = JSONeval.json2ruby(jsond.to_s)
+#p jsond
+
 
 =begin
+
+
+
 database = AOH.new
 100.times do
   # For json_test to work with to_json, always use double quotes for keys and hashrockets for pointing to
@@ -76,3 +87,4 @@ end
 # rubocop:enable Layout/TrailingEmptyLines
 # rubocop:enable Lint/RedundantCopDisableDirective
 # rubocop:enable Style/StringLiterals
+# rubocop:enable Style/FrozenStringLiteralComment

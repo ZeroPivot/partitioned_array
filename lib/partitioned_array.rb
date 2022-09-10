@@ -1,4 +1,3 @@
-# rubocop:disable Style/FrozenStringLiteralComment
 # rubocop:disable Style/MutableConstant
 # rubocop:disable Style/GuardClause
 # rubocop:disable Style/ConditionalAssignment
@@ -12,6 +11,7 @@
 # rubocop:disable Style/IfUnlessModifier
 # rubocop:disable Layout/LineLength
 
+# VERSION v1.2.2 - after adding partitions, every partition is saved to reflect the new changes on disk
 # VERSION v1.2.1 - fixed PartitionedArray#get(id, &block) bugs
 #                 - file cleanup
 # VERSION v1.2.0 - Cleanup according to rubocop and solargraph linter; clarification in places added (8/11/2022 - 6:01am)
@@ -98,7 +98,7 @@
 # When loading a JSON database file (*_db.json), the related @ arr variables need to be set to what is within the JSON file database.
 # This means the need to parse a file, and @allocated is set to true in the end.
 require 'fileutils'
-
+require 'json'
 # PartitionedArray class, a data structure that is partitioned at a lower level, but functions as an almost-normal array at the high level
 class PartitionedArray
   # Access individual instance variables with caution...
@@ -224,6 +224,7 @@ class PartitionedArray
         # if it reaches the max, then just add in partitions now
         debug "element_index: #{element_index}"
         PARTITION_ADDITION_AMOUNT.times { add_partition } if element_index == @data_arr.size - 1 # easier code; add if you reach the end of the array
+        save_all_to_files!
         element_id_to_return = element_index
         break
       elsif !block_given?
@@ -331,7 +332,7 @@ class PartitionedArray
     debug "last_range_num: #{last_range_num}"
     @range_arr << (last_range_num..(last_range_num + @partition_amount_and_offset - 1)) #works
 
-    (last_range_num..(last_range_num + @partition_amount_and_offset - 1)).to_a.each do |i|
+    (last_range_num..(last_range_num + @partition_amount_and_offset -1)).to_a.each do |i|
       @data_arr << {}
       @rel_arr << i
     end
@@ -451,4 +452,3 @@ end
 # rubocop:enable Style/ConditionalAssignment
 # rubocop:enable Style/GuardClause
 # rubocop:enable Style/MutableConstant
-# rubocop:enable Style/FrozenStringLiteralComment

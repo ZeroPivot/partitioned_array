@@ -23,6 +23,11 @@
 
 # VERSION: v1.0a - initial release
 
+
+DEBUG = true
+
+require 'json' if DEBUG
+
 #require 'json'
 class JSONeval
   def self.range_arr2ruby(json_string)
@@ -40,12 +45,13 @@ class JSONeval
     u_string.gsub! "=>", ":" # replace ruby's hashrocket with JSON's :
     u_string.gsub! "nil", "\"null\"" # replace Ruby's nil with null
     u_string.gsub! "\"null\"", "null"
+    u_string
   end
 
   def self.json2ruby(json_string)
     u_string = json_string
     u_string.gsub! ":", "=>" # replace ruby's hashrocket with JSON's :
-    u_string.gsub! '\"', '"'
+    #u_string.gsub! '\"', '"'
     u_string.gsub! "null", "nil" # replace json's null with nil\
     u_string.gsub! "\"nil\"", "nil" # replace json's null with nil\
     eval(u_string)
@@ -53,11 +59,12 @@ class JSONeval
 end
 
 
-#hash = "{ \"lol\": 2, \"rofl\": \"hehe\", \"hehe\": null }"
-#p JSONeval.json2ruby(hash)
-#jsond = JSON.parse(JSONeval.ruby2json(hash))
-#jsond = JSONeval.json2ruby(jsond.to_s)
-#p jsond
+hash = "{ \"lol\": 2, \"rofl\": \"hehe\", \"hehe\": null }"
+p JSONeval.json2ruby(hash)
+p JSONeval.ruby2json(hash)
+p jsond = JSON.parse(JSONeval.ruby2json(hash))
+jsond = JSONeval.json2ruby(jsond.to_s)
+p jsond
 
 
 =begin

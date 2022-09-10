@@ -1,0 +1,164 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+<<	examples/range_bs_class.rb	/^  def <<(data); end$/;"	f	class:PartitionedArray
+<<	examples/test.rb	/^  def <<(data); end$/;"	f	class:PartitionedArray
+DB_NAME	db_init.rb	/^DB_NAME = 'stress_test'$/;"	C	class:
+DB_NAME	examples/test.rb	/^  DB_NAME = 'partitioned_array_slice'$/;"	C	class:PartitionedArray
+DB_NAME	lib/partitioned_array.rb	/^  DB_NAME = 'partitioned_array_slice'$/;"	C	class:PartitionedArray
+DB_NAME	partitioned_array_test.rb	/^DB_NAME = 'stress_test'$/;"	C	class:
+DB_NAME	written_sigil_form/main.rb	/^DB_NAME = 'sl_api_db'$/;"	C	class:
+DB_SIZE	db_init.rb	/^DB_SIZE = 20$/;"	C	class:
+DB_SIZE	examples/range_bs_class.rb	/^  DB_SIZE = 3$/;"	C	class:PartitionedArray
+DB_SIZE	examples/test.rb	/^  DB_SIZE = 3 # Caveat: The DB_SIZE is the total # of partitions, but you subtract it by one since the first partition is 0, in code.$/;"	C	class:PartitionedArray
+DB_SIZE	lib/partitioned_array.rb	/^  DB_SIZE = 10 # Caveat: The DB_SIZE is the total # of partitions, but you subtract it by one since the first partition is 0, in code.$/;"	C	class:PartitionedArray
+DB_SIZE	partitioned_array_test.rb	/^DB_SIZE = 20$/;"	C	class:
+DB_SIZE	written_sigil_form/main.rb	/^DB_SIZE = 2$/;"	C	class:
+DEBUG	lib/json_parse.rb	/^DEBUG = true$/;"	C	class:
+DEBUGGING	examples/range_bs_class.rb	/^  DEBUGGING = true$/;"	C	class:PartitionedArray
+DEBUGGING	examples/test.rb	/^  DEBUGGING = false$/;"	C	class:PartitionedArray
+DEBUGGING	lib/partitioned_array.rb	/^  DEBUGGING = false$/;"	C	class:PartitionedArray
+DEFAULT_PATH	db_init.rb	/^DEFAULT_PATH = '.\/stress_test'$/;"	C	class:
+DEFAULT_PATH	examples/range_bs_class.rb	/^  DEFAULT_PATH = '.\/test_db.json'$/;"	C	class:PartitionedArray
+DEFAULT_PATH	examples/test.rb	/^  DEFAULT_PATH = '.\/CGMFS' # default fallback\/write to current path$/;"	C	class:PartitionedArray
+DEFAULT_PATH	lib/partitioned_array.rb	/^  DEFAULT_PATH = '.\/CGMFS' # default fallSback\/write to current path$/;"	C	class:PartitionedArray
+DEFAULT_PATH	partitioned_array_test.rb	/^DEFAULT_PATH = '.\/stress_test'$/;"	C	class:
+DEFAULT_PATH	written_sigil_form/main.rb	/^DEFAULT_PATH = '.\/sl_api_db'$/;"	C	class:
+JSONeval	lib/json_parse.rb	/^class JSONeval$/;"	c
+ManagedPartitionedArray	lib/managed_partitioned_array.rb	/^class ManagedPartitionedArray < PartitionedArray$/;"	c	inherits:PartitionedArray
+OFFSET	db_init.rb	/^OFFSET = 1$/;"	C	class:
+OFFSET	examples/range_bs_class.rb	/^  OFFSET = 1$/;"	C	class:PartitionedArray
+OFFSET	examples/range_bs_example.rb	/^OFFSET = 1$/;"	C	class:
+OFFSET	examples/range_bs_imperative.rb	/^OFFSET = 1$/;"	C	class:
+OFFSET	examples/test.rb	/^  OFFSET = 1 # This came with the math$/;"	C	class:PartitionedArray
+OFFSET	lib/partitioned_array.rb	/^  OFFSET = 1 # This came with the math, but you can just state the PARTITION_AMOUNT in total and not worry about the offset in the end$/;"	C	class:PartitionedArray
+OFFSET	partitioned_array_test.rb	/^OFFSET = 1$/;"	C	class:
+OFFSET	written_sigil_form/main.rb	/^OFFSET = 1$/;"	C	class:
+PARTITION_ADDITION_AMOUNT	lib/partitioned_array.rb	/^  PARTITION_ADDITION_AMOUNT = 3$/;"	C	class:PartitionedArray
+PARTITION_AMOUNT	db_init.rb	/^PARTITION_AMOUNT = 14$/;"	C	class:
+PARTITION_AMOUNT	examples/range_bs_class.rb	/^  PARTITION_AMOUNT = 4$/;"	C	class:PartitionedArray
+PARTITION_AMOUNT	examples/range_bs_example.rb	/^PARTITION_AMOUNT = 10$/;"	C	class:
+PARTITION_AMOUNT	examples/range_bs_imperative.rb	/^PARTITION_AMOUNT = 10$/;"	C	class:
+PARTITION_AMOUNT	examples/test.rb	/^  PARTITION_AMOUNT = 5 # The initial, + 1$/;"	C	class:PartitionedArray
+PARTITION_AMOUNT	lib/partitioned_array.rb	/^  PARTITION_AMOUNT = 3 # The initial, + 1$/;"	C	class:PartitionedArray
+PARTITION_AMOUNT	partitioned_array_test.rb	/^PARTITION_AMOUNT = 9$/;"	C	class:
+PARTITION_AMOUNT	written_sigil_form/main.rb	/^PARTITION_AMOUNT = 3$/;"	C	class:
+PAUSE_DEBUG	lib/partitioned_array.rb	/^  PAUSE_DEBUG = false$/;"	C	class:PartitionedArray
+PURE_RUBY	examples/test.rb	/^PURE_RUBY = true$/;"	C	class:
+PartitionedArray	examples/range_bs_class.rb	/^class PartitionedArray$/;"	c
+PartitionedArray	examples/test.rb	/^class PartitionedArray$/;"	c
+PartitionedArray	lib/partitioned_array.rb	/^class PartitionedArray$/;"	c
+PureManagedPartitionedArray	lib/pure_managed_partitioned_array.rb	/^class PureManagedPartitionedArray < ManagedPartitionedArray$/;"	c	inherits:ManagedPartitionedArray
+VERSION	examples/test.rb	/^  VERSION = "v1.1.2"$/;"	C	class:PartitionedArray
+WrittenSigils	written_sigil_form/main.rb	/^class WrittenSigils$/;"	c
+add	examples/range_bs_class.rb	/^  def add(id); end$/;"	f	class:PartitionedArray
+add	lib/partitioned_array.rb	/^  def add(return_added_element_id: true, &block) $/;"	f	class:PartitionedArray
+add_partition	examples/range_bs_class.rb	/^  def add_partition$/;"	f	class:PartitionedArray
+add_partition	examples/test.rb	/^  def add_partition$/;"	f	class:PartitionedArray
+add_partition	lib/partitioned_array.rb	/^  def add_partition$/;"	f	class:PartitionedArray
+all_nils?	lib/partitioned_array.rb	/^  def all_nils?(array)$/;"	f	class:PartitionedArray
+allocate	examples/range_bs_class.rb	/^  def allocate(db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path)$/;"	f	class:PartitionedArray
+allocate	examples/test.rb	/^  def allocate(db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, override: false)$/;"	f	class:PartitionedArray
+allocate	lib/partitioned_array.rb	/^  def allocate(db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, override: false)$/;"	f	class:PartitionedArray
+allocate_ranges_sequentially	examples/visuals.rb	/^def allocate_ranges_sequentially(partitioned_array)$/;"	f	class:Object
+allocate_ranges_sequentially	main.rb	/^def allocate_ranges_sequentially(partitioned_array)$/;"	f	class:Object
+array_all_nils?	examples/test.rb	/^  def array_all_nils?(array)$/;"	f	class:PartitionedArray
+build_range_arr	examples/range_bs_class.rb	/^  def build_range_arr; end$/;"	f	class:PartitionedArray
+check	examples/range_bs_class.rb	/^  def check(id); end$/;"	f	class:PartitionedArray
+clear	examples/range_bs_class.rb	/^  def clear; end$/;"	f	class:PartitionedArray
+data_arr	examples/test.rb	/^  attr_accessor :range_arr, :rel_arr, :db_size, :data_arr, :partition_amount_and_offset, :db_path, :db_name$/;"	f	class:PartitionedArray
+data_arr	lib/partitioned_array.rb	/^  attr_accessor :range_arr, :rel_arr, :db_size, :data_arr, :partition_amount_and_offset, :db_path, :db_name$/;"	f	class:PartitionedArray
+data_arr2ruby	lib/json_parse.rb	/^  def self.data_arr2ruby(json_string)$/;"	F	class:JSONeval
+data_arr=	examples/test.rb	/^  attr_accessor :range_arr, :rel_arr, :db_size, :data_arr, :partition_amount_and_offset, :db_path, :db_name$/;"	f	class:PartitionedArray
+data_arr=	lib/partitioned_array.rb	/^  attr_accessor :range_arr, :rel_arr, :db_size, :data_arr, :partition_amount_and_offset, :db_path, :db_name$/;"	f	class:PartitionedArray
+db_name	examples/test.rb	/^  attr_accessor :range_arr, :rel_arr, :db_size, :data_arr, :partition_amount_and_offset, :db_path, :db_name$/;"	f	class:PartitionedArray
+db_name	lib/partitioned_array.rb	/^  attr_accessor :range_arr, :rel_arr, :db_size, :data_arr, :partition_amount_and_offset, :db_path, :db_name$/;"	f	class:PartitionedArray
+db_name=	examples/test.rb	/^  attr_accessor :range_arr, :rel_arr, :db_size, :data_arr, :partition_amount_and_offset, :db_path, :db_name$/;"	f	class:PartitionedArray
+db_name=	lib/partitioned_array.rb	/^  attr_accessor :range_arr, :rel_arr, :db_size, :data_arr, :partition_amount_and_offset, :db_path, :db_name$/;"	f	class:PartitionedArray
+db_path	examples/test.rb	/^  attr_accessor :range_arr, :rel_arr, :db_size, :data_arr, :partition_amount_and_offset, :db_path, :db_name$/;"	f	class:PartitionedArray
+db_path	lib/partitioned_array.rb	/^  attr_accessor :range_arr, :rel_arr, :db_size, :data_arr, :partition_amount_and_offset, :db_path, :db_name$/;"	f	class:PartitionedArray
+db_path=	examples/test.rb	/^  attr_accessor :range_arr, :rel_arr, :db_size, :data_arr, :partition_amount_and_offset, :db_path, :db_name$/;"	f	class:PartitionedArray
+db_path=	lib/partitioned_array.rb	/^  attr_accessor :range_arr, :rel_arr, :db_size, :data_arr, :partition_amount_and_offset, :db_path, :db_name$/;"	f	class:PartitionedArray
+db_size	examples/range_bs_class.rb	/^  attr_reader :range_arr, :rel_arr, :db_size$/;"	f	class:PartitionedArray
+db_size	examples/test.rb	/^  attr_accessor :range_arr, :rel_arr, :db_size, :data_arr, :partition_amount_and_offset, :db_path, :db_name$/;"	f	class:PartitionedArray
+db_size	lib/partitioned_array.rb	/^  attr_accessor :range_arr, :rel_arr, :db_size, :data_arr, :partition_amount_and_offset, :db_path, :db_name$/;"	f	class:PartitionedArray
+db_size=	examples/test.rb	/^  attr_accessor :range_arr, :rel_arr, :db_size, :data_arr, :partition_amount_and_offset, :db_path, :db_name$/;"	f	class:PartitionedArray
+db_size=	lib/partitioned_array.rb	/^  attr_accessor :range_arr, :rel_arr, :db_size, :data_arr, :partition_amount_and_offset, :db_path, :db_name$/;"	f	class:PartitionedArray
+debug	examples/range_bs_class.rb	/^  def debug(string)$/;"	f	class:PartitionedArray
+debug	examples/test.rb	/^  def debug(string)$/;"	f	class:PartitionedArray
+debug	lib/partitioned_array.rb	/^  def debug(string)$/;"	f	class:PartitionedArray
+debug_and_pause	lib/partitioned_array.rb	/^  def debug_and_pause(message)$/;"	f	class:PartitionedArray
+delete	examples/range_bs_class.rb	/^  def delete(id); end$/;"	f	class:PartitionedArray
+delete	lib/partitioned_array.rb	/^  def delete(id)$/;"	f	class:PartitionedArray
+delete_all	examples/range_bs_class.rb	/^  def delete_all; end$/;"	f	class:PartitionedArray
+delete_partition	lib/partitioned_array.rb	/^  def delete_partition(partition_id)$/;"	f	class:PartitionedArray
+delete_partition_subelement	lib/partitioned_array.rb	/^  def delete_partition_subelement(id, partition_id)$/;"	f	class:PartitionedArray
+dump_to_json!	examples/test.rb	/^  def dump_to_json!(db_folder: @db_folder)$/;"	f	class:PartitionedArray
+each	examples/range_bs_class.rb	/^  def each; end$/;"	f	class:PartitionedArray
+empty?	examples/range_bs_class.rb	/^  def empty?; end$/;"	f	class:PartitionedArray
+find	examples/range_bs_class.rb	/^  def find(id); end$/;"	f	class:PartitionedArray
+get	examples/range_bs_class.rb	/^  def get(id); end$/;"	f	class:PartitionedArray
+get	examples/test.rb	/^  def get(id, hash: false)$/;"	f	class:PartitionedArray
+get	lib/partitioned_array.rb	/^  def get(id, hash: false)$/;"	f	class:PartitionedArray
+get_partition	examples/test.rb	/^  def get_partition(partition_id)$/;"	f	class:PartitionedArray
+get_partition	lib/partitioned_array.rb	/^  def get_partition(partition_id)$/;"	f	class:PartitionedArray
+initialize	examples/range_bs_class.rb	/^  def initialize(db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: DEFAULT_PATH)$/;"	f	class:PartitionedArray
+initialize	examples/test.rb	/^  def initialize(db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: DEFAULT_PATH, db_name: DB_NAME)$/;"	f	class:PartitionedArray
+initialize	lib/managed_partitioned_array.rb	/^  def initialize(db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: DEFAULT_PATH, db_name: DB_NAME) $/;"	f	class:ManagedPartitionedArray
+initialize	lib/partitioned_array.rb	/^  def initialize(db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: DEFAULT_PATH, db_name: DB_NAME)$/;"	f	class:PartitionedArray
+initialize	lib/pure_managed_partitioned_array.rb	/^  def initialize(db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: DEFAULT_PATH, db_name: DB_NAME) $/;"	f	class:PureManagedPartitionedArray
+initialize	written_sigil_form/main.rb	/^  def initialize(parititioned_array: wsa)$/;"	f	class:WrittenSigils
+json2ruby	lib/json_parse.rb	/^  def self.json2ruby(json_string)$/;"	F	class:JSONeval
+last_entry	lib/managed_partitioned_array.rb	/^  attr_accessor :last_entry$/;"	f	class:ManagedPartitionedArray
+last_entry=	lib/managed_partitioned_array.rb	/^  attr_accessor :last_entry$/;"	f	class:ManagedPartitionedArray
+last_status	examples/range_bs_class.rb	/^  def last_status; end$/;"	f	class:PartitionedArray
+load!	examples/range_bs_class.rb	/^  def load!(db_path: @db_path); end$/;"	f	class:PartitionedArray
+load_from_files!	lib/partitioned_array.rb	/^  def load_from_files!(db_folder: @db_folder)$/;"	f	class:PartitionedArray
+load_from_json!	examples/test.rb	/^  def load_from_json!(db_folder: @db_folder)$/;"	f	class:PartitionedArray
+load_last_entry_from_file!	lib/managed_partitioned_array.rb	/^  def load_last_entry_from_file!$/;"	f	class:ManagedPartitionedArray
+load_partition_from_file!	examples/test.rb	/^  def load_partition_from_file!(partition_id)$/;"	f	class:PartitionedArray
+load_partition_from_file!	lib/partitioned_array.rb	/^  def load_partition_from_file!(partition_id)$/;"	f	class:PartitionedArray
+partition_amount_and_offset	examples/test.rb	/^  attr_accessor :range_arr, :rel_arr, :db_size, :data_arr, :partition_amount_and_offset, :db_path, :db_name$/;"	f	class:PartitionedArray
+partition_amount_and_offset	lib/partitioned_array.rb	/^  attr_accessor :range_arr, :rel_arr, :db_size, :data_arr, :partition_amount_and_offset, :db_path, :db_name$/;"	f	class:PartitionedArray
+partition_amount_and_offset=	examples/test.rb	/^  attr_accessor :range_arr, :rel_arr, :db_size, :data_arr, :partition_amount_and_offset, :db_path, :db_name$/;"	f	class:PartitionedArray
+partition_amount_and_offset=	lib/partitioned_array.rb	/^  attr_accessor :range_arr, :rel_arr, :db_size, :data_arr, :partition_amount_and_offset, :db_path, :db_name$/;"	f	class:PartitionedArray
+pure_load_from_json!	examples/test.rb	/^  def pure_load_from_json!(db_folder: @db_folder); end$/;"	f	class:PartitionedArray
+pure_load_partition_from_file!	examples/test.rb	/^  def pure_load_partition_from_file!(partition_id)$/;"	f	class:PartitionedArray
+pure_save_partition_to_file!	examples/test.rb	/^  def pure_save_partition_to_file!(partition_id, db_folder: @db_folder)$/;"	f	class:PartitionedArray
+push	examples/test.rb	/^  def push(data); end$/;"	f	class:PartitionedArray
+range_arr	examples/range_bs_class.rb	/^  attr_reader :range_arr, :rel_arr, :db_size$/;"	f	class:PartitionedArray
+range_arr	examples/test.rb	/^  attr_accessor :range_arr, :rel_arr, :db_size, :data_arr, :partition_amount_and_offset, :db_path, :db_name$/;"	f	class:PartitionedArray
+range_arr	lib/partitioned_array.rb	/^  attr_accessor :range_arr, :rel_arr, :db_size, :data_arr, :partition_amount_and_offset, :db_path, :db_name$/;"	f	class:PartitionedArray
+range_arr2ruby	lib/json_parse.rb	/^  def self.range_arr2ruby(json_string)$/;"	F	class:JSONeval
+range_arr=	examples/test.rb	/^  attr_accessor :range_arr, :rel_arr, :db_size, :data_arr, :partition_amount_and_offset, :db_path, :db_name$/;"	f	class:PartitionedArray
+range_arr=	lib/partitioned_array.rb	/^  attr_accessor :range_arr, :rel_arr, :db_size, :data_arr, :partition_amount_and_offset, :db_path, :db_name$/;"	f	class:PartitionedArray
+range_db_get	examples/range_bs_example.rb	/^def range_db_get(range_arr, db_num)$/;"	f	class:Object
+range_db_get	examples/range_bs_imperative.rb	/^def range_db_get(range_arr, db_num)$/;"	f	class:Object
+range_db_get	examples/test.rb	/^  def range_db_get(range_arr, db_num)$/;"	f	class:PartitionedArray
+range_db_get	lib/partitioned_array.rb	/^  def range_db_get(range_arr, db_num)$/;"	f	class:PartitionedArray
+reallocate	examples/range_bs_class.rb	/^  def reallocate$/;"	f	class:PartitionedArray
+rebuild	examples/range_bs_class.rb	/^  def rebuild$/;"	f	class:PartitionedArray
+rel_arr	examples/range_bs_class.rb	/^  attr_reader :range_arr, :rel_arr, :db_size$/;"	f	class:PartitionedArray
+rel_arr	examples/test.rb	/^  attr_accessor :range_arr, :rel_arr, :db_size, :data_arr, :partition_amount_and_offset, :db_path, :db_name$/;"	f	class:PartitionedArray
+rel_arr	lib/partitioned_array.rb	/^  attr_accessor :range_arr, :rel_arr, :db_size, :data_arr, :partition_amount_and_offset, :db_path, :db_name$/;"	f	class:PartitionedArray
+rel_arr2ruby	lib/json_parse.rb	/^  def self.rel_arr2ruby(json_string);end$/;"	F	class:JSONeval
+rel_arr=	examples/test.rb	/^  attr_accessor :range_arr, :rel_arr, :db_size, :data_arr, :partition_amount_and_offset, :db_path, :db_name$/;"	f	class:PartitionedArray
+rel_arr=	lib/partitioned_array.rb	/^  attr_accessor :range_arr, :rel_arr, :db_size, :data_arr, :partition_amount_and_offset, :db_path, :db_name$/;"	f	class:PartitionedArray
+require_dir	require_dir/require_dir.rb	/^def require_dir(dir)$/;"	f	class:Object
+ruby2json	lib/json_parse.rb	/^  def self.ruby2json(ruby_ds)$/;"	F	class:JSONeval
+save!	examples/range_bs_class.rb	/^  def save!(db_path: @db_path); end$/;"	f	class:PartitionedArray
+save_all_to_files!	lib/partitioned_array.rb	/^  def save_all_to_files!(db_folder: @db_folder, db_path: @db_path, db_name: @db_name)$/;"	f	class:PartitionedArray
+save_last_entry_to_file!	lib/managed_partitioned_array.rb	/^  def save_last_entry_to_file!$/;"	f	class:ManagedPartitionedArray
+save_partition_to_file!	examples/test.rb	/^  def save_partition_to_file!(partition_id, db_folder: @db_folder)$/;"	f	class:PartitionedArray
+save_partition_to_file!	lib/partitioned_array.rb	/^  def save_partition_to_file!(partition_id, db_folder: @db_folder)$/;"	f	class:PartitionedArray
+set	examples/range_bs_class.rb	/^  def set(id); end$/;"	f	class:PartitionedArray
+set	examples/test.rb	/^  def set(id, &block)$/;"	f	class:PartitionedArray
+set	lib/partitioned_array.rb	/^  def set(id, &block)$/;"	f	class:PartitionedArray
+set_partition_subelement	examples/test.rb	/^  def set_partition_subelement(id, partition_id, &block)$/;"	f	class:PartitionedArray
+set_partition_subelement	lib/partitioned_array.rb	/^  def set_partition_subelement(id, partition_id, &block)$/;"	f	class:PartitionedArray
+shift	examples/test.rb	/^  def shift(data); end$/;"	f	class:PartitionedArray
+size	examples/range_bs_class.rb	/^  def size; end$/;"	f	class:PartitionedArray
+string2range	examples/test.rb	/^  def string2range(range_string)$/;"	f	class:PartitionedArray
+string2range	lib/partitioned_array.rb	/^  def string2range(range_string)$/;"	f	class:PartitionedArray
+to_a	examples/range_bs_class.rb	/^  def to_a; end$/;"	f	class:PartitionedArray
+to_r	examples/range_bs_class.rb	/^  def to_r; end$/;"	f	class:PartitionedArray
+to_s	examples/range_bs_class.rb	/^  def to_s; end$/;"	f	class:PartitionedArray

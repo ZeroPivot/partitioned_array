@@ -215,6 +215,7 @@ class PartitionedArray
     # and you use the block to modify the element if you want to
 
     # add the data to the array, searching until an empty hash elemet is found
+    
     element_id_to_return = nil
     @data_arr.each_with_index do |element, element_index|
       if element == {} && block_given? # (if element is nill, no data is added because the partition is "offline")
@@ -408,6 +409,7 @@ class PartitionedArray
   def save_all_to_files!(db_folder: @db_folder, db_path: @db_path, db_name: @db_name)
     # Bug: files are not being written correctly.
     # Fix: (8/11/2022 - 5:55am) - add db_size.json
+    
     unless Dir.exist?(db_path)
       Dir.mkdir(db_path)
     end

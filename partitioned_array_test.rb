@@ -14,7 +14,7 @@ a.save_all_to_files!
 a.load_from_files!
 p a.data_arr
 #50_000.times do |i|
-0.upto(2) do |i|
+0.upto(20) do |i|
   p a
   
   until (a.at_capacity?)
@@ -26,11 +26,12 @@ p a.data_arr
       #break
     end
   end
-  a = a.archive_and_new_db! unless i==2
-  a.allocate unless i == 2
-  
+  a = a.archive_and_new_db! unless i==20
 end
 a.save_all_to_files!
+
+a = a.load_from_archive!(partition_archive_id: 1)
+p a.data_arr
 #p a.get(0)
 
 #p a.get(0)

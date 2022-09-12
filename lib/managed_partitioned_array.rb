@@ -1,11 +1,13 @@
 require_relative 'partitioned_array'
+# VERSION: v1.0.1 - bug fixes
+# VERSION: v1.0.0a - fully functional at a basic level; can load archives and the max id of the archive is always available
 # VERSION: v0.1.3 - file saving and other methods properly working
 # VERSION: v0.1.2 - added managed databases, but need to add more logic to make it work fully
 # VERSION: v0.1.1
 # UPDATE 8/31/2022: @latest_id increments correctly now
 # Manages the @last_entry variable, which tracks where the latest entry is, since PartitionedArray is dynamically allocated.
 class ManagedPartitionedArray < PartitionedArray
-  attr_accessor :range_arr, :rel_arr, :db_size, :data_arr, :partition_amount_and_offset, :db_path, :db_name, :max_capacity, :has_capacity, :latest_id, :partition_archive_id
+  attr_accessor :range_arr, :rel_arr, :db_size, :data_arr, :partition_amount_and_offset, :db_path, :db_name, :max_capacity, :has_capacity, :latest_id, :partition_archive_id, :max_partition_archive_id, :db_name_with_no_archive
 
   # DB_SIZE > PARTITION_AMOUNT
   PARTITION_AMOUNT = 3 # The initial, + 1
@@ -16,18 +18,20 @@ class ManagedPartitionedArray < PartitionedArray
   DEBUGGING = true
   PAUSE_DEBUG = false
   DB_NAME = 'partitioned_array_slice'  
-  PARTITION_ADDITION_AMOUNT = 3
+  PARTITION_ADDITION_AMOUNT = 5
   MAX_CAPACITY = 100
   HAS_CAPACITY = true
-
+  
   def db_name_with_archive(db_name: @@db_name_with_no_archive, partition_archive_id: @partition_archive_id)
     return "#{db_name}[#{partition_archive_id}]"
   end
 
-  def initialize(max_capacity: MAX_CAPACITY, has_capacity: HAS_CAPACITY, initial: true, partition_archive_id: PARTITION_ARCHIVE_ID, db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: DEFAULT_PATH, db_name: DB_NAME) 
-    if initial
-      @@db_name_with_no_archive = db_name
-    end
+  def initialize(initial: true, max_capacity: MAX_CAPACITY, has_capacity: HAS_CAPACITY, partition_archive_id: PARTITION_ARCHIVE_ID, db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: DEFAULT_PATH, db_name: DB_NAME) 
+  if initial
+    @@db_name_with_no_archive = db_name
+    @@max_partition_archive_id = 0
+  end
+    
     
     @latest_id = 0 # last entry
     @partition_archive_id = partition_archive_id
@@ -39,11 +43,23 @@ class ManagedPartitionedArray < PartitionedArray
 
   def archive_and_new_db!
     @partition_archive_id += 1
+    @@max_partition_archive_id += 1
     save_partition_archive_id_to_file!
     save_last_entry_to_file!
+    save_max_partition_archive_to_file!
     save_all_to_files!
-  
-    return ManagedPartitionedArray.new(initial: false, partition_archive_id: @partition_archive_id, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive)
+    temp = ManagedPartitionedArray.new(initial: false, partition_archive_id: @partition_archive_id, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive)
+    temp.allocate
+    return temp
+  end
+
+  def load_from_archive!(partition_archive_id:)
+    temp = ManagedPartitionedArray.new(initial: false, partition_archive_id: partition_archive_id, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive)
+    temp.load_from_files!
+    temp.load_last_entry_from_file!
+    temp.load_partition_archive_id_from_file!
+    temp.load_max_partition_archive_from_file!
+    return temp
   end
 
   def each
@@ -67,6 +83,13 @@ class ManagedPartitionedArray < PartitionedArray
       @latest_id += 1
     end
     super(return_added_element_id: return_added_element_id, &block)
+  end
+
+  def load_everything_from_files!
+    load_from_files!
+    load_last_entry_from_file!
+    load_max_partition_archive_from_file!
+    load_partition_archive_id_from_file!
   end
 
   def save_last_entry_to_file!
@@ -94,5 +117,15 @@ class ManagedPartitionedArray < PartitionedArray
     end
   end
 
-end
+  def save_max_partition_archive_to_file!
+    File.open(File.join(@db_path, 'max_partition_archive.json'), 'w') do |file|
+      file.write(@@max_partition_archive_id.to_json)
+    end
+  end
 
+  def load_max_partition_archive_from_file!
+    File.open(File.join(@db_path, 'max_partition_archive.json'), 'r') do |file|
+      @@max_partition_archive_id = JSON.parse(file.read)
+    end
+  end
+end

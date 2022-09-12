@@ -1,4 +1,5 @@
 require_relative 'partitioned_array'
+# VERSION: v0.1.3 - file saving and other methods properly working
 # VERSION: v0.1.2 - added managed databases, but need to add more logic to make it work fully
 # VERSION: v0.1.1
 # UPDATE 8/31/2022: @latest_id increments correctly now
@@ -18,19 +19,20 @@ class ManagedPartitionedArray < PartitionedArray
   PARTITION_ADDITION_AMOUNT = 3
   MAX_CAPACITY = 100
   HAS_CAPACITY = true
+
   def db_name_with_archive(db_name: @@db_name_with_no_archive, partition_archive_id: @partition_archive_id)
     return "#{db_name}[#{partition_archive_id}]"
   end
 
-  def initialize(initial: true, partition_archive_id: PARTITION_ARCHIVE_ID, db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: DEFAULT_PATH, db_name: DB_NAME) 
+  def initialize(max_capacity: MAX_CAPACITY, has_capacity: HAS_CAPACITY, initial: true, partition_archive_id: PARTITION_ARCHIVE_ID, db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: DEFAULT_PATH, db_name: DB_NAME) 
     if initial
       @@db_name_with_no_archive = db_name
     end
     
-    @latest_id = 0
+    @latest_id = 0 # last entry
     @partition_archive_id = partition_archive_id
-    @max_capacity = MAX_CAPACITY
-    @has_capacity = HAS_CAPACITY
+    @max_capacity = max_capacity
+    @has_capacity = has_capacity
     @db_name_with_archive = db_name_with_archive(db_name: @@db_name_with_no_archive, partition_archive_id: @partition_archive_id)    
     super(db_size: db_size, partition_amount_and_offset: partition_amount_and_offset, db_path: db_path, db_name: @db_name_with_archive)
   end
@@ -40,6 +42,7 @@ class ManagedPartitionedArray < PartitionedArray
     save_partition_archive_id_to_file!
     save_last_entry_to_file!
     save_all_to_files!
+  
     return ManagedPartitionedArray.new(initial: false, partition_archive_id: @partition_archive_id, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive)
   end
 
@@ -58,7 +61,6 @@ class ManagedPartitionedArray < PartitionedArray
   end
 
   def add(return_added_element_id: true, &block)
-   
     if at_capacity? #guards against adding any additional entries
       return false
     else
@@ -68,13 +70,14 @@ class ManagedPartitionedArray < PartitionedArray
   end
 
   def save_last_entry_to_file!
-    File.open(File.join(@db_path, @@db_name_with_no_archive + '_last_entry.json'), 'w') do |file|
+    File.open(File.join("#{@db_path}/#{@db_name}", @@db_name_with_no_archive + '_last_entry.json'), 'w') do |file|
       file.write(@latest_id.to_json)
     end
   end
+  
 
   def load_last_entry_from_file!
-    File.open(File.join(@db_path, @@db_name_with_no_archive + '_last_entry.json'), 'r') do |file|
+    File.open(File.join("#{@db_path}/#{@db_name}", @@db_name_with_no_archive + '_last_entry.json'), 'r') do |file|
       @latest_id = JSON.parse(file.read)
     end
   end

@@ -14,7 +14,7 @@ a.save_all_to_files!
 a.load_from_files!
 p a.data_arr
 #50_000.times do |i|
-loop do |i|
+0.upto(2) do |i|
   p a
   
   until (a.at_capacity?)
@@ -26,8 +26,8 @@ loop do |i|
       #break
     end
   end
-  a = a.archive_and_new_db!
-  a.allocate
+  a = a.archive_and_new_db! unless i==2
+  a.allocate unless i == 2
   
 end
 a.save_all_to_files!

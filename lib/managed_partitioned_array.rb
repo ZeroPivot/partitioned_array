@@ -29,14 +29,14 @@ class ManagedPartitionedArray < PartitionedArray
   HAS_CAPACITY = true # if false, then the max_capacity is ignored and at_capacity? raises if @has_capacity == false
   def initialize(partition_addition_amount: PARTITION_ADDITION_AMOUNT, max_capacity: MAX_CAPACITY, has_capacity: HAS_CAPACITY, partition_archive_id: PARTITION_ARCHIVE_ID, db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: DEFAULT_PATH, db_name: DB_NAME) 
     @max_partition_archive_id = 0
-    @original_db_name = strip_archived_db_name(db_name: db_name)
-    @max_capacity = max_capacity
-    @latest_id = -1 # last entry
     @partition_archive_id = partition_archive_id
+    @original_db_name = strip_archived_db_name(db_name: db_name)
+    @db_name_with_archive = db_name_with_archive(db_name: @original_db_name, partition_archive_id: @partition_archive_id)    
+    @max_capacity = max_capacity
+    @latest_id = -1 # last entry    
     @max_capacity = max_capacity_setup!
     @has_capacity = has_capacity
     @partition_addition_amount = partition_addition_amount
-    @db_name_with_archive = db_name_with_archive(db_name: @original_db_name, partition_archive_id: @partition_archive_id)    
     @max_capacity = max_capacity_setup!
     @dynamically_allocates = false if @max_capacity == "data_arr_size"
     @dynamically_allocates = true if @max_capacity.is_a? Integer
@@ -53,12 +53,17 @@ class ManagedPartitionedArray < PartitionedArray
     end
   end
 
-  def archive_and_new_db!
+  def archive_and_new_db!(auto_allocate: true)
     save_everything_to_files!
     @partition_archive_id += 1
     @max_partition_archive_id += 1
     temp = ManagedPartitionedArray.new(max_capacity: @max_capacity, partition_archive_id: @partition_archive_id, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive)
-    temp.allocate
+    temp.allocate if auto_allocate
+    return temp
+  end
+
+  def load_archive_no_auto_allocate!(partition_archive_id:)
+    temp = ManagedPartitionedArray.new(max_capacity: @max_capacity, partition_archive_id: partition_archive_id, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive)
     return temp
   end
 

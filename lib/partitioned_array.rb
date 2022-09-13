@@ -247,9 +247,9 @@ class PartitionedArray
         debug "element_index: #{element_index}"
         if @dynamically_allocates
           @partition_addition_amount.times { add_partition } if element_index == @data_arr.size - 1 # easier code; add if you reach the end of the array
-          save_all_to_files!
-          element_id_to_return = element_index          
+          save_all_to_files!        
         end
+        element_id_to_return = element_index
         break
       elsif !block_given?
         raise "No block given for element #{element}"

@@ -27,12 +27,13 @@ class ManagedPartitionedArray < PartitionedArray
     return "#{db_name}[#{partition_archive_id}]"
   end
 
+  # the 'initial' argument variable should be ignored for now, but I had a feeling that there is an elsif that could be implemented at some point
   def initialize(initial: true, max_capacity: MAX_CAPACITY, has_capacity: HAS_CAPACITY, partition_archive_id: PARTITION_ARCHIVE_ID, db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: DEFAULT_PATH, db_name: DB_NAME) 
-  if initial #bug: this isn't necessary, but it is a safeguard(?)
+  if initial #bug: this isn't necessary, but it is a "safeguard(?)" -github copilot 
+    # potential to implement more logic here
     @@db_name_with_no_archive = db_name
     @@max_partition_archive_id = 0
   end
-    puts "max_capacity: #{max_capacity}"
     @latest_id = 0 # last entry
     @partition_archive_id = partition_archive_id
     @max_capacity = max_capacity

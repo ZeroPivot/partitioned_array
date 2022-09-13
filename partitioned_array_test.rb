@@ -10,15 +10,15 @@ DB_NAME = 'stress_test'
 a = ManagedPartitionedArray.new(db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: DEFAULT_PATH, db_name: DB_NAME)
 
 a.load_everything_from_files!
-p a.partition_addition_amount
-p a.data_arr
+#p a.partition_addition_amount
+#p a.data_arr
 #50_000.times do |i|
 0.upto(10) do |i|
-  p a
-  puts a.max_capacity
+ # p a
+#  puts a.max_capacity
   until (a.at_capacity?)
     a.add do |entry|
-      puts "adding entry #{i}"     
+      #puts "adding entry #{i}"     
       entry["id_chunk"] = i
       entry["random_number"] = rand(10000)
       #break
@@ -41,7 +41,7 @@ a = a.load_from_archive!(partition_archive_id: 0)
 #  entry["final entry"] = "set 0"
 #  puts "did it set?"
 #end
-p a.data_arr.size
+#p a.data_arr.size
 #p a.partition_addition_amount
 
 #p a.get(0)

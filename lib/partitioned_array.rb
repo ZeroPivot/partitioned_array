@@ -11,6 +11,7 @@
 # rubocop:disable Style/IfUnlessModifier
 # rubocop:disable Layout/LineLength
 
+# VERSION v1.2.3 - fully functional in tandem with ManagedPartitionedArray; added a few more tests (9/13/2022 - 5:48am)
 # VERSION v1.2.2 - after adding partitions, every partition is saved to reflect the new changes on disk
 # VERSION v1.2.1 - fixed PartitionedArray#get(id, &block) bugs
 #                 - file cleanup
@@ -154,7 +155,7 @@ class PartitionedArray
 
 
   def save_dynamically_allocates_to_file!
-    puts "in PA: @dynamically_allocates = #{@dynamically_allocates}" 
+    #puts "in PA: @dynamically_allocates = #{@dynamically_allocates}" 
     FileUtils.touch(@db_path + '/' + 'dynamically_allocates.json')
     File.open(@db_path + '/' + 'dynamically_allocates.json', 'w') do |file|
       file.write(@dynamically_allocates.to_json)
@@ -401,8 +402,8 @@ class PartitionedArray
       @data_arr = data_arr_set_partitions.flatten # side effect: if you don't flatten it, you get an array with partitioned array elements
       # debug "data_arr: #{@data_arr}"
       # debug "data_arr loaded"
-      puts @data_arr 
-      gets
+      #puts @data_arr 
+      #gets
     end
     @allocated = true
   end

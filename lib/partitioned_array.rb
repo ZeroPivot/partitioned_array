@@ -102,7 +102,7 @@ require 'json'
 # PartitionedArray class, a data structure that is partitioned at a lower level, but functions as an almost-normal array at the high level
 class PartitionedArray
   # Access individual instance variables with caution...
-  attr_accessor :range_arr, :rel_arr, :db_size, :data_arr, :partition_amount_and_offset, :db_path, :db_name
+  attr_accessor :range_arr, :rel_arr, :db_size, :data_arr, :partition_amount_and_offset, :db_path, :db_name, :partition_addition_amount
 
   # DB_SIZE > PARTITION_AMOUNT
   PARTITION_AMOUNT = 3 # The initial, + 1
@@ -112,9 +112,10 @@ class PartitionedArray
   DEBUGGING = false
   PAUSE_DEBUG = false
   DB_NAME = 'partitioned_array_slice'
-  PARTITION_ADDITION_AMOUNT = 3
+  PARTITION_ADDITION_AMOUNT = 6 # The amount of partitions to add when the array is full
+  DYNAMICALLY_ALLOCATES = true # If true, the array will dynamically allocate more partitions when it is full
 
-  def initialize(db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: DEFAULT_PATH, db_name: DB_NAME)
+  def initialize(partition_addition_amount: PARTITION_ADDITION_AMOUNT, dynamically_allocates: DYNAMICALLY_ALLOCATES, db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: DEFAULT_PATH, db_name: DB_NAME)
     @db_size = db_size
     @partition_amount_and_offset = partition_amount_and_offset
     @allocated = false
@@ -123,6 +124,9 @@ class PartitionedArray
     @range_arr = [] # the range array which maintains the partition locations
     @rel_arr = [] # a basic array from 1..n used in binary search
     @db_name = db_name
+
+    @partition_addition_amount = partition_addition_amount
+    @dynamically_allocates = dynamically_allocates
   end
 
   def range_db_get(range_arr, db_num)
@@ -141,6 +145,22 @@ class PartitionedArray
     end
     deleted
   end
+
+  def load_dynamically_allocates_from_file!
+    File.open(@db_path + '/' + 'dynamically_allocates.json', 'r') do |file|
+      @dynamically_allocates = JSON.parse(file.read)
+    end
+  end
+
+
+  def save_dynamically_allocates_to_file!
+    puts "in PA: @dynamically_allocates = #{@dynamically_allocates}" 
+    FileUtils.touch(@db_path + '/' + 'dynamically_allocates.json')
+    File.open(@db_path + '/' + 'dynamically_allocates.json', 'w') do |file|
+      file.write(@dynamically_allocates.to_json)
+    end
+  end
+
 
   def delete_partition_subelement(id, partition_id)
     # delete the partition's array element to what is specified
@@ -224,9 +244,11 @@ class PartitionedArray
         debug "first block in add called"
         # if it reaches the max, then just add in partitions now
         debug "element_index: #{element_index}"
-        PARTITION_ADDITION_AMOUNT.times { add_partition } if element_index == @data_arr.size - 1 # easier code; add if you reach the end of the array
-        save_all_to_files!
-        element_id_to_return = element_index
+        if @dynamically_allocates
+          @partition_addition_amount.times { add_partition } if element_index == @data_arr.size - 1 # easier code; add if you reach the end of the array
+          save_all_to_files!
+          element_id_to_return = element_index          
+        end
         break
       elsif !block_given?
         raise "No block given for element #{element}"
@@ -333,7 +355,7 @@ class PartitionedArray
     debug "last_range_num: #{last_range_num}"
     @range_arr << (last_range_num..(last_range_num + @partition_amount_and_offset - 1)) #works
 
-    (last_range_num..(last_range_num + @partition_amount_and_offset -1)).to_a.each do |i|
+    (last_range_num..(last_range_num + @partition_amount_and_offset - 1)).to_a.each do |i|
       @data_arr << {}
       @rel_arr << i
     end
@@ -360,6 +382,8 @@ class PartitionedArray
   # rel_arr => it is output to json
   # part_} => it is taken from the range_arr subdivisions; perform a map and load it into the database, one by one
   def load_from_files!(db_folder: @db_folder)
+    load_partition_addition_amount_from_file!
+    load_dynamically_allocates_from_file!
     # @db_size needs to be taken into account and changed accordingly
     path = "#{@db_path}/#{@db_name}"    
     @partition_amount_and_offset = File.open("#{path}/partition_amount_and_offset.json", 'r') { |f| JSON.parse(f.read) }
@@ -377,6 +401,8 @@ class PartitionedArray
       @data_arr = data_arr_set_partitions.flatten # side effect: if you don't flatten it, you get an array with partitioned array elements
       # debug "data_arr: #{@data_arr}"
       # debug "data_arr loaded"
+      puts @data_arr 
+      gets
     end
     @allocated = true
   end
@@ -406,6 +432,17 @@ class PartitionedArray
     File.open("#{path}/#{db_folder}/#{@db_name}_part_#{partition_id}.json", 'w') { |f| f.write(partition_data.to_json) }
   end
 
+  def save_partition_addition_amount_to_file!(db_folder: @db_folder)
+    path = "#{@db_path}/#{@db_name}"
+    FileUtils.touch("#{path}/#{db_folder}/partition_addition_amount.json")
+    File.open("#{path}/#{db_folder}/partition_addition_amount.json", 'w') { |f| f.write(@partition_amount_and_offset.to_json) }
+  end
+
+  def load_partition_addition_amount_from_file!(db_folder: @db_folder)
+    path = "#{@db_path}/#{@db_name}"
+    @partition_addition_amount = File.open("#{path}/#{db_folder}/partition_addition_amount.json", 'r') { |f| JSON.parse(f.read) }
+  end
+
   def save_all_to_files!(db_folder: @db_folder, db_path: @db_path, db_name: @db_name)
     # Bug: files are not being written correctly.
     # Fix: (8/11/2022 - 5:55am) - add db_size.json
@@ -419,6 +456,8 @@ class PartitionedArray
       Dir.mkdir(path)
     end
 
+    save_partition_addition_amount_to_file!
+    save_dynamically_allocates_to_file!
     File.open("#{path}/#{db_folder}/partition_amount_and_offset.json", 'w'){|f| f.write(@partition_amount_and_offset.to_json) }
     File.open("#{path}/#{db_folder}/range_arr.json", 'w'){|f| f.write(@range_arr.to_json) }
     File.open("#{path}/#{db_folder}/rel_arr.json", 'w'){|f| f.write(@rel_arr.to_json) }

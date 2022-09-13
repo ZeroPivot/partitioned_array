@@ -1,8 +1,8 @@
 require 'json'
 require 'securerandom'
 require_relative 'lib/managed_partitioned_array'
-DB_SIZE = 20
-PARTITION_AMOUNT = 4
+DB_SIZE = 5
+PARTITION_AMOUNT = 3
 OFFSET = 1
 DEFAULT_PATH = './stress_test'
 DB_NAME = 'stress_test'
@@ -10,11 +10,12 @@ DB_NAME = 'stress_test'
 a = ManagedPartitionedArray.new(db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: DEFAULT_PATH, db_name: DB_NAME)
 
 a.load_everything_from_files!
+p a.partition_addition_amount
 p a.data_arr
 #50_000.times do |i|
 0.upto(10) do |i|
   p a
-  
+  puts a.max_capacity
   until (a.at_capacity?)
     a.add do |entry|
       puts "adding entry #{i}"     
@@ -25,9 +26,22 @@ p a.data_arr
   end
   a = a.archive_and_new_db! if a.at_capacity?
 end
+p = a.add do |entry|
+  entry["final entry"] = "final entry"
+end
+
+a.add do |entry|
+  entry["final entry"] = "final entry"
+end
 a.save_everything_to_files!
 
-
 #p a.get(0)
+a = a.load_from_archive!(partition_archive_id: 0)
+#a.set(0) do |entry|
+#  entry["final entry"] = "set 0"
+#  puts "did it set?"
+#end
+p a.data_arr.size
+#p a.partition_addition_amount
 
 #p a.get(0)

@@ -23,17 +23,13 @@ class ManagedPartitionedArray < PartitionedArray
   MAX_CAPACITY = 50
   HAS_CAPACITY = true
   
-  def db_name_with_archive(db_name: @@db_name_with_no_archive, partition_archive_id: @partition_archive_id)
-    return "#{db_name}[#{partition_archive_id}]"
-  end
-
   # the 'initial' argument variable should be ignored for now, but I had a feeling that there is an elsif that could be implemented at some point
   def initialize(initial: true, max_capacity: MAX_CAPACITY, has_capacity: HAS_CAPACITY, partition_archive_id: PARTITION_ARCHIVE_ID, db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: DEFAULT_PATH, db_name: DB_NAME) 
-  if initial #bug: this isn't necessary, but it is a "safeguard(?)" -github copilot 
-    # potential to implement more logic here
-    @@db_name_with_no_archive = db_name
-    @@max_partition_archive_id = 0
-  end
+    if initial #bug: this isn't necessary, but it is a "safeguard(?)" -github copilot 
+      # potential to implement more logic here
+      @@db_name_with_no_archive = db_name
+      @@max_partition_archive_id = 0
+    end
     @latest_id = 0 # last entry
     @partition_archive_id = partition_archive_id
     @max_capacity = max_capacity
@@ -55,13 +51,11 @@ class ManagedPartitionedArray < PartitionedArray
     return temp
   end
 
+  def save_to_archive!;end
+  
   def load_from_archive!(partition_archive_id:)
     temp = ManagedPartitionedArray.new(initial: false, partition_archive_id: partition_archive_id, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive)
-    temp.load_from_files!
-    temp.load_last_entry_from_file!
-    temp.load_partition_archive_id_from_file!
-    temp.load_max_partition_archive_from_file!
-    temp.load_max_capacity_from_file!
+    temp.load_everything_from_files!
     return temp
   end
 
@@ -150,5 +144,9 @@ class ManagedPartitionedArray < PartitionedArray
     File.open(File.join(@db_path, 'max_capacity.json'), 'r') do |file|
       @max_capacity = JSON.parse(file.read)
     end
+  end
+
+  def db_name_with_archive(db_name: @@db_name_with_no_archive, partition_archive_id: @partition_archive_id)
+    return "#{db_name}[#{partition_archive_id}]"
   end
 end

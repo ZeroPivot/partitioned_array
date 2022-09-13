@@ -7,12 +7,20 @@ OFFSET = 1
 DEFAULT_PATH = './stress_test'
 DB_NAME = 'stress_test'
 
-a = ManagedPartitionedArray.new(db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: DEFAULT_PATH, db_name: DB_NAME)
+a = ManagedPartitionedArray.new(has_capacity: false, db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: DEFAULT_PATH, db_name: DB_NAME)
 
 a.load_everything_from_files!
+entry = a.add(return_added_element_id: true) do |hash|
+  hash[:id] = SecureRandom.uuid
+  hash[:data] = SecureRandom.uuid
+end
+
+p entry
+
 #p a.partition_addition_amount
 #p a.data_arr
 #50_000.times do |i|
+=begin
 0.upto(10) do |i|
  # p a
 #  puts a.max_capacity
@@ -45,3 +53,4 @@ a = a.load_from_archive!(partition_archive_id: 0)
 #p a.partition_addition_amount
 
 #p a.get(0)
+=end

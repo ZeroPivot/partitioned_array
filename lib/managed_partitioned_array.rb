@@ -74,7 +74,7 @@ class ManagedPartitionedArray < PartitionedArray
   end
 
   def at_capacity?
-    raise "There is no limited capacity for this array (@has_capacity == false)" if @has_capacity == false
+    #raise "There is no limited capacity for this array (@has_capacity == false)" if @has_capacity == false
     return false if @has_capacity == false
     case @max_capacity
       when "data_arr_size"

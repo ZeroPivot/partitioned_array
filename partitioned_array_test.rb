@@ -32,7 +32,7 @@ p entry
       #break
     end
   end
-  a = a.archive_and_new_db! if a.at_capacity? && i != 9
+  a = a.archive_and_new_db! if a.at_capacity?
 end
 #p = a.add do |entry|
 #  entry["final entry"] = "final entry"
@@ -41,11 +41,12 @@ end
 #a.add do |entry|
 #  entry["final entry"] = "final entry"
 #end
-a.save_everything_to_files!
+entry = a.add do |hash|
+  hash[:id] = SecureRandom.uuid
+  hash[:data] = SecureRandom.uuid
+end 
 
-a = a.load_from_archive!(partition_archive_id: 9) # this is the new higher level thing to use
-a.dump_all_variables
-
+puts "entry: #{entry}"
 
 #p a.get(0)
 #a = a.load_from_archive!(partition_archive_id: 0)

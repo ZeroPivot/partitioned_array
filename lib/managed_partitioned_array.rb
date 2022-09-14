@@ -43,7 +43,7 @@ class ManagedPartitionedArray < PartitionedArray
     @max_capacity = max_capacity_setup!
     @has_capacity = has_capacity
     @max_partition_archive_id = initialize_max_partition_archive_id!
-    puts "@max_partition_id: #{@max_partition_id}"
+    #puts "@max_partition_id: #{@max_partition_id}"
     @partition_addition_amount = partition_addition_amount
     @max_capacity = max_capacity_setup!
     @dynamically_allocates = false if @max_capacity == "data_arr_size"
@@ -113,6 +113,7 @@ class ManagedPartitionedArray < PartitionedArray
 
   def add(return_added_element_id: true, &block)
     if at_capacity? #guards against adding any additional entries
+      #puts "we are at capacity, so we are not adding anything"
       return false
     end
     @latest_id += 1

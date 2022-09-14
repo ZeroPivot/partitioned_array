@@ -4,10 +4,10 @@ require_relative 'lib/managed_partitioned_array'
 DB_SIZE = 5
 PARTITION_AMOUNT = 3
 OFFSET = 1
-DEFAULT_PATH = './stress_test'
+DEFAULT_PATH = './db/stress_test'
 DB_NAME = 'stress_test'
 
-a = ManagedPartitionedArray.new(has_capacity: false, db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: DEFAULT_PATH, db_name: DB_NAME)
+a = ManagedPartitionedArray.new(max_capacity: "data_arr_size", has_capacity: true, db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: DEFAULT_PATH, db_name: DB_NAME)
 
 a.load_everything_from_files!
 entry = a.add(return_added_element_id: true) do |hash|
@@ -20,31 +20,35 @@ p entry
 #p a.partition_addition_amount
 #p a.data_arr
 #50_000.times do |i|
-=begin
-0.upto(10) do |i|
+
+0.upto(9) do |i|
  # p a
-#  puts a.max_capacity
+  puts a.max_capacity
   until (a.at_capacity?)
     a.add do |entry|
-      #puts "adding entry #{i}"     
+      puts "adding entry #{i}"     
       entry["id_chunk"] = i
       entry["random_number"] = rand(10000)
       #break
     end
   end
-  a = a.archive_and_new_db! if a.at_capacity?
+  a = a.archive_and_new_db! if a.at_capacity? && i != 9
 end
-p = a.add do |entry|
-  entry["final entry"] = "final entry"
-end
+#p = a.add do |entry|
+#  entry["final entry"] = "final entry"
+#end
 
-a.add do |entry|
-  entry["final entry"] = "final entry"
-end
+#a.add do |entry|
+#  entry["final entry"] = "final entry"
+#end
 a.save_everything_to_files!
 
+a = a.load_from_archive!(partition_archive_id: 9) # this is the new higher level thing to use
+a.dump_all_variables
+
+
 #p a.get(0)
-a = a.load_from_archive!(partition_archive_id: 0)
+#a = a.load_from_archive!(partition_archive_id: 0)
 #a.set(0) do |entry|
 #  entry["final entry"] = "set 0"
 #  puts "did it set?"
@@ -53,4 +57,3 @@ a = a.load_from_archive!(partition_archive_id: 0)
 #p a.partition_addition_amount
 
 #p a.get(0)
-=end

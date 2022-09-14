@@ -1,4 +1,5 @@
 require_relative 'partitioned_array'
+# VERSION v1.2.5 - bug fixes
 # VERSION: v1.1.4 - seemed to have sorted out the file issues... but still need to test it out
 # VERSION: v1.1.3 
 # many bug fixes; variables are now in sync with file i/o
@@ -111,6 +112,8 @@ class ManagedPartitionedArray < PartitionedArray
     end
   end
 
+
+
   def add(return_added_element_id: true, &block)
     if at_capacity? #guards against adding any additional entries
       #puts "we are at capacity, so we are not adding anything"
@@ -141,6 +144,17 @@ class ManagedPartitionedArray < PartitionedArray
     save_db_name_with_no_archive_to_file!
     save_partition_addition_amount_to_file!
   end
+
+  def save_variables_to_disk!
+    # Synchronize all known variables with their disk counterparts
+    save_last_entry_to_file!
+    
+    
+  end
+    
+
+
+
 
   def increment_max_partition_archive_id!
     @max_partition_archive_id += 1

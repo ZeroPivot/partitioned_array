@@ -1,15 +1,31 @@
+
+
+require_relative 'lib/managed_partitioned_array'
 require 'json'
 require 'securerandom'
-require_relative 'lib/managed_partitioned_array'
+
 DB_SIZE = 5
 PARTITION_AMOUNT = 3
 OFFSET = 1
 DEFAULT_PATH = './db/stress_test'
 DB_NAME = 'stress_test'
 
+
+
+
+FileUtils.rm_rf(DEFAULT_PATH)
+sl_db = ManagedPartitionedArray.new(max_capacity: "data_arr_size", has_capacity: true, db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: DEFAULT_PATH, db_name: DB_NAME)
+
+sl_db.allocate
+sl_db.save_everything_to_files!
+puts "done!"
+
+
+
 a = ManagedPartitionedArray.new(max_capacity: "data_arr_size", has_capacity: true, db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: DEFAULT_PATH, db_name: DB_NAME)
 
 a.load_everything_from_files!
+a = a.load_from_archive!
 entry = a.add(return_added_element_id: true) do |hash|
   hash[:id] = SecureRandom.uuid
   hash[:data] = SecureRandom.uuid
@@ -61,3 +77,8 @@ a.save_partition_to_file!(a.get(entry, hash: true)["db_index"])
 #p a.partition_addition_amount
 
 #p a.get(0)
+
+# make a new directory
+
+
+

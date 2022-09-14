@@ -1,4 +1,25 @@
-# Partitioned Arrays
+# Partitioned Array Data Structure
+
+## WIP NOTES (Last Updated: 9/14/2022)
+In recent developments, this only describes the low-level ish nature of a PartitionedArray data structure, and even that is still incomplete.
+
+In the lib folder, I have completed the (inherited from PartitonedArray) ManagedPartitionedArray class which describes how to treat a PartitionedArray closer to an array with bounds set to it, and that is what the main focus of the rest of this documentation will be about. In the end, everything about the data structure will be described in full detail.
+
+You can think of a partitioned array in general as an array that has disk I/O and saves the data in .json, but it could be extended to deal with whatever you throw at it
+
+It will also be fully compatible with the DragonRuby game development toolkit albeit with a few minor caveats, and several details that need to be addressed in some way
+
+# Later Goals
+* Documentation on all code on this page, leaving nothing out
+* Prettify the code, and make as efficient as possible
+* Lower level language implementation(s)
+* DragonRuby file I/O implementation, aimed at both Linux/Windows
+
+
+----------------------------------------------------------------
+# Everything below this line needs to be updated
+(But it does document the PartitionedArray class alright thus far)
+* Upcoming additions: ManagedPartitonedArray documentation, and cleaned up PartitionedArray documentation
 
 ## Synopsis
 

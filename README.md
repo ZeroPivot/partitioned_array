@@ -1,11 +1,4 @@
-# Partitioned Arrays, a brand new prototype data structure written in Ruby (Tested, but not proven)
-
-Note: Deleting can be unstable, thus you could use the `attr_access` methods to manipulate the partitioned array directly
-
-Mode: Constant Development
-
-
-Sorry about the mess, I am trying to make good documentation
+# Partitioned Arrays
 
 ## Synopsis
 

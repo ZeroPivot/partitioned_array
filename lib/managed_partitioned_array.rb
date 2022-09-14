@@ -18,7 +18,7 @@ require_relative 'partitioned_array'
 # VERSION: v0.1.1
 # UPDATE 8/31/2022: @latest_id increments correctly now
 # Manages the @last_entry variable, which tracks where the latest entry is, since PartitionedArray is dynamically allocated.
-class ManagedPartitionedArray < PartitionedArray
+class ManagedPartitionedArray < PartitionedArray 
   attr_accessor :range_arr, :rel_arr, :db_size, :data_arr, :partition_amount_and_offset, :db_path, :db_name, :max_capacity, :has_capacity, :latest_id, :partition_archive_id, :max_partition_archive_id, :db_name_with_no_archive
 
   # DB_SIZE > PARTITION_AMOUNT

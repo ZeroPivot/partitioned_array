@@ -28,7 +28,7 @@ require 'json'
 
 
 
-
+exit
 y = PartitionedArray.new
 y.allocate
 p y.pure_load_partition_from_file!(0)

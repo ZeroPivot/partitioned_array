@@ -408,8 +408,11 @@ class PartitionedArray
     @allocated = true
   end
 
-  def all_nils?(array)
-    array.all?(&:nil?)
+  def all_empty_partitions?
+    #array.map do |element|
+    #  return false unless element.empty?
+    #end
+    @data_arr.all?(&:nil?)
   end
 
   def load_partition_from_file!(partition_id)

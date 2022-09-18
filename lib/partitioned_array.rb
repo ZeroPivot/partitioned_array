@@ -117,6 +117,20 @@ class PartitionedArray
   DYNAMICALLY_ALLOCATES = true # If true, the array will dynamically allocate more partitions when it is full
 
   def initialize(partition_addition_amount: PARTITION_ADDITION_AMOUNT, dynamically_allocates: DYNAMICALLY_ALLOCATES, db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: DEFAULT_PATH, db_name: DB_NAME)
+=begin
+# Here is the explanation for the code below:
+1. Partition addition amount: the amount of partitions that will be added once the database reaches its limit. For example, if the partition addition amount is 10, then the database will add 10 new partitions to the database once it reaches its limit.
+2. Dynamically allocates: if the database is not full, then the database will not dynamically allocate new partitions. This is to prevent the database from creating too many partitions.
+3. DB size: the size of the database. If the database reaches its limit, then the database will start to dynamically allocate new partitions.
+4. Partition amount and offset: the amount of partitions and offset. For example, if the offset is 10 and the partition amount is 3, then the database will have 3 partitions, which are 10, 20, and 30.
+5. DB path: the path of the database.
+6. DB name: the name of the database.
+7. Data array: the array that contains the data.
+8. Range array: the array that contains the partitions.
+9. Rel array: the array that contains the partition locations.
+10. DB name: the name of the database. #
+=end
+
     @db_size = db_size
     @partition_amount_and_offset = partition_amount_and_offset
     @allocated = false
@@ -414,6 +428,12 @@ class PartitionedArray
     #end
     @data_arr.all?(&:nil?)
   end
+
+  def dup_data_arr!
+    @data_arr.clone
+  end
+
+
 
   def load_partition_from_file!(partition_id)
     path = "#{@db_path}/#{@db_name}"

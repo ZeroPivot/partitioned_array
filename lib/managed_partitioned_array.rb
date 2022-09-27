@@ -1,4 +1,5 @@
 require_relative 'partitioned_array'
+# VERSION v1.2.7 - fixed more bugs with dynamic allocation
 # VERSION v1.2.6 - bug fix with array allocation given that you don't want to create file partitions (9/27/2022 - 7:09AM)
 # VERSION v1.2.5 - bug fixes
 # VERSION: v1.1.4 - seemed to have sorted out the file issues... but still need to test it out

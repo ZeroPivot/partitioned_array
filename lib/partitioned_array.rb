@@ -11,6 +11,7 @@
 # rubocop:disable Style/IfUnlessModifier
 # rubocop:disable Layout/LineLength
 
+# VERSION v1.2.4 - fixed a bug with allocations, also modified in ManagedPartitionedArray
 # VERSION v1.2.3 - fully functional in tandem with ManagedPartitionedArray; added a few more tests (9/13/2022 - 5:48am)
 # VERSION v1.2.2 - after adding partitions, every partition is saved to reflect the new changes on disk
 # VERSION v1.2.1 - fixed PartitionedArray#get(id, &block) bugs
@@ -256,12 +257,14 @@ class PartitionedArray
       if element == {} && block_given? # (if element is nill, no data is added because the partition is "offline")
         block.call(@data_arr[element_index]) # seems == to block.call(element)
         # how do you make sure that things are only added once per add entry?
-        debug "first block in add called"
+        #debug "first block in add called"
         # if it reaches the max, then just add in partitions now
-        debug "element_index: #{element_index}"
-        if @dynamically_allocates
-          @partition_addition_amount.times { add_partition } if element_index == @data_arr.size - 1 # easier code; add if you reach the end of the array
-          save_all_to_files!        
+        #puts "element_index: #{element_index}"
+        if @dynamically_allocates && (element_index == @db_size - 1)
+          @partition_addition_amount.times { add_partition } #if element_index == @data_arr.size - 1 # easier code; add if you reach the end of the array
+          save_all_to_files! 
+          puts "adding partition and saving to files" 
+          gets      
         end
         element_id_to_return = element_index
         break

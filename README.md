@@ -1,5 +1,9 @@
 # Partitioned Array Data Structure
 
+## Update 9/25/2021
+In case one's wondering, the additional layer of abstraction is called a ManagedPartitionedArray, which keeps a track of the array index and inherits from PartitionedArray. When I go to work today 2-4 hours from now I'm going to work on the ManagedPartitionedArray Documentation. -ArityWolf
+
+
 ## WIP NOTES (Last Updated: 9/14/2022)
 In recent developments, this only describes the low-level ish nature of a PartitionedArray data structure, and even that is still incomplete.
 

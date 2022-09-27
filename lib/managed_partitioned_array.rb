@@ -1,4 +1,5 @@
 require_relative 'partitioned_array'
+# VERSION v1.2.6 - bug fix with array allocation given that you don't want to create file partitions (9/27/2022 - 7:09AM)
 # VERSION v1.2.5 - bug fixes
 # VERSION: v1.1.4 - seemed to have sorted out the file issues... but still need to test it out
 # VERSION: v1.1.3 
@@ -28,7 +29,7 @@ class ManagedPartitionedArray < PartitionedArray
   DB_SIZE = 20 # Caveat: The DB_SIZE is the total # of partitions, but you subtract it by one since the first partition is 0, in code. that is, it is from 0 to DB_SIZE-1, but DB_SIZE is then the max allocated DB size
   PARTITION_ARCHIVE_ID = 0
   DEFAULT_PATH = "./DB_TEST" # default fallback/write to current path
-  DEBUGGING = false
+  DEBUGGING = true
   PAUSE_DEBUG = false
   DB_NAME = 'partitioned_array_slice'
   PARTITION_ADDITION_AMOUNT = 5
@@ -49,14 +50,16 @@ class ManagedPartitionedArray < PartitionedArray
     @max_capacity = max_capacity_setup!
     @dynamically_allocates = false if @max_capacity == "data_arr_size"
     @dynamically_allocates = true if @max_capacity.is_a? Integer
+    p "@dynamically_allocates: #{@dynamically_allocates}" if DEBUGGING
+    #gets
     super(partition_addition_amount: @partition_addition_amount, dynamically_allocates: @dynamically_allocates, db_size: db_size, partition_amount_and_offset: partition_amount_and_offset, db_path: db_path, db_name: @db_name_with_archive)
   end
 
   # one keyword available: :data_arr_size
   def max_capacity_setup!(db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, max_capacity: MAX_CAPACITY)
-    if @max_capacity == "data_arr_size"
+    if (@max_capacity == "data_arr_size" || @max_capacity.is_a?(Integer))
       #@max_capacity = (0..(db_size * (partition_amount_and_offset))).to_a.size - 1
-      @partition_addition_amount = 0
+      @partition_addition_amount = PARTITION_ADDITION_AMOUNT
     else
       @max_capacity = max_capacity
     end
@@ -115,11 +118,14 @@ class ManagedPartitionedArray < PartitionedArray
 
 
   def add(return_added_element_id: true, &block)
-    if at_capacity? #guards against adding any additional entries
+    #puts "adding..."
+    if at_capacity? && @max_capacity && @has_capacity #guards against adding any additional entries
       #puts "we are at capacity, so we are not adding anything"
+      puts "at capacity and max_capacity is #{@max_capacity}" 
       return false
     end
     @latest_id += 1
+    puts "incremented latest_id to #{@latest_id}"
     super(return_added_element_id: return_added_element_id, &block)
   end
 

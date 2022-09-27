@@ -56,10 +56,10 @@ class ManagedPartitionedArray < PartitionedArray
   end
 
   # one keyword available: :data_arr_size
-  def max_capacity_setup!(db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, max_capacity: MAX_CAPACITY)
+  def max_capacity_setup!(partition_addition_amount: PARTITION_ADDITION_AMOUNT, db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, max_capacity: MAX_CAPACITY)
     if (@max_capacity == "data_arr_size" || @max_capacity.is_a?(Integer))
       #@max_capacity = (0..(db_size * (partition_amount_and_offset))).to_a.size - 1
-      @partition_addition_amount = PARTITION_ADDITION_AMOUNT
+      @partition_addition_amount = partition_addition_amount
     else
       @max_capacity = max_capacity
     end

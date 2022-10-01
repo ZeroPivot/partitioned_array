@@ -1,4 +1,5 @@
 require_relative 'partitioned_array'
+# VERSION v1.2.8 - Regression and bug found and fixed; too many guard clauses at at_capacity? method (10/1/2022)
 # VERSION v1.2.7 - fixed more bugs with dynamic allocation
 # VERSION v1.2.6 - bug fix with array allocation given that you don't want to create file partitions (9/27/2022 - 7:09AM)
 # VERSION v1.2.5 - bug fixes
@@ -58,11 +59,12 @@ class ManagedPartitionedArray < PartitionedArray
 
   # one keyword available: :data_arr_size
   def max_capacity_setup!(partition_addition_amount: PARTITION_ADDITION_AMOUNT, db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, max_capacity: MAX_CAPACITY)
-    if (@max_capacity == "data_arr_size" || @max_capacity.is_a?(Integer))
+    if (@max_capacity == "data_arr_size")
       #@max_capacity = (0..(db_size * (partition_amount_and_offset))).to_a.size - 1
-      @partition_addition_amount = partition_addition_amount
+      #@partition_addition_amount = partition_addition_amount
+      return "data_arr_size"
     else
-      @max_capacity = max_capacity
+      return max_capacity
     end
   end
 
@@ -120,7 +122,7 @@ class ManagedPartitionedArray < PartitionedArray
 
   def add(return_added_element_id: true, &block)
     #puts "adding..."
-    if at_capacity? && @max_capacity && @has_capacity #guards against adding any additional entries
+    if at_capacity?# && @max_capacity && @has_capacity #guards against adding any additional entries
       #puts "we are at capacity, so we are not adding anything"
       puts "at capacity and max_capacity is #{@max_capacity}" 
       return false

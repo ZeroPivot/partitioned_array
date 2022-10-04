@@ -44,7 +44,7 @@ class ManagedPartitionedArray < PartitionedArray
     @db_name_with_archive = db_name_with_archive(db_name: @original_db_name, partition_archive_id: @partition_archive_id)    
     @max_capacity = max_capacity
     @latest_id = 0 # last entry    
-    @max_capacity = max_capacity_setup!
+    # @max_capacity = max_capacity_setup! # => commented out on 10/4/2022 1:32am
     @has_capacity = has_capacity
     @max_partition_archive_id = initialize_max_partition_archive_id!
     #puts "@max_partition_id: #{@max_partition_id}"

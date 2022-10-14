@@ -32,7 +32,7 @@ class ManagedPartitionedArray < PartitionedArray
   DB_SIZE = 20 # Caveat: The DB_SIZE is the total # of partitions, but you subtract it by one since the first partition is 0, in code. that is, it is from 0 to DB_SIZE-1, but DB_SIZE is then the max allocated DB size
   PARTITION_ARCHIVE_ID = 0
   DEFAULT_PATH = "./DB_TEST" # default fallback/write to current path
-  DEBUGGING = true
+  DEBUGGING = false
   PAUSE_DEBUG = false
   DB_NAME = 'partitioned_array_slice'
   PARTITION_ADDITION_AMOUNT = 5
@@ -45,7 +45,7 @@ class ManagedPartitionedArray < PartitionedArray
     @db_name_with_archive = db_name_with_archive(db_name: @original_db_name, partition_archive_id: @partition_archive_id)    
     @max_capacity = max_capacity
     @latest_id = 0 # last entry    
-    @max_capacity = max_capacity_setup!
+    # @max_capacity = max_capacity_setup! # => commented out on 10/4/2022 1:32am
     @has_capacity = has_capacity
     @max_partition_archive_id = initialize_max_partition_archive_id!
     #puts "@max_partition_id: #{@max_partition_id}"
@@ -129,11 +129,11 @@ class ManagedPartitionedArray < PartitionedArray
     #puts "adding..."
     if at_capacity?# && @max_capacity && @has_capacity #guards against adding any additional entries
       #puts "we are at capacity, so we are not adding anything"
-      puts "at capacity and max_capacity is #{@max_capacity}" 
+     # puts "at capacity and max_capacity is #{@max_capacity}" 
       return false
     end
     @latest_id += 1
-    puts "incremented latest_id to #{@latest_id}"
+    #puts "incremented latest_id to #{@latest_id}"
     super(return_added_element_id: return_added_element_id, &block)
   end
 
@@ -162,14 +162,8 @@ class ManagedPartitionedArray < PartitionedArray
   def save_variables_to_disk!
     # Synchronize all known variables with their disk counterparts
     save_last_entry_to_file!
-    
-    
   end
     
-
-
-
-
   def increment_max_partition_archive_id!
     @max_partition_archive_id += 1
     File.open(@db_path + '/' + "max_partition_archive_id.json", "w") do |f|
@@ -255,7 +249,7 @@ end
 
 
   def load_max_partition_archive_id_from_file!
-    puts "1 @db_path: #{@db_path}"
+    # puts "1 @db_path: #{@db_path}"
     if File.exist?(File.join(@db_path, 'max_partition_archive_id.json'))
       File.open(File.join(@db_path, 'max_partition_archive_id.json'), 'r') do |file|
         @max_partition_archive_id = JSON.parse(file.read)

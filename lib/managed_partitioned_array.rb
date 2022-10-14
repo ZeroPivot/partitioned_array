@@ -1,4 +1,6 @@
 require_relative 'partitioned_array'
+# VERSION v1.3.0a - endless add implementation in ManagedPartitionedArray#endless_add
+# Allows the database to continuously add and allocate, as if it were a plain PartitionedArray
 # VERSION v1.2.9 - fixes
 # VERSION v1.2.8 - Regression and bug found and fixed; too many guard clauses at at_capacity? method (10/1/2022)
 # VERSION v1.2.7 - fixed more bugs with dynamic allocation
@@ -24,7 +26,7 @@ require_relative 'partitioned_array'
 # UPDATE 8/31/2022: @latest_id increments correctly now
 # Manages the @last_entry variable, which tracks where the latest entry is, since PartitionedArray is dynamically allocated.
 class ManagedPartitionedArray < PartitionedArray 
-  attr_accessor :range_arr, :rel_arr, :db_size, :data_arr, :partition_amount_and_offset, :db_path, :db_name, :max_capacity, :has_capacity, :latest_id, :partition_archive_id, :max_partition_archive_id, :db_name_with_no_archive
+  attr_accessor :endless_add, :range_arr, :rel_arr, :db_size, :data_arr, :partition_amount_and_offset, :db_path, :db_name, :max_capacity, :has_capacity, :latest_id, :partition_archive_id, :max_partition_archive_id, :db_name_with_no_archive
 
   # DB_SIZE > PARTITION_AMOUNT
   PARTITION_AMOUNT = 9 # The initial, + 1
@@ -35,10 +37,12 @@ class ManagedPartitionedArray < PartitionedArray
   DEBUGGING = false
   PAUSE_DEBUG = false
   DB_NAME = 'partitioned_array_slice'
-  PARTITION_ADDITION_AMOUNT = 5
+  PARTITION_ADDITION_AMOUNT = 1
   MAX_CAPACITY = "data_arr_size" # : :data_arr_size; a keyword to add to the array until its full with no buffer additions
   HAS_CAPACITY = true # if false, then the max_capacity is ignored and at_capacity? raises if @has_capacity == false
-  def initialize(partition_addition_amount: PARTITION_ADDITION_AMOUNT, max_capacity: MAX_CAPACITY, has_capacity: HAS_CAPACITY, partition_archive_id: PARTITION_ARCHIVE_ID, db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: DEFAULT_PATH, db_name: DB_NAME) 
+  DYNAMICALLY_ALLOCATES = true
+  ENDLESS_ADD = false
+  def initialize(endless_add: ENDLESS_ADD, dynamically_allocates: DYNAMICALLY_ALLOCATES, partition_addition_amount: PARTITION_ADDITION_AMOUNT, max_capacity: MAX_CAPACITY, has_capacity: HAS_CAPACITY, partition_archive_id: PARTITION_ARCHIVE_ID, db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: DEFAULT_PATH, db_name: DB_NAME) 
     @db_path = db_path
     @partition_archive_id = partition_archive_id
     @original_db_name = strip_archived_db_name(db_name: db_name)
@@ -49,14 +53,14 @@ class ManagedPartitionedArray < PartitionedArray
     @has_capacity = has_capacity
     @max_partition_archive_id = initialize_max_partition_archive_id!
     #puts "@max_partition_id: #{@max_partition_id}"
-    p "max capacity before super: #{@max_capacity}"
-    gets
+  #p "max capacity before super: #{@max_capacity}"
+  #  gets
     @partition_addition_amount = partition_addition_amount
     @max_capacity = max_capacity_setup!
-    @dynamically_allocates = false if @max_capacity == "data_arr_size"
-    @dynamically_allocates = true if @max_capacity.is_a? Integer
-    p "@dynamically_allocates: #{@dynamically_allocates}" if DEBUGGING
-    p @max_capacity if DEBUGGING
+    @dynamically_allocates = dynamically_allocates  
+   # p "@dynamically_allocates: #{@dynamically_allocates}" if DEBUGGING
+  #  p @max_capacity if DEBUGGING
+    @endless_add = endless_add
     #gets
     super(partition_addition_amount: @partition_addition_amount, dynamically_allocates: @dynamically_allocates, db_size: db_size, partition_amount_and_offset: partition_amount_and_offset, db_path: db_path, db_name: @db_name_with_archive)
   end
@@ -108,6 +112,7 @@ class ManagedPartitionedArray < PartitionedArray
 
   def at_capacity?
     #raise "There is no limited capacity for this array (@has_capacity == false)" if @has_capacity == false
+    #return true
     return false if @has_capacity == false
     case @max_capacity
       when "data_arr_size"
@@ -126,15 +131,26 @@ class ManagedPartitionedArray < PartitionedArray
 
 
   def add(return_added_element_id: true, &block)
-    #puts "adding..."
-    if at_capacity?# && @max_capacity && @has_capacity #guards against adding any additional entries
+    # endless add addition here
+    if @endless_add && @data_arr[@latest_id].nil?
+      #puts "endless add"
+      #puts "@data_arr[@latest_id]: #{@data_arr[@latest_id+1]}"
+      #puts "data arr[latest_id]: #{@data_arr[@latest_id] ==}"
+      add_partition
+      save_everything_to_files!
+     # gets
+    elsif at_capacity?# && @max_capacity && @has_capacity #guards against adding any additional entries
       #puts "we are at capacity, so we are not adding anything"
      # puts "at capacity and max_capacity is #{@max_capacity}" 
       return false
+    else 
+      
     end
-    @latest_id += 1
     #puts "incremented latest_id to #{@latest_id}"
+    @latest_id += 1
+    #puts "latest_id: #{@latest_id}"
     super(return_added_element_id: return_added_element_id, &block)
+    #puts "add was called"
   end
 
   def load_everything_from_files!
@@ -146,6 +162,7 @@ class ManagedPartitionedArray < PartitionedArray
     load_has_capacity_from_file!
     load_db_name_with_no_archive_from_file!
     load_partition_addition_amount_from_file!
+    load_endless_add_from_file!
   end
 
   def save_everything_to_files!
@@ -157,6 +174,7 @@ class ManagedPartitionedArray < PartitionedArray
     save_has_capacity_to_file!
     save_db_name_with_no_archive_to_file!
     save_partition_addition_amount_to_file!
+    save_endless_add_to_file!
   end
 
   def save_variables_to_disk!
@@ -186,6 +204,18 @@ class ManagedPartitionedArray < PartitionedArray
   def save_has_capacity_to_file!
     File.open(File.join("#{@db_path}/#{@db_name}", "has_capacity.json"), "w") do |f|
       f.write(@has_capacity.to_json)
+    end
+  end
+
+  def save_endless_add_to_file!
+    File.open(File.join("#{@db_path}/#{@db_name}", "endless_add.json"), "w") do |f|
+      f.write(@endless_add.to_json)
+    end
+  end
+
+  def load_endless_add_from_file!
+    File.open(File.join("#{@db_path}/#{@db_name}", "endless_add.json"), "r") do |f|
+      @endless_add = JSON.parse(f.read)
     end
   end
 

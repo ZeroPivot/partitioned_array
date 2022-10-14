@@ -11,6 +11,8 @@
 # rubocop:disable Style/IfUnlessModifier
 # rubocop:disable Layout/LineLength
 
+# VERSION v1.2.5a - endless add implementation in ManagedPartitionedArray#endless_add
+# Allows the database to continuously add and allocate, as if it were a plain PartitionedArray
 # VERSION v1.2.4 - now its not "data_arr_size" if you set the variable correctly
 # Note: The struct may require more work, but this struct in particular is not necessary in the managed partitioned array
 # -- too many allocations are done when 'at capacity', but its because of the nature of the beast
@@ -257,17 +259,21 @@ class PartitionedArray
     
     element_id_to_return = nil
     @data_arr.each_with_index do |element, element_index|
+      #puts "element: #{element}"
       if element == {} && block_given? # (if element is nill, no data is added because the partition is "offline")
         block.call(@data_arr[element_index]) # seems == to block.call(element)
+        #puts "ADD BLOCK CALLED"
         # how do you make sure that things are only added once per add entry?
         #debug "first block in add called"
         # if it reaches the max, then just add in partitions now
         #puts "element_index: #{element_index}"
-        if @dynamically_allocates && (element_index == @db_size - 1)
-          @partition_addition_amount.times { add_partition } #if element_index == @data_arr.size - 1 # easier code; add if you reach the end of the array
+        if @dynamically_allocates && (element_index == @db_size - 1 && at_capacity?)
+          #puts "element index: #{element_index}"
+          #puts "db_size: #{@db_size-1}"
+          @partition_addition_amount.times { add_partition; puts "adding partition" } #if element_index == @data_arr.size - 1 # easier code; add if you reach the end of the array
           save_all_to_files! 
-          puts "adding partition and saving to files" 
-          gets      
+          #puts "adding partition and saving to files" 
+              
         end
         element_id_to_return = element_index
         break

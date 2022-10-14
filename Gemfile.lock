@@ -23,7 +23,7 @@ GEM
     readapt (1.4.4)
       backport (~> 1.2)
       thor (~> 1.0)
-    regexp_parser (2.5.0)
+    regexp_parser (2.6.0)
     reverse_markdown (2.1.1)
       nokogiri
     rexml (3.2.5)
@@ -43,7 +43,7 @@ GEM
     ruby-debug-ide (0.7.3)
       rake (>= 0.8.1)
     ruby-progressbar (1.11.0)
-    solargraph (0.47.0)
+    solargraph (0.47.2)
       backport (~> 1.2)
       benchmark
       bundler (>= 1.17.2)

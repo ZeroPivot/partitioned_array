@@ -11,6 +11,9 @@
 # rubocop:disable Style/IfUnlessModifier
 # rubocop:disable Layout/LineLength
 
+# VERSION v1.2.4 - now its not "data_arr_size" if you set the variable correctly
+# Note: The struct may require more work, but this struct in particular is not necessary in the managed partitioned array
+# -- too many allocations are done when 'at capacity', but its because of the nature of the beast
 # VERSION v1.2.4 - fixed a bug with allocations, also modified in ManagedPartitionedArray
 # VERSION v1.2.3 - fully functional in tandem with ManagedPartitionedArray; added a few more tests (9/13/2022 - 5:48am)
 # VERSION v1.2.2 - after adding partitions, every partition is saved to reflect the new changes on disk
@@ -114,7 +117,7 @@ class PartitionedArray
   DEBUGGING = false
   PAUSE_DEBUG = false
   DB_NAME = 'partitioned_array_slice'
-  PARTITION_ADDITION_AMOUNT = 6 # The amount of partitions to add when the array is full
+  PARTITION_ADDITION_AMOUNT = 1 # The amount of partitions to add when the array is full
   DYNAMICALLY_ALLOCATES = true # If true, the array will dynamically allocate more partitions when it is full
 
   def initialize(partition_addition_amount: PARTITION_ADDITION_AMOUNT, dynamically_allocates: DYNAMICALLY_ALLOCATES, db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: DEFAULT_PATH, db_name: DB_NAME)

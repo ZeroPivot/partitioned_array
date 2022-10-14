@@ -1,4 +1,5 @@
 require_relative 'partitioned_array'
+# VERSION v1.2.9 - fixes
 # VERSION v1.2.8 - Regression and bug found and fixed; too many guard clauses at at_capacity? method (10/1/2022)
 # VERSION v1.2.7 - fixed more bugs with dynamic allocation
 # VERSION v1.2.6 - bug fix with array allocation given that you don't want to create file partitions (9/27/2022 - 7:09AM)
@@ -48,17 +49,21 @@ class ManagedPartitionedArray < PartitionedArray
     @has_capacity = has_capacity
     @max_partition_archive_id = initialize_max_partition_archive_id!
     #puts "@max_partition_id: #{@max_partition_id}"
+    p "max capacity before super: #{@max_capacity}"
+    gets
     @partition_addition_amount = partition_addition_amount
     @max_capacity = max_capacity_setup!
     @dynamically_allocates = false if @max_capacity == "data_arr_size"
     @dynamically_allocates = true if @max_capacity.is_a? Integer
     p "@dynamically_allocates: #{@dynamically_allocates}" if DEBUGGING
+    p @max_capacity if DEBUGGING
     #gets
     super(partition_addition_amount: @partition_addition_amount, dynamically_allocates: @dynamically_allocates, db_size: db_size, partition_amount_and_offset: partition_amount_and_offset, db_path: db_path, db_name: @db_name_with_archive)
   end
 
   # one keyword available: :data_arr_size
-  def max_capacity_setup!(partition_addition_amount: PARTITION_ADDITION_AMOUNT, db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, max_capacity: MAX_CAPACITY)
+  def max_capacity_setup!
+    p "@max_capacity: #{@max_capacity}"#{@max_capacity} if DEBUGGING"
     if (@max_capacity == "data_arr_size")
       #@max_capacity = (0..(db_size * (partition_amount_and_offset))).to_a.size - 1
       #@partition_addition_amount = partition_addition_amount

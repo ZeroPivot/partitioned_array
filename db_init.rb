@@ -9,13 +9,13 @@ DB_NAME = 'stress_test'
 MAX_CAPACITY=5
 
 FileUtils.rm_rf(DEFAULT_PATH)
-sl_db = ManagedPartitionedArray.new(max_capacity: 900, has_capacity: false, db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: DEFAULT_PATH, db_name: DB_NAME)
+sl_db = ManagedPartitionedArray.new(max_capacity: 50, has_capacity: false, db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: DEFAULT_PATH, db_name: DB_NAME)
 
 sl_db.allocate
 sl_db.save_everything_to_files!
 puts "done!"
 
-40.times do |i|
+500.times do |i|
   sl_db.add do |entry|
     entry["id"] = i
     entry["data"] = "data"

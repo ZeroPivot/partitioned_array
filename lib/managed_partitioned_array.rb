@@ -1,6 +1,8 @@
 require_relative 'partitioned_array'
 # VERSION v1.3.0a - endless add implementation in ManagedPartitionedArray#endless_add
 # Allows the database to continuously add and allocate, as if it were a plain PartitionedArray
+# NOTE: consider the idea that adding a partition may mean that it saves all variables and everything to disk
+# SUGGESTION: working this out by only saving by partition, and not by the whole database
 # VERSION v1.2.9 - fixes
 # VERSION v1.2.8 - Regression and bug found and fixed; too many guard clauses at at_capacity? method (10/1/2022)
 # VERSION v1.2.7 - fixed more bugs with dynamic allocation
@@ -52,16 +54,10 @@ class ManagedPartitionedArray < PartitionedArray
     # @max_capacity = max_capacity_setup! # => commented out on 10/4/2022 1:32am
     @has_capacity = has_capacity
     @max_partition_archive_id = initialize_max_partition_archive_id!
-    #puts "@max_partition_id: #{@max_partition_id}"
-  #p "max capacity before super: #{@max_capacity}"
-  #  gets
     @partition_addition_amount = partition_addition_amount
     @max_capacity = max_capacity_setup!
     @dynamically_allocates = dynamically_allocates  
-   # p "@dynamically_allocates: #{@dynamically_allocates}" if DEBUGGING
-  #  p @max_capacity if DEBUGGING
-    @endless_add = endless_add
-    #gets
+    @endless_add = endless_add # add endlessly like a regular partitioned array
     super(partition_addition_amount: @partition_addition_amount, dynamically_allocates: @dynamically_allocates, db_size: db_size, partition_amount_and_offset: partition_amount_and_offset, db_path: db_path, db_name: @db_name_with_archive)
   end
 

@@ -408,6 +408,7 @@ class PartitionedArray
     0.upto(@db_size - 1) do |partition_element_index|
       data_arr_set_partitions << File.open("#{path}/#{@db_name}_part_#{partition_element_index}.json", 'r') { |f| JSON.parse(f.read) }
       @data_arr = data_arr_set_partitions.flatten # side effect: if you don't flatten it, you get an array with partitioned array elements
+    end
     @allocated = true
   end
 

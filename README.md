@@ -1,5 +1,5 @@
-# Partitioned Array Data Structure
-
+# The Partitioned Array And Managed Partitioned Array Data Structures
+Note: Managed partitioned array info is near the bottom of this README.md file, and will be updated accordingly; just need to get a bearing on how im going to write this documentation (Last updated: 10/19/2022 12:11PM)
 ## Update 9/25/2021
 In case one's wondering, the additional layer of abstraction is called a ManagedPartitionedArray, which keeps a track of the array index and inherits from PartitionedArray. When I go to work today 2-4 hours from now I'm going to work on the ManagedPartitionedArray Documentation. -ArityWolf
 
@@ -232,3 +232,53 @@ Before:
 "successfully modified partition subelement: true"
 "New @data_arr: [{"first"=>"1st", "id"=>0, :modified=>"0, 0"}, {"second"=>"2nd", "id"=>0}, {"id"=>0}, {"id"=>0}, {"id"=>0}, {"id"=>0}, {"id"=>0}, {"id"=>1}, {"id"=>1}, {"id"=>1}, {"id"=>1}, {"id"=>1}, {"id"=>1}, {"id"=>2}, {"id"=>2}, {"id"=>2}, {"id"=>2}, {"id"=>2}, {"id"=>2}, {"id"=>3}, {"id"=>3}, {"id"=>3}, {"id"=>3}, {"id"=>3}, {"id"=>3}, {"id"=>4}, {"id"=>4}, {"id"=>4}, {"id"=>4}, {"id"=>4}, {"id"=>4}, {}, {}, {}, {}, {}, {"last"=>"Nth"}]"
 ```
+
+# Managed Partitioned Array Data Structure
+## Synopsis
+# PartitionedArray/ManagedPartitionArray
+
+This will talk about the Partitioned Array and its suggested counterpart superset, the`ManagedPartitionedArray (lib/managed_partitioned_array.rb)`
+
+## ManagedPartitionedArray
+(Last updated: 10/19/2022 12:11PM)
+###  Instance Methods 
+```ruby
+mpa = mpa.archive_and_new_db!
+mpa.load_archive_no_auto_allocate!
+mpa = mpa.load_from_archive!(partition_archive_id: @max_partition_archive_id)
+mpa.at_capacity? # Depends on the MPA variables
+mpa.add(return_added_element_id: true, &block)
+mpa.get(id, hash: false) #see PartitionedArray
+mpa.load_everything_from_files! # in PA class, its load_all_from_files!
+mpa.save_everything_to_files!
+mpa.increment_max_partition_archive_id!
+```
+### Finite Length arrays
+```ruby
+mpa = ManagedPartitionedArray(max_capacity: "data_arr_size" || Integer, dynamically_allocates: false)
+```
+Capable of jumping to a new file partition
+### Never ending array adds
+```ruby
+mpa = ManagedPartitionedArray.new(endless_add: true, has_capacity: false, dynamically_allocates: true)`
+```
+### Dynamic Allocation
+```ruby
+mpa = ManagedPartitionedArray.new(dynamically_allocates: true)
+```
+### Array split by file partitions
+```ruby
+ mpa = ManagedPartitionedArray.new(max_capacity: "data_arr_size",   db_size: DB_SIZE,   partition_amount_and_offset: PARTITION_AMOUNT + OFFSET,   db_path: "./db/sl",   db_name: 'sl_slice')
+```
+Where `max_capacity` could be the max `@data_arr` size, or a defined integer
+
+Check if `mpa.at_capacity?` to figure out if the MPA is at capacity
+
+#### Switching and allocating to a new file partition
+
+```ruby
+mpa = ManagedPartitionedArray.new(max_capacity: "data_arr_size",   db_size: DB_SIZE,   partition_amount_and_offset: PARTITION_AMOUNT + OFFSET,   db_path: "./db/sl",   db_name: 'sl_slice')
+mpa = mpa.archive_and_new_db!
+mpa.save_everything_to_files!
+```
+It implements the Value Object pattern; the other archive is closed and saved and the partitioned array starts out in a new partition that mirrors the others if max_capacity = "data_arr_size"; "data_arr_size" is sure to fill the entire array before throwing  at_capacity? is true.

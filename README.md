@@ -1,5 +1,5 @@
 # Partitioned Array Data Structure
-
+Note: Managed partitioned array info is near the bottom of this README.md file, and will be updated accordingly; just need to get a bearing on how im going to write this documentation (Last updated: 10/19/2022 12:11PM)
 ## Update 9/25/2021
 In case one's wondering, the additional layer of abstraction is called a ManagedPartitionedArray, which keeps a track of the array index and inherits from PartitionedArray. When I go to work today 2-4 hours from now I'm going to work on the ManagedPartitionedArray Documentation. -ArityWolf
 
@@ -240,7 +240,7 @@ Before:
 This will talk about the Partitioned Array and its suggested counterpart superset, the`ManagedPartitionedArray (lib/managed_partitioned_array.rb)`
 
 ## ManagedPartitionedArray
-
+(Last updated: 10/19/2022 12:11PM)
 ###  Instance Methods 
 ```ruby
 mpa = mpa.archive_and_new_db!

@@ -10,7 +10,7 @@
 # rubocop:disable Metrics/MethodLength
 # rubocop:disable Style/IfUnlessModifier
 # rubocop:disable Layout/LineLength
-
+# VERSION: v1.2.6 - cleanup; plan on being able to save @data_arr to file directly (not by partitions) - 10/19/2022 2:03PM
 # VERSION v1.2.5a - endless add implementation in ManagedPartitionedArray#endless_add
 # Allows the database to continuously add and allocate, as if it were a plain PartitionedArray
 # VERSION v1.2.4 - now its not "data_arr_size" if you set the variable correctly
@@ -262,18 +262,9 @@ class PartitionedArray
       #puts "element: #{element}"
       if element == {} && block_given? # (if element is nill, no data is added because the partition is "offline")
         block.call(@data_arr[element_index]) # seems == to block.call(element)
-        #puts "ADD BLOCK CALLED"
-        # how do you make sure that things are only added once per add entry?
-        #debug "first block in add called"
-        # if it reaches the max, then just add in partitions now
-        #puts "element_index: #{element_index}"
         if @dynamically_allocates && (element_index == @db_size - 1 && at_capacity?)
-          #puts "element index: #{element_index}"
-          #puts "db_size: #{@db_size-1}"
           @partition_addition_amount.times { add_partition; puts "adding partition" } #if element_index == @data_arr.size - 1 # easier code; add if you reach the end of the array
-          save_all_to_files! 
-          #puts "adding partition and saving to files" 
-              
+          save_all_to_files! # save the data to the files
         end
         element_id_to_return = element_index
         break
@@ -307,11 +298,6 @@ class PartitionedArray
       x = 0 # offset test, for debug purposes
       @data_arr = (0..(db_size * (partition_amount_and_offset - x))).to_a.map { {} } # for an array that fills to less than the max of @rel_arr
       @rel_arr = @data_arr.size.times.map { |i| i } # for an array that fills to less than the max of @rel_arr
-      # debug_and_pause("@rel_arr: #{@rel_arr}")
-      # debug_and_pause("@data_arr: #{@data_arr}")
-      # debug_and_pause("@data_arr size: #{@data_arr.size}")
-      # debug_and_pause("@rel_arr right size: #{db_size * partition_amount_and_offset}")
-      # @data_arr = (0..(db_size * (partition_amount_and_offset - x))).to_a.map { nil }
       @allocated = true
     else
       debug 'Initial database has been already allocated.'
@@ -420,24 +406,12 @@ class PartitionedArray
     @db_size = File.open("#{path}/db_size.json", 'r') { |f| JSON.parse(f.read) }
     data_arr_set_partitions = []
     0.upto(@db_size - 1) do |partition_element_index|
-      # debug "Loading partition #{partition_element_index}"
       data_arr_set_partitions << File.open("#{path}/#{@db_name}_part_#{partition_element_index}.json", 'r') { |f| JSON.parse(f.read) }
-      # debug "partition_element_index: #{partition_element_index}"
-      # debug "@data_arr before flatten: #{@data_arr}"
-      # debug "data_arr_set_partitions: #{data_arr_set_partitions}"
       @data_arr = data_arr_set_partitions.flatten # side effect: if you don't flatten it, you get an array with partitioned array elements
-      # debug "data_arr: #{@data_arr}"
-      # debug "data_arr loaded"
-      #puts @data_arr 
-      #gets
-    end
     @allocated = true
   end
 
   def all_empty_partitions?
-    #array.map do |element|
-    #  return false unless element.empty?
-    #end
     @data_arr.all?(&:nil?)
   end
 
@@ -446,7 +420,7 @@ class PartitionedArray
   end
 
 
-
+# Plan: be able to dump @data_arr to disk anytime you want
   def load_partition_from_file!(partition_id)
     path = "#{@db_path}/#{@db_name}"
     # @data_arr = File.open("#{path}/data_arr.json", 'r') { |f| JSON.parse(f.read) } # can write the entire array to disk for certain operations

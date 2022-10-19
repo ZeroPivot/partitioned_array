@@ -1,8 +1,13 @@
 require_relative 'partitioned_array'
+# NOTE: ManagedPartitionedArray and PartitionedArray have different versions. PartitionedArray can work along but
+# ManagedPartitionedArray, while being the superset, depends on PartitionedArray
+# VERSION ManagedPartitionedArray/PartitionedArray - v1.3.1release(MPA)/v1.2.5a(PA) (MPA-v1.3.1-rel_PA-v1.2.5a-rel)
+# - cleanup and release new version (10/19/2022 - 1:50PM)
 # VERSION v1.3.0a - endless add implementation in ManagedPartitionedArray#endless_add
 # Allows the database to continuously add and allocate, as if it were a plain PartitionedArray
 # NOTE: consider the idea that adding a partition may mean that it saves all variables and everything to disk
 # SUGGESTION: working this out by only saving by partition, and not by the whole database
+# SUGGESTION: this would mean that the database would have to be loaded from the beginning, but that's not a big deal
 # VERSION v1.2.9 - fixes
 # VERSION v1.2.8 - Regression and bug found and fixed; too many guard clauses at at_capacity? method (10/1/2022)
 # VERSION v1.2.7 - fixed more bugs with dynamic allocation
@@ -11,8 +16,8 @@ require_relative 'partitioned_array'
 # VERSION: v1.1.4 - seemed to have sorted out the file issues... but still need to test it out
 # VERSION: v1.1.3 
 # many bug fixes; variables are now in sync with file i/o
-#Stopped: problem with @latest_id not being set correctly
-#working on load_from_archive! and how it will get the latest archive database and load up all the variables, only it seems
+# Stopped: problem with @latest_id not being set correctly
+# working on load_from_archive! and how it will get the latest archive database and load up all the variables, only it seems
 # that there is something wrong with that. 
 # VERSION: v1.1.2 (9/13/2022 10:17 am)
 # Prettified
@@ -44,6 +49,7 @@ class ManagedPartitionedArray < PartitionedArray
   HAS_CAPACITY = true # if false, then the max_capacity is ignored and at_capacity? raises if @has_capacity == false
   DYNAMICALLY_ALLOCATES = true
   ENDLESS_ADD = false
+
   def initialize(endless_add: ENDLESS_ADD, dynamically_allocates: DYNAMICALLY_ALLOCATES, partition_addition_amount: PARTITION_ADDITION_AMOUNT, max_capacity: MAX_CAPACITY, has_capacity: HAS_CAPACITY, partition_archive_id: PARTITION_ARCHIVE_ID, db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: DEFAULT_PATH, db_name: DB_NAME) 
     @db_path = db_path
     @partition_archive_id = partition_archive_id
@@ -73,18 +79,26 @@ class ManagedPartitionedArray < PartitionedArray
     end
   end
 
-  def dump_all_variables
-    puts "db_size: #{@db_size}"
-    puts "partition_amount_and_offset: #{@partition_amount_and_offset}"
-    puts "db_path: #{@db_path}"
-    puts "db_name: #{@db_name}"
-    puts "max_capacity: #{@max_capacity}"
-    puts "has_capacity: #{@has_capacity}"
-    puts "latest_id: #{@latest_id}"
-    puts "partition_archive_id: #{@partition_archive_id}"  
-    puts "db_name_with_no_archive: #{@db_name_with_no_archive}"
+  def save_data_arr_to_disk!
+    # WIP
   end
 
+  def dump_all_variables
+    p "db_size: #{@db_size}"
+    p "partition_amount_and_offset: #{@partition_amount_and_offset}"
+    p "db_path: #{@db_path}"
+    p "db_name: #{@db_name}"
+    p "max_capacity: #{@max_capacity}"
+    p "has_capacity: #{@has_capacity}"
+    p "latest_id: #{@latest_id}"
+    p "partition_archive_id: #{@partition_archive_id}"  
+    p "db_name_with_no_archive: #{@db_name_with_no_archive}"
+    p "db_name_with_archive: #{@db_name_with_archive}"
+    p "max_partition_archive_id: #{@max_partition_archive_id}"
+    p "partition_addition_amount: #{@partition_addition_amount}"
+    p "dynamically_allocates: #{@dynamically_allocates}"
+    p "endless_add: #{@endless_add}"
+  end
 
   def archive_and_new_db!(auto_allocate: true)
     save_everything_to_files!
@@ -95,20 +109,21 @@ class ManagedPartitionedArray < PartitionedArray
     return temp
   end
 
+  ## ex ManagedPartitionedArray#load_archive_no_auto_allocate!(partition_archive_id: 0)
   def load_archive_no_auto_allocate!(partition_archive_id: @max_partition_archive_id)
     temp = ManagedPartitionedArray.new(max_capacity: @max_capacity, partition_archive_id: partition_archive_id, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive)
     return temp
   end
 
+  # ex ManagedPartitionedArray#load_from_archive!(partition_archive_id: 0)
   def load_from_archive!(partition_archive_id: @max_partition_archive_id)
     temp = ManagedPartitionedArray.new(max_capacity: @max_capacity, partition_archive_id: partition_archive_id, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive)
     temp.load_everything_from_files!
     return temp
   end
 
+  # ManagedPartitionedArray#at_capacity? checks to see if the partitioned array is at its capacity. It is imperative to use this when going through an iterator.
   def at_capacity?
-    #raise "There is no limited capacity for this array (@has_capacity == false)" if @has_capacity == false
-    #return true
     return false if @has_capacity == false
     case @max_capacity
       when "data_arr_size"
@@ -124,29 +139,18 @@ class ManagedPartitionedArray < PartitionedArray
     end
   end
 
-
-
   def add(return_added_element_id: true, &block)
     # endless add addition here
     if @endless_add && @data_arr[@latest_id].nil?
-      #puts "endless add"
-      #puts "@data_arr[@latest_id]: #{@data_arr[@latest_id+1]}"
-      #puts "data arr[latest_id]: #{@data_arr[@latest_id] ==}"
       add_partition
       save_everything_to_files!
-     # gets
     elsif at_capacity?# && @max_capacity && @has_capacity #guards against adding any additional entries
-      #puts "we are at capacity, so we are not adding anything"
-     # puts "at capacity and max_capacity is #{@max_capacity}" 
       return false
     else 
-      
+      # PASS, additional code later is a possibility, but this code all takes place before super(), anyways
     end
-    #puts "incremented latest_id to #{@latest_id}"
     @latest_id += 1
-    #puts "latest_id: #{@latest_id}"
     super(return_added_element_id: return_added_element_id, &block)
-    #puts "add was called"
   end
 
   def load_everything_from_files!
@@ -176,8 +180,15 @@ class ManagedPartitionedArray < PartitionedArray
   def save_variables_to_disk!
     # Synchronize all known variables with their disk counterparts
     save_last_entry_to_file!
+    save_partition_archive_id_to_file!
+    save_max_partition_archive_id_to_file!
+    save_max_capacity_to_file!
+    save_has_capacity_to_file!
+    save_db_name_with_no_archive_to_file!
+    save_partition_addition_amount_to_file!
+    save_endless_add_to_file!
   end
-    
+
   def increment_max_partition_archive_id!
     @max_partition_archive_id += 1
     File.open(@db_path + '/' + "max_partition_archive_id.json", "w") do |f|

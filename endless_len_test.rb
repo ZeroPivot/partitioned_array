@@ -69,7 +69,7 @@ end
 part = db_tests.get(id, hash: true)['db_index']
 puts db_tests.get(id)
 db_tests.save_partition_to_file!(part)
-100.times do
+200.times do
   puts "adding an entry"
   #var = gets
   id = db_tests.add do |entry|
@@ -84,5 +84,15 @@ end
 
 db_tests = db_tests.archive_and_new_db!
 db_tests.save_everything_to_files!
-db_tests = db_tests.archive_and_new_db!
+db_tests = db_tests.archive_and_new_db!()
+db_tests.save_everything_to_files!
+
+db_tests = db_tests.load_from_archive!(partition_archive_id: 0)
+
+69.times do |i|
+  db_tests.add do |entry|
+    entry["id"] = "#{i} - adding up first partition and saving to see the difference"
+    end
+end
+
 db_tests.save_everything_to_files!

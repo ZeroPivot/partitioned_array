@@ -1,6 +1,7 @@
 require_relative 'partitioned_array'
 # NOTE: ManagedPartitionedArray and PartitionedArray have different versions. PartitionedArray can work along but
 # ManagedPartitionedArray, while being the superset, depends on PartitionedArray
+# VERSION v2.0.0-mpa / v1.2.6-pa - added more arguments to the archive! methods, since file partition contexts don't need to exactly meet with all the others
 # VERSION v1.3.2-mpa / v1.2.5a-pa - save and load partition from disk now auto-saves all variables, since those always change often (10/21/2022 1:11PM)
 # VERSION ManagedPartitionedArray/PartitionedArray - v1.3.1release(MPA)/v1.2.5a(PA) (MPA-v1.3.1-rel_PA-v1.2.5a-rel)
 # - cleanup and release new version (10/19/2022 - 1:50PM)
@@ -71,7 +72,7 @@ class ManagedPartitionedArray < PartitionedArray
 
   # one keyword available: :data_arr_size
   def max_capacity_setup!
-    p "@max_capacity: #{@max_capacity}"#{@max_capacity} if DEBUGGING"
+    #p "@max_capacity: #{@max_capacity}"#{@max_capacity} if DEBUGGING"
     if (@max_capacity == "data_arr_size")
       #@max_capacity = (0..(db_size * (partition_amount_and_offset))).to_a.size - 1
       #@partition_addition_amount = partition_addition_amount
@@ -102,7 +103,7 @@ class ManagedPartitionedArray < PartitionedArray
     p "endless_add: #{@endless_add}"
   end
 
-  def archive_and_new_db!(auto_allocate: true)
+  def archive_and_new_db!(auto_allocate: true, partition_addition_amount: @partition_addition_amount, max_capacity: @max_capacity, has_capacity: @has_capacity, partition_archive_id: @partition_archive_id, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive)
     save_everything_to_files!
     @partition_archive_id += 1
     increment_max_partition_archive_id!
@@ -111,18 +112,20 @@ class ManagedPartitionedArray < PartitionedArray
     return temp
   end
 
-  ## ex ManagedPartitionedArray#load_archive_no_auto_allocate!(partition_archive_id: 0)
-  def load_archive_no_auto_allocate!(partition_archive_id: @max_partition_archive_id)
-    temp = ManagedPartitionedArray.new(max_capacity: @max_capacity, partition_archive_id: partition_archive_id, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive)
+  ## ex ManagedPartitionedArray#load_archive_no_auto_allocate!(partition_archive_id: partition_archive_id, ...)
+  def load_archive_no_auto_allocate!(has_capacity: @has_capacity, dynamically_allocates: @dynamically_allocates, endless_add: @endless_add, partition_archive_id: @max_partition_archive_id, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive, max_capacity: @max_capacity, partition_addition_amount: @partition_addition_amount)
+    temp = ManagedPartitionedArray.new(dynamically_allocates: dynamically_allocates, endless_add: endless_add, max_capacity: max_capacity, partition_archive_id: partition_archive_id, db_size: db_size, partition_amount_and_offset: partition_amount_and_offset, db_path: db_path, db_name: db_name_with_archive)
     return temp
   end
 
-  # ex ManagedPartitionedArray#load_from_archive!(partition_archive_id: 0)
-  def load_from_archive!(partition_archive_id: @max_partition_archive_id)
-    temp = ManagedPartitionedArray.new(max_capacity: @max_capacity, partition_archive_id: partition_archive_id, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive)
+  # ex ManagedPartitionedArray#load_from_archive!(partition_archive_id: partition_archive_id, ...)
+  def load_from_archive!(has_capacity: @has_capacity, dynamically_allocates: @dynamically_allocates, endless_add: @endless_add, partition_archive_id: @max_partition_archive_id, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive, max_capacity: @max_capacity, partition_addition_amount: @partition_addition_amount)
+    temp = ManagedPartitionedArray.new(dynamically_allocates: dynamically_allocates, endless_add: endless_add, max_capacity: max_capacity, partition_archive_id: partition_archive_id, db_size: db_size, partition_amount_and_offset: partition_amount_and_offset, db_path: db_path, db_name: db_name_with_archive)
     temp.load_everything_from_files!
     return temp
   end
+
+
 
   # ManagedPartitionedArray#at_capacity? checks to see if the partitioned array is at its capacity. It is imperative to use this when going through an iterator.
   def at_capacity?

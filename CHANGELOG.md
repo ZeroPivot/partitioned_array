@@ -1,0 +1,147 @@
+# Managed Partitioned Array Changelog
+
+## Last Updated
+* 10/22/2022 - 3:30am
+* VERSION v2.0.0-mpa (10/22/2022)
+
+ NOTE: ManagedPartitionedArray and PartitionedArray have different versions. PartitionedArray can work along but
+ ManagedPartitionedArray, while being the superset, depends on PartitionedArray
+ `VERSION v2.0.0-mpa / v1.2.6-pa` - added more arguments to the archive! methods, since file partition contexts don't need to exactly meet with all the others
+ `VERSION v1.3.2-mpa / v1.2.5a-pa` - save and load partition from disk now auto-saves all variables, since those always change often (10/21/2022 1:11PM)
+ VERSION ManagedPartitionedArray/PartitionedArray - `v1.3.1release(MPA)/v1.2.5a(PA) (MPA-v1.3.1-rel_PA-v1.2.5a-rel)`
+ - cleanup and release new version (10/19/2022 - 1:50PM)
+
+ VERSION v1.3.0a - endless add implementation in ManagedPartitionedArray#endless_add
+ Allows the database to continuously add and allocate, as if it were a plain PartitionedArray
+ NOTE: consider the idea that adding a partition may mean that it saves all variables and everything to disk
+ SUGGESTION: working this out by only saving by partition, and not by the whole database
+ SUGGESTION: this would mean that the database would have to be loaded from the beginning, but that's not a big deal
+ VERSION v1.2.9 - fixes
+ VERSION v1.2.8 - Regression and bug found and fixed; too many guard clauses at `at_capacity?` method (10/1/2022)
+ VERSION v1.2.7 - fixed more bugs with dynamic allocation
+ VERSION v1.2.6 - bug fix with array allocation given that you don't want to create file partitions (9/27/2022 - 7:09AM)
+ VERSION v1.2.5 - bug fixes
+ VERSION: v1.1.4 - seemed to have sorted out the file issues... but still need to test it out
+ VERSION: v1.1.3 
+ many bug fixes; variables are now in sync with file i/o
+ Stopped: problem with @latest_id not being set correctly
+ working on load_from_archive! and how it will get the latest archive database and load up all the variables, only it seems
+ that there is something wrong with that. 
+ VERSION: v1.1.2 (9/13/2022 10:17 am)
+ Prettified`
+ Added raise to `ManagedPartitionedArray#at_capacity?` if `@has_capacity == false`
+ VERSION: v1.1.1a - got rid of class variables, and things seem to be fully working now
+ VERSION: v1.1.0a - fully functional, but not yet tested--test in the real world
+ VERSION: v1.0.2 - more bug fixes, added a few more tests
+ VERSION: v1.0.1 - bug fixes
+ VERSION: v1.0.0a - fully functional at a basic level; can load archives and the max id of the archive is always available
+ VERSION: v0.1.3 - file saving and other methods properly working
+ VERSION: v0.1.2 - added managed databases, but need to add more logic to make it work fully
+ VERSION: v0.1.1
+UPDATE 8/31/2022: @latest_id increments correctly now
+
+
+Manages the @last_entry variable, which tracks where the latest entry is, since PartitionedArray is dynamically allocated.
+
+
+# Partitioned Array Changelog
+
+## Version
+v1.2.6-pa (10/22/2022)
+
+
+VERSION: v1.2.6 - cleanup; plan on being able to save @data_arr to file directly (not by partitions) - 10/19/2022 2:03PM
+VERSION v1.2.5a - endless add implementation in ManagedPartitionedArray#endless_add
+Allows the database to continuously add and allocate, as if it were a plain PartitionedArray
+VERSION v1.2.4 - now its not "data_arr_size" if you set the variable correctly
+Note: The struct may require more work, but this struct in particular is not necessary in the managed partitioned array
+-- too many allocations are done when 'at capacity', but its because of the nature of the beast
+VERSION v1.2.4 - fixed a bug with allocations, also modified in ManagedPartitionedArray
+VERSION v1.2.3 - fully functional in tandem with ManagedPartitionedArray; added a few more tests (9/13/2022 - 5:48am)
+VERSION v1.2.2 - after adding partitions, every partition is saved to reflect the new changes on disk
+VERSION v1.2.1 - fixed PartitionedArray#get(id, &block) bugs
+                 - file cleanup
+VERSION v1.2.0 - Cleanup according to rubocop and solargraph linter; clarification in places added (8/11/2022 - 6:01am)
+VERSION v1.1.1 - Documenting code and scanning for bugs and any version wrap-ups
+   -   v1.1.2 - PartitionedArray#add(return_added_element_id: true, &block): return element id of the location of the addition 
+VERSION v1.1.0a (8/11/2022 - 5:11am)
+-- PartitionedArray#add_partition now works correctly.
+* Various bug fixes that lead to array variable inconsistencies
+
+
+VERSION v1.0.5a (7/30/2022)
+-- So far the partitioned array works with allocation of partitions, saving to files, and loading from files.
+PROBLEM/BUG: PartitionedArray#add_partition does not allocate and manage the variables correctly
+IT: upon the need to add a new partition, it adds but the entry is added to the end of the @data_arr
+partition, extending its length by one which is not what we want.
+VERSION v1.0.5 (7/30/2022)
+More bug fixes, notable in saving and loading data from files.
+Example:
+
+partition0: [{"log"=>"Hello World"}, {"log"=>"Hello World"}, {"log"=>"Hello World"}, {"log"=>"Hello World"}, {"log"=>"Hello World"}]
+partition1: [{"log"=>"Hello World"}, {"log"=>"Hello World"}, {"log"=>"Hello World"}, {"log"=>"Hello World"}, {"log"=>"Hello World", :log=>"Hello World"}]
+partition2: [{}, {}, {}, {}, {}]S
+partition3: [{}, {}, {}, {}, {}]
+partition4: [{}, {}, {}, {}, {}]
+
+partition0 is the length that the partitions should be in this case, p_1 had an entry appended to itself somehow, and 
+PartitionedArray won't add any more entries to it, once it reaches its max and has an additional element added.
+
+VERSION v1.0.4 (7/30/2022 9:37PM)
+Various bug fixes and improvements.
+PartitionedArray#load_from_files! now works without throwing nil entries.
+
+VERSION v1.0.3 (7/30/2022 2:42PM)
+Added ManagedPartitionedArray for CGMFS, which inherits from PartitionedArray and adds the following functionality:
+- last_entry
+=> last_entry is a variable that keeps track of the last entry that was added to the database, in terms of a @data_arr
+since PartitionedArray is dynamically allocated, it is not possible to know the last entry that was added to the database
+
+VERSION v1.0.2a
+All necessary instance methods have been implemented, ready for real world testing...
+
+Ranged binary search, for use in CGMFS
+array_id = relative_id - db_size * (PARTITION_AMOUNT + 1)
+
+When checking and adding, see if the index searched for in question
+
+when starting out with the database project itself, check to see if the requested id is a member of something like rel_arr
+
+1) allocate range_arr and get the DB running
+2) allocate rel_arr based on range_arr
+3) allocate the actual array (@data_arr)
+VERSION: v1.0.2
+VERSION: v1.0.1a - set_partition_subelement
+VERSION: v1.0.0 - all essential functions implemented
+5/9/20 - 5:54PM
+TODO:
+def save_partition_element_to_file!(partition_id, element_id, db_folder: @db_folder)
+
+VERSION: v1.0.0 (2022/03/30 - 3:46PM)
+Implemented all the necessary features for the PA to work, except for an add_from_lefr or add_from_right, which will
+attempt to fill in the gaps in the database.
+TODO: implement pure json parsing
+
+* Notes: Have to manually convert all the string data to their proper data structure
+* HURDLE: converting strings to their proper data structures is non-trivial; could check stackoverflow for a solution
+VERSION v2.0 (4/22/2022) - added PartitionedArray#add(&block) function, to make additions to the array fast (fundamental method)
+VERSION v0.6 (2022/03/30) - finished functions necessary for the partitioned array to be useful
+VERSION: v0.5 (2022/03/14)
+Implemented
+PartitionedArray#get_part(partition_id) # => returns the partition specified by partition_id or nil if it doesn't exist
+PartitionedArray#add_part(void) # => adds a partition to the array, bookkeeping is done in the process
+VERSION: v0.4 (11:55PM)
+Fixed bugs, fixed array_id; allocate and get are fully implemented and working correctly for sure
+VERSION: v0.3 (3:46PM)
+allocate and get(id) are seemingly fully implemented and working correctly
+* start work on "allocate_file!"
+VERSION: v0.2 (02.28/2022 3:10PM)
+Currently working on get(id).
+VERSION: v0.1 (12/9/2021 12:31AM)
+Implementing allocate
+SYNOPSIS: An array system that is partitioned at a lower level, but functions as an almost-normal array at the high level
+DESCRIPTION:
+This is a system that is designed to be used as a database, but also as a normal array.
+NOTES:
+When loading a JSON database file (*_db.json), the related @ arr variables need to be set to what is within the JSON file database.
+This means the need to parse a file, and @allocated is set to true in the end.

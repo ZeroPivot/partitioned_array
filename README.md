@@ -3,15 +3,20 @@ Note: Managed partitioned array info is near the bottom of this README.md file, 
 
 See: CHANGELOG.md for a list of changes
 ## Update 9/25/2021
+
+
 In case one's wondering, the additional layer of abstraction is called a ManagedPartitionedArray, which keeps a track of the array index and inherits from PartitionedArray. When I go to work today 2-4 hours from now I'm going to work on the ManagedPartitionedArray Documentation. -ArityWolf
 
 
 ## WIP NOTES (Last Updated: 9/14/2022)
 In recent developments, this only describes the low-level ish nature of a PartitionedArray data structure, and even that is still incomplete.
 
+
 In the lib folder, I have completed the (inherited from PartitonedArray) ManagedPartitionedArray class which describes how to treat a PartitionedArray closer to an array with bounds set to it, and that is what the main focus of the rest of this documentation will be about. In the end, everything about the data structure will be described in full detail.
 
+
 You can think of a partitioned array in general as an array that has disk I/O and saves the data in .json, but it could be extended to deal with whatever you throw at it
+
 
 It will also be fully compatible with the DragonRuby game development toolkit albeit with a few minor caveats, and several details that need to be addressed in some way
 
@@ -24,40 +29,55 @@ It will also be fully compatible with the DragonRuby game development toolkit al
 
 ----------------------------------------------------------------
 # Everything below this line needs to be updated
+
+
 (But it does document the PartitionedArray class alright thus far)
 * Upcoming additions: ManagedPartitonedArray documentation, and cleaned up PartitionedArray documentation
 
 ## Synopsis
 
+
 A partitioned array is defined as a datastructure which has "partitioned elements" within what should be a `regular array`
+
 
 The data structure used for every element in the array is a Ruby Hash, or otherwise known as an Associative Array
 
+
 Example of how a `partitioned array` is structured:
+
 
 `figure 69 (partitioned array structure):`
 `[[0, 1, 2], [3, 4], ..., [n, ..., n+1]]`
 
+
 `Caveat`: The first partition (`[0,1,2]` always contains the 0th element otherwise known as `0` )
+
 
 
 However, as a note: The partitioned array algorithm is currently coded in a way that it does not actually use subarrays; the algorithm takes responsibility for all aspects of the data structure (partitions, ranges, etc), so an array when defined by `fig 69`, would look slightly different, it would look like...
 
+
 `[0, 1, 2, 3, 4, n, n+1, n+2, ..., n+k]`
 
+
 Note: The basic idea is you can store the array itself onto disk and "switch off" certain partitions, thus allowing for Ruby's Garbage collector to take hold
+
 
 ```ruby
 require_relative 'partitioned_array'
 
+
 pa = PartitionedArray.new
 pa.allocate
+
 
 pa.add do |hash|
     hash['value'] = "value"
 end
 
+
 pa.get(id) # => "Get an element of the partitioned array, ignoring the partioning scheme"
+
 
 pa.delete_partition_subelement(id, partition_id)
 pa.delete(id)
@@ -68,7 +88,9 @@ pa.set(id, &block)
 pa.add_partition
 
 
+
 pa.add_partition #=> "dynamically allocates new partition sub-elements to the partitioned array, as defined by the constants"
+
 
 pa.load_from_files! #=> loads database from json files, using Ruby's JSON parser
 pa.load_partition_from_file!(partiion_id) #=> loads a given partition id from the @data_arr array
@@ -77,19 +99,25 @@ pa.save_all_to_files!
 
 pa.dump_to_json!
 
+
 =begin
 The above is basic usage for the partitioned array data structure. For tested code and configuration options, see below.
 =end
 ```
 **WIP.** - ***Last updated: 4.27.2022***
 
+
 A partitioned array data structure which works with JSON for disk storage, and a pure JSON parser is in progress. With two constants, the algorithm creates a data structure and allocates empty associative array elements and understands the structure of the partitions.
+
 
 The main purpose was I needed a way to divide an array into subelements, so that in gamedev I can flip on and off portions of the array in question to save on memory.
 
+
 The data structure overall is an `Array-Of-Hashes`.
 
+
 ## Usage
+
 ### Assumed Constants
 ```ruby
 # DB_SIZE > PARTITION_AMOUNT

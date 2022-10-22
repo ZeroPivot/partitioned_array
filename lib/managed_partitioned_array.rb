@@ -1,8 +1,10 @@
 require_relative 'partitioned_array'
 # NOTE: ManagedPartitionedArray and PartitionedArray have different versions. PartitionedArray can work along but
 # ManagedPartitionedArray, while being the superset, depends on PartitionedArray
+# VERSION v1.3.2-mpa / v1.2.5a-pa - save and load partition from disk now auto-saves all variables, since those always change often (10/21/2022 1:11PM)
 # VERSION ManagedPartitionedArray/PartitionedArray - v1.3.1release(MPA)/v1.2.5a(PA) (MPA-v1.3.1-rel_PA-v1.2.5a-rel)
 # - cleanup and release new version (10/19/2022 - 1:50PM)
+
 # VERSION v1.3.0a - endless add implementation in ManagedPartitionedArray#endless_add
 # Allows the database to continuously add and allocate, as if it were a plain PartitionedArray
 # NOTE: consider the idea that adding a partition may mean that it saves all variables and everything to disk
@@ -165,6 +167,18 @@ class ManagedPartitionedArray < PartitionedArray
     load_endless_add_from_file!
   end
 
+  def load_partition_from_file!(partition_id, load_variables: true)
+    load_variables_from_disk! if load_variables
+    super(partition_id)
+  end
+
+  # save_variables: added 10/21/2022; all variables saved/loaded to disk by default, to work around an issue where I didn't realize I needed to save variables
+  def save_partition_to_file!(partition_id, save_variables: true)
+    save_variables_to_disk! if save_variables
+    super(partition_id)
+  end
+
+
   def save_everything_to_files!
     save_all_to_files! #PartitionedArray#save_all_to_files!
     save_last_entry_to_file!
@@ -187,6 +201,18 @@ class ManagedPartitionedArray < PartitionedArray
     save_db_name_with_no_archive_to_file!
     save_partition_addition_amount_to_file!
     save_endless_add_to_file!
+  end
+
+  def load_variables_from_disk!
+    # Synchronize all known variables with their disk counterparts
+    load_last_entry_from_file! 
+    load_partition_archive_id_from_file!
+    load_max_partition_archive_id_from_file!
+    load_max_capacity_from_file!
+    load_has_capacity_from_file!
+    load_db_name_with_no_archive_from_file!
+    load_partition_addition_amount_from_file!
+    load_endless_add_from_file!
   end
 
   def increment_max_partition_archive_id!

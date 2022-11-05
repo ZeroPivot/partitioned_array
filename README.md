@@ -1,4 +1,13 @@
 # The Partitioned Array And Managed Partitioned Array Data Structures
+
+**Quick Compatibility List:**
+* **Ruby 3.0+**: (`/lib/partitioned_array`) - *lib/managed_partitioned_array.rb* - **Fully Compatible**
+* **jruby**: (`same as ruby 3.0 version`)  - *lib/managed_partitioned_array.rb* - **Fully Compatible**
+* **DragonRuby**: (`/ib/dr_partitioned_array`) - *dr_managed_partitioned_array.rb* - **Fully Compatible**
+* **Python**: *./managed_partitioned_array_python* folder - **(WIP)**
+
+(There is much less need for the basis partitioned_array.rb, as managed_partitioned_array.rb does everything, and more.)
+
 Note: Managed partitioned array info is near the bottom of this README.md file, and will be updated accordingly; just need to get a bearing on how im going to write this documentation (Last updated: 10/19/2022 12:11PM)
 
 See: CHANGELOG.md for a list of changes

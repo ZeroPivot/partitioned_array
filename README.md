@@ -1,4 +1,4 @@
-# The Partitioned Array And Managed Partitioned Array Data Structures
+# The Partitioned Array And Managed Partitioned Array, Fundamental Data Structures
 
 **Quick Compatibility List:**
 * **Ruby 3.0+**: (`/lib/partitioned_array`) - *lib/managed_partitioned_array.rb* - **Fully Compatible**

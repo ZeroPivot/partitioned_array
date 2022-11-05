@@ -16,9 +16,9 @@ PARTITION_ADDITION_AMOUNT = 5
 #sl_db.save_everything_to_files!
 
 
-FileUtils.rm_rf('./db/url_shorten')
+FileUtils.rm_rf('./db/tests')
 
-db_tests = ManagedPartitionedArray.new(endless_add: true, has_capacity: false, db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: './db/url_shorten', db_name: 'url_slice')
+db_tests = ManagedPartitionedArray.new(endless_add: true, has_capacity: false, db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: './db/tests', db_name: 'tests_slice')
 db_tests.allocate
 db_tests.save_everything_to_files!
 puts "Allocation and file creation complete"

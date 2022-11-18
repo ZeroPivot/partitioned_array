@@ -347,10 +347,7 @@ let `MPA = a = Q < P`
 let `FCA = f = b<a ~= b.a`
 
 
-`a` expands to `f.(Q < P)` => `f.(b < a)` => `f.(b.a)` => `f.(b<a)` ~> `f.b.a`
-
-
-Thus
+`f` expands to `f.(Q < P)` => `f.(b < a)` =~> `f.(b.a)`
 
 
 and, 

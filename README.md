@@ -321,3 +321,31 @@ mpa = mpa.archive_and_new_db!
 mpa.save_everything_to_files!
 ```
 It implements the Value Object pattern; the other archive is closed and saved and the partitioned array starts out in a new partition that mirrors the others if max_capacity = "data_arr_size"; "data_arr_size" is sure to fill the entire array before throwing  at_capacity? is true.
+
+
+# File Context Managed Partitioned Array (Definition)
+
+
+We have: `file_context_array["file_db_name_string"].managed_partitioned_array[mpa_db_file_id_integer].partitioned_array(db_id, id)`
+
+
+let `PA (partitioned array) = P`
+let `MPA = a = Q < P`
+let `FCA = f = b.a`
+
+
+`a` expands to `f.(Q < P)` => `f.(b < a)` => `f.(b.a)` => `f.(b<a)` ~> `f.b.a`
+
+
+Thus
+
+
+and, 
+
+
+we have in this context:
+
+
+`file_context_array["file_db_name_string"].managed_partitioned_array[mpa_db_file_id_integer].partitioned_array(db_id, id)`
+
+Could also be written as: `file_context_array["file_db_name_string"].(managed_partitioned_array[mpa_db_file_id_integer] < partitioned_array(db_id, id))`

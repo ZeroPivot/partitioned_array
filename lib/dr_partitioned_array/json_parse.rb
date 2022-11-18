@@ -96,3 +96,4 @@ end
 # rubocop:enable Lint/RedundantCopDisableDirective
 # rubocop:enable Style/StringLiterals
 # rubocop:enable Style/FrozenStringLiteralComment
+

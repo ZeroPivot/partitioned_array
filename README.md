@@ -14,7 +14,8 @@ See: CHANGELOG.md for a list of changes
 ## Update 11/18/2022
 
 
-Added FileContextManagedPartitionedArray info on implementation at the end of README.md
+* Added FileContextManagedPartitionedArray info on implementation at the end of README.md
+* Information on HTTP/HTTPS implementation of a `FCMPA` in `HTTPS_FCMPA_README.md`
 
 
 ## Update 9/25/2021

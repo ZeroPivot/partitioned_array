@@ -3,7 +3,7 @@
 **Quick Compatibility List:**
 * **Ruby 3.0+**: (`/lib/partitioned_array`) - *lib/managed_partitioned_array.rb* - **Fully Compatible**
 * **jruby**: (`same as ruby 3.0 version`)  - *lib/managed_partitioned_array.rb* - **Fully Compatible**
-* **DragonRuby**: (`/ib/dr_partitioned_array`) - *dr_managed_partitioned_array.rb* - **Fully Compatible**
+* **DragonRuby**: (`/lib/dr_partitioned_array`) - *dr_managed_partitioned_array.rb* - **Fully Compatible**
 * **Python**: *./managed_partitioned_array_python* folder - **(WIP)**
 
 ## Initial Notes

@@ -11,6 +11,12 @@
 Note: Managed partitioned array info is near the bottom of this README.md file, and will be updated accordingly; just need to get a bearing on how im going to write this documentation (Last updated: 10/19/2022 12:11PM)
 
 See: CHANGELOG.md for a list of changes
+## Update 11/18/2022
+
+
+Added FileContextManagedPartitionedArray info on implementation at the end of README.md
+
+
 ## Update 9/25/2021
 
 
@@ -335,7 +341,7 @@ let `PA (partitioned array) = P`
 let `MPA = a = Q < P`
 
 
-let `FCA = f = b.a`
+let `FCA = f = b<a ~= b.a`
 
 
 `a` expands to `f.(Q < P)` => `f.(b < a)` => `f.(b.a)` => `f.(b<a)` ~> `f.b.a`

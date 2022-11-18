@@ -94,7 +94,7 @@ pa.add do |hash|
 end
 
 
-pa.get(id) # => "Get an element of the partitioned array, ignoring the partioning scheme"
+pa.get(id) # => "Get an element of the partitioned array, using binary search"
 
 
 pa.delete_partition_subelement(id, partition_id)

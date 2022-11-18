@@ -330,7 +330,11 @@ We have: `file_context_array["file_db_name_string"].managed_partitioned_array[mp
 
 
 let `PA (partitioned array) = P`
+
+
 let `MPA = a = Q < P`
+
+
 let `FCA = f = b.a`
 
 

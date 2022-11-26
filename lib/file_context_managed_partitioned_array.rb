@@ -18,7 +18,7 @@ class FileContextManagedPartitionedArray
   DYNAMICALLY_ALLOCATES = true
   ENDLESS_ADD = false
     
-  def initialize(new: true, db_indexer_path: "./DB/FCMPA_DB_INDEX", db_indexer_name: "FCMPA_DB")
+  def initialize(new_index: true, db_indexer_path: "./DB/FCMPA_DB_INDEX", db_indexer_name: "FCMPA_DB")
     
     @fcmpa_db_indexer_path = "./DB/FCMPA_DB_INDEX"
     @fcmpa_db_indexer_name = "fcmpa_db"
@@ -109,21 +109,21 @@ class FileContextManagedPartitionedArray
     end
   end
 
-  def stop_databases
+  def stop_databases!
     @fcmpa_active_databases.each do |key, value|
       value.delete
     end
   end
 
-  def stop_database(database_index_name)
+  def stop_database!(database_index_name)
     @fcmpa_active_databases[database_index_name].delete
   end
 
-  def save_database(database_index_name)
+  def save_database!(database_index_name)
     @fcmpa_active_databases[database_index_name].save_everything_to_files!
   end
 
-  def save_databases
+  def save_databases!
     @fcmpa_active_databases.each do |key, value|
       value.save_everything_to_files!
     end
@@ -138,3 +138,10 @@ end
 #
 test = FileContextManagedPartitionedArray.new
 test.new_database(database_index_name_str: "test", db_path: "./DB", db_name: "test")
+test.new_database(database_index_name_str: "test2", db_path: "./DB", db_name: "test2")
+test.db("test").set(0) do |entry|
+  entry["test"] = "test"
+end
+test.db("test").save_everything_to_files!
+
+puts test.db("test").get(0, hash: true)

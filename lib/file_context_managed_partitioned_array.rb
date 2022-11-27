@@ -271,6 +271,16 @@ test.new_database(database_index_name_str: "test2", db_path: "./DB/slices", db_n
 test.set_new_file_archive("test")
 test.save_database!("test")
 test.save_database!("test2")
-test.each("test") do |entry|
+
+test.db("test2").set(1) do |entry|
+  entry["added data"] = "hello dragonruby"
+  entry["test2"] = "test2"
+end
+
+
+
+test.each("test2") do |entry|
   puts entry
 end
+
+test.db("test2").save_everything_to_files!

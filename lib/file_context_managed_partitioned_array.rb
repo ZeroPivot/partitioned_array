@@ -1,5 +1,6 @@
 require_relative 'managed_partitioned_array'
 
+# VERSION v0.2.3
 # VERSION v0.2.2a (11/27/2022 - 10:20am)
 # VERSION v0.2.1a (11/27/2022 - 6:25am)
 # VERSION v0.2.0a 
@@ -34,7 +35,7 @@ class FileContextManagedPartitionedArray
   FCMPA_DB_INDEX_LOCATION = 0
   TRAVERSE_HASH = true
 
-  def initialize(traverse_hash: TRAVERSE_HASH, partition_addition_amount: PARTITION_ADDITION_AMOUNT, db_size: DB_SIZE, db_endless_add: DB_ENDLESS_ADD, db_has_capacity: DB_HAS_CAPACITY, db_name: DB_NAME, db_path: DB_PATH, new_index: true, fcmpa_db_indexer_name: FCMPA_DB_INDEXER_NAME, fcmpa_db_folder_name: FCMPA_DB_FOLDER_NAME, fcmpa_db_size: FCMPA_DB_SIZE, fcmpa_partition_amount_and_offset: FCMPA_PARTITION_AMOUNT + FCMPA_OFFSET, db_partition_amount_and_offset: PARTITION_AMOUNT + OFFSET)
+  def initialize(traverse_hash: TRAVERSE_HASH, partition_addition_amount: PARTITION_ADDITION_AMOUNT, db_size: DB_SIZE, db_endless_add: DB_ENDLESS_ADD, db_has_capacity: DB_HAS_CAPACITY, db_name: DB_NAME, db_path: DB_PATH, new_index: true, fcmpa_db_indexer_name: FCMPA_DB_INDEXER_NAME, fcmpa_db_folder_name: FCMPA_DB_FOLDER_NAME, fcmpa_db_size: FCMPA_DB_SIZE, fcmpa_partition_amount_and_offset: FCMPA_PARTITION_AMOUNT + FCMPA_OFFSET, db_partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_dynamically_allocates: DYNAMICALLY_ALLOCATES)
     @fcmpa_partition_amount_and_offset = fcmpa_partition_amount_and_offset
     @db_partition_amount_and_offset =  db_partition_amount_and_offset
     @fcmpa_db_size = fcmpa_db_size
@@ -47,7 +48,7 @@ class FileContextManagedPartitionedArray
     @db_path = db_path
     @db_name = db_name
     @traverse_hash = traverse_hash
-    @db_dynamically_allocates = DYNAMICALLY_ALLOCATES
+    @db_dynamically_allocates = db_dynamically_allocates
     @fcmpa_db_indexer_db = ManagedPartitionedArray.new(endless_add: @db_endless_add,
                                                        dynamically_allocates: @db_dynamically_allocates,
                                                        has_capacity: @db_has_capacity,

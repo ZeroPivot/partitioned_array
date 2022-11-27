@@ -1,9 +1,15 @@
 require_relative 'managed_partitioned_array'
 
-# VERSION v0.0.1
-# 
+# VERSION v0.1.0 
+# Refining before field testing
+
+
+
+
+
 
 class FileContextManagedPartitionedArray
+  attr_accessor :fcmpa_db_indexer_db, :fcmpa_active_databases, :fcmpa_db_indexer_path, :fcmpa_db_indexer_name, :fcmpa_db_size, :fcmpa_partition_amount_amd_offset
   
   # DB_SIZE > PARTITION_AMOUNT
   PARTITION_AMOUNT = 9 # The initial, + 1
@@ -19,19 +25,29 @@ class FileContextManagedPartitionedArray
   HAS_CAPACITY = true # if false, then the max_capacity is ignored and at_capacity? raises if @has_capacity == false
   DYNAMICALLY_ALLOCATES = true
   ENDLESS_ADD = false
+  FCMPA_DB_INDEXER_NAME = "FCMPA_DB_INDEX"
+  DB_FOLDER_NAME = "./DB/FCMPA"
+  
     
-  def initialize(new_index: true, db_indexer_path: "./DB/FCMPA_DB_INDEX", db_indexer_name: "FCMPA_DB")
-    @fcmpa_partition_amount_amd_offset = PARTITION_AMOUNT + OFFSET
-    @fcmpa_db_size = DB_SIZE
-    @fcmpa_db_indexer_path = db_indexer_path
-    @fcmpa_db_indexer_name = db_indexer_name
+  def initialize(new_index: true, fcmpa_db_indexer_name: FCMPA_DB_INDEXER_NAME, fcmpa_db_folder_name: DB_FOLDER_NAME, fcmpa_db_size: DB_SIZE, fcmpa_partition_amount_and_offset: PARTITION_AMOUNT + OFFSET)
+    @fcmpa_partition_amount_and_offset = fcmpa_partition_amount_and_offset
+    @fcmpa_db_size = fcmpa_db_size
+    @fcmpa_db_indexer_name = fcmpa_db_indexer_name
+    @fcmpa_db_folder_name = fcmpa_db_folder_name
+    puts "FCMPA_DB_INDEXER_NAME: #{@fcmpa_db_indexer_name}"
+    puts "FCMPA_DB_FOLDER_NAME: #{@fcmpa_db_folder_name}"
+    puts "FCMPA_DB_SIZE: #{@fcmpa_db_size}"
+    puts "FCMPA_PARTITION_AMOUNT_AND_OFFSET: #{@fcmpa_partition_amount_and_offset}"
+  #  exit
     @fcmpa_db_indexer_db = ManagedPartitionedArray.new(endless_add: true,
-                                                    dynamically_allocates: true,
-                                                     has_capacity: false,
-                                                      partition_amount_and_offset: @fcmpa_partition_amount_amd_offset,
-                                                        db_size: @fcmpa_db_size,
-                                                         db_name: @fcmpa_db_indexer_name,
-                                                          db_path: @fcmpa_db_indexer_path)
+    dynamically_allocates: true,
+
+      has_capacity: false,
+        partition_amount_and_offset: @fcmpa_partition_amount_and_offset,
+          db_size: @fcmpa_db_size,
+            db_name: @fcmpa_db_indexer_name,
+              db_path: @fcmpa_db_folder_name)
+
     @fcmpa_db_indexer_db.allocate
     @fcmpa_db_indexer_db.load_everything_from_files! if !new_index
     @fcmpa_db_indexer_db.save_everything_to_files! if new_index
@@ -51,7 +67,7 @@ class FileContextManagedPartitionedArray
     timestamp_str = @timestamp_str # the string to give uniqueness to each database file context
     db_name_str = database_index_name_str
     @fcmpa_db_indexer_db.set(0) do |entry|
-      entry[db_name_str] = {"db_path" => db_path, "db_name" => db_name+"_"+timestamp_str}
+      entry[db_name_str] = {"db_path" => db_path, "db_name" => db_name_str+"_"+timestamp_str}
     end
     @fcmpa_db_indexer_db.save_everything_to_files!
     @db_file_incrementor += 1
@@ -81,20 +97,23 @@ class FileContextManagedPartitionedArray
   end
     
   def add_database_to_index!(database_index_name, database_path, database_name)
-    timestamp_str = @timestamp_str # the string to give uniqueness to each database file context
+    #timestamp_str = @timestamp_str # the string to give uniqueness to each database file context
     @fcmpa_db_indexer_db.set(0) do |entry|
-      entry[database_index_name] = {"db_path" => database_path, "db_name" => database_name+"_"+timestamp_str}
+      entry[database_index_name] = {"db_path" => database_path, "db_name" => database_name}
     end
     @fcmpa_db_indexer_db.save_everything_to_files!
   end
 
-  def db(database_index_name)
+  def db(database_index_name = @active_database)
     @fcmpa_active_databases[database_index_name]
   end
   
+  def set_active_database(database_index_name)
+    @active_database = database_index_name
+  end
 
   def start_database!(database_index_name)
-    @fcmpa_active_databases[database_index_name].load_everything_from_files!
+    @fcmpa_active_databases[database_index_name] = @fcmpa_active_databases[database_index_name].load_everything_from_files!
   end
 
   def start_databases!

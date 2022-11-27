@@ -1,10 +1,11 @@
 require_relative 'managed_partitioned_array'
 
+# VERSION v0.2.1a (11/27/2022 - 6:25am)
 # VERSION v0.2.0a 
 # Refining before field testing
 class FileContextManagedPartitionedArray
-  attr_accessor :fcmpa_db_indexer_db, :fcmpa_active_databases, :fcmpa_db_indexer_path, :fcmpa_db_indexer_name, :fcmpa_db_size, :fcmpa_partition_amount_amd_offset
-  
+  attr_accessor :data_arr, :fcmpa_db_indexer_db, :fcmpa_active_databases, :active_database, :db_file_incrementor, :db_file_location, :db_path, :db_name, :db_size, :db_endless_add, :db_has_capacity, :fcmpa_db_indexer_name, :fcmpa_db_folder_name, :fcmpa_db_size, :fcmpa_partition_amount_and_offset, :db_partition_amount_and_offset, :partition_addition_amount, :db_dynamically_allocates, :timestamp_str
+ 
   # DB_SIZE > PARTITION_AMOUNT
   PARTITION_AMOUNT = 9 # The initial, + 1
   FCMPA_PARTITION_AMOUNT = 9
@@ -30,8 +31,9 @@ class FileContextManagedPartitionedArray
   DB_DYNAMICALLY_ALLOCATES = true
   DB_ENDLESS_ADD = true
   FCMPA_DB_INDEX_LOCATION = 0
+  TRAVERSE_HASH = true
 
-  def initialize(partition_addition_amount: PARTITION_ADDITION_AMOUNT, db_size: DB_SIZE, db_endless_add: DB_ENDLESS_ADD, db_has_capacity: DB_HAS_CAPACITY, db_name: DB_NAME, db_path: DB_PATH, new_index: true, fcmpa_db_indexer_name: FCMPA_DB_INDEXER_NAME, fcmpa_db_folder_name: FCMPA_DB_FOLDER_NAME, fcmpa_db_size: FCMPA_DB_SIZE, fcmpa_partition_amount_and_offset: FCMPA_PARTITION_AMOUNT + FCMPA_OFFSET, db_partition_amount_and_offset: PARTITION_AMOUNT + OFFSET)
+  def initialize(traverse_hash: TRAVERSE_HASH, partition_addition_amount: PARTITION_ADDITION_AMOUNT, db_size: DB_SIZE, db_endless_add: DB_ENDLESS_ADD, db_has_capacity: DB_HAS_CAPACITY, db_name: DB_NAME, db_path: DB_PATH, new_index: true, fcmpa_db_indexer_name: FCMPA_DB_INDEXER_NAME, fcmpa_db_folder_name: FCMPA_DB_FOLDER_NAME, fcmpa_db_size: FCMPA_DB_SIZE, fcmpa_partition_amount_and_offset: FCMPA_PARTITION_AMOUNT + FCMPA_OFFSET, db_partition_amount_and_offset: PARTITION_AMOUNT + OFFSET)
     @fcmpa_partition_amount_and_offset = fcmpa_partition_amount_and_offset
     @db_partition_amount_and_offset =  db_partition_amount_and_offset
     @fcmpa_db_size = fcmpa_db_size
@@ -43,6 +45,7 @@ class FileContextManagedPartitionedArray
     @db_size = db_size
     @db_path = db_path
     @db_name = db_name
+    @traverse_hash = traverse_hash
     @db_dynamically_allocates = DYNAMICALLY_ALLOCATES
     @fcmpa_db_indexer_db = ManagedPartitionedArray.new(endless_add: @db_endless_add,
                                                        dynamically_allocates: @db_dynamically_allocates,
@@ -226,6 +229,15 @@ class FileContextManagedPartitionedArray
 
   end
 
+  def each(database_index_name, &block)
+    database = @fcmpa_active_databases[database_index_name]
+    database_size = database.data_arr.size - 1
+    #exit
+    0.upto(database_size) do |i|
+      yield database.get(i, hash: @traverse_hash)
+    end
+  end
+
 
 end
 
@@ -259,3 +271,6 @@ test.new_database(database_index_name_str: "test2", db_path: "./DB/slices", db_n
 test.set_new_file_archive("test")
 test.save_database!("test")
 test.save_database!("test2")
+test.each("test") do |entry|
+  puts entry
+end

@@ -43,7 +43,6 @@ GEM
     ruby-debug-ide (0.7.3)
       rake (>= 0.8.1)
     ruby-progressbar (1.11.0)
-    ruby2d (0.11.3)
     solargraph (0.47.2)
       backport (~> 1.2)
       benchmark
@@ -74,7 +73,6 @@ DEPENDENCIES
   ripper-tags
   rubocop
   ruby-debug-ide
-  ruby2d
   solargraph
 
 BUNDLED WITH

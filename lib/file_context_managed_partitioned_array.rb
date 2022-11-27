@@ -1,5 +1,6 @@
 require_relative 'managed_partitioned_array'
 
+# VERSION v0.2.2a (11/27/2022 - 10:20am)
 # VERSION v0.2.1a (11/27/2022 - 6:25am)
 # VERSION v0.2.0a 
 # Refining before field testing
@@ -210,7 +211,7 @@ class FileContextManagedPartitionedArray
   end
 
   def load_databases!
-    @fcmpa_active_databases.each do |key, value|
+    @fcmpa_active_databases.each do |key, _|
       start_database!(@fcmpa_active_databases[key])
     end
 
@@ -220,7 +221,7 @@ class FileContextManagedPartitionedArray
      @fcmpa_active_databases.keys
   end
 
-  def set_new_file_archive(database_index_name, save: true)
+  def set_new_file_archive(database_index_name)
     temp = @fcmpa_active_databases[database_index_name]
     temp = temp.archive_and_new_db!
     @fcmpa_active_databases[database_index_name] = temp
@@ -229,7 +230,7 @@ class FileContextManagedPartitionedArray
 
   end
 
-  def each(database_index_name, &block)
+  def each(database_index_name)
     database = @fcmpa_active_databases[database_index_name]
     database_size = database.data_arr.size - 1
     #exit

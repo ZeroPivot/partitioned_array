@@ -1,5 +1,6 @@
 require_relative 'managed_partitioned_array'
 
+# VERSION v1.0.1 
 # VERSION v1.0.0a - release test run
 # VERSION v0.2.3
 # VERSION v0.2.2a (11/27/2022 - 10:20am)
@@ -35,25 +36,34 @@ class FileContextManagedPartitionedArray
   DB_ENDLESS_ADD = true
   FCMPA_DB_INDEX_LOCATION = 0
   TRAVERSE_HASH = true
+  FCMPA_ENDLESS_ADD = true
+  FCMPA_DB_DYNAMICALLY_ALLOCATES = true
+  FCMPA_PARTITION_ADDITION_AMOUNT = 5
+  FCMPA_DB_HAS_CAPACITY = true
+  NEW_INDEX = false
 
-  def initialize(traverse_hash: TRAVERSE_HASH, partition_addition_amount: PARTITION_ADDITION_AMOUNT, db_size: DB_SIZE, db_endless_add: DB_ENDLESS_ADD, db_has_capacity: DB_HAS_CAPACITY, db_name: DB_NAME, db_path: DB_PATH, new_index: true, fcmpa_db_indexer_name: FCMPA_DB_INDEXER_NAME, fcmpa_db_folder_name: FCMPA_DB_FOLDER_NAME, fcmpa_db_size: FCMPA_DB_SIZE, fcmpa_partition_amount_and_offset: FCMPA_PARTITION_AMOUNT + FCMPA_OFFSET, db_partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_dynamically_allocates: DYNAMICALLY_ALLOCATES)
+  def initialize(fcmpa_db_has_capacity: FCMPA_DB_HAS_CAPACITY, fcmpa_partition_addition_amount: FCMPA_PARTITION_ADDITION_AMOUNT, fcmpa_db_dynamically_allocates: FCMPA_DB_DYNAMICALLY_ALLOCATES, fcmpa_endless_add: FCMPA_ENDLESS_ADD, traverse_hash: TRAVERSE_HASH, partition_addition_amount: PARTITION_ADDITION_AMOUNT, db_size: DB_SIZE, db_endless_add: DB_ENDLESS_ADD, db_has_capacity: DB_HAS_CAPACITY, db_name: DB_NAME, db_path: DB_PATH, new_index: NEW_INDEX, fcmpa_db_indexer_name: FCMPA_DB_INDEXER_NAME, fcmpa_db_folder_name: FCMPA_DB_FOLDER_NAME, fcmpa_db_size: FCMPA_DB_SIZE, fcmpa_partition_amount_and_offset: FCMPA_PARTITION_AMOUNT + FCMPA_OFFSET, db_partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_dynamically_allocates: DYNAMICALLY_ALLOCATES)
     @fcmpa_partition_amount_and_offset = fcmpa_partition_amount_and_offset
     @db_partition_amount_and_offset =  db_partition_amount_and_offset
     @fcmpa_db_size = fcmpa_db_size
     @partition_addition_amount = partition_addition_amount
     @fcmpa_db_indexer_name = fcmpa_db_indexer_name
     @fcmpa_db_folder_name = fcmpa_db_folder_name
+    @fcmpa_endless_add = fcmpa_endless_add
     @db_has_capacity = db_has_capacity
     @db_endless_add = db_endless_add
+    @fcmpa_db_has_capacity = fcmpa_db_has_capacity
     @db_size = db_size
     @db_path = db_path
     @db_name = db_name
+    @new_index = new_index
+    @fcmpa_partition_addition_amount = fcmpa_partition_addition_amount
     @traverse_hash = traverse_hash
     @db_dynamically_allocates = db_dynamically_allocates
-    @fcmpa_db_indexer_db = ManagedPartitionedArray.new(endless_add: @db_endless_add,
-                                                       dynamically_allocates: @db_dynamically_allocates,
-                                                       has_capacity: @db_has_capacity,
-                                                       partition_addition_amount: @partition_addition_amount,
+    @fcmpa_db_indexer_db = ManagedPartitionedArray.new(endless_add: @fcmpa_endless_add,
+                                                       dynamically_allocates: @fcmpa_db_dynamically_allocates,
+                                                       has_capacity: @fcmpa_db_has_capacity,
+                                                       partition_addition_amount: @fcmpa_partition_addition_amount,
                                                        partition_amount_and_offset: @fcmpa_partition_amount_and_offset,
                                                        db_size: @fcmpa_db_size,
                                                        db_name: @fcmpa_db_indexer_name,
@@ -62,6 +72,7 @@ class FileContextManagedPartitionedArray
     @fcmpa_db_indexer_db.allocate
     @fcmpa_db_indexer_db.load_everything_from_files! if !new_index
     @fcmpa_db_indexer_db.save_everything_to_files! if new_index
+
     @db_file_location = 0
     @db_file_incrementor = 0    
     @fcmpa_active_databases = {}

@@ -185,7 +185,7 @@ class FileContextManagedPartitionedArray
                                              dynamically_allocates: @db_dynamically_allocates,
                                              has_capacity: @db_has_capacity,
                                              partition_addition_amount: @partition_addition_amount,
-                                             partition_amount_and_offset: @fcmpa_partition_amount_and_offset,
+                                             partition_amount_and_offset: @db_partition_amount_and_offset,
                                              db_size: @fcmpa_db_size,
                                              db_name: value["db_name"],
                                              db_path: value["db_path"])

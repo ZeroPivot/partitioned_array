@@ -1,5 +1,6 @@
 require_relative 'managed_partitioned_array'
 
+# VERSION v1.0.0a - release test run
 # VERSION v0.2.3
 # VERSION v0.2.2a (11/27/2022 - 10:20am)
 # VERSION v0.2.1a (11/27/2022 - 6:25am)
@@ -246,7 +247,7 @@ end
 
 #
 #
-test = FileContextManagedPartitionedArray.new
+#test = FileContextManagedPartitionedArray.new
 #test.new_database(database_index_name_str: "test", db_path: "./DB", db_name: "test")
 #test.new_database(database_index_name_str: "test2", db_path: "./DB", db_name: "test2")
 #test.db("test").set(0) do |entry|
@@ -267,7 +268,7 @@ test = FileContextManagedPartitionedArray.new
 
 # create 200 new databases
 
-
+=begin
   test.new_database(database_index_name_str: "test", db_path: "./DB/slices", db_name: "test")
 test.new_database(database_index_name_str: "test2", db_path: "./DB/slices", db_name: "test2")
 test.set_new_file_archive("test")
@@ -286,3 +287,4 @@ test.each("test2") do |entry|
 end
 
 test.db("test2").save_everything_to_files!
+=end

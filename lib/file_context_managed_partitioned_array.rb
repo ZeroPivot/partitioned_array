@@ -41,8 +41,28 @@ class FileContextManagedPartitionedArray
   FCMPA_PARTITION_ADDITION_AMOUNT = 5
   FCMPA_DB_HAS_CAPACITY = true
   NEW_INDEX = false
+  DB_PARTITION_AMOUNT = 9
+  DB_PARTITION_OFFSET = 1
 
-  def initialize(fcmpa_db_has_capacity: FCMPA_DB_HAS_CAPACITY, fcmpa_partition_addition_amount: FCMPA_PARTITION_ADDITION_AMOUNT, fcmpa_db_dynamically_allocates: FCMPA_DB_DYNAMICALLY_ALLOCATES, fcmpa_endless_add: FCMPA_ENDLESS_ADD, traverse_hash: TRAVERSE_HASH, partition_addition_amount: PARTITION_ADDITION_AMOUNT, db_size: DB_SIZE, db_endless_add: DB_ENDLESS_ADD, db_has_capacity: DB_HAS_CAPACITY, db_name: DB_NAME, db_path: DB_PATH, new_index: NEW_INDEX, fcmpa_db_indexer_name: FCMPA_DB_INDEXER_NAME, fcmpa_db_folder_name: FCMPA_DB_FOLDER_NAME, fcmpa_db_size: FCMPA_DB_SIZE, fcmpa_partition_amount_and_offset: FCMPA_PARTITION_AMOUNT + FCMPA_OFFSET, db_partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_dynamically_allocates: DYNAMICALLY_ALLOCATES)
+  def initialize(fcmpa_db_has_capacity: FCMPA_DB_HAS_CAPACITY, 
+                 fcmpa_partition_addition_amount: FCMPA_PARTITION_ADDITION_AMOUNT,
+                 fcmpa_db_dynamically_allocates: FCMPA_DB_DYNAMICALLY_ALLOCATES,
+                 fcmpa_endless_add: FCMPA_ENDLESS_ADD,
+                 traverse_hash: TRAVERSE_HASH,
+                 partition_addition_amount: PARTITION_ADDITION_AMOUNT,
+                 db_size: DB_SIZE,
+                 db_endless_add: DB_ENDLESS_ADD,
+                 db_has_capacity: DB_HAS_CAPACITY,
+                 db_name: DB_NAME,
+                 db_path: DB_PATH,
+                 new_index: NEW_INDEX,
+                 fcmpa_db_indexer_name: FCMPA_DB_INDEXER_NAME,
+                 fcmpa_db_folder_name: FCMPA_DB_FOLDER_NAME,
+                 fcmpa_db_size: FCMPA_DB_SIZE,
+                 fcmpa_partition_amount_and_offset: FCMPA_PARTITION_AMOUNT + FCMPA_OFFSET,
+                 db_partition_amount_and_offset: DB_PARTITION_AMOUNT + DB_PARTITION_OFFSET,
+                 db_dynamically_allocates: DB_DYNAMICALLY_ALLOCATES)
+
     @fcmpa_partition_amount_and_offset = fcmpa_partition_amount_and_offset
     @db_partition_amount_and_offset =  db_partition_amount_and_offset
     @fcmpa_db_size = fcmpa_db_size
@@ -60,6 +80,7 @@ class FileContextManagedPartitionedArray
     @fcmpa_partition_addition_amount = fcmpa_partition_addition_amount
     @traverse_hash = traverse_hash
     @db_dynamically_allocates = db_dynamically_allocates
+    @fcmpa_db_dynamically_allocates = fcmpa_db_dynamically_allocates
     @fcmpa_db_indexer_db = ManagedPartitionedArray.new(endless_add: @fcmpa_endless_add,
                                                        dynamically_allocates: @fcmpa_db_dynamically_allocates,
                                                        has_capacity: @fcmpa_db_has_capacity,
@@ -77,16 +98,11 @@ class FileContextManagedPartitionedArray
     @db_file_incrementor = 0    
     @fcmpa_active_databases = {}
     
-    @timestamp_str = Time.now.to_i.to_s
+    @timestamp_str = Time.now.strftime("%Y-%m-%d-%H-%M-%S")
   end
 
 
-  def new_database(database_index_name_str: String,
-     dynamically_allocates: true,
-      has_capacity: false,
-       partition_amount_amd_offset: @partition_amount_and_offset,
-        db_size: @db_size,
-         db_path: @db_path, db_name: @db_name)
+  def new_database(database_index_name_str: String)
     timestamp_str = @timestamp_str # the string to give uniqueness to each database file context
     db_name_str = database_index_name_str
     @fcmpa_db_indexer_db.set(FCMPA_DB_INDEX_LOCATION) do |entry|

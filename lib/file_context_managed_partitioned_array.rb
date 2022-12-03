@@ -1,5 +1,7 @@
 require_relative 'managed_partitioned_array'
 
+# VERSION v1.0.2 - left off working on start_database! -- turns out that
+# this class requires more work before the partitioned array manager will.
 # VERSION v1.0.1 
 # VERSION v1.0.0a - release test run
 # VERSION v0.2.3
@@ -110,7 +112,7 @@ class FileContextManagedPartitionedArray
     db_name_str = database_index_name_str
     return false if !@fcmpa_db_indexer_db.get(0)["db_name"].nil?
     puts @fcmpa_db_indexer_db.get(0)["db_name"]
-    gets 
+    #gets 
       @fcmpa_db_indexer_db.set(FCMPA_DB_INDEX_LOCATION) do |entry|
         entry[db_name_str] = {"db_path" => @db_path, "db_name" => @db_name}
       end

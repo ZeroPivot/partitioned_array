@@ -30,7 +30,7 @@ class FileContextManagedPartitionedArray
   FCMPA_DB_INDEXER_NAME = "FCMPA_DB_INDEX"
   FCMPA_DB_FOLDER_NAME = "./DB/FCMPA"
   DB_NAME = "fcmpa_db"
-  DB_PATH = "./DB/FCMPA"
+  DB_PATH = "./DB/FCMPA_DB"
   DB_HAS_CAPACITY = true
   DB_DYNAMICALLY_ALLOCATES = true
   DB_ENDLESS_ADD = true
@@ -40,9 +40,9 @@ class FileContextManagedPartitionedArray
   FCMPA_DB_DYNAMICALLY_ALLOCATES = true
   FCMPA_PARTITION_ADDITION_AMOUNT = 5
   FCMPA_DB_HAS_CAPACITY = true
-  NEW_INDEX = false
   DB_PARTITION_AMOUNT = 9
   DB_PARTITION_OFFSET = 1
+  DB_PARTITION_ADDITION_AMOUNT = 5
 
   def initialize(fcmpa_db_has_capacity: FCMPA_DB_HAS_CAPACITY, 
                  fcmpa_partition_addition_amount: FCMPA_PARTITION_ADDITION_AMOUNT,
@@ -55,7 +55,7 @@ class FileContextManagedPartitionedArray
                  db_has_capacity: DB_HAS_CAPACITY,
                  db_name: DB_NAME,
                  db_path: DB_PATH,
-                 new_index: NEW_INDEX,
+                 db_partition_addition_amount: DB_PARTITION_ADDITION_AMOUNT,
                  fcmpa_db_indexer_name: FCMPA_DB_INDEXER_NAME,
                  fcmpa_db_folder_name: FCMPA_DB_FOLDER_NAME,
                  fcmpa_db_size: FCMPA_DB_SIZE,
@@ -72,11 +72,11 @@ class FileContextManagedPartitionedArray
     @fcmpa_endless_add = fcmpa_endless_add
     @db_has_capacity = db_has_capacity
     @db_endless_add = db_endless_add
+    @db_partition_addition_amount = db_partition_addition_amount
     @fcmpa_db_has_capacity = fcmpa_db_has_capacity
     @db_size = db_size
     @db_path = db_path
     @db_name = db_name
-    @new_index = new_index
     @fcmpa_partition_addition_amount = fcmpa_partition_addition_amount
     @traverse_hash = traverse_hash
     @db_dynamically_allocates = db_dynamically_allocates
@@ -91,8 +91,11 @@ class FileContextManagedPartitionedArray
                                                        db_path: @fcmpa_db_folder_name)
 
     @fcmpa_db_indexer_db.allocate
-    @fcmpa_db_indexer_db.load_everything_from_files! if !new_index
-    @fcmpa_db_indexer_db.save_everything_to_files! if new_index
+    begin
+    @fcmpa_db_indexer_db.load_everything_from_files!
+    rescue
+    @fcmpa_db_indexer_db.save_everything_to_files!
+    end
 
     @db_file_location = 0
     @db_file_incrementor = 0    
@@ -102,32 +105,36 @@ class FileContextManagedPartitionedArray
   end
 
 
-  def new_database(database_index_name_str: String)
+  def new_database(database_index_name_str)
     timestamp_str = @timestamp_str # the string to give uniqueness to each database file context
     db_name_str = database_index_name_str
-    @fcmpa_db_indexer_db.set(FCMPA_DB_INDEX_LOCATION) do |entry|
-      entry[db_name_str] = {"db_path" => db_path, "db_name" => db_name+"_"+timestamp_str, "active" => true}
-    end
-    @fcmpa_db_indexer_db.save_everything_to_files!
+    return false if !@fcmpa_db_indexer_db.get(0)["db_name"].nil?
+    puts @fcmpa_db_indexer_db.get(0)["db_name"]
+    gets 
+      @fcmpa_db_indexer_db.set(FCMPA_DB_INDEX_LOCATION) do |entry|
+        entry[db_name_str] = {"db_path" => @db_path, "db_name" => @db_name}
+      end
+      @fcmpa_db_indexer_db.save_everything_to_files!
     #@db_file_incrementor += 1   
     
 
 
-    temp = ManagedPartitionedArray.new(endless_add: @db_endless_add,
-                                       dynamically_allocates: @db_dynamically_allocates,
-                                       has_capacity: @db_has_capacity,
-                                       partition_addition_amount: @partition_addition_amount,
-                                       partition_amount_and_offset: @db_partition_amount_and_offset,
-                                       db_size: @db_size,
-                                       db_name: @db_name+"_"+timestamp_str,
-                                       db_path: @db_path)
- 
+
+      temp = ManagedPartitionedArray.new(endless_add: @db_endless_add,
+                                        dynamically_allocates: @db_dynamically_allocates,
+                                        has_capacity: @db_has_capacity,
+                                        partition_addition_amount: @db_partition_addition_amount,
+                                        partition_amount_and_offset: @db_partition_amount_and_offset,
+                                        db_size: @db_size,
+                                        db_name: @db_name,
+                                        db_path: @db_path)
+  
 
 
-    temp.allocate
-    @fcmpa_active_databases[db_name_str] = temp
-    temp.save_everything_to_files!
-    return temp
+      temp.allocate
+      @fcmpa_active_databases[db_name_str] = temp
+      temp.save_everything_to_files!
+      return temp
 
   
   
@@ -138,6 +145,7 @@ class FileContextManagedPartitionedArray
       entry.delete(database_index_name)
     end
     @fcmpa_db_indexer_db.save_everything_to_files!
+    @fcmpa_active_databases.delete(database_index_name)
   end
     
   def add_database_to_index!(database_index_name, database_path, database_name)
@@ -164,38 +172,19 @@ class FileContextManagedPartitionedArray
     @fcmpa_db_indexer_db.save_everything_to_files!
   end
 
-
+  # left off making it so that the database auto allocates and auto loads and saves on call
   def start_database!(database_index_name)
     @fcmpa_active_databases[database_index_name] = @fcmpa_active_databases[database_index_name].load_everything_from_files!
     @fcmpa_db_indexer_db.set(0) do |entry|
       entry[database_index_name]["active"] = true
     end
+    puts "returning..."
+    
     return @fcmpa_active_databases[database_index_name]
   end
 
-  def start_databases!
-    @fcmpa_db_indexer_db.each do |entry|
-      entry.each do |key, value|
-        temp = ManagedPartitionedArray.new(endless_add: @db_endless_add,
-                                           dynamically_allocates: @db_dynamically_allocates,
-                                           has_capacity: @db_has_capacity,
-                                           partition_addition_amount: @partition_addition_amount,
-                                           partition_amount_and_offset: @fcmpa_partition_amount_and_offset,
-                                           db_size: @db_size,
-                                           db_name: value["db_name"],
-                                           db_path: value["db_path"])
-        @fcmpa_db_indexer.set(0) do |entry|
-          entry[key]["active"] = true
-        end
 
-                                           
-        temp.load_everything_from_files!
-        @fcmpa_active_databases[key] = temp
-      end      
-    end
-    return @fcmpa_active_databases
-
-  end
+  
 
   def stop_databases!
     @fcmpa_active_databases.each do |key, value|
@@ -295,9 +284,9 @@ end
 
 # create 200 new databases
 
-=begin
-  test.new_database(database_index_name_str: "test", db_path: "./DB/slices", db_name: "test")
-test.new_database(database_index_name_str: "test2", db_path: "./DB/slices", db_name: "test2")
+test = FileContextManagedPartitionedArray.new()
+test.new_database("test") # also renews the database; use with caution
+test.new_database("test2")
 test.set_new_file_archive("test")
 test.save_database!("test")
 test.save_database!("test2")
@@ -314,4 +303,5 @@ test.each("test2") do |entry|
 end
 
 test.db("test2").save_everything_to_files!
-=end
+#y = test.start_database!("test2")
+#p y.get(0, hash: true)

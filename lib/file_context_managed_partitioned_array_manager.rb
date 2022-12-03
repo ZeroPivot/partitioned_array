@@ -51,6 +51,9 @@ class FileContextManagedPartitionedArrayManager
   MAN_DB_PARTITION_ADDITION_AMOUNT = 5
   MAN_DB_HAS_CAPACITY = true
 
+  MAN_INDEXER_NAME = "man_indexer" 
+  MAN_INDEXER_PATH = "./DB/MANINDEX_DB"
+
 
   
 
@@ -82,7 +85,9 @@ class FileContextManagedPartitionedArrayManager
                  man_db_endless_add: MAN_DB_ENDLESS_ADD,
                  man_db_index_location: MAN_DB_INDEX_LOCATION,
                  man_db_partition_addition_amount: MAN_DB_PARTITION_ADDITION_AMOUNT,
-                 man_db_partition_amount_and_offset: MAN_PARTITION_AMOUNT + MAN_OFFSET
+                 man_db_partition_amount_and_offset: MAN_PARTITION_AMOUNT + MAN_OFFSET,
+                 man_indexer_name: MAN_INDEXER_NAME,
+                 man_indexer_path: MAN_INDEXER_PATH
                  )
     @fcmpa_partition_amount_and_offset = fcmpa_partition_amount_and_offset
     @db_partition_amount_and_offset =  db_partition_amount_and_offset
@@ -115,17 +120,32 @@ class FileContextManagedPartitionedArrayManager
     @man_db_partition_addition_amount = man_db_partition_addition_amount
     @man_db_partition_amount_and_offset = man_db_partition_amount_and_offset
 
+    @man_indexer_name = man_indexer_name
+    @man_indexer_path = man_indexer_path
+    
+
     @timestamp_str = Time.now.strftime("%Y-%m-%d-%H-%M-%S")
 
-    @man_db_indexer = ManagedPartitionedArray.new(
-                                              endless_add: @fcmpa_endless_add,
-                                              partition_addition_amount: @fcmpa_partition_addition_amount,
-                                              partition_amount_and_offset: @fcmpa_partition_amount_and_offset,
-                                              db_size: @fcmpa_db_size,
-                                              db_name: @fcmpa_db_indexer_name,
-                                              db_path: @fcmpa_db_folder_name,
-                                              has_capacity: @fcmpa_db_has_capacity)
-    #Manager Database
+
+    @man_index = FileContextManagedPartitionedArray.new(fcmpa_partition_amount_and_offset: @fcmpa_partition_amount_and_offset,
+                                                        fcmpa_db_size: @fcmpa_db_size,
+                                                        fcmpa_db_indexer_name: @fcmpa_db_indexer_name,
+                                                        fcmpa_db_folder_name: @fcmpa_db_folder_name,
+                                                        fcmpa_db_dynamically_allocates: @fcmpa_db_dynamically_allocates,
+                                                        fcmpa_endless_add: @fcmpa_endless_add,
+                                                        fcmpa_partition_addition_amount: @man_db_partition_addition_amount,
+                                                        traverse_hash: @traverse_hash,
+                                                        partition_addition_amount: @partition_addition_amount,
+                                                        db_size: @man_db_size,
+                                                        db_endless_add: @man_db_endless_add,
+                                                        db_has_capacity: @man_db_has_capacity,
+                                                        db_name: @man_indexer_name, #difference: man_indexer instead of man_db_*
+                                                        db_path: @man_indexer_path, # 
+                                                        new_index: @new_index,
+                                                        db_dynamically_allocates: @db_dynamically_allocates,
+                                                        db_partition_amount_and_offset: @db_partition_amount_and_offset,
+                                                        fcmpa_db_has_capacity: @fcmpa_db_has_capacity,)
+
     @man_db = FileContextManagedPartitionedArray.new(fcmpa_partition_amount_and_offset: @fcmpa_partition_amount_and_offset,
                                                     fcmpa_db_size: @fcmpa_db_size,
                                                     fcmpa_db_indexer_name: @fcmpa_db_indexer_name,
@@ -147,6 +167,21 @@ class FileContextManagedPartitionedArrayManager
 
 
   end
+
+  def man(database_name = "default")
+    if !@man_index[database_name]
+      # initialize database
+      #@man_index[database_name]
+      @man_db.new_database(database_name)
+      
+    else
+      @man_db[database_name]
+    end
+
+  end
+
+  
+
 
 
 

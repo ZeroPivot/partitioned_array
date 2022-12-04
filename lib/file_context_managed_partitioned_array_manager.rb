@@ -34,7 +34,6 @@ class FileContextManagedPartitionedArrayManager
   FCMPA_DB_DYNAMICALLY_ALLOCATES = true
   FCMPA_PARTITION_ADDITION_AMOUNT = 5
   FCMPA_DB_HAS_CAPACITY = true
-  NEW_INDEX = false
   DB_PARTITION_AMOUNT = 9
   DB_PARTITION_OFFSET = 1
 
@@ -68,7 +67,6 @@ class FileContextManagedPartitionedArrayManager
                  db_has_capacity: DB_HAS_CAPACITY,
                  db_name: DB_NAME,
                  db_path: DB_PATH,
-                 new_index: NEW_INDEX,
                  fcmpa_db_indexer_name: FCMPA_DB_INDEXER_NAME,
                  fcmpa_db_folder_name: FCMPA_DB_FOLDER_NAME,
                  fcmpa_db_size: FCMPA_DB_SIZE,

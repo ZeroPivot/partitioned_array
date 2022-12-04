@@ -99,7 +99,7 @@ class FileContextManagedPartitionedArray
     @db_file_location = 0
     @db_file_incrementor = 0    
     @fcmpa_active_databases = {}
-    @fcmpa_db_indexer = ""
+    @fcmpa_db_indexer = {}
     @timestamp_str = Time.now.strftime("%Y-%m-%d-%H-%M-%S")
     load_indexer_db!
   end
@@ -197,18 +197,19 @@ class FileContextManagedPartitionedArray
   end
 
   # left off making it so that the database auto allocates and auto loads and saves on call
-  def start_database!(database_index_name)
+  def start_database!(database_index_name, raise_on_no_db: false)
     db_index = @fcmpa_db_indexer_db.get(@fcmpa_db_index_location)
     if db_index[database_index_name].nil?
-      new_database(database_index_name)
+      raise if raise_on_no_db 
+      new_database(database_index_name) #start a new database if one wasn't assigned
     else
-      debug "db index debug #{db_index}"    
+      #debug "db index debug #{db_index}"    
       db_name = db_index[database_index_name]["db_name"]
       db_path = db_index[database_index_name]["db_path"]
-      debug "db name debug #{db_name}"
-      debug "db path debug #{db_path}"
-      debug "db index debug #{db_index.keys}"
-      gets
+      #debug "db name debug #{db_name}"
+      #debug "db path debug #{db_path}"
+      #debug "db index debug #{db_index.keys}"
+      
       @fcmpa_active_databases[database_index_name] = ManagedPartitionedArray.new(endless_add: @db_endless_add,
                                                                                 dynamically_allocates: @db_dynamically_allocates,
                                                                                 has_capacity: @db_has_capacity,
@@ -239,32 +240,12 @@ class FileContextManagedPartitionedArray
 
 
   
-
+  # ! denotes that this is an action that will be performed on the database and not a query
   def stop_databases!
     @fcmpa_active_databases.each do |key, value|
       @fcmpa_active_databases.delete(key)
     end
 
-  end
-
-  def load_active_databases!
-    @fcmpa_db_indexer_db.each do |entry|
-      entry.each do |key, value|
-        if value["active"]
-          temp = ManagedPartitionedArray.new(endless_add: @db_endless_add,
-                                             dynamically_allocates: @db_dynamically_allocates,
-                                             has_capacity: @db_has_capacity,
-                                             partition_addition_amount: @partition_addition_amount,
-                                             partition_amount_and_offset: @db_partition_amount_and_offset,
-                                             db_size: @db_size,
-                                             db_name: value["db_name"],
-                                             db_path: value["db_path"])
-          temp.load_everything_from_files!
-          @fcmpa_active_databases[key] = temp
-        end
-      end
-    end
-    return @fcmpa_active_databases
   end
 
   def save_database!(database_index_name)
@@ -298,7 +279,7 @@ class FileContextManagedPartitionedArray
      @fcmpa_active_databases.keys
   end
 
-  def set_new_file_archive(database_index_name)
+  def set_new_file_archive!(database_index_name)
     temp = @fcmpa_active_databases[database_index_name]
     temp = temp.archive_and_new_db!
     @fcmpa_active_databases[database_index_name] = temp
@@ -318,12 +299,14 @@ class FileContextManagedPartitionedArray
     end
   end
 
-  def each_not_nil(database_index_name, hash: traverse_hash)
+  
+
+  def each_not_nil(database_index_name, hash: @traverse_hash)
     database = @fcmpa_active_databases[database_index_name]
     database_size = database.data_arr.size - 1
     #exit
     0.upto(database_size) do |i|
-      t = database.get(i, hash: traverse_hash) # memory overhead reduction; make a temp since yield checks twice
+      t = database.get(i, hash: hash) # memory overhead reduction; make a temp since yield checks twice
       yield t if !t.nil?
     end
   end

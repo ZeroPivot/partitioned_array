@@ -1,10 +1,10 @@
 require_relative 'managed_partitioned_array'
-
-# VERSION v1.0.3 - the basics are working
-# VERSION v1.0.2 - left off working on start_database! -- turns out that
+# VERSION v0.2.4
+# VERSION v0.2.3 - the basics are working
+# VERSION v0.2.2 - left off working on start_database! -- turns out that
 # this class requires more work before the partitioned array manager will.
-# VERSION v1.0.1 
-# VERSION v1.0.0a - release test run
+# VERSION v0.2.1 
+# VERSION v0.2.0a - release test run
 # VERSION v0.2.3
 # VERSION v0.2.2a (11/27/2022 - 10:20am)
 # VERSION v0.2.1a (11/27/2022 - 6:25am)
@@ -130,8 +130,8 @@ class FileContextManagedPartitionedArray
     puts @fcmpa_db_indexer_db.get(fcmpa_db_index_location)
   
     return true if !@fcmpa_db_indexer_db.get(fcmpa_db_index_location)["db_name"].nil? #guard clause to prevent overwriting the database index file
-  debug "THIS: #{@fcmpa_db_indexer_db.get(fcmpa_db_index_location)["db_name"]}"
-    gets
+  #debug "THIS: #{@fcmpa_db_indexer_db.get(fcmpa_db_index_location)["db_name"]}"
+    #gets
      
       @fcmpa_db_indexer_db.set(fcmpa_db_index_location) do |entry|
         entry[db_name_str] = {"db_path" => @db_path+"_"+timestamp_str, "db_name" => @db_name+"_"+timestamp_str}
@@ -242,13 +242,13 @@ class FileContextManagedPartitionedArray
   
   # ! denotes that this is an action that will be performed on the database and not a query
   def stop_databases!
-    @fcmpa_active_databases.each do |key, value|
+    @fcmpa_active_databases.each do |key, _|
       @fcmpa_active_databases.delete(key)
     end
 
   end
 
-  def save_database!(database_index_name)
+  def save_database!(database_index_name = @active_database)
     @fcmpa_active_databases[database_index_name].save_everything_to_files!
   end
 
@@ -258,7 +258,7 @@ class FileContextManagedPartitionedArray
     end
   end
 
-  def load_database!(database_index_name)  
+  def load_database!(database_index_name = @active_database)  
     start_database!(database_index_name)
   end
 
@@ -269,7 +269,7 @@ class FileContextManagedPartitionedArray
 
   end
 
-  def delete_database!(database_index_name)
+  def delete_database!(database_index_name = @active_database)
     @fcmpa_active_databases.delete(database_index_name)
     delete_database_from_index!(database_index_name)
     #@fcmpa_active_databases.save_everything_to_files!
@@ -279,7 +279,7 @@ class FileContextManagedPartitionedArray
      @fcmpa_active_databases.keys
   end
 
-  def set_new_file_archive!(database_index_name)
+  def set_new_file_archive!(database_index_name = @active_database)
     temp = @fcmpa_active_databases[database_index_name]
     temp = temp.archive_and_new_db!
     @fcmpa_active_databases[database_index_name] = temp
@@ -288,6 +288,7 @@ class FileContextManagedPartitionedArray
 
   end
 
+  #traverses the database and yields every element in @data_arr, even nils
   def each(database_index_name, hash: @traverse_hash)
     return false if @fcmpa_active_databases[database_index_name].nil?
     database = @fcmpa_active_databases[database_index_name]
@@ -299,14 +300,15 @@ class FileContextManagedPartitionedArray
     end
   end
 
-  
 
+# traverses the database and returns all elements that are not nil, across all of @data_arr
   def each_not_nil(database_index_name, hash: @traverse_hash)
     database = @fcmpa_active_databases[database_index_name]
     database_size = database.data_arr.size - 1
+    traverse_hash = hash
     #exit
     0.upto(database_size) do |i|
-      t = database.get(i, hash: hash) # memory overhead reduction; make a temp since yield checks twice
+      t = database.get(i, hash: traverse_hash) # memory overhead reduction; make a temp since yield checks twice
       yield t if !t.nil?
     end
   end

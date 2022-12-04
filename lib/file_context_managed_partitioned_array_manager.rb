@@ -103,6 +103,7 @@ class FileContextManagedPartitionedArrayManager
     @db_path = db_path
     @db_name = db_name
     @new_index = new_index
+
     @fcmpa_partition_addition_amount = fcmpa_partition_addition_amount
     @traverse_hash = traverse_hash
     @db_dynamically_allocates = db_dynamically_allocates
@@ -140,16 +141,17 @@ class FileContextManagedPartitionedArrayManager
                                                         db_endless_add: @man_db_endless_add,
                                                         db_has_capacity: @man_db_has_capacity,
                                                         db_name: @man_indexer_name, #difference: man_indexer instead of man_db_*
-                                                        db_path: @man_indexer_path, # 
-                                                        new_index: @new_index,
+                                                        db_path: @man_indexer_path, #                                                       
                                                         db_dynamically_allocates: @db_dynamically_allocates,
                                                         db_partition_amount_and_offset: @db_partition_amount_and_offset,
-                                                        fcmpa_db_has_capacity: @fcmpa_db_has_capacity,)
+                                                        fcmpa_db_has_capacity: @fcmpa_db_has_capacity,
+                                                        fcmpa_db_index_location: @fcmpa_db_index_location)
 
     @man_db = FileContextManagedPartitionedArray.new(fcmpa_partition_amount_and_offset: @fcmpa_partition_amount_and_offset,
                                                     fcmpa_db_size: @fcmpa_db_size,
                                                     fcmpa_db_indexer_name: @fcmpa_db_indexer_name,
                                                     fcmpa_db_folder_name: @fcmpa_db_folder_name,
+                                                    fcmpa_db_index_location: @fcmpa_db_index_location,
                                                     fcmpa_db_dynamically_allocates: @fcmpa_db_dynamically_allocates,
                                                     fcmpa_endless_add: @fcmpa_endless_add,
                                                     fcmpa_partition_addition_amount: @man_db_partition_addition_amount,
@@ -159,8 +161,8 @@ class FileContextManagedPartitionedArrayManager
                                                     db_endless_add: @man_db_endless_add,
                                                     db_has_capacity: @man_db_has_capacity,
                                                     db_name: @man_db_indexer_name,
-                                                    db_path: @man_db_path,
-                                                    new_index: @new_index,
+                                                    db_path: @man_db_path,                                                   
+                                                    db_partition_addition_amount: @db_partition_addition_amount,
                                                     db_dynamically_allocates: @db_dynamically_allocates,
                                                     db_partition_amount_and_offset: @db_partition_amount_and_offset,
                                                     fcmpa_db_has_capacity: @fcmpa_db_has_capacity,)

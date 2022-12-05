@@ -1,5 +1,6 @@
 require_relative 'file_context_managed_partitioned_array'
 
+# VERSION v0.0.6
 # VERSION v0.0.5
 
 class FileContextManagedPartitionedArrayManager
@@ -25,14 +26,15 @@ class FileContextManagedPartitionedArrayManager
 
 
   TRAVERSE_HASH = true
-  FCMPA_ENDLESS_ADD = true
+  FCMPA_DB_ENDLESS_ADD = true
   FCMPA_DB_DYNAMICALLY_ALLOCATES = true
-  FCMPA_PARTITION_ADDITION_AMOUNT = 5
+  FCMPA_DB_PARTITION_ADDITION_AMOUNT = 5
   FCMPA_DB_HAS_CAPACITY = true
   FCMPA_DB_MAX_CAPACITY = "data_arr_size"
   FCMPA_DB_INDEXER_NAME = "FCMPA_DB_INDEX"
   FCMPA_DB_FOLDER_NAME = "./DB/FCMPA_DB"
-
+  FCMPA_DB_PARTITION_ARCHIVE_ID = 0
+  FCMPA_DB_SIZE = 20
 
   DB_PARTITION_AMOUNT = 9
   DB_PARTITION_OFFSET = 1
@@ -41,12 +43,12 @@ class FileContextManagedPartitionedArrayManager
   DB_HAS_CAPACITY = true
   DB_DYNAMICALLY_ALLOCATES = true
   DB_ENDLESS_ADD = true
-  FCMPA_DB_INDEX_LOCATION = 0
   DB_MAX_CAPACITY = "data_arr_size"
+  DB_PARTITION_ARCHIVE_ID = 0
+  DB_SIZE = 20
 
-
-  MAN_PARTITION_AMOUNT = 9
-  MAN_OFFSET = 1
+  MAN_DB_PARTITION_AMOUNT = 9
+  MAN_DB_OFFSET = 1
   MAN_DB_SIZE = 20
   MAN_DB_HAS_CAPACITY = true
   MAN_DB_DYNAMICALLY_ALLOCATES = true
@@ -58,102 +60,109 @@ class FileContextManagedPartitionedArrayManager
   MAN_DB_MAX_CAPACITY = "data_arr_size"
   MAN_DB_INDEXER_NAME = "MAN_INDEX_DB" 
   MAN_DB_INDEXER_PATH = "./DB/MAN_INDEX_DB"
-
+  MAN_DB_PARTITION_ARCHIVE_ID = 0
 
   
 
-  def initialize(fcmpa_db_has_capacity: FCMPA_DB_HAS_CAPACITY, 
-                 fcmpa_partition_addition_amount: FCMPA_PARTITION_ADDITION_AMOUNT,
-                 fcmpa_db_dynamically_allocates: FCMPA_DB_DYNAMICALLY_ALLOCATES,
-                 fcmpa_endless_add: FCMPA_ENDLESS_ADD,
-                 fcmpa_db_max_capacity: FCMPA_DB_MAX_CAPACITY,
+  def initialize(
                  db_max_capacity: DB_MAX_CAPACITY,
-                 traverse_hash: TRAVERSE_HASH,
-                 partition_addition_amount: PARTITION_ADDITION_AMOUNT,
                  db_size: DB_SIZE,
                  db_endless_add: DB_ENDLESS_ADD,
                  db_has_capacity: DB_HAS_CAPACITY,
                  db_name: DB_NAME,
                  db_path: DB_PATH,
                  db_partition_addition_amount: DB_PARTITION_ADDITION_AMOUNT,
-                 fcmpa_db_indexer_name: FCMPA_DB_INDEXER_NAME,
-                 fcmpa_db_folder_name: FCMPA_DB_FOLDER_NAME,
-                 fcmpa_db_size: FCMPA_DB_SIZE,
-                 fcmpa_partition_amount_and_offset: FCMPA_PARTITION_AMOUNT + FCMPA_OFFSET,
+                 db_dynamically_allocates: DB_DYNAMICALLY_ALLOCATES,   
                  db_partition_amount_and_offset: DB_PARTITION_AMOUNT + DB_PARTITION_OFFSET,
-                 db_dynamically_allocates: DB_DYNAMICALLY_ALLOCATES,
-                 fcmpa_db_index_location: FCMPA_DB_INDEX_LOCATION,
-                 man_offset: MAN_OFFSET,
+                 db_partition_archive_id: DB_PARTITION_ARCHIVE_ID,
+                 fcmpa_db_size: FCMPA_DB_SIZE,
+                 fcmpa_db_indexer_name: FCMPA_DB_INDEXER_NAME,                
+                 fcmpa_db_index_location: FCMPA_DB_INDEX_LOCATION,       
+                 fcmpa_db_folder_name: FCMPA_DB_FOLDER_NAME,
+                 fcmpa_db_partition_amount_and_offset: FCMPA_PARTITION_AMOUNT + FCMPA_OFFSET,
+                 fcmpa_db_has_capacity: FCMPA_DB_HAS_CAPACITY, 
+                 fcmpa_db_partition_addition_amount: FCMPA_DB_PARTITION_ADDITION_AMOUNT,
+                 fcmpa_db_dynamically_allocates: FCMPA_DB_DYNAMICALLY_ALLOCATES,
+                 fcmpa_db_endless_add: FCMPA_ENDLESS_ADD,
+                 fcmpa_db_max_capacity: FCMPA_DB_MAX_CAPACITY, 
+                 fcmpa_db_partition_archive_id: FCMPA_DB_PARTITION_ARCHIVE_ID,         
+                 man_db_offset: MAN_DB_OFFSET,
                  man_db_size: MAN_DB_SIZE,
                  man_db_indexer_name: MAN_DB_INDEXER_NAME,
                  man_db_folder_name: MAN_DB_FOLDER_NAME,
                  man_db_has_capacity: MAN_DB_HAS_CAPACITY,
                  man_db_dynamically_allocates: MAN_DB_DYNAMICALLY_ALLOCATES,
                  man_db_endless_add: MAN_DB_ENDLESS_ADD,
-                 man_db_index_location: MAN_DB_INDEX_LOCATION,
                  man_db_partition_addition_amount: MAN_DB_PARTITION_ADDITION_AMOUNT,
                  man_db_partition_amount_and_offset: MAN_PARTITION_AMOUNT + MAN_OFFSET,                 
-                 man_db_indexer_path: MAN_DB_INDEXER_PATH
+                 man_db_indexer_path: MAN_DB_INDEXER_PATH,
+                 man_db_partition_archive_id: MAN_DB_PARTITION_ARCHIVE_ID,
+                 man_db_max_capacity: MAN_DB_MAX_CAPACITY
                  )
           
-    @db_max_capacity = db_max_capacity
-    @fcmpa_db_index_location = fcmpa_db_index_location
-    @db_partition_addition_amount = db_partition_addition_amount
+    @fcmpa_db_partition_archive_id = fcmpa_db_partition_archive_id
+    @fcmpa_db_endless_add = fcmpa_db_endless_add
+    @fcmpa_db_partition_amount_and_offset = fcmpa_db_partition_amount_and_offset
     @fcmpa_db_max_capacity = fcmpa_db_max_capacity
-    @db_max_capacity = db_max_capacity
-    @fcmpa_partition_amount_and_offset = fcmpa_partition_amount_and_offset
-    @db_partition_amount_and_offset =  db_partition_amount_and_offset
+    @fcmpa_db_index_location = fcmpa_db_index_location
     @fcmpa_db_size = fcmpa_db_size
-    @partition_addition_amount = partition_addition_amount
     @fcmpa_db_indexer_name = fcmpa_db_indexer_name
     @fcmpa_db_folder_name = fcmpa_db_folder_name
-    @fcmpa_endless_add = fcmpa_endless_add
-    @db_has_capacity = db_has_capacity
-    @db_endless_add = db_endless_add
+    @fcmpa_db_endless_add = fcmpa_endless_add
+    @fcmpa_db_partition_addition_amount = fcmpa_partition_addition_amount
     @fcmpa_db_has_capacity = fcmpa_db_has_capacity
+    @fcmpa_db_dynamically_allocates = fcmpa_db_dynamically_allocates
+    @fcmpa_db_partition_addition_amount = fcmpa_db_partition_addition_amount
+
+    
+    # The database which holds all the entries that the manager database manages
+    @db_has_capacity = db_has_capacity
+    @db_endless_add = db_endless_add    
     @db_size = db_size
     @db_path = db_path
     @db_name = db_name
-    @new_index = new_index
-    @fcmpa_partition_addition_amount = fcmpa_partition_addition_amount
-    @traverse_hash = traverse_hash
     @db_dynamically_allocates = db_dynamically_allocates
-    @fcmpa_db_dynamically_allocates = fcmpa_db_dynamically_allocates
+    @db_partition_amount_and_offset =  db_partition_amount_and_offset
+    @db_max_capacity = db_max_capacity
+    @db_partition_addition_amount = db_partition_addition_amount
+    @db_location = db_indexer_location
+    @db_partition_archive_id = db_partition_archive_id
+    # manager database /aritywolf/gallery,etc #=> in this case, aritywolf is the manager of gallery,etc
+    @man_db_offset = man_db_offset
     @man_db_partition_amount = man_db_partition_amount
-    @man_offset = man_offset
     @man_db_size = man_db_size
     @man_db_folder_name = man_db_folder_name
-    @man_db_indexer_name = man_db_indexer_name
     @man_db_has_capacity = man_db_has_capacity
     @man_db_dynamically_allocates = man_db_dynamically_allocates
     @man_db_endless_add = man_db_endless_add
-    @man_db_index_location = man_db_index_location
     @man_db_partition_addition_amount = man_db_partition_addition_amount
     @man_db_partition_amount_and_offset = man_db_partition_amount_and_offset
     @man_db_indexer_name = man_db_indexer_name
     @man_db_indexer_path = man_db_indexer_path
+    @man_db_partition_archive_id = man_db_partition_archive_id
+    @man_db_max_capacity = man_db_max_capacity
     @timestamp_str = Time.now.strftime("%Y-%m-%d-%H-%M-%S")
 
-    @man_index = FileContextManagedPartitionedArray.new(fcmpa_partition_amount_and_offset: @fcmpa_partition_amount_and_offset,
+    @man_index = FileContextManagedPartitionedArray.new(fcmpa_db_partition_amount_and_offset: @fcmpa_db_partition_amount_and_offset,
                                                         fcmpa_db_size: @fcmpa_db_size,
                                                         fcmpa_db_indexer_name: @fcmpa_db_indexer_name,
                                                         fcmpa_db_folder_name: @fcmpa_db_folder_name,
                                                         fcmpa_db_dynamically_allocates: @fcmpa_db_dynamically_allocates,
                                                         fcmpa_endless_add: @fcmpa_endless_add,
                                                         fcmpa_partition_addition_amount: @man_db_partition_addition_amount,
-                                                        traverse_hash: @traverse_hash,
-                                                        partition_addition_amount: @partition_addition_amount,
-                                                        db_size: @man_db_size,
-                                                        db_endless_add: @man_db_endless_add,
-                                                        db_has_capacity: @man_db_has_capacity,
-                                                        db_name: @man_db_indexer_name, #difference: man_indexer instead of man_db_*
-                                                        db_path: @man_db_indexer_path, #                                                       
+                                                        fcmpa_db_has_capacity: @fcmpa_db_has_capacity,
+                                                        fcmpa_db_index_location: @fcmpa_db_index_location,                                                    
+                                                        fcmpa_db_max_capacity: @fcmpa_db_max_capacity,  
+                                                        db_partition_addition_amount: @partition_addition_amount,
+                                                        db_size: @db_size,
+                                                        db_endless_add: @db_endless_add,
+                                                        db_has_capacity: @db_has_capacity,
+                                                        db_name: @db_name, #difference: man_indexer instead of man_db_
+                                                        db_path: @db_path, #                                                       
                                                         db_dynamically_allocates: @db_dynamically_allocates,
                                                         db_partition_amount_and_offset: @db_partition_amount_and_offset,
-                                                        fcmpa_db_has_capacity: @fcmpa_db_has_capacity,
-                                                        fcmpa_db_index_location: @fcmpa_db_index_location,
                                                         db_max_capacity: @db_max_capacity,
-                                                        fcmpa_db_max_capacity: @fcmpa_db_max_capacity)
+                                                        )
 
     @man_db = FileContextManagedPartitionedArray.new(fcmpa_partition_amount_and_offset: @fcmpa_partition_amount_and_offset,
                                                     fcmpa_db_size: @fcmpa_db_size,

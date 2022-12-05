@@ -1,4 +1,8 @@
 require_relative 'managed_partitioned_array'
+# VERSION v0.2.5 - 2022-12-05 10:10AM
+# FileContextManagedPartitionedArray
+#  A ManagedPartitionedArray that uses a FileContext to store its data.
+# Fixed variable definitions and usage locations; program works as it did in an earlier version without the variable misuse and collisions.
 # VERSION v0.2.4
 # VERSION v0.2.3 - the basics are working
 # VERSION v0.2.2 - left off working on start_database! -- turns out that
@@ -52,15 +56,20 @@ class FileContextManagedPartitionedArray
   FCMPA_DB_PARTITION_ARCHIVE_ID = 0
   FCMPA_DB_PARTITION_AMOUNT = 9
   FCMPA_DB_OFFSET = 1
+  
+  FCMPA_DB_INDEX_LOCATION = 0
 
   TRAVERSE_HASH = true
   DEBUG = true
+
+  RAISE_ON_NO_DB = false
 
   def debug(say)
     puts say if DEBUG
   end
 
-  def initialize(traverse_hash: TRAVERSE_HASH,
+  def initialize(raise_on_no_db: RAISE_ON_NO_DB,
+                 traverse_hash: TRAVERSE_HASH,
                  db_max_capacity: DB_MAX_CAPACITY,
                  db_size: DB_SIZE,
                  db_endless_add: DB_ENDLESS_ADD,
@@ -80,14 +89,16 @@ class FileContextManagedPartitionedArray
                  fcmpa_db_dynamically_allocates: FCMPA_DB_DYNAMICALLY_ALLOCATES,
                  fcmpa_endless_add: FCMPA_ENDLESS_ADD,
                  fcmpa_max_capacity: FCMPA_MAX_CAPACITY,
-                 fcmpa_db_index_location: FCMPA_DB_INDEX_LOCATION,
-                 fcmpa_db_partition_archive_id: FCMPA_DB_PARTITION_ARCHIVE_ID)
+                 fcmpa_db_partition_archive_id: FCMPA_DB_PARTITION_ARCHIVE_ID,
+                 fcmpa_db_index_location: FCMPA_DB_INDEX_LOCATION)
+
+
     @traverse_hash = traverse_hash
 
 
-
-
-    @db_max_capacity = max_capacity 
+    @raise_on_no_db = raise_on_no_db
+    @fcmpa_db_index_location = fcmpa_db_index_location
+    @db_max_capacity = db_max_capacity 
     @db_partition_amount_and_offset =  db_partition_amount_and_offset #
     @db_dynamically_allocates = db_dynamically_allocates # 
     @db_has_capacity = db_has_capacity #
@@ -112,9 +123,11 @@ class FileContextManagedPartitionedArray
 
   
     @fcmpa_active_databases = {}
-    @fcmpa_db_indexer = {}
+    @fcmpa_db_indexer_db = {}
     @timestamp_str = Time.now.strftime("%Y-%m-%d-%H-%M-%S")
     load_indexer_db!
+    #puts "FCMPA_DB_INDEXER: #{@fcmpa_db_indexer_db}" 
+    #exit
   end
 
   def load_indexer_db!
@@ -144,7 +157,8 @@ class FileContextManagedPartitionedArray
     timestamp_str = @timestamp_str # the string to give uniqueness to each database file context
     db_name_str = database_index_name_str
     #puts @fcmpa_db_indexer_db.get(fcmpa_db_index_location)
-  
+   #puts @fcmpa_db_indexer_db.get(fcmpa_db_index_location)
+   #gets
     return true if !@fcmpa_db_indexer_db.get(fcmpa_db_index_location)["db_name"].nil? #guard clause to prevent overwriting the database index file
   #debug "THIS: #{@fcmpa_db_indexer_db.get(fcmpa_db_index_location)["db_name"]}"
     #gets
@@ -228,16 +242,18 @@ class FileContextManagedPartitionedArray
       #debug "db path debug #{db_path}"
       #debug "db index debug #{db_index.keys}"
       
-      @fcmpa_active_databases[database_index_name] = ManagedPartitionedArray.new(endless_add: @db_endless_add,
-                                                                                dynamically_allocates: @db_dynamically_allocates,
-                                                                                has_capacity: @db_has_capacity,
-                                                                                max_capacity: @db_max_capacity,
-                                                                                partition_addition_amount: @db_partition_addition_amount,
-                                                                                partition_amount_and_offset: @db_partition_amount_and_offset,
-                                                                                db_size: @db_size,
-                                                                                db_name: db_name,
-                                                                                db_path: db_path,
-                                                                                partition_archive_id: @db_partition_archive_id)
+      @fcmpa_active_databases[database_index_name] = ManagedPartitionedArray.new(
+                                                                                  endless_add: @db_endless_add,
+                                                                                  dynamically_allocates: @db_dynamically_allocates,
+                                                                                  has_capacity: @db_has_capacity,
+                                                                                  max_capacity: @db_max_capacity,
+                                                                                  partition_addition_amount: @db_partition_addition_amount,
+                                                                                  partition_amount_and_offset: @db_partition_amount_and_offset,
+                                                                                  db_size: @db_size,
+                                                                                    db_name: db_name,
+                                                                                  db_path: db_path,
+                                                                                  partition_archive_id: @db_partition_archive_id
+                                                                                )
 
                                                                                 
       @fcmpa_active_databases[database_index_name].allocate

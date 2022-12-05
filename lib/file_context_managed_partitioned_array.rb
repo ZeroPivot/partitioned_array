@@ -28,13 +28,14 @@ class FileContextManagedPartitionedArray
   PARTITION_ADDITION_AMOUNT = 5
   MAX_CAPACITY = "data_arr_size" # : :data_arr_size; a keyword to add to the array until its full with no buffer additions
   HAS_CAPACITY = true # if false, then the max_capacity is ignored and at_capacity? raises if @has_capacity == false
+  DB_MAX_CAPACITY = "data_arr_size"
+  FCMPA_MAX_CAPACITY = "data_arr_size"
   DYNAMICALLY_ALLOCATES = true
-  ENDLESS_ADD = false
   FCMPA_DB_INDEXER_NAME = "FCMPA_DB_INDEX"
   FCMPA_DB_FOLDER_NAME = "./DB/FCMPA"
   DB_NAME = "fcmpa_db"
   DB_PATH = "./DB/FCMPA_DB"
-  DB_HAS_CAPACITY = true
+  DB_HAS_CAPACITY = false
   DB_DYNAMICALLY_ALLOCATES = true
   DB_ENDLESS_ADD = true
   FCMPA_DB_INDEX_LOCATION = 0
@@ -42,7 +43,7 @@ class FileContextManagedPartitionedArray
   FCMPA_ENDLESS_ADD = true
   FCMPA_DB_DYNAMICALLY_ALLOCATES = true
   FCMPA_PARTITION_ADDITION_AMOUNT = 5
-  FCMPA_DB_HAS_CAPACITY = true
+  FCMPA_DB_HAS_CAPACITY = false
   DB_PARTITION_AMOUNT = 9
   DB_PARTITION_OFFSET = 1
   DB_PARTITION_ADDITION_AMOUNT = 5
@@ -56,6 +57,8 @@ class FileContextManagedPartitionedArray
                  fcmpa_partition_addition_amount: FCMPA_PARTITION_ADDITION_AMOUNT,
                  fcmpa_db_dynamically_allocates: FCMPA_DB_DYNAMICALLY_ALLOCATES,
                  fcmpa_endless_add: FCMPA_ENDLESS_ADD,
+                 fcmpa_max_capacity: FCMPA_MAX_CAPACITY,
+                 db_max_capacity: DB_MAX_CAPACITY,
                  traverse_hash: TRAVERSE_HASH,
                  partition_addition_amount: PARTITION_ADDITION_AMOUNT,
                  db_size: DB_SIZE,
@@ -71,7 +74,9 @@ class FileContextManagedPartitionedArray
                  db_partition_amount_and_offset: DB_PARTITION_AMOUNT + DB_PARTITION_OFFSET,
                  db_dynamically_allocates: DB_DYNAMICALLY_ALLOCATES,
                  fcmpa_db_index_location: FCMPA_DB_INDEX_LOCATION)
-
+    @db_max_capacity = db_max_capacity
+    @fcmpa_max_capacity = fcmpa_max_capacity
+    @db_max_capacity = max_capacity
     @fcmpa_partition_amount_and_offset = fcmpa_partition_amount_and_offset
     @db_partition_amount_and_offset =  db_partition_amount_and_offset
     @fcmpa_db_size = fcmpa_db_size
@@ -112,7 +117,8 @@ class FileContextManagedPartitionedArray
                                                        partition_amount_and_offset: @fcmpa_partition_amount_and_offset,
                                                        db_size: @fcmpa_db_size,
                                                        db_name: @fcmpa_db_indexer_name,
-                                                       db_path: @fcmpa_db_folder_name)
+                                                       db_path: @fcmpa_db_folder_name,
+                                                       max_capacity: @fcmpa_max_capacity)
     
     #puts @fcmpa_db_indexer_db
     @fcmpa_db_indexer_db.allocate
@@ -127,7 +133,7 @@ class FileContextManagedPartitionedArray
   def new_database(database_index_name_str, fcmpa_db_index_location: @fcmpa_db_index_location)
     timestamp_str = @timestamp_str # the string to give uniqueness to each database file context
     db_name_str = database_index_name_str
-    puts @fcmpa_db_indexer_db.get(fcmpa_db_index_location)
+    #puts @fcmpa_db_indexer_db.get(fcmpa_db_index_location)
   
     return true if !@fcmpa_db_indexer_db.get(fcmpa_db_index_location)["db_name"].nil? #guard clause to prevent overwriting the database index file
   #debug "THIS: #{@fcmpa_db_indexer_db.get(fcmpa_db_index_location)["db_name"]}"
@@ -145,6 +151,7 @@ class FileContextManagedPartitionedArray
       temp = ManagedPartitionedArray.new(endless_add: @db_endless_add,
                                         dynamically_allocates: @db_dynamically_allocates,
                                         has_capacity: @db_has_capacity,
+                                        max_capacity: @db_max_capacity,
                                         partition_addition_amount: @db_partition_addition_amount,
                                         partition_amount_and_offset: @db_partition_amount_and_offset,
                                         db_size: @db_size,
@@ -190,7 +197,7 @@ class FileContextManagedPartitionedArray
   def stop_database!(database_index_name)
     @fcmpa_db_indexer_db.set(@fcmpa_db_index_location) do |entry|
       entry.delete(database_index_name)
-      debug "deleted database #{database_index_name} from index"
+      #debug "deleted database #{database_index_name} from index"
     end
     @fcmpa_db_indexer_db.save_everything_to_files!
     @fcmpa_active_databases.delete(database_index_name)

@@ -1,12 +1,13 @@
 require_relative 'file_context_managed_partitioned_array'
 
+# VERSION v1.0.1a - -left off at line 169
 # VERSION v0.1.0a - BASICS are working, in new_database_test (12/6/2022 - 8:14am)
 # VERSION v0.0.6
 # VERSION v0.0.5
 
 class FileContextManagedPartitionedArrayManager
   
-  attr_accessor :db_path, :fcmpa_db_indexer_db, :fcmpa_active_databases, :active_database, :db_file_incrementor, :db_file_location, :db_path, :db_name, :db_size, :db_endless_add, :db_has_capacity, :fcmpa_db_indexer_name, :fcmpa_db_folder_name, :fcmpa_db_size, :fcmpa_partition_amount_and_offset, :db_partition_amount_and_offset, :partition_addition_amount, :db_dynamically_allocates, :timestamp_str
+  attr_accessor :fcmpa_db_indexer_db, :fcmpa_active_databases, :active_database, :db_file_incrementor, :db_file_location, :db_path, :db_name, :db_size, :db_endless_add, :db_has_capacity, :fcmpa_db_indexer_name, :fcmpa_db_folder_name, :fcmpa_db_size, :fcmpa_partition_amount_and_offset, :db_partition_amount_and_offset, :partition_addition_amount, :db_dynamically_allocates, :timestamp_str
  
   # DB_SIZE > PARTITION_AMOUNT
   TRAVERSE_HASH = true
@@ -36,21 +37,6 @@ class FileContextManagedPartitionedArrayManager
   DB_PARTITION_ARCHIVE_ID = 0
   DB_SIZE = 20
   DB_PARTITION_ADDITION_AMOUNT = 5
-
-
-  MAN_DB_PARTITION_AMOUNT = 9
-  MAN_DB_OFFSET = 1
-  MAN_DB_SIZE = 20
-  MAN_DB_DYNAMICALLY_ALLOCATES = true
-  MAN_DB_ENDLESS_ADD = true
-  MAN_DB_INDEX_LOCATION = 0
-  MAN_DB_PARTITION_ADDITION_AMOUNT = 5
-  MAN_DB_HAS_CAPACITY = true
-  MAN_DB_MAX_CAPACITY = "data_arr_size"
-  MAN_DB_FOLDER_NAME = "MAN_INDEX_DB" 
-  MAN_DB_INDEXER_NAME = "./DB/MAN_INDEX_DB"
-  MAN_DB_PARTITION_ARCHIVE_ID = 0
-
   # db
   # fcmpa
   # man_db
@@ -110,7 +96,7 @@ class FileContextManagedPartitionedArrayManager
     @man_index = FileContextManagedPartitionedArray.new(fcmpa_db_partition_amount_and_offset: @fcmpa_db_partition_amount_and_offset,
                                                         fcmpa_db_size: @fcmpa_db_size,
                                                         fcmpa_db_indexer_name: @fcmpa_db_indexer_name+"_"+"indexer",
-                                                        fcmpa_db_folder_name: @fcmpa_db_folder_name,
+                                                        fcmpa_db_folder_name: @fcmpa_db_folder_name+"_"+"indexer",
                                                         fcmpa_db_dynamically_allocates: @fcmpa_db_dynamically_allocates,
                                                         fcmpa_db_endless_add: @fcmpa_endless_add,
                                                         fcmpa_db_partition_addition_amount: @man_db_partition_addition_amount,
@@ -134,7 +120,7 @@ class FileContextManagedPartitionedArrayManager
     @man_db = FileContextManagedPartitionedArray.new(fcmpa_db_partition_amount_and_offset: @fcmpa_db_partition_amount_and_offset,
                                                         fcmpa_db_size: @fcmpa_db_size,
                                                         fcmpa_db_indexer_name: @fcmpa_db_indexer_name+"_"+"database",
-                                                        fcmpa_db_folder_name: @fcmpa_db_folder_name,
+                                                        fcmpa_db_folder_name: @fcmpa_db_folder_name+"_"+"database",
                                                         fcmpa_db_dynamically_allocates: @fcmpa_db_dynamically_allocates,
                                                         fcmpa_db_endless_add: @fcmpa_endless_add,
                                                         fcmpa_db_partition_addition_amount: @man_db_partition_addition_amount,
@@ -180,23 +166,38 @@ class FileContextManagedPartitionedArrayManager
     end
   end
 
-# the index is the database name, and man__db maintains the databases defined by the index
-  def new_databases_test(database_name, database_table)
+# left off working with new_table, and, setting the table apart from the database and placing them into independent folders (the problem is file locations)
+  def new_table(database_table:, database_name:)
+    @man_db.start_database!(database_name, db_path: @db_path+"/FCPAM_DB", only_path: true)
+    @man_index.start_database!(database_table)
+    @man_index.db(database_name).set(0) do |hash|
+      hash[database_name] = { "db_name" => database_name, "db_path" => @db_path+"/FCPAM_DB", "db_table_name" => database_table}
+    end
+  end
 
-    @man_index.start_database!(database_name)
-    @man_db.start_database!(database_table, db_path: @db_path+"/FCPAM_MAN_INDEX", only_path: true)
+# the index is the database name, and man__db maintains the databases defined by the index
+  def new_database(database_name)
+    @man_index.start_database!(database_name, db_path: @db_path+"/FCPAM_DB", only_path: true)
+    #@man_db.start_database!(database_table, db_path: @db_path+"/FCPAM_MAN_INDEX", only_path: true) if database_table
+    #new_table(database_table: database_table, database_name: database_name) if database_table
+    @man_index.db(database_name).save_everything_to_files!
+    #@man_index.db(database_name).set(0) do |hash|      
+    #  hash[database_name] = { "db_name" => database_name, "db_path" => @db_path+"/FCPAM_MAN_INDEX", "db_table_name" => database_table}        
+    #end if database_table     
+    #@man_db.db(database_table).save_everything_to_files! if database_table
+    #@man_index.start_database!(database_name)
+    #@man_db.start_database!(database_table, db_path: @db_path+"/FCPAM_MAN_INDEX", only_path: true)
     #puts @man_db.db(database_name).data_arr
   #  puts @man_index.db("database_tables_index")
-    @man_index.db(database_name).set(0) do |hash|      
-      hash[database_name] = { "db_name" => database_name, "db_path" => @db_path+"/FCPAM_MAN_INDEX", "db_table_name" => database_table}
+    #@man_index.db(database_name).set(0) do |hash|      
+    #  hash[database_name] = { "db_name" => database_name, "db_path" => @db_path+"/FCPAM_MAN_INDEX", "db_table_name" => database_table}
       
-    end      
+    #end      
 
   
     #puts @man_index.db(database_name).data_arr.to_s
    
-    @man_index.db(database_name).save_everything_to_files!
-    @man_db.db(database_table).save_everything_to_files!
+  
   #  @man_index.allocate
   #  @man_db.allocate
   #  @man_index.save_everything_to_files!
@@ -229,6 +230,6 @@ class FileContextManagedPartitionedArrayManager
 end
 
 a = FileContextManagedPartitionedArrayManager.new
-a.new_databases_test("test_database_run", "test_database_table_run")
-a.new_databases_test("test_database_run2", "test_database_table_run2")
-a.man
+#a.new_database("test_database_run")
+a.new_database("test_database_run2")
+#a.new_table(database_table: "test_database_table_run", database_name: "test_database_run")

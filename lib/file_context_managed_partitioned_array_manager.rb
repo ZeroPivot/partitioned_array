@@ -18,7 +18,7 @@ class FileContextManagedPartitionedArrayManager
   FCMPA_DB_HAS_CAPACITY = true
   FCMPA_DB_MAX_CAPACITY = "data_arr_size"
   FCMPA_DB_INDEXER_NAME = "FCMPA_DB_INDEX"
-  FCMPA_DB_FOLDER_NAME = "./DB/FCMPAM_INDEX_DB"
+  FCMPA_DB_FOLDER_NAME = "./DB/FCMPAM_DB_INDEX"
   FCMPA_DB_PARTITION_ARCHIVE_ID = 0
   FCMPA_DB_SIZE = 20
   FCMPA_DB_INDEX_LOCATION = 0
@@ -76,18 +76,7 @@ class FileContextManagedPartitionedArrayManager
                  fcmpa_db_dynamically_allocates: FCMPA_DB_DYNAMICALLY_ALLOCATES,
                  fcmpa_db_endless_add: FCMPA_DB_ENDLESS_ADD,
                  fcmpa_db_max_capacity: FCMPA_DB_MAX_CAPACITY, 
-                 fcmpa_db_partition_archive_id: FCMPA_DB_PARTITION_ARCHIVE_ID,         
-                 man_db_offset: MAN_DB_OFFSET,
-                 man_db_size: MAN_DB_SIZE,          
-                 man_db_folder_name: MAN_DB_FOLDER_NAME,
-                 man_db_has_capacity: MAN_DB_HAS_CAPACITY,
-                 man_db_dynamically_allocates: MAN_DB_DYNAMICALLY_ALLOCATES,
-                 man_db_endless_add: MAN_DB_ENDLESS_ADD,
-                 man_db_partition_addition_amount: MAN_DB_PARTITION_ADDITION_AMOUNT,
-                 man_db_partition_amount_and_offset: MAN_DB_PARTITION_AMOUNT + MAN_DB_OFFSET,                 
-                 man_db_indexer_name: MAN_DB_INDEXER_NAME,
-                 man_db_partition_archive_id: MAN_DB_PARTITION_ARCHIVE_ID,
-                 man_db_max_capacity: MAN_DB_MAX_CAPACITY
+                 fcmpa_db_partition_archive_id: FCMPA_DB_PARTITION_ARCHIVE_ID                 
                  )
           
     @fcmpa_db_partition_archive_id = fcmpa_db_partition_archive_id
@@ -115,19 +104,7 @@ class FileContextManagedPartitionedArrayManager
     @db_max_capacity = db_max_capacity
     @db_partition_addition_amount = db_partition_addition_amount
     @db_partition_archive_id = db_partition_archive_id
-    # manager database /aritywolf/gallery,etc #=> in this case, aritywolf is the manager of gallery,etc
-    @man_db_offset = man_db_offset
-    @man_db_size = man_db_size
-    @man_db_folder_name = man_db_folder_name
-    @man_db_has_capacity = man_db_has_capacity
-    @man_db_dynamically_allocates = man_db_dynamically_allocates
-    @man_db_endless_add = man_db_endless_add
-    @man_db_partition_addition_amount = man_db_partition_addition_amount
-    @man_db_partition_amount_and_offset = man_db_partition_amount_and_offset
-    #@man_db_indexer_name = man_db_indexer_name
-    @man_db_indexer_name= man_db_indexer_name
-    @man_db_partition_archive_id = man_db_partition_archive_id
-    @man_db_max_capacity = man_db_max_capacity
+  
     @timestamp_str = Time.now.strftime("%Y-%m-%d-%H-%M-%S")
 
     @man_index = FileContextManagedPartitionedArray.new(fcmpa_db_partition_amount_and_offset: @fcmpa_db_partition_amount_and_offset,

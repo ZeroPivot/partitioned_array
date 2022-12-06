@@ -17,7 +17,7 @@ require_relative 'managed_partitioned_array'
 # VERSION v0.2.0a 
 # Refining before field testing
 class FileContextManagedPartitionedArray
-  attr_accessor :data_arr, :fcmpa_db_indexer_db, :fcmpa_active_databases, :active_database, :db_file_incrementor, :db_file_location, :db_path, :db_name, :db_size, :db_endless_add, :db_has_capacity, :fcmpa_db_indexer_name, :fcmpa_db_folder_name, :fcmpa_db_size, :fcmpa_partition_amount_and_offset, :db_partition_amount_and_offset, :partition_addition_amount, :db_dynamically_allocates, :timestamp_str
+  attr_accessor :fcmpa_db_indexer_db, :fcmpa_active_databases, :active_database, :db_file_incrementor, :db_file_location, :db_path, :db_name, :db_size, :db_endless_add, :db_has_capacity, :fcmpa_db_indexer_name, :fcmpa_db_folder_name, :fcmpa_db_size, :fcmpa_partition_amount_and_offset, :db_partition_amount_and_offset, :partition_addition_amount, :db_dynamically_allocates, :timestamp_str
  
   # DB_SIZE > PARTITION_AMOUNT  
   DB_SIZE = 20 # Caveat: The DB_SIZE is the total # of partitions, but you subtract it by one since the first partition is 0, in code. that is, it is from 0 to DB_SIZE-1, but DB_SIZE is then the max allocated DB size
@@ -148,20 +148,27 @@ class FileContextManagedPartitionedArray
     Time.now.to_i.to_s
   end
 
-  def new_database(database_index_name_str, fcmpa_db_index_location: @fcmpa_db_index_location)
+  def new_database(database_index_name_str, fcmpa_db_index_location: @fcmpa_db_index_location, db_name: @db_name, db_path: @db_path, only_path: false)
     timestamp_str = new_timestamp # the string to give uniqueness to each database file context
     db_name_str = database_index_name_str
     #puts @fcmpa_db_indexer_db.get(fcmpa_db_index_location)
    #puts @fcmpa_db_indexer_db.get(fcmpa_db_index_location)
    #gets
     return true if !@fcmpa_db_indexer_db.get(fcmpa_db_index_location)["db_name"].nil? #guard clause to prevent overwriting the database index file
+    path = ""
+    if only_path
+      path = db_path
+    else
+      path = db_path+"_"+db_name_str
+    end
 
     @fcmpa_db_indexer_db.set(fcmpa_db_index_location) do |entry|
-      entry[db_name_str] = {"db_path" => @db_path+"_"+db_name_str, "db_name" => @db_name+"_"+db_name_str}
+      entry[db_name_str] = {"db_path" => @db_path+"_"+db_name_str, "db_name" => @db_name+"_"+db_name_str} if !only_path
+      entry[db_name_str] = {"db_path" => path, "db_name" => db_name+"_"+db_name_str} if only_path
+
     end
     @fcmpa_db_indexer_db.save_everything_to_files!
-    
-    # fcmpa db indexer variable takes the responsibility of maintaining these databases via key names
+  #db indexer variable takes the responsibility of maintaining these databases via key names
     temp = ManagedPartitionedArray.new(endless_add: @db_endless_add,
                                       dynamically_allocates: @db_dynamically_allocates,
                                       has_capacity: @db_has_capacity,
@@ -170,9 +177,10 @@ class FileContextManagedPartitionedArray
                                       partition_amount_and_offset: @db_partition_amount_and_offset,
                                       db_size: @db_size,
                                       db_name: @db_name+"_"+db_name_str,
-                                      db_path: @db_path+"_"+db_name_str,
+                                      db_path: path,
                                       partition_archive_id: @db_partition_archive_id)
     temp.allocate
+    puts "db_path: #{temp.db_path}"
     @fcmpa_active_databases[db_name_str] = temp
     temp.save_everything_to_files!
     return temp
@@ -215,11 +223,12 @@ class FileContextManagedPartitionedArray
   end
 
   # left off making it so that the database auto allocates and auto loads and saves on call
-  def start_database!(database_index_name, raise_on_no_db: false)
+  def start_database!(database_index_name, raise_on_no_db: false, db_name: @db_name, db_path: @db_path, only_path: false, only_db_name: false)
     db_index = @fcmpa_db_indexer_db.get(@fcmpa_db_index_location)
     if db_index[database_index_name].nil?
       raise if raise_on_no_db 
-      new_database(database_index_name) #start a new database if one wasn't assigned
+      puts "new database"
+      new_database(database_index_name, db_name: db_name, db_path: db_path) #start a new database if one wasn't assigned
     else
       #debug "db index debug #{db_index}"    
       db_name = db_index[database_index_name]["db_name"]

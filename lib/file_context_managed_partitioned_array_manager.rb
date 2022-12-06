@@ -1,11 +1,12 @@
 require_relative 'file_context_managed_partitioned_array'
 
+# VERSION v0.1.0a - BASICS are working, in new_database_test (12/6/2022 - 8:14am)
 # VERSION v0.0.6
 # VERSION v0.0.5
 
 class FileContextManagedPartitionedArrayManager
   
-  attr_accessor :data_arr, :fcmpa_db_indexer_db, :fcmpa_active_databases, :active_database, :db_file_incrementor, :db_file_location, :db_path, :db_name, :db_size, :db_endless_add, :db_has_capacity, :fcmpa_db_indexer_name, :fcmpa_db_folder_name, :fcmpa_db_size, :fcmpa_partition_amount_and_offset, :db_partition_amount_and_offset, :partition_addition_amount, :db_dynamically_allocates, :timestamp_str
+  attr_accessor :db_path, :fcmpa_db_indexer_db, :fcmpa_active_databases, :active_database, :db_file_incrementor, :db_file_location, :db_path, :db_name, :db_size, :db_endless_add, :db_has_capacity, :fcmpa_db_indexer_name, :fcmpa_db_folder_name, :fcmpa_db_size, :fcmpa_partition_amount_and_offset, :db_partition_amount_and_offset, :partition_addition_amount, :db_dynamically_allocates, :timestamp_str
  
   # DB_SIZE > PARTITION_AMOUNT
   TRAVERSE_HASH = true
@@ -206,20 +207,17 @@ class FileContextManagedPartitionedArrayManager
   def new_databases_test(database_name, database_table)
 
     @man_index.start_database!(database_name)
-    @man_db.start_database!(database_table)
-
+    @man_db.start_database!(database_table, db_path: @db_path+"/FCPAM_MAN_INDEX", only_path: true)
+    #puts @man_db.db(database_name).data_arr
   #  puts @man_index.db("database_tables_index")
-    @man_index.db(database_name).set(0) do |hash|
-      hash[database_name]["db_name"] = database_name
-      hash[database_name]["db_path"] = @db_path+"_"+database_name
-      hash[database_name]["db_table_name"] = database_table
+    @man_index.db(database_name).set(0) do |hash|      
+      hash[database_name] = { "db_name" => database_name, "db_path" => @db_path+"/FCPAM_MAN_INDEX", "db_table_name" => database_table}
       
     end      
 
   
-    puts @man_index.db(database_name)
-    gets
-
+    puts @man_index.db(database_name).data_arr.to_s
+   
     @man_index.db(database_name).save_everything_to_files!
     @man_db.db(database_table).save_everything_to_files!
   #  @man_index.allocate
@@ -229,10 +227,20 @@ class FileContextManagedPartitionedArrayManager
   end
 
   def man(database_name = "test_database_run")
-    puts @man_db
+  #puts @man_db
    database = @man_db
-    puts @man_index
-  puts @man_index.db("test_database_run").get(0)
+    #puts @man_index
+  #puts @man_index.db("test_database_run").data_arr
+
+    table = @man_index.db("test_database_run").get(0)["test_database_run"]["db_table_name"]
+    get_table_from_db = @man_db.db(table)
+    #puts get_table_from_db
+    @man_db.db(table).set(0) do |hash|
+      hash["test db input"] = "works"
+    end
+
+    @man_db.db(table).save_everything_to_files!
+    @man_index.db("test_database_run").save_everything_to_files!
 
   end
 
@@ -245,4 +253,5 @@ end
 
 a = FileContextManagedPartitionedArrayManager.new
 a.new_databases_test("test_database_run", "test_database_table_run")
+a.new_databases_test("test_database_run2", "test_database_table_run2")
 a.man

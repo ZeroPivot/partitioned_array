@@ -169,9 +169,9 @@ class FileContextManagedPartitionedArrayManager
 # left off working with new_table, and, setting the table apart from the database and placing them into independent folders (the problem is file locations)
   def new_table(database_table:, database_name:)
     @man_db.start_database!(database_name, db_path: @db_path+"/FCPAM_DB", only_path: true)
-    @man_index.start_database!(database_table)
+    @man_index.start_database!(database_table, db_path: @db_path+"/FCPAM_DB_table[#{database_name}]", only_path: true)
     @man_index.db(database_name).set(0) do |hash|
-      hash[database_name] = { "db_name" => database_name, "db_path" => @db_path+"/FCPAM_DB", "db_table_name" => database_table}
+      hash[database_name] = { "db_name" => database_name, "db_path" => @db_path+"/FCPAM_DB[#{database_name}]", "db_table_name" => database_table}
     end
   end
 
@@ -232,4 +232,4 @@ end
 a = FileContextManagedPartitionedArrayManager.new
 #a.new_database("test_database_run")
 a.new_database("test_database_run2")
-#a.new_table(database_table: "test_database_table_run", database_name: "test_database_run")
+a.new_table(database_table: "test_database_table_run", database_name: "test_database_run2")

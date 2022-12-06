@@ -180,7 +180,7 @@ class FileContextManagedPartitionedArray
                                       db_path: path,
                                       partition_archive_id: @db_partition_archive_id)
     temp.allocate
-    puts "db_path: #{temp.db_path}"
+    #puts "db_path: #{temp.db_path}"
     @fcmpa_active_databases[db_name_str] = temp
     temp.save_everything_to_files!
     return temp
@@ -227,7 +227,7 @@ class FileContextManagedPartitionedArray
     db_index = @fcmpa_db_indexer_db.get(@fcmpa_db_index_location)
     if db_index[database_index_name].nil?
       raise if raise_on_no_db 
-      puts "new database"
+      #puts "new database"
       new_database(database_index_name, db_name: db_name, db_path: db_path) #start a new database if one wasn't assigned
     else
       #debug "db index debug #{db_index}"    

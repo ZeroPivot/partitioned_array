@@ -216,7 +216,7 @@ class FileContextManagedPartitionedArrayManager
     end      
 
   
-    puts @man_index.db(database_name).data_arr.to_s
+    #puts @man_index.db(database_name).data_arr.to_s
    
     @man_index.db(database_name).save_everything_to_files!
     @man_db.db(database_table).save_everything_to_files!

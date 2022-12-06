@@ -223,7 +223,7 @@ class FileContextManagedPartitionedArray
   end
 
   # left off making it so that the database auto allocates and auto loads and saves on call
-  def start_database!(database_index_name, raise_on_no_db: false, db_name: @db_name, db_path: @db_path, only_path: false, only_db_name: false)
+  def start_database!(database_index_name, raise_on_no_db: false, db_name: @db_name, db_path: @db_path, only_path: false, only_name: false)
     db_index = @fcmpa_db_indexer_db.get(@fcmpa_db_index_location)
     if db_index[database_index_name].nil?
       raise if raise_on_no_db 

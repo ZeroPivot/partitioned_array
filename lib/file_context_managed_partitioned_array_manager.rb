@@ -168,16 +168,17 @@ class FileContextManagedPartitionedArrayManager
 
 # left off working with new_table, and, setting the table apart from the database and placing them into independent folders (the problem is file locations)
   def new_table(database_table:, database_name:)
-    @man_db.start_database!(database_name, db_path: @db_path+"/FCPAM_DB", only_path: true)
-    @man_index.start_database!(database_table, db_path: @db_path+"/FCPAM_DB_table[#{database_name}]", only_path: true)
+    @man_db.start_database!(database_name, db_path: @db_path+"/MAN_DB/DB_ENTRY", only_path: true, only_name: true, db_name: "DB_"+database_name)
+    @man_index.start_database!(database_table, db_path: @db_path+"/MAN_DB_INDEX/DB_TABLE", only_path: true)
     @man_index.db(database_name).set(0) do |hash|
-      hash[database_name] = { "db_name" => database_name, "db_path" => @db_path+"/FCPAM_DB[#{database_name}]", "db_table_name" => database_table}
+      hash[database_name] = { "db_name" => database_name, "db_path" => @db_path+"/DB_#{database_name}", "db_table_name" => database_table}
     end
   end
 
 # the index is the database name, and man__db maintains the databases defined by the index
   def new_database(database_name)
-    @man_index.start_database!(database_name, db_path: @db_path+"/FCPAM_DB", only_path: true)
+    @man_index.start_database!(database_name, db_path: @db_path+"/MAN_DB_INDEX/DB_ENTRY", only_path: true, only_name: false, db_name: "DB_"+database_name)
+    puts @man_index.db(database_name).to_s
     #@man_db.start_database!(database_table, db_path: @db_path+"/FCPAM_MAN_INDEX", only_path: true) if database_table
     #new_table(database_table: database_table, database_name: database_name) if database_table
     @man_index.db(database_name).save_everything_to_files!
@@ -232,4 +233,5 @@ end
 a = FileContextManagedPartitionedArrayManager.new
 #a.new_database("test_database_run")
 a.new_database("test_database_run2")
-a.new_table(database_table: "test_database_table_run", database_name: "test_database_run2")
+a.new_table(database_table: "test_database_table_run2", database_name: "test_database_run2")
+#a.new_table(database_table: "test_database_table_run", database_name: "test_database_run2")

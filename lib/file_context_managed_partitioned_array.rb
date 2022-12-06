@@ -1,4 +1,6 @@
 require_relative 'managed_partitioned_array'
+
+# VERSION v0.2.8 - reduced redundancy that happened by accident
 # VERSION v0.2.7a - organized variables, fixed database overwrite bug, which was just giving each database "table" in the file heiratchy the name of itself
 # VERSION v0.2.6 - organized variables, some debugging to make sure everything is set correctly initially - 11:31AM
 # VERSION v0.2.5 - 2022-12-05 10:10AM
@@ -148,23 +150,23 @@ class FileContextManagedPartitionedArray
     Time.now.to_i.to_s
   end
 
-  def new_database(database_index_name_str, fcmpa_db_index_location: @fcmpa_db_index_location, db_name: @db_name, db_path: @db_path, only_path: false)
+  def new_database(database_index_name_str, fcmpa_db_index_location: @fcmpa_db_index_location, db_name: @db_name, db_path: @db_path, only_path: false, only_name: false)
     timestamp_str = new_timestamp # the string to give uniqueness to each database file context
     db_name_str = database_index_name_str
     #puts @fcmpa_db_indexer_db.get(fcmpa_db_index_location)
    #puts @fcmpa_db_indexer_db.get(fcmpa_db_index_location)
    #gets
     return true if !@fcmpa_db_indexer_db.get(fcmpa_db_index_location)["db_name"].nil? #guard clause to prevent overwriting the database index file
-    path = ""
-    if only_path
-      path = db_path
-    else
+    #path = ""
+    #if only_path
+    #  path = db_path
+    #else
       path = db_path+"_"+db_name_str
-    end
+    #end
 
     @fcmpa_db_indexer_db.set(fcmpa_db_index_location) do |entry|
-      entry[db_name_str] = {"db_path" => @db_path+"_"+db_name_str, "db_name" => @db_name+"_"+db_name_str} if !only_path
-      entry[db_name_str] = {"db_path" => path, "db_name" => db_name+"_"+db_name_str} if only_path
+      #entry[db_name_str] = {"db_path" => @db_path+"_"+db_name_str, "db_name" => @db_name+"_"+db_name_str} if !only_path
+      entry[db_name_str] = {"db_path" => path, "db_name" => db_name+"_"+db_name_str}# if only_path
 
     end
     @fcmpa_db_indexer_db.save_everything_to_files!
@@ -176,7 +178,7 @@ class FileContextManagedPartitionedArray
                                       partition_addition_amount: @db_partition_addition_amount,
                                       partition_amount_and_offset: @db_partition_amount_and_offset,
                                       db_size: @db_size,
-                                      db_name: @db_name+"_"+db_name_str,
+                                      db_name: db_name+"_"+db_name_str,
                                       db_path: path,
                                       partition_archive_id: @db_partition_archive_id)
     temp.allocate
@@ -229,6 +231,8 @@ class FileContextManagedPartitionedArray
       raise if raise_on_no_db 
       #puts "new database"
       new_database(database_index_name, db_name: db_name, db_path: db_path) #start a new database if one wasn't assigned
+      puts "db_name: #{db_name}"
+      puts "db_path: #{db_path}"
     else
       #debug "db index debug #{db_index}"    
       db_name = db_index[database_index_name]["db_name"]

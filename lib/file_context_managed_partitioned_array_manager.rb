@@ -1,5 +1,6 @@
 require_relative 'file_context_managed_partitioned_array'
 
+# VERSION v1.0.2a - working on new_database, where the database table entries have to contain an array of the tables, so the database knows which tables belong to it
 # VERSION v1.0.1a - -left off at line 169
 # VERSION v0.1.0a - BASICS are working, in new_database_test (12/6/2022 - 8:14am)
 # VERSION v0.0.6
@@ -165,19 +166,21 @@ class FileContextManagedPartitionedArrayManager
       @man_index.save_everything_to_files!
     end
   end
-
+# update: left off worrying about the db_table_name entry having to contain an array of the table names so that the database knows which tables to look for and which ones belong to it
 # left off working with new_table, and, setting the table apart from the database and placing them into independent folders (the problem is file locations)
   def new_table(database_table:, database_name:)
-    @man_db.start_database!(database_name, db_path: @db_path+"/MAN_DB/DB_ENTRY", only_path: true, only_name: true, db_name: "DB_"+database_name)
-    @man_index.start_database!(database_table, db_path: @db_path+"/MAN_DB_INDEX/DB_TABLE", only_path: true)
+    @man_db.start_database!(database_name, db_path: @db_path+"/MAN_DB_INDEX/INDEX", only_path: true, only_name: true, db_name: "INDEX")
+    @man_index.start_database!(database_table, db_path: @db_path+"/MAN_DB_TABLE/#{database_name}/TABLE", only_path: true, db_name: "TABLE")
+    
     @man_index.db(database_name).set(0) do |hash|
       hash[database_name] = { "db_name" => database_name, "db_path" => @db_path+"/DB_#{database_name}", "db_table_name" => database_table}
     end
+    puts @man_index.db(database_name).get(0)["db_table_name"]
   end
 
 # the index is the database name, and man__db maintains the databases defined by the index
   def new_database(database_name)
-    @man_index.start_database!(database_name, db_path: @db_path+"/MAN_DB_INDEX/DB_ENTRY", only_path: true, only_name: false, db_name: "DB_"+database_name)
+    @man_index.start_database!(database_name, db_path: @db_path+"/MAN_DB_INDEX/INDEX", only_path: true, only_name: false, db_name: "INDEX")
     puts @man_index.db(database_name).to_s
     #@man_db.start_database!(database_table, db_path: @db_path+"/FCPAM_MAN_INDEX", only_path: true) if database_table
     #new_table(database_table: database_table, database_name: database_name) if database_table
@@ -232,6 +235,6 @@ end
 
 a = FileContextManagedPartitionedArrayManager.new
 #a.new_database("test_database_run")
-a.new_database("test_database_run2")
-a.new_table(database_table: "test_database_table_run2", database_name: "test_database_run2")
+a.new_database("test_database_run")
+a.new_table(database_table: "test_database_table_run", database_name: "test_database_run")
 #a.new_table(database_table: "test_database_table_run", database_name: "test_database_run2")

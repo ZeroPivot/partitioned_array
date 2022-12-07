@@ -180,7 +180,7 @@ class FileContextManagedPartitionedArrayManager
     #@man_db should contain the table entries for every database_table related to the database database_name in @man_db
 
     @man_index.start_database!(database_name, db_path: @db_path+"/MAN_DB_INDEX/INDEX", only_path: true, only_name: true, db_name: "INDEX")
-    #@man_index.start_database!(database_table, db_path: @db_path+"/MAN_DB_TABLE/#{database_name}/TABLE", only_path: true, only_name: true, db_name: "TABLE")
+    @man_db.start_database!(database_table, db_path: @db_path+"/MAN_DB_TABLE/#{database_name}/TABLE", only_path: true, only_name: true, db_name: "TABLE")
     
     #begin 
 
@@ -192,12 +192,12 @@ class FileContextManagedPartitionedArrayManager
     gets
     if old_db_table_name.nil?
       @man_index.db(database_name).set(0) do |hash|
-        hash[database_name] = { rand(9) => rand(9), "db_name" => database_name, "db_path" => @db_path+"/DB_#{database_name}", "db_table_name" => [database_table]}
+        hash[database_name] = {"db_name" => database_name, "db_path" => @db_path+"/DB_#{database_name}", "db_table_name" => [database_table]}
       end
     else
       if !old_db_table_name.include?(database_table)
         @man_index.db(database_name).set(0) do |hash|
-          hash[database_name] = { rand(9) => rand(9), "db_name" => database_name, "db_path" => @db_path+"/DB_#{database_name}", "db_table_name" => old_db_table_name << database_table}
+          hash[database_name] = {"db_name" => database_name, "db_path" => @db_path+"/DB_#{database_name}", "db_table_name" => old_db_table_name << database_table}
         end
       else
         puts "table already exists, not updating"

@@ -1,5 +1,6 @@
 require_relative 'file_context_managed_partitioned_array'
 
+# VERSION v1.0.3 - got man_db to contain the many tables of its own
 # VERSION v1.0.2a - working on new_database, where the database table entries have to contain an array of the tables, so the database knows which tables belong to it
 # VERSION v1.0.1a - -left off at line 169
 # VERSION v0.1.0a - BASICS are working, in new_database_test (12/6/2022 - 8:14am)
@@ -178,38 +179,42 @@ class FileContextManagedPartitionedArrayManager
 
     #@man_db should contain the table entries for every database_table related to the database database_name in @man_db
 
-    @man_db.start_database!(database_name, db_path: @db_path+"/MAN_DB_INDEX/INDEX", only_path: true, only_name: true, db_name: "INDEX")
-    @man_index.start_database!(database_table, db_path: @db_path+"/MAN_DB_TABLE/#{database_name}/TABLE", only_path: true, only_name: true, db_name: "TABLE")
+    @man_index.start_database!(database_name, db_path: @db_path+"/MAN_DB_INDEX/INDEX", only_path: true, only_name: true, db_name: "INDEX")
+    #@man_index.start_database!(database_table, db_path: @db_path+"/MAN_DB_TABLE/#{database_name}/TABLE", only_path: true, only_name: true, db_name: "TABLE")
     
-    begin 
+    #begin 
 
-    old_db_table_name = @man_index.db(database_table).get(0)
+    
+    old_db_table_name = @man_index.db(database_name).get(0).dig(database_name, "db_table_name")
+    puts "old_table_name was nil" if old_db_table_name.nil?
     puts "database_table: #{database_table}"
-    puts "old table names (table exists): #{old_db_table_name}"
+    #puts "old table names (table exists): #{old_db_table_name}"
     gets
-    @man_index.db(database_name).set(0) do |hash|
-      hash[database_name] = { rand(9) => rand(9), "db_name" => database_name, "db_path" => @db_path+"/DB_#{database_name}", "db_table_name" => old_db_table_name << database_table}
-   
-    end
-    puts "new table names (table doesn't exist): #{@man_index.db(database_name).get(0)[database_name]["db_table_name"]}"
-    gets
-    rescue
-      puts "database doesn't have db_table_name entry"
-      old_db_table_name = database_table
+    if old_db_table_name.nil?
       @man_index.db(database_name).set(0) do |hash|
-        hash[database_name] = { rand(9) => rand(9), "db_name" => database_name, "db_path" => @db_path+"/DB_#{database_name}", "db_table_name" => [old_db_table_name, "mark"]}
-     
+        hash[database_name] = { rand(9) => rand(9), "db_name" => database_name, "db_path" => @db_path+"/DB_#{database_name}", "db_table_name" => [database_table]}
+      end
+    else
+      if !old_db_table_name.include?(database_table)
+        @man_index.db(database_name).set(0) do |hash|
+          hash[database_name] = { rand(9) => rand(9), "db_name" => database_name, "db_path" => @db_path+"/DB_#{database_name}", "db_table_name" => old_db_table_name << database_table}
+        end
+      else
+        puts "table already exists, not updating"
       end
     end
     
-    puts "table and name in new_table beginning"
+    puts "new table names: #{@man_index.db(database_name).get(0)[database_name]}"
 
-    puts "man_index: #{@man_index.db(database_table).get(0)[database_name]["db_table_name"]}"
+    
+  
+
+    #puts "man_index: #{@man_db.db(database_name).get(0)[database_name]["db_table_name"]}"
 
     #puts "man 0: #{@man_index.db(database_table).get(0)}"
   
     @man_index.db(database_name).save_everything_to_files!
-    @man_db.db(database_name).save_everything_to_files!
+    #@man_db.db(database_name).save_everything_to_files!
   end
 
 # the index is the database name, and man__db maintains the databases defined by the index
@@ -240,8 +245,8 @@ a.new_database("test_database33")
 #end
 
 #a.new_table(database_name: "test_database33", database_table: "test_database_table23")
-#a.new_table(database_name: "test_database33", database_table: "test_database_table24")
-a.new_table(database_name: "test_database33", database_table: "test_database_table27")
+a.new_table(database_name: "test_database33", database_table: "test_database_table24")
+a.new_table(database_name: "test_database33", database_table: "test_database_table30")
 #a.new_table(database_name: "test_database33", database_table: "test_database_table27")
 #a.new_table(database_table: "test_database_table_run", database_name: "test_database_run2")
 #p "a.man: #{a.man("test_database").get(0)}"

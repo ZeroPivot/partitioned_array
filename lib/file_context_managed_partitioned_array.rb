@@ -156,7 +156,11 @@ class FileContextManagedPartitionedArray
     #puts @fcmpa_db_indexer_db.get(fcmpa_db_index_location)
    #puts @fcmpa_db_indexer_db.get(fcmpa_db_index_location)
    #gets
+   #puts "db_name_str: #{db_name_str}"
     return true if !@fcmpa_db_indexer_db.get(fcmpa_db_index_location)["db_name"].nil? #guard clause to prevent overwriting the database index file
+    #puts !@fcmpa_db_indexer_db.get(fcmpa_db_index_location)["db_name"].nil?
+    #gets
+    #puts "allocating new database (guard clause failed)"
     #path = ""
     #if only_path
     #  path = db_path
@@ -166,7 +170,7 @@ class FileContextManagedPartitionedArray
 
     @fcmpa_db_indexer_db.set(fcmpa_db_index_location) do |entry|
       #entry[db_name_str] = {"db_path" => @db_path+"_"+db_name_str, "db_name" => @db_name+"_"+db_name_str} if !only_path
-      entry[db_name_str] = {"db_path" => path, "db_name" => db_name+"_"+db_name_str}# if only_path
+      entry[db_name_str] = {"db_path" => path, "db_name" => db_name+"_"+db_name_str, "db_table_name" => [] }# if only_path
 
     end
     @fcmpa_db_indexer_db.save_everything_to_files!
@@ -184,7 +188,7 @@ class FileContextManagedPartitionedArray
     temp.allocate
     #puts "db_path: #{temp.db_path}"
     @fcmpa_active_databases[db_name_str] = temp
-    temp.save_everything_to_files!
+    #temp.save_everything_to_files!
     return temp
   end
 
@@ -230,11 +234,14 @@ class FileContextManagedPartitionedArray
     if db_index[database_index_name].nil?
       raise if raise_on_no_db 
       #puts "new database"
+      #puts "database_index_name: #{database_index_name}"
+      #puts "db_index[datatabase_table_name] #{db_index[database_index_name]} exists"
       new_database(database_index_name, db_name: db_name, db_path: db_path) #start a new database if one wasn't assigned
-      puts "db_name: #{db_name}"
-      puts "db_path: #{db_path}"
+      #puts "db_name: #{db_name}"
+      #puts "db_path: #{db_path}"
     else
-      #debug "db index debug #{db_index}"    
+      #debug "db index debug #{db_index}" 
+      #puts "db_index[database_index_name] doesn't exist"   
       db_name = db_index[database_index_name]["db_name"]
       db_path = db_index[database_index_name]["db_path"]
       #debug "db name debug #{db_name}"
@@ -253,13 +260,19 @@ class FileContextManagedPartitionedArray
                                                                                   db_path: db_path,
                                                                                   partition_archive_id: @db_partition_archive_id
                                                                                 )
+      begin
+        @fcmpa_active_databases[database_index_name].load_everything_from_files!
+        puts "database loaded"
+      rescue
+        @fcmpa_active_databases[database_index_name].allocate
+        @fcmpa_active_databases[database_index_name].save_everything_to_files!
+        puts "new database saved"
+      end
 
-      @fcmpa_active_databases[database_index_name].allocate
-    begin
-      @fcmpa_active_databases[database_index_name].load_everything_from_files!
-    rescue
-      @fcmpa_db_indexer_db.save_everything_to_files!
-    end
+    
+      
+   #   puts "saved everything to files"
+
    #if the database index is nil, then the database has not been created yet
     #if the database index is not nil, then the database has been created and we can load it
     end

@@ -169,61 +169,59 @@ class FileContextManagedPartitionedArrayManager
 # update: left off worrying about the db_table_name entry having to contain an array of the table names so that the database knows which tables to look for and which ones belong to it
 # left off working with new_table, and, setting the table apart from the database and placing them into independent folders (the problem is file locations)
   def new_table(database_table:, database_name:)
-    @man_db.start_database!(database_name, db_path: @db_path+"/MAN_DB_INDEX/INDEX", only_path: true, only_name: true, db_name: "INDEX")
-    @man_index.start_database!(database_table, db_path: @db_path+"/MAN_DB_TABLE/#{database_name}/TABLE", only_path: true, db_name: "TABLE")
+    # check to see if this table exists in the database first
+  #  if @man_index.db(database_name).get(0)[database_name]["db_table_name"] == database_table
+  # puts @man_index.db(database_name)
+  #puts "table doesnt exist"
+  
+  #  
+
     
+
+    @man_db.start_database!(database_name, db_path: @db_path+"/MAN_DB_INDEX/INDEX", only_path: true, only_name: true, db_name: "INDEX")
+    @man_index.start_database!(database_table, db_path: @db_path+"/MAN_DB_TABLE/#{database_name}/TABLE", only_path: true, only_name: true, db_name: "TABLE")
+    
+    begin 
+
+    old_db_table_name = @man_index.db(database_table).get(0)
+    puts "database_table: #{database_table}"
+    puts "old table names (table exists): #{old_db_table_name}"
+    gets
     @man_index.db(database_name).set(0) do |hash|
-      hash[database_name] = { "db_name" => database_name, "db_path" => @db_path+"/DB_#{database_name}", "db_table_name" => database_table}
+      hash[database_name] = { rand(9) => rand(9), "db_name" => database_name, "db_path" => @db_path+"/DB_#{database_name}", "db_table_name" => old_db_table_name << database_table}
+   
     end
-    puts @man_index.db(database_name).get(0)["db_table_name"]
+    puts "new table names (table doesn't exist): #{@man_index.db(database_name).get(0)[database_name]["db_table_name"]}"
+    gets
+    rescue
+      puts "database doesn't have db_table_name entry"
+      old_db_table_name = database_table
+      @man_index.db(database_name).set(0) do |hash|
+        hash[database_name] = { rand(9) => rand(9), "db_name" => database_name, "db_path" => @db_path+"/DB_#{database_name}", "db_table_name" => [old_db_table_name, "mark"]}
+     
+      end
+    end
+    
+    puts "table and name in new_table beginning"
+
+    puts "man_index: #{@man_index.db(database_table).get(0)[database_name]["db_table_name"]}"
+
+    #puts "man 0: #{@man_index.db(database_table).get(0)}"
+  
+    @man_index.db(database_name).save_everything_to_files!
+    @man_db.db(database_name).save_everything_to_files!
   end
 
 # the index is the database name, and man__db maintains the databases defined by the index
   def new_database(database_name)
     @man_index.start_database!(database_name, db_path: @db_path+"/MAN_DB_INDEX/INDEX", only_path: true, only_name: false, db_name: "INDEX")
-    puts @man_index.db(database_name).to_s
-    #@man_db.start_database!(database_table, db_path: @db_path+"/FCPAM_MAN_INDEX", only_path: true) if database_table
-    #new_table(database_table: database_table, database_name: database_name) if database_table
-    @man_index.db(database_name).save_everything_to_files!
-    #@man_index.db(database_name).set(0) do |hash|      
-    #  hash[database_name] = { "db_name" => database_name, "db_path" => @db_path+"/FCPAM_MAN_INDEX", "db_table_name" => database_table}        
-    #end if database_table     
-    #@man_db.db(database_table).save_everything_to_files! if database_table
-    #@man_index.start_database!(database_name)
-    #@man_db.start_database!(database_table, db_path: @db_path+"/FCPAM_MAN_INDEX", only_path: true)
-    #puts @man_db.db(database_name).data_arr
-  #  puts @man_index.db("database_tables_index")
-    #@man_index.db(database_name).set(0) do |hash|      
-    #  hash[database_name] = { "db_name" => database_name, "db_path" => @db_path+"/FCPAM_MAN_INDEX", "db_table_name" => database_table}
-      
-    #end      
 
-  
-    #puts @man_index.db(database_name).data_arr.to_s
-   
-  
-  #  @man_index.allocate
-  #  @man_db.allocate
-  #  @man_index.save_everything_to_files!
-    #@man_db.save_everything_to_files!
+    #@man_index.db(database_name).set(0) do |hash|      
+
   end
 
   def man(database_name = "test_database_run")
-  #puts @man_db
-   database = @man_db
-    #puts @man_index
-  #puts @man_index.db("test_database_run").data_arr
-
-    table = @man_index.db("test_database_run").get(0)["test_database_run"]["db_table_name"]
-    get_table_from_db = @man_db.db(table)
-    #puts get_table_from_db
-    @man_db.db(table).set(0) do |hash|
-      hash["test db input"] = "works"
-    end
-
-    @man_db.db(table).save_everything_to_files!
-    @man_index.db("test_database_run").save_everything_to_files!
-
+    @man_index.db(database_name)
   end
 
   
@@ -235,6 +233,18 @@ end
 
 a = FileContextManagedPartitionedArrayManager.new
 #a.new_database("test_database_run")
-a.new_database("test_database_run")
-a.new_table(database_table: "test_database_table_run", database_name: "test_database_run")
+#a.new_database("test_database")
+a.new_database("test_database33")
+#a.man("test_database").set(0) do |hash|
+#  hash["test"] = "test"
+#end
+
+#a.new_table(database_name: "test_database33", database_table: "test_database_table23")
+#a.new_table(database_name: "test_database33", database_table: "test_database_table24")
+a.new_table(database_name: "test_database33", database_table: "test_database_table27")
+#a.new_table(database_name: "test_database33", database_table: "test_database_table27")
 #a.new_table(database_table: "test_database_table_run", database_name: "test_database_run2")
+#p "a.man: #{a.man("test_database").get(0)}"
+a.man("test_database33").save_everything_to_files!
+
+#a.man("test_database3").save_everything_to_files!

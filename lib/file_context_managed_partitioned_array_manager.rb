@@ -176,7 +176,7 @@ class FileContextManagedPartitionedArrayManager
   
   #  
 
-    
+    #@man_db should contain the table entries for every database_table related to the database database_name in @man_db
 
     @man_db.start_database!(database_name, db_path: @db_path+"/MAN_DB_INDEX/INDEX", only_path: true, only_name: true, db_name: "INDEX")
     @man_index.start_database!(database_table, db_path: @db_path+"/MAN_DB_TABLE/#{database_name}/TABLE", only_path: true, only_name: true, db_name: "TABLE")

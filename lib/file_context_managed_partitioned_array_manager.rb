@@ -251,5 +251,5 @@ a.new_table(database_name: "test_database33", database_table: "test_database_tab
 #a.new_table(database_table: "test_database_table_run", database_name: "test_database_run2")
 #p "a.man: #{a.man("test_database").get(0)}"
 a.man("test_database33").save_everything_to_files!
-
+p a.man("test_database33").data_arr
 #a.man("test_database3").save_everything_to_files!

@@ -25,6 +25,7 @@ class FileContextManagedPartitionedArrayManager
   FCMPA_DB_PARTITION_ARCHIVE_ID = 0
   FCMPA_DB_SIZE = 20
   FCMPA_DB_INDEX_LOCATION = 0
+  FCMPA_DB_TRAVERSE_HASH = true
 
 
   # FCMPA_DB_[type]
@@ -39,6 +40,7 @@ class FileContextManagedPartitionedArrayManager
   DB_PARTITION_ARCHIVE_ID = 0
   DB_SIZE = 20
   DB_PARTITION_ADDITION_AMOUNT = 5
+  DB_TRAVERSE_HASH = true
   # db
   # fcmpa
   # man_db
@@ -54,6 +56,7 @@ class FileContextManagedPartitionedArrayManager
                  db_dynamically_allocates: DB_DYNAMICALLY_ALLOCATES,   
                  db_partition_amount_and_offset: DB_PARTITION_AMOUNT + DB_PARTITION_OFFSET,
                  db_partition_archive_id: DB_PARTITION_ARCHIVE_ID,
+                 db_traverse_hash: DB_TRAVERSE_HASH,
                  fcmpa_db_size: FCMPA_DB_SIZE,
                  fcmpa_db_indexer_name: FCMPA_DB_INDEXER_NAME,                
                  fcmpa_db_index_location: FCMPA_DB_INDEX_LOCATION,       
@@ -64,7 +67,8 @@ class FileContextManagedPartitionedArrayManager
                  fcmpa_db_dynamically_allocates: FCMPA_DB_DYNAMICALLY_ALLOCATES,
                  fcmpa_db_endless_add: FCMPA_DB_ENDLESS_ADD,
                  fcmpa_db_max_capacity: FCMPA_DB_MAX_CAPACITY, 
-                 fcmpa_db_partition_archive_id: FCMPA_DB_PARTITION_ARCHIVE_ID                 
+                 fcmpa_db_partition_archive_id: FCMPA_DB_PARTITION_ARCHIVE_ID,
+                 fcmpa_db_traverse_hash: FCMPA_DB_TRAVERSE_HASH                 
                  )
           
     @fcmpa_db_partition_archive_id = fcmpa_db_partition_archive_id
@@ -79,7 +83,7 @@ class FileContextManagedPartitionedArrayManager
     @fcmpa_db_has_capacity = fcmpa_db_has_capacity
     @fcmpa_db_dynamically_allocates = fcmpa_db_dynamically_allocates
     @fcmpa_db_partition_addition_amount = fcmpa_db_partition_addition_amount
-
+    @fcmpa_db_traverse_hash = fcmpa_db_traverse_hash
     
     # The database which holds all the entries that the manager database manages
     @db_has_capacity = db_has_capacity
@@ -92,6 +96,7 @@ class FileContextManagedPartitionedArrayManager
     @db_max_capacity = db_max_capacity
     @db_partition_addition_amount = db_partition_addition_amount
     @db_partition_archive_id = db_partition_archive_id
+    @db_traverse_hash = db_traverse_hash
   
     @timestamp_str = Time.now.strftime("%Y-%m-%d-%H-%M-%S")
 

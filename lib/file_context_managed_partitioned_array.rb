@@ -408,6 +408,6 @@ test.db("test2").save_everything_to_files!
 #test.delete_database!("test")
 #test.delete_database_from_index!("test2")
 #p y.get(0, hash: true)
-=end# rubocop:enable Metrics/ClassLength
+=end # rubocop:enable Metrics/ClassLength
 # rubocop:enable Style/MutableConstant
 # rubocop:enable Style/StringLiterals

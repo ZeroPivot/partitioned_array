@@ -1,3 +1,4 @@
+# rubocop:disable Style/RedundantReturn
 # rubocop:disable Style/FrozenStringLiteralComment
 # rubocop:disable Style/IfInsideElse
 # rubocop:disable Style/IfUnlessModifier
@@ -16,6 +17,20 @@
 # rubocop:disable Layout/ArgumentAlignment
 require_relative 'file_context_managed_partitioned_array'
 
+# VERSION v2.0.0a - Got the basics of the database table working, all works
+# Defined Methods:
+# FCMPAM#database(database_name = @active_database): returns the database object
+# FCMPAM#database_table(database_name: @active_database, database_table: @active_table): returns the database table object
+# FCMPAM#new_database!(database_name): creates a new database
+# FCMPAM#new_table!(database_name:, database_table:): creates a new table in the database
+# FCMPAM#active_database(database_name): sets the active database
+# FCMPAM#active_table(database_table): sets the active table
+# FCMPAM#table(database_table = @active_table): returns the active table
+# FCMPAM#database(database_name = @active_database): returns the active database
+
+# save_everything_to_files!: saves everything to files
+# load_everything_from_files!: loads everything from files
+
 # VERSION v1.0.3 - got man_db to contain the many tables of its own
 # VERSION v1.0.2a - working on new_database, where the database table entries have to contain an array of the tables, so the database knows which tables belong to it
 # VERSION v1.0.1a - -left off at line 169
@@ -26,7 +41,7 @@ require_relative 'file_context_managed_partitioned_array'
 # FileContextManagedPartitionedArrayManager - manages the FileContextManagedPartitionedArray and its partitions, making the Partitioned Array a database with database IDs
 # and table keys
 class FileContextManagedPartitionedArrayManager
-  attr_accessor :fcmpa_db_indexer_db, :fcmpa_active_databases, :active_database, :db_file_incrementor, :db_file_location, :db_path, :db_name, :db_size, :db_endless_add, :db_has_capacity, :fcmpa_db_indexer_name, :fcmpa_db_folder_name, :fcmpa_db_size, :fcmpa_partition_amount_and_offset, :db_partition_amount_and_offset, :partition_addition_amount, :db_dynamically_allocates, :timestamp_str
+  attr_accessor :fcmpa_db_indexer_db, :fcmpa_active_databases, :db_file_incrementor, :db_file_location, :db_path, :db_name, :db_size, :db_endless_add, :db_has_capacity, :fcmpa_db_indexer_name, :fcmpa_db_folder_name, :fcmpa_db_size, :fcmpa_partition_amount_and_offset, :db_partition_amount_and_offset, :partition_addition_amount, :db_dynamically_allocates, :timestamp_str
 
   # DB_SIZE > PARTITION_AMOUNT
   TRAVERSE_HASH = true
@@ -57,6 +72,8 @@ class FileContextManagedPartitionedArrayManager
   DB_SIZE = 20
   DB_PARTITION_ADDITION_AMOUNT = 5
   DB_TRAVERSE_HASH = true
+
+  INITIAL_AUTOSAVE = true
   # db
   # fcmpa
   # man_db
@@ -83,7 +100,10 @@ class FileContextManagedPartitionedArrayManager
                  fcmpa_db_endless_add: FCMPA_DB_ENDLESS_ADD,
                  fcmpa_db_max_capacity: FCMPA_DB_MAX_CAPACITY,
                  fcmpa_db_partition_archive_id: FCMPA_DB_PARTITION_ARCHIVE_ID,
-                 fcmpa_db_traverse_hash: FCMPA_DB_TRAVERSE_HASH)
+                 fcmpa_db_traverse_hash: FCMPA_DB_TRAVERSE_HASH,
+                 initial_autosave: INITIAL_AUTOSAVE,
+                 active_database: nil,
+                 active_table: nil)
 
     @fcmpa_db_partition_archive_id = fcmpa_db_partition_archive_id
     @fcmpa_db_endless_add = fcmpa_db_endless_add
@@ -111,6 +131,9 @@ class FileContextManagedPartitionedArrayManager
     @db_partition_addition_amount = db_partition_addition_amount
     @db_partition_archive_id = db_partition_archive_id
     @db_traverse_hash = db_traverse_hash
+    @initial_autosave = initial_autosave
+    @active_table = active_table
+    @active_database = active_database
 
     @timestamp_str = Time.now.strftime("%Y-%m-%d-%H-%M-%S")
 
@@ -135,8 +158,8 @@ class FileContextManagedPartitionedArrayManager
                                                         db_partition_amount_and_offset: @db_partition_amount_and_offset,
                                                         db_max_capacity: @db_max_capacity,
                                                         db_partition_archive_id: @db_partition_archive_id,
-                                                        traverse_hash: @traverse_hash
-                                                        )
+                                                        traverse_hash: @traverse_hash)
+
     # a man_db entry for every single database table, while man_index maintains the link between the manager database and the database tables
     @man_db = FileContextManagedPartitionedArray.new(fcmpa_db_partition_amount_and_offset: @fcmpa_db_partition_amount_and_offset,
                                                         fcmpa_db_size: @fcmpa_db_size,
@@ -159,52 +182,43 @@ class FileContextManagedPartitionedArrayManager
                                                         db_partition_amount_and_offset: @db_partition_amount_and_offset, #
                                                         db_max_capacity: @db_max_capacity, #
                                                         db_partition_archive_id: @db_partition_archive_id, #
-
                                                         traverse_hash: @traverse_hash)
-
-
   end
 
-  # define @man_index as the database index for @man_db
-  def start_man(database_name = "database_name")
-    # if the table entry contains the table name in @man_index, then initialize the table and thus the database
-    if !@man_index[database_name] # if the table entry does not exist in @man_index, then initialize the table and thus the database
-      # initialize database
-      # @man_index[database_name]
-      @man_index.start_database(database_name)
-      @man_index.set(0) do |hash|
-        hash[database_name]["db_name"] = database_name
-        hash[database_name]["db_path"] = @db_path+database_name
-      end
-      @man_index.save_everything_to_files!
-    end
-  end
-
-  def table(database_table:, database_name:)
+  # gets the database object for the database_name (@man_index = database index; @man_db = database table)
+  def database(database_name = @active_database)
     # check to see if this table exists in the database first
-    if @man_index.db(database_name).get(0)[database_name]["db_table_name"] == database_table
-      puts "table doesnt exist"
+    return @man_index.db(database_name)
+  end
+
+  # gets the database table object for the database_table name, not needing a database x index pair
+  def table(database_table = @active_table)
+    return @man_db.db(database_table)
+  end
+
+  def active_table(database_table)
+    @active_table = database_table
+  end
+
+  def active_database(active_database)
+    @active_database = active_database
+  end
+
+  def database_table(database_table: @active_table, database_name: @active_database)
+    # check to see if this table exists in the database first
+    if @man_index.db(database_name).get(0)[database_name]["db_table_name"].include? database_table
+      return @man_db.db(database_table)
     end
     # if the table entry contains the table name in @man_index, then
-
   end
 
   # update: left off worrying about the db_table_name entry having to contain an array of the table names so that the database knows which tables to look for and which ones belong to it
   # left off working with new_table, and, setting the table apart from the database and placing them into independent folders (the problem is file locations)
-  def new_table(database_table:, database_name:)
-    # check to see if this table exists in the database first
-    #  if @man_index.db(database_name).get(0)[database_name]["db_table_name"] == database_table
-    # puts @man_index.db(database_name)
-    # puts "table doesnt exist"
-    # @man_db should contain the table entries for every database_table related to the database database_name in @man_db
+  def new_table!(database_table:, database_name:, initial_autosave: @initial_autosave)
     @man_index.start_database!(database_name, db_path: @db_path+"/MAN_DB_INDEX/INDEX", only_path: true, only_name: true, db_name: "INDEX")
     @man_db.start_database!(database_table, db_path: @db_path+"/MAN_DB_TABLE/#{database_name}/TABLE", only_path: true, only_name: true, db_name: "TABLE")
-    # begin
+
     old_db_table_name = @man_index.db(database_name).get(0).dig(database_name, "db_table_name")
-    puts "old_table_name was nil" if old_db_table_name.nil?
-    puts "database_table: #{database_table}"
-    # puts "old table names (table exists): #{old_db_table_name}"
-    # gets
     if old_db_table_name.nil?
       @man_index.db(database_name).set(0) do |hash|
         hash[database_name] = { "db_name" => database_name, "db_path" => @db_path+"/DB_#{database_name}", "db_table_name" => [database_table] }
@@ -215,25 +229,17 @@ class FileContextManagedPartitionedArrayManager
           hash[database_name] = { "db_name" => database_name, "db_path" => @db_path+"/DB_#{database_name}", "db_table_name" => old_db_table_name << database_table }
         end
       else
-        puts "table already exists, not updating"
+        #puts "table already exists, not updating"
       end
     end
 
-    puts "new table names: #{@man_index.db(database_name).get(0)[database_name]}"
-
-    # puts "man_index: #{@man_db.db(database_name).get(0)[database_name]["db_table_name"]}"
-
-    # puts "man 0: #{@man_index.db(database_table).get(0)}"
-
-    @man_index.db(database_name).save_everything_to_files!
-    # @man_db.db(database_name).save_everything_to_files!
+    @man_index.db(database_name).save_everything_to_files! if initial_autosave
+    @man_db.db(database_table).save_everything_to_files! if initial_autosave
   end
 
   # the index is the database name, and man__db maintains the databases defined by the index
-  def new_database(database_name)
+  def new_database!(database_name)
     @man_index.start_database!(database_name, db_path: @db_path+"/MAN_DB_INDEX/INDEX", only_path: true, only_name: false, db_name: "INDEX")
-
-    # @man_index.db(database_name).set(0) do |hash|
   end
 
   def man(database_name = "test_database_run")
@@ -241,23 +247,8 @@ class FileContextManagedPartitionedArrayManager
   end
 end
 
-a = FileContextManagedPartitionedArrayManager.new
-# a.new_database("test_database_run")
-# a.new_database("test_database")
-a.new_database("test_database33")
-# a.man("test_database").set(0) do |hash|
-#  hash["test"] = "test"
-# end
 
-# a.new_table(database_name: "test_database33", database_table: "test_database_table23")
-a.new_table(database_name: "test_database33", database_table: "test_database_table24")
-a.new_table(database_name: "test_database33", database_table: "test_database_table30")
-# a.new_table(database_name: "test_database33", database_table: "test_database_table27")
-# a.new_table(database_table: "test_database_table_run", database_name: "test_database_run2")
-# p "a.man: #{a.man("test_database").get(0)}"
-a.man("test_database33").save_everything_to_files!
-p a.man("test_database33").data_arr
-# a.man("test_database3").save_everything_to_files!# rubocop:enable Layout/ArgumentAlignment
+
 
 # rubocop:enable Layout/HashAlignment
 # rubocop:enable Metrics/AbcSize
@@ -274,3 +265,4 @@ p a.man("test_database33").data_arr
 # rubocop:enable Style/IfUnlessModifier
 # rubocop:enable Style/IfInsideElse
 # rubocop:enable Style/FrozenStringLiteralComment
+# rubocop:enable Style/RedundantReturn

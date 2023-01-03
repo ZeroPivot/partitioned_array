@@ -1,3 +1,7 @@
+# rubocop:disable Style/FrozenStringLiteralComment
+# rubocop:disable Lint/RedundantCopDisableDirective
+# rubocop:disable Lint/MissingCopEnableDirective
+# rubocop:disable Lint/RedundantCopDisableDirective
 # rubocop:disable Style/RedundantReturn
 # rubocop:disable Style/FrozenStringLiteralComment
 # rubocop:disable Style/IfInsideElse
@@ -17,7 +21,14 @@
 # rubocop:disable Layout/ArgumentAlignment
 require_relative 'file_context_managed_partitioned_array'
 
-# VERSION v2.0.0a - Got the basics of the database table working, all works
+# TODO: (1/3/2023 - 12:55PM)
+# set a timestamp in the databases per transaction
+# relational algebraic operations (cartesian product, etc.)
+# VERSION v2.0.1a - prettify, remove old unused code; alias (1/3/2023 12:54PM)
+# alias db_table database_table
+# alias active_db active_database
+# alias new_db! new_database! 
+# VERSION v2.0.0a - Got the basics of the database table working, all works (1/3/2023)
 # Defined Methods:
 # FCMPAM#database(database_name = @active_database): returns the database object
 # FCMPAM#database_table(database_name: @active_database, database_table: @active_table): returns the database table object
@@ -195,15 +206,17 @@ class FileContextManagedPartitionedArrayManager
   def table(database_table = @active_table)
     return @man_db.db(database_table)
   end
-
+  
+  # set the active database table variable to avoid redundant typing
   def active_table(database_table)
     @active_table = database_table
   end
-
+  
+  # set the active database variable to avoid redundant typing
   def active_database(active_database)
     @active_database = active_database
   end
-
+  # gets the database table object for the database_table name, needing a database x index pair
   def database_table(database_table: @active_table, database_name: @active_database)
     # check to see if this table exists in the database first
     if @man_index.db(database_name).get(0)[database_name]["db_table_name"].include? database_table
@@ -241,10 +254,10 @@ class FileContextManagedPartitionedArrayManager
   def new_database!(database_name)
     @man_index.start_database!(database_name, db_path: @db_path+"/MAN_DB_INDEX/INDEX", only_path: true, only_name: false, db_name: "INDEX")
   end
-
-  def man(database_name = "test_database_run")
-    @man_index.db(database_name)
-  end
+  
+  alias db_table database_table
+  alias active_db active_database
+  alias new_db! new_database! 
 end
 
 
@@ -266,3 +279,7 @@ end
 # rubocop:enable Style/IfInsideElse
 # rubocop:enable Style/FrozenStringLiteralComment
 # rubocop:enable Style/RedundantReturn
+# rubocop:enable Lint/RedundantCopDisableDirective
+# rubocop:enable Style/FrozenStringLiteralComment
+# rubocop:enable Lint/MissingCopEnableDirective
+# rubocop:enable Lint/RedundantCopDisableDirective

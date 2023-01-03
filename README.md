@@ -1,10 +1,14 @@
-# The Partitioned Array, Managed Partitioned Array and File Context Managed Partitioned Array: Fundamental Data Structures
+# The Partitioned Array, Managed Partitioned Array and File Context Managed Partitioned Array/Manager: Fundamental Data Structures and Array-Of-Hashes Database System
+
+## Updates:
+* January 3, 2023 - 1:00PM - Added FileContextManagedPartitionedArrayManager info on implementation at the end of README.md; this is the final product for the partitioned array, and turns it into a database
 
 **Quick Compatibility List:**
 * **Ruby 3.0+**: (`/lib/partitioned_array`) - *lib/managed_partitioned_array.rb* - **Fully Compatible**
 * **jruby**: (`same as ruby 3.0 version`)  - *lib/managed_partitioned_array.rb* - **Fully Compatible**
 * **DragonRuby**: (`/lib/dr_partitioned_array`) - *dr_managed_partitioned_array.rb* - **Fully Compatible**
 * **Python**: *./managed_partitioned_array_python* folder - **(WIP)**
+* **NOTE**: File Context Managed Partitioned Array/Manager (lib/file_context_managed_partitioned_array.rb / lib/file_context_managed_partitioned_array_manager.rb ["FCMPA/FCMPAM"]) are in the same `lib` folder; documentation at the bottom
 
 ## Initial Notes
 
@@ -359,3 +363,20 @@ we have in this context:
 `file_context_array["file_db_name_string"].managed_partitioned_array[mpa_db_file_id_integer].partitioned_array(db_id, id)`
 
 Could also be written as: `file_context_array["file_db_name_string"].(managed_partitioned_array[mpa_db_file_id_integer] < partitioned_array(db_id, id))`
+
+# File Context Managed Partitioned Array Manager (Definition)
+The database manager is the `FCMPAM` class. It is a singleton class that manages the `FCMPA` class. The `FCMPA` class manages the `MPA` class. The `MPA` class manages the `PA` class.
+
+FCMPAM.FCMPA.MPA.PA || FCMPAM.FCMPA.(MPA < PA)
+
+## Defined Methods:
+
+
+* FCMPAM#database(database_name = @active_database): returns the database object
+* FCMPAM#database_table(database_name: @active_database, database_table: @active_table): returns the database table object
+* FCMPAM#new_database!(database_name): creates a new database
+* FCMPAM#new_table!(database_name:, database_table:): creates a new table in the database
+* FCMPAM#active_database(database_name): sets the active database
+* FCMPAM#active_table(database_table): sets the active table
+* FCMPAM#table(database_table = @active_table): returns the active table
+* FCMPAM#database(database_name = @active_database): returns the active database

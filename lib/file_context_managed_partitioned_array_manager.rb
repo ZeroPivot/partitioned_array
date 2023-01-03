@@ -172,7 +172,18 @@ class FileContextManagedPartitionedArrayManager
       @man_index.save_everything_to_files!
     end
   end
-# update: left off worrying about the db_table_name entry having to contain an array of the table names so that the database knows which tables to look for and which ones belong to it
+
+  
+  def table(database_table:, database_name:)
+    # check to see if this table exists in the database first
+    if @man_index.db(database_name).get(0)[database_name]["db_table_name"] == database_table
+      puts "table doesnt exist"
+    end
+    # if the table entry contains the table name in @man_index, then
+
+  end
+
+  # update: left off worrying about the db_table_name entry having to contain an array of the table names so that the database knows which tables to look for and which ones belong to it
 # left off working with new_table, and, setting the table apart from the database and placing them into independent folders (the problem is file locations)
   def new_table(database_table:, database_name:)
     # check to see if this table exists in the database first
@@ -194,7 +205,7 @@ class FileContextManagedPartitionedArrayManager
     puts "old_table_name was nil" if old_db_table_name.nil?
     puts "database_table: #{database_table}"
     #puts "old table names (table exists): #{old_db_table_name}"
-    gets
+    #gets
     if old_db_table_name.nil?
       @man_index.db(database_name).set(0) do |hash|
         hash[database_name] = {"db_name" => database_name, "db_path" => @db_path+"/DB_#{database_name}", "db_table_name" => [database_table]}

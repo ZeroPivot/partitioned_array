@@ -1,8 +1,21 @@
+# rubocop:disable Style/FrozenStringLiteralComment
+# rubocop:disable Naming/AccessorMethodName
+# rubocop:disable Style/RescueStandardError
+# rubocop:disable Metrics/MethodLength
+# rubocop:disable Metrics/ParameterLists
+# rubocop:disable Metrics/AbcSize
+# rubocop:disable Layout/LineLength
+# rubocop:disable Layout/EmptyLineBetweenDefs
+# rubocop:disable Style/RedundantReturn
 # rubocop:disable Style/StringLiterals
 # rubocop:disable Style/MutableConstant
 # rubocop:disable Metrics/ClassLength
 require_relative 'managed_partitioned_array'
 
+# VERSION v1.0.1a - organized, prettified, and corrected one bug, or possible bug
+# TODO: Study this code a bit and describe the architecture further, its a bit confusing going down this low level with the partitioned arrays.
+# VERSION v1.0.0a - organized, prettified, and corrected one bug, or possible bug
+# version 1.0.0a is battle test ready, and is simply a bootstrap for the FCMPAM
 # VERSION v0.2.8 - reduced redundancy that happened by accident
 # VERSION v0.2.7a - organized variables, fixed database overwrite bug, which was just giving each database "table" in the file heiratchy the name of itself
 # VERSION v0.2.6 - organized variables, some debugging to make sure everything is set correctly initially - 11:31AM
@@ -153,30 +166,20 @@ class FileContextManagedPartitionedArray
     Time.now.to_i.to_s
   end
 
-  def new_database(database_index_name_str, fcmpa_db_index_location: @fcmpa_db_index_location, db_name: @db_name, db_path: @db_path, only_path: false, only_name: false)
+  def new_database(database_index_name_str, fcmpa_db_index_location: @fcmpa_db_index_location, db_name: @db_name, db_path: @db_path, only_path: false, only_name: false, initial_autosave: true)
     timestamp_str = new_timestamp # the string to give uniqueness to each database file context
     db_name_str = database_index_name_str
-    #puts @fcmpa_db_indexer_db.get(fcmpa_db_index_location)
-   #puts @fcmpa_db_indexer_db.get(fcmpa_db_index_location)
-   #gets
-   #puts "db_name_str: #{db_name_str}"
-    return true if !@fcmpa_db_indexer_db.get(fcmpa_db_index_location)["db_name"].nil? #guard clause to prevent overwriting the database index file
-    #puts !@fcmpa_db_indexer_db.get(fcmpa_db_index_location)["db_name"].nil?
-    #gets
-    #puts "allocating new database (guard clause failed)"
-    #path = ""
-    #if only_path
-    #  path = db_path
-    #else
-      path = db_path+"_"+db_name_str
+
+    return @fcmpa_db_indexer_db if !@fcmpa_db_indexer_db.get(fcmpa_db_index_location)["db_name"].nil? #guard clause to prevent overwriting the database index file
+  
+    path = db_path+"_"+db_name_str
     #end
 
-    @fcmpa_db_indexer_db.set(fcmpa_db_index_location) do |entry|
-      #entry[db_name_str] = {"db_path" => @db_path+"_"+db_name_str, "db_name" => @db_name+"_"+db_name_str} if !only_path
-      entry[db_name_str] = {"db_path" => path, "db_name" => db_name+"_"+db_name_str, "db_table_name" => [] }# if only_path
-
+    @fcmpa_db_indexer_db.set(fcmpa_db_index_location) do |entry|      
+      entry[db_name_str] = {"db_path" => path, "db_name" => db_name+"_"+db_name_str, "db_table_name" => [] }
     end
     @fcmpa_db_indexer_db.save_everything_to_files!
+
   #db indexer variable takes the responsibility of maintaining these databases via key names
     temp = ManagedPartitionedArray.new(endless_add: @db_endless_add,
                                       dynamically_allocates: @db_dynamically_allocates,
@@ -189,9 +192,8 @@ class FileContextManagedPartitionedArray
                                       db_path: path,
                                       partition_archive_id: @db_partition_archive_id)
     temp.allocate
-    #puts "db_path: #{temp.db_path}"
     @fcmpa_active_databases[db_name_str] = temp
-    #temp.save_everything_to_files!
+    temp.save_everything_to_files! if initial_autosave
     return temp
   end
 
@@ -212,22 +214,20 @@ class FileContextManagedPartitionedArray
   end
 
   def db(database_index_name = @active_database)
-    #puts @fcmpa_active_databases.to_s
-    
     @fcmpa_active_databases[database_index_name]
   end
-  
-  def set_active_database(database_index_name)
+
+  def set_active_database(database_index_name) # rubocop:disable Naming/AccessorMethodName
     @active_database = database_index_name
   end
 
 
   def stop_database!(database_index_name)
-    @fcmpa_db_indexer_db.set(@fcmpa_db_index_location) do |entry|
-      entry.delete(database_index_name)
-      #debug "deleted database #{database_index_name} from index"
-    end
-    @fcmpa_db_indexer_db.save_everything_to_files!
+    # @fcmpa_db_indexer_db.set(@fcmpa_db_index_location) do |entry|
+    #  entry.delete(database_index_name)
+      # debug "deleted database #{database_index_name} from index"
+    # end
+    # @fcmpa_db_indexer_db.save_everything_to_files!
     @fcmpa_active_databases.delete(database_index_name)
   end
 
@@ -235,62 +235,48 @@ class FileContextManagedPartitionedArray
   def start_database!(database_index_name, raise_on_no_db: false, db_name: @db_name, db_path: @db_path, only_path: false, only_name: false)
     db_index = @fcmpa_db_indexer_db.get(@fcmpa_db_index_location)
     if db_index[database_index_name].nil?
-      raise if raise_on_no_db 
-      #puts "new database"
-      #puts "database_index_name: #{database_index_name}"
-      #puts "db_index[datatabase_table_name] #{db_index[database_index_name]} exists"
-      new_database(database_index_name, db_name: db_name, db_path: db_path) #start a new database if one wasn't assigned
-      #puts "db_name: #{db_name}"
-      #puts "db_path: #{db_path}"
+      raise if raise_on_no_db
+
+      new_database(database_index_name, db_name: db_name, db_path: db_path) # start a new database if one wasn't assigned
     else
-      #debug "db index debug #{db_index}" 
-      #puts "db_index[database_index_name] doesn't exist"   
+      # debug "db index debug #{db_index}" 
+      # debug "db_index[database_index_name] doesn't exist"   
       db_name = db_index[database_index_name]["db_name"]
       db_path = db_index[database_index_name]["db_path"]
-      #debug "db name debug #{db_name}"
-      #debug "db path debug #{db_path}"
-      #debug "db index debug #{db_index.keys}"
-      
-      @fcmpa_active_databases[database_index_name] = ManagedPartitionedArray.new(
-                                                                                  endless_add: @db_endless_add,
-                                                                                  dynamically_allocates: @db_dynamically_allocates,
-                                                                                  has_capacity: @db_has_capacity,
-                                                                                  max_capacity: @db_max_capacity,
-                                                                                  partition_addition_amount: @db_partition_addition_amount,
-                                                                                  partition_amount_and_offset: @db_partition_amount_and_offset,
-                                                                                  db_size: @db_size,
-                                                                                  db_name: db_name,
-                                                                                  db_path: db_path,
-                                                                                  partition_archive_id: @db_partition_archive_id
-                                                                                )
+      # debug "db name debug #{db_name}"
+      # debug "db path debug #{db_path}"
+      # debug "db index debug #{db_index.keys}"
+      @fcmpa_active_databases[database_index_name] = ManagedPartitionedArray.new(endless_add: @db_endless_add,
+                                                                                 dynamically_allocates: @db_dynamically_allocates,
+                                                                                 has_capacity: @db_has_capacity,
+                                                                                 max_capacity: @db_max_capacity,
+                                                                                 partition_addition_amount: @db_partition_addition_amount,
+                                                                                 partition_amount_and_offset: @db_partition_amount_and_offset,
+                                                                                 db_size: @db_size,
+                                                                                 db_name: db_name,
+                                                                                 db_path: db_path,
+                                                                                 partition_archive_id: @db_partition_archive_id)
       begin
         @fcmpa_active_databases[database_index_name].load_everything_from_files!
-        puts "database loaded"
+        # debug "database loaded"
       rescue
         @fcmpa_active_databases[database_index_name].allocate
         @fcmpa_active_databases[database_index_name].save_everything_to_files!
-        puts "new database saved"
+        # debug "new database saved"
       end
+      # debug "saved everything to files"
 
-    
-      
-   #   puts "saved everything to files"
-
-   #if the database index is nil, then the database has not been created yet
-    #if the database index is not nil, then the database has been created and we can load it
+      # if the database index is nil, then the database has not been created yet
+      # if the database index is not nil, then the database has been created and we can load it
     end
-
     return @fcmpa_active_databases[database_index_name]
   end
 
-
-  
   # ! denotes that this is an action that will be performed on the database and not a query
   def stop_databases!
     @fcmpa_active_databases.each do |key, _|
       @fcmpa_active_databases.delete(key)
     end
-
   end
 
   def save_database!(database_index_name = @active_database)
@@ -311,103 +297,60 @@ class FileContextManagedPartitionedArray
     @fcmpa_active_databases.each do |key, _|
       start_database!(@fcmpa_active_databases[key])
     end
-
   end
 
   def delete_database!(database_index_name = @active_database)
     @fcmpa_active_databases.delete(database_index_name)
     delete_database_from_index!(database_index_name)
-    #@fcmpa_active_databases.save_everything_to_files!
   end
- 
+
   def get_databases_list
-     @fcmpa_active_databases.keys
+    @fcmpa_active_databases.keys
   end
+
+  alias db_list get_databases_list
 
   def set_new_file_archive!(database_index_name = @active_database)
     temp = @fcmpa_active_databases[database_index_name]
     temp = temp.archive_and_new_db!
     @fcmpa_active_databases[database_index_name] = temp
-  
-    #temp = db(database_index_name)
 
+    #temp = db(database_index_name)
   end
 
   #traverses the database and yields every element in @data_arr, even nils
   def each(database_index_name, hash: @traverse_hash)
     return false if @fcmpa_active_databases[database_index_name].nil?
+
     database = @fcmpa_active_databases[database_index_name]
     database_size = database.data_arr.size - 1
     traverse_hash = hash
-    #exit
     0.upto(database_size) do |i|
       yield database.get(i, hash: traverse_hash)
     end
   end
 
-
-# traverses the database and returns all elements that are not nil, across all of @data_arr
+  # traverses the database and returns all elements that are not nil, across all of @data_arr
   def each_not_nil(database_index_name, hash: @traverse_hash)
     database = @fcmpa_active_databases[database_index_name]
     database_size = database.data_arr.size - 1
     traverse_hash = hash
-    #exit
     0.upto(database_size) do |i|
       t = database.get(i, hash: traverse_hash) # memory overhead reduction; make a temp since yield checks twice
-      yield t if !t.nil?
+      yield t unless t.nil?
     end
   end
-
 end
 
-=begin
-#
-#
-#test = FileContextManagedPartitionedArray.new
-#test.new_database(database_index_name_str: "test", db_path: "./DB", db_name: "test")
-#test.new_database(database_index_name_str: "test2", db_path: "./DB", db_name: "test2")
-#test.db("test").set(0) do |entry|
-#  entry["test"] = "test"
-#end
-#test.db("test").save_everything_to_files!
-
-#puts test.db("test").get(0, hash: true)
-
-#test.db("test2").set(1) do |entry|
-#  entry["test2"] = "test2"
-#end
-
-#test.db("test2").save_everything_to_files!
-
-#puts test.db("test2").get(1, hash: true)
-#puts test.db("test2").get(1, hash: true)
-
-# create 200 new databases
-
-test = FileContextManagedPartitionedArray.new()
-#stest.new_database("test2")
-test.start_database!("test2")
-test.start_database!("test3")
-a=test.db("test2").set(0) do |entry|
-  entry["added data"] = "hello dragonruby"
-  entry["test2"] = "test2"
-end
-a=test.db("test2").set(1) do |entry|
-  entry["added data"] = "hello dragonruby"
-  entry["test2"] = "test2"
-end
-test.db("test2").save_everything_to_files!
-
-
-a=test.db("test3").set(1) do |entry|
-  entry["added data"] = "hello dragonruby"
-  entry["test2"] = "test2"
-end
-test.db("test3").save_everything_to_files!
-test.db("test2").save_everything_to_files!
-#test.delete_database!("test")
-#test.delete_database_from_index!("test2")
-#p y.get(0, hash: true)
-=end # rubocop:enable Metrics/ClassLength
+# rubocop:enable Metrics/ClassLength
 # rubocop:enable Style/MutableConstant
 # rubocop:enable Style/StringLiterals
+# rubocop:enable Style/RedundantReturn
+# rubocop:enable Layout/EmptyLineBetweenDefs
+# rubocop:enable Layout/LineLength
+# rubocop:enable Metrics/AbcSize
+# rubocop:enable Metrics/ParameterLists
+# rubocop:enable Metrics/MethodLength
+# rubocop:enable Style/RescueStandardError
+# rubocop:enable Naming/AccessorMethodName
+# rubocop:enable Style/FrozenStringLiteralComment

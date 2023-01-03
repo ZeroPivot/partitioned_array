@@ -24,6 +24,7 @@ require_relative 'file_context_managed_partitioned_array'
 # TODO: (1/3/2023 - 12:55PM)
 # set a timestamp in the databases per transaction
 # relational algebraic operations (cartesian product, etc.)
+# VERSION v2.0.2a - add code (1/3/2023 1:48PM)
 # VERSION v2.0.1a - prettify, remove old unused code; alias (1/3/2023 12:54PM)
 # alias db_table database_table
 # alias active_db active_database
@@ -248,6 +249,7 @@ class FileContextManagedPartitionedArrayManager
 
     @man_index.db(database_name).save_everything_to_files! if initial_autosave
     @man_db.db(database_table).save_everything_to_files! if initial_autosave
+    @man_db.db(database_table)
   end
 
   # the index is the database name, and man__db maintains the databases defined by the index

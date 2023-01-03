@@ -1,7 +1,7 @@
 # The Partitioned Array, Managed Partitioned Array and File Context Managed Partitioned Array/Manager: Fundamental Data Structures and Array-Of-Hashes Database System
 
 ## Updates:
-* January 3, 2023 - 1:00PM - Added FileContextManagedPartitionedArrayManager info on implementation at the end of README.md; this is the final product for the partitioned array, and turns it into a database
+* January 3, 2023 (1/3/2023) - 1:00PM - Added FileContextManagedPartitionedArrayManager info on implementation at the end of README.md; this is the final product for the partitioned array, and turns it into a database
 * TODO: Add documentation on the FileContextManagedPartitionedArrayManager class, and the FileContextManagedPartitionedArray class, like a quick tutorial
 
 

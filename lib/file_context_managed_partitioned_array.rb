@@ -12,7 +12,7 @@
 # rubocop:disable Metrics/ClassLength
 require_relative 'managed_partitioned_array'
 
-# VERSION v1.0.1a - organized, prettified, and corrected one bug, or possible bug
+# VERSION v1.0.1a - organized, prettified, and corrected one bug, or possible bug (1/3/2022 3:08PM)
 # TODO: Study this code a bit and describe the architecture further, its a bit confusing going down this low level with the partitioned arrays.
 # VERSION v1.0.0a - organized, prettified, and corrected one bug, or possible bug
 # version 1.0.0a is battle test ready, and is simply a bootstrap for the FCMPAM

@@ -1,3 +1,6 @@
+# rubocop:disable Style/StringLiterals
+# rubocop:disable Style/MutableConstant
+# rubocop:disable Metrics/ClassLength
 require_relative 'managed_partitioned_array'
 
 # VERSION v0.2.8 - reduced redundancy that happened by accident
@@ -11,12 +14,12 @@ require_relative 'managed_partitioned_array'
 # VERSION v0.2.3 - the basics are working
 # VERSION v0.2.2 - left off working on start_database! -- turns out that
 # this class requires more work before the partitioned array manager will.
-# VERSION v0.2.1 
+# VERSION v0.2.1
 # VERSION v0.2.0a - release test run
 # VERSION v0.2.3
 # VERSION v0.2.2a (11/27/2022 - 10:20am)
 # VERSION v0.2.1a (11/27/2022 - 6:25am)
-# VERSION v0.2.0a 
+# VERSION v0.2.0a
 # Refining before field testing
 class FileContextManagedPartitionedArray
   attr_accessor :fcmpa_db_indexer_db, :fcmpa_active_databases, :active_database, :db_file_incrementor, :db_file_location, :db_path, :db_name, :db_size, :db_endless_add, :db_has_capacity, :fcmpa_db_indexer_name, :fcmpa_db_folder_name, :fcmpa_db_size, :fcmpa_partition_amount_and_offset, :db_partition_amount_and_offset, :partition_addition_amount, :db_dynamically_allocates, :timestamp_str
@@ -405,4 +408,6 @@ test.db("test2").save_everything_to_files!
 #test.delete_database!("test")
 #test.delete_database_from_index!("test2")
 #p y.get(0, hash: true)
-=end
+=end# rubocop:enable Metrics/ClassLength
+# rubocop:enable Style/MutableConstant
+# rubocop:enable Style/StringLiterals

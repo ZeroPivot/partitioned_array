@@ -73,15 +73,15 @@ class FileContextManagedPartitionedArrayManager
                  db_partition_archive_id: DB_PARTITION_ARCHIVE_ID,
                  db_traverse_hash: DB_TRAVERSE_HASH,
                  fcmpa_db_size: FCMPA_DB_SIZE,
-                 fcmpa_db_indexer_name: FCMPA_DB_INDEXER_NAME,                
-                 fcmpa_db_index_location: FCMPA_DB_INDEX_LOCATION,       
+                 fcmpa_db_indexer_name: FCMPA_DB_INDEXER_NAME,
+                 fcmpa_db_index_location: FCMPA_DB_INDEX_LOCATION, 
                  fcmpa_db_folder_name: FCMPA_DB_FOLDER_NAME,
                  fcmpa_db_partition_amount_and_offset: FCMPA_PARTITION_AMOUNT + FCMPA_OFFSET,
                  fcmpa_db_has_capacity: FCMPA_DB_HAS_CAPACITY, 
                  fcmpa_db_partition_addition_amount: FCMPA_DB_PARTITION_ADDITION_AMOUNT,
                  fcmpa_db_dynamically_allocates: FCMPA_DB_DYNAMICALLY_ALLOCATES,
                  fcmpa_db_endless_add: FCMPA_DB_ENDLESS_ADD,
-                 fcmpa_db_max_capacity: FCMPA_DB_MAX_CAPACITY, 
+                 fcmpa_db_max_capacity: FCMPA_DB_MAX_CAPACITY,
                  fcmpa_db_partition_archive_id: FCMPA_DB_PARTITION_ARCHIVE_ID,
                  fcmpa_db_traverse_hash: FCMPA_DB_TRAVERSE_HASH)
 
@@ -192,10 +192,10 @@ class FileContextManagedPartitionedArrayManager
   # update: left off worrying about the db_table_name entry having to contain an array of the table names so that the database knows which tables to look for and which ones belong to it
   # left off working with new_table, and, setting the table apart from the database and placing them into independent folders (the problem is file locations)
   def new_table(database_table:, database_name:)
-  # check to see if this table exists in the database first
-  #  if @man_index.db(database_name).get(0)[database_name]["db_table_name"] == database_table
-  # puts @man_index.db(database_name)
-  # puts "table doesnt exist"
+    # check to see if this table exists in the database first
+    #  if @man_index.db(database_name).get(0)[database_name]["db_table_name"] == database_table
+    # puts @man_index.db(database_name)
+    # puts "table doesnt exist"
     # @man_db should contain the table entries for every database_table related to the database database_name in @man_db
     @man_index.start_database!(database_name, db_path: @db_path+"/MAN_DB_INDEX/INDEX", only_path: true, only_name: true, db_name: "INDEX")
     @man_db.start_database!(database_table, db_path: @db_path+"/MAN_DB_TABLE/#{database_name}/TABLE", only_path: true, only_name: true, db_name: "TABLE")

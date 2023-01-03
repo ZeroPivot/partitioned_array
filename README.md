@@ -2,6 +2,8 @@
 
 ## Updates:
 * January 3, 2023 - 1:00PM - Added FileContextManagedPartitionedArrayManager info on implementation at the end of README.md; this is the final product for the partitioned array, and turns it into a database
+* TODO: Add documentation on the FileContextManagedPartitionedArrayManager class, and the FileContextManagedPartitionedArray class, like a quick tutorial
+
 
 **Quick Compatibility List:**
 * **Ruby 3.0+**: (`/lib/partitioned_array`) - *lib/managed_partitioned_array.rb* - **Fully Compatible**
@@ -372,11 +374,11 @@ FCMPAM.FCMPA.MPA.PA || FCMPAM.FCMPA.(MPA < PA)
 ## Defined Methods:
 
 
-* FCMPAM#database(database_name = @active_database): returns the database object
-* FCMPAM#database_table(database_name: @active_database, database_table: @active_table): returns the database table object
-* FCMPAM#new_database!(database_name): creates a new database
-* FCMPAM#new_table!(database_name:, database_table:): creates a new table in the database
-* FCMPAM#active_database(database_name): sets the active database
-* FCMPAM#active_table(database_table): sets the active table
-* FCMPAM#table(database_table = @active_table): returns the active table
-* FCMPAM#database(database_name = @active_database): returns the active database
+* `FCMPAM#database(database_name = @active_database)`: returns the database object
+* `FCMPAM#database_table(database_name: @active_database, database_table: @active_table)`: returns the database table object
+* `FCMPAM#new_database!(database_name)`: creates a new database
+* `FCMPAM#new_table!(database_name:, database_table:)`: creates a new table in the database
+* `FCMPAM#active_database(database_name):` sets the active database
+* `FCMPAM#active_table(database_table):` sets the active table
+* `FCMPAM#table(database_table = @active_table):` returns the active table
+* `FCMPAM#database(database_name = @active_database):` returns the active database

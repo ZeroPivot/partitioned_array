@@ -1,4 +1,11 @@
 # rubocop:disable Style/FrozenStringLiteralComment
+# rubocop:disable Lint/RedundantCopDisableDirective
+# rubocop:disable Layout/ClosingParenthesisIndentation
+# rubocop:disable Layout/MultilineMethodDefinitionBraceLayout
+# rubocop:disable Layout/ArgumentAlignment
+# rubocop:disable Layout/HashAlignment
+# rubocop:disable Style/StringConcatenation
+# rubocop:disable Style/FrozenStringLiteralComment
 # rubocop:disable Naming/AccessorMethodName
 # rubocop:disable Style/RescueStandardError
 # rubocop:disable Metrics/MethodLength
@@ -14,6 +21,7 @@ require_relative 'managed_partitioned_array'
 
 # VERSION v1.0.1a - organized, prettified, and corrected one bug, or possible bug (1/3/2022 3:08PM)
 # TODO: Study this code a bit and describe the architecture further, its a bit confusing going down this low level with the partitioned arrays.
+# DONE: Prettify code, reduce linter warnings, and organize variables
 # VERSION v1.0.0a - organized, prettified, and corrected one bug, or possible bug
 # version 1.0.0a is battle test ready, and is simply a bootstrap for the FCMPAM
 # VERSION v0.2.8 - reduced redundancy that happened by accident
@@ -36,8 +44,8 @@ require_relative 'managed_partitioned_array'
 # Refining before field testing
 class FileContextManagedPartitionedArray
   attr_accessor :fcmpa_db_indexer_db, :fcmpa_active_databases, :active_database, :db_file_incrementor, :db_file_location, :db_path, :db_name, :db_size, :db_endless_add, :db_has_capacity, :fcmpa_db_indexer_name, :fcmpa_db_folder_name, :fcmpa_db_size, :fcmpa_partition_amount_and_offset, :db_partition_amount_and_offset, :partition_addition_amount, :db_dynamically_allocates, :timestamp_str
- 
-  # DB_SIZE > PARTITION_AMOUNT  
+
+  # DB_SIZE > PARTITION_AMOUNT
   DB_SIZE = 20 # Caveat: The DB_SIZE is the total # of partitions, but you subtract it by one since the first partition is 0, in code. that is, it is from 0 to DB_SIZE-1, but DB_SIZE is then the max allocated DB size
   DB_MAX_CAPACITY = "data_arr_size"
   DB_PARTITION_AMOUNT = 9
@@ -49,11 +57,6 @@ class FileContextManagedPartitionedArray
   DB_DYNAMICALLY_ALLOCATES = true
   DB_ENDLESS_ADD = true
   DB_PARTITION_ARCHIVE_ID = 0
-
-
-
-
-
 
   FCMPA_DB_SIZE = 20
   FCMPA_DB_ENDLESS_ADD = true
@@ -67,7 +70,7 @@ class FileContextManagedPartitionedArray
   FCMPA_DB_PARTITION_AMOUNT = 9
   FCMPA_DB_OFFSET = 1  
   FCMPA_DB_INDEX_LOCATION = 0
-  
+
   TRAVERSE_HASH = true
   DEBUG = true
 
@@ -104,21 +107,17 @@ class FileContextManagedPartitionedArray
 
 
     @traverse_hash = traverse_hash
-
-
     @raise_on_no_db = raise_on_no_db
-
-    @db_max_capacity = db_max_capacity 
-    @db_partition_amount_and_offset =  db_partition_amount_and_offset #
-    @db_dynamically_allocates = db_dynamically_allocates # 
-    @db_has_capacity = db_has_capacity #
-    @db_endless_add = db_endless_add #
-    @db_partition_addition_amount = db_partition_addition_amount #
-    @db_size = db_size #
-    @db_path = db_path #
-    @db_name = db_name #
-    @db_partition_archive_id = db_partition_archive_id #
-
+    @db_max_capacity = db_max_capacity
+    @db_partition_amount_and_offset = db_partition_amount_and_offset
+    @db_dynamically_allocates = db_dynamically_allocates
+    @db_has_capacity = db_has_capacity
+    @db_endless_add = db_endless_add
+    @db_partition_addition_amount = db_partition_addition_amount
+    @db_size = db_size
+    @db_path = db_path
+    @db_name = db_name
+    @db_partition_archive_id = db_partition_archive_id
 
     @fcmpa_db_dynamically_allocates = fcmpa_db_dynamically_allocates
     @fcmpa_db_indexer_name = fcmpa_db_indexer_name
@@ -135,8 +134,6 @@ class FileContextManagedPartitionedArray
     @fcmpa_db_indexer_db = {}
     @timestamp_str = new_timestamp
     load_indexer_db!
-    #puts "FCMPA_DB_INDEXER: #{@fcmpa_db_indexer_db}" 
-    #exit
   end
 
   def load_indexer_db!
@@ -151,10 +148,8 @@ class FileContextManagedPartitionedArray
                                                        max_capacity: @fcmpa_max_capacity,
                                                        partition_archive_id: @fcmpa_db_partition_archive_id
                                                        )
-    
-   
+
     @fcmpa_db_indexer_db.allocate
-    
     begin
       @fcmpa_db_indexer_db.load_everything_from_files!
     rescue
@@ -170,17 +165,16 @@ class FileContextManagedPartitionedArray
     timestamp_str = new_timestamp # the string to give uniqueness to each database file context
     db_name_str = database_index_name_str
 
-    return @fcmpa_db_indexer_db if !@fcmpa_db_indexer_db.get(fcmpa_db_index_location)["db_name"].nil? #guard clause to prevent overwriting the database index file
+    return @fcmpa_db_indexer_db unless @fcmpa_db_indexer_db.get(fcmpa_db_index_location)["db_name"].nil? # guard clause to prevent overwriting the database index file
   
-    path = db_path+"_"+db_name_str
-    #end
+    path = db_path + "_" + db_name_str
 
-    @fcmpa_db_indexer_db.set(fcmpa_db_index_location) do |entry|      
-      entry[db_name_str] = {"db_path" => path, "db_name" => db_name+"_"+db_name_str, "db_table_name" => [] }
+    @fcmpa_db_indexer_db.set(fcmpa_db_index_location) do |entry|
+      entry[db_name_str] = { "db_path" => path, "db_name" => db_name + "_" + db_name_str, "db_table_name" => [] }
     end
     @fcmpa_db_indexer_db.save_everything_to_files!
 
-  #db indexer variable takes the responsibility of maintaining these databases via key names
+    # db indexer variable takes the responsibility of maintaining these databases via key names
     temp = ManagedPartitionedArray.new(endless_add: @db_endless_add,
                                       dynamically_allocates: @db_dynamically_allocates,
                                       has_capacity: @db_has_capacity,
@@ -188,7 +182,7 @@ class FileContextManagedPartitionedArray
                                       partition_addition_amount: @db_partition_addition_amount,
                                       partition_amount_and_offset: @db_partition_amount_and_offset,
                                       db_size: @db_size,
-                                      db_name: db_name+"_"+db_name_str,
+                                      db_name: db_name + "_" + db_name_str,
                                       db_path: path,
                                       partition_archive_id: @db_partition_archive_id)
     temp.allocate
@@ -206,7 +200,7 @@ class FileContextManagedPartitionedArray
   end
 
   def add_database_to_index(database_index_name, database_path, database_name, fcmpa_db_index_location: @fcmpa_db_index_location)
-    #timestamp_str = @timestamp_str # the string to give uniqueness to each database file context
+    # timestamp_str = @timestamp_str # the string to give uniqueness to each database file context
     @fcmpa_db_indexer_db.set(fcmpa_db_index_location) do |entry|
       entry[database_index_name] = {"db_path" => database_path, "db_name" => database_name}
     end
@@ -221,13 +215,7 @@ class FileContextManagedPartitionedArray
     @active_database = database_index_name
   end
 
-
   def stop_database!(database_index_name)
-    # @fcmpa_db_indexer_db.set(@fcmpa_db_index_location) do |entry|
-    #  entry.delete(database_index_name)
-      # debug "deleted database #{database_index_name} from index"
-    # end
-    # @fcmpa_db_indexer_db.save_everything_to_files!
     @fcmpa_active_databases.delete(database_index_name)
   end
 
@@ -240,7 +228,7 @@ class FileContextManagedPartitionedArray
       new_database(database_index_name, db_name: db_name, db_path: db_path) # start a new database if one wasn't assigned
     else
       # debug "db index debug #{db_index}" 
-      # debug "db_index[database_index_name] doesn't exist"   
+      # debug "db_index[database_index_name] doesn't exist"
       db_name = db_index[database_index_name]["db_name"]
       db_path = db_index[database_index_name]["db_path"]
       # debug "db name debug #{db_name}"
@@ -315,10 +303,10 @@ class FileContextManagedPartitionedArray
     temp = temp.archive_and_new_db!
     @fcmpa_active_databases[database_index_name] = temp
 
-    #temp = db(database_index_name)
+    # temp = db(database_index_name)
   end
 
-  #traverses the database and yields every element in @data_arr, even nils
+  # traverses the database and yields every element in @data_arr, even nils
   def each(database_index_name, hash: @traverse_hash)
     return false if @fcmpa_active_databases[database_index_name].nil?
 
@@ -353,4 +341,11 @@ end
 # rubocop:enable Metrics/MethodLength
 # rubocop:enable Style/RescueStandardError
 # rubocop:enable Naming/AccessorMethodName
+# rubocop:enable Style/FrozenStringLiteralComment
+# rubocop:enable Style/StringConcatenation
+# rubocop:enable Layout/HashAlignment
+# rubocop:enable Layout/ArgumentAlignment
+# rubocop:enable Layout/MultilineMethodDefinitionBraceLayout
+# rubocop:enable Layout/ClosingParenthesisIndentation
+# rubocop:enable Lint/RedundantCopDisableDirective
 # rubocop:enable Style/FrozenStringLiteralComment

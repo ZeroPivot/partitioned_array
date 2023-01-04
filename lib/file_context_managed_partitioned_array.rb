@@ -26,7 +26,7 @@ require_relative 'managed_partitioned_array'
 # FCMPA#add_database_to_index! - adds a database to the index
 # FCMPA#db(database_index_name = @active_database) - returns the database
 # FCMPA#set_active_database(database_index_name) - sets the active database
-# FCMPA#stop_database! - stops a database
+# FCMPA#stop_database!(database_index_name) - stops a database
 # FCMPA#stop_databases! - stops all databases
 # FCMPA#save_databases! - saves all databases
 # FCMPA#load_database!(database_index_name = @active_database) - loads a database

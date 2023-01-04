@@ -361,7 +361,7 @@ FCMPA#db(database_index_name = @active_database) - returns the database
 
 FCMPA#set_active_database(database_index_name) - sets the active database
 
-FCMPA#stop_database! - stops a database
+FCMPA#stop_database!(database_index_name) - stops a database
 
 FCMPA#stop_databases! - stops all databases
 

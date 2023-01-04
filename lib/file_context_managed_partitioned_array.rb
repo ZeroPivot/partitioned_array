@@ -18,6 +18,24 @@
 # rubocop:disable Style/MutableConstant
 # rubocop:disable Metrics/ClassLength
 require_relative 'managed_partitioned_array'
+# VERSION v1.0.2a - Prettified, and listed all functions below
+# FCMPA#load_indexer_db! - loads the indexing DB
+# FCMPA#new_database! - creates a new database
+# FCMPA#start_database! - starts a database
+# FCMPA#delete_database_from_index! - deletes a database from the index
+# FCMPA#add_database_to_index! - adds a database to the index
+# FCMPA#db(database_index_name = @active_database) - returns the database
+# FCMPA#set_active_database(database_index_name) - sets the active database
+# FCMPA#stop_database! - stops a database
+# FCMPA#stop_databases! - stops all databases
+# FCMPA#save_databases! - saves all databases
+# FCMPA#load_database!(database_index_name = @active_database) - loads a database
+# FCMPA#load_databases! - loads all databases
+# FCMPA#delete_database!(database_index_name = @active_database) - deletes a database
+# FCMPA#get_databases_list - returns a list of databases
+# FCMPA#set_new_file_archive!(database_index_name = @active_database) - sets a new file archive for a database
+# FCMPA#each(database_index_name, hash: @traverse_hash) - traverses a database
+# FCMPA#each_not_nil(database_index_name, hash: @traverse_hash) - traverses a database, skipping nil values
 
 # VERSION v1.0.1a - organized, prettified, and corrected one bug, or possible bug (1/3/2022 3:08PM)
 # TODO: Study this code a bit and describe the architecture further, its a bit confusing going down this low level with the partitioned arrays.

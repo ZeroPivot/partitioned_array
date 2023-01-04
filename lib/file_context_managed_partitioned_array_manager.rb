@@ -55,6 +55,8 @@ require_relative 'file_context_managed_partitioned_array'
 class FileContextManagedPartitionedArrayManager
   attr_accessor :fcmpa_db_indexer_db, :fcmpa_active_databases, :db_file_incrementor, :db_file_location, :db_path, :db_name, :db_size, :db_endless_add, :db_has_capacity, :fcmpa_db_indexer_name, :fcmpa_db_folder_name, :fcmpa_db_size, :fcmpa_partition_amount_and_offset, :db_partition_amount_and_offset, :partition_addition_amount, :db_dynamically_allocates, :timestamp_str
 
+  INDEX = 0 # the index of the database in the database table, 0th element entry in any given database, primarily because the math leads to an extra entry in the first partition.
+
   # DB_SIZE > PARTITION_AMOUNT
   TRAVERSE_HASH = true
   FCMPA_PARTITION_AMOUNT = 9

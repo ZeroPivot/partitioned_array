@@ -1,0 +1,3551 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: ManagedPartitionedArray
+  
+    &mdash; Documentation by YARD 0.9.28
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "ManagedPartitionedArray";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index (M)</a> &raquo;
+    
+    
+    <span class="title">ManagedPartitionedArray</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: ManagedPartitionedArray
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName"><span class='object_link'><a href="PartitionedArray.html" title="PartitionedArray (class)">PartitionedArray</a></span></span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next"><span class='object_link'><a href="PartitionedArray.html" title="PartitionedArray (class)">PartitionedArray</a></span></li>
+          
+            <li class="next">ManagedPartitionedArray</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/managed_partitioned_array.rb<span class="defines">,<br />
+  lib/dr_partitioned_array/managed_partitioned_array.rb</span>
+</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>VERSION v1.3.0a - endless add implementation in ManagedPartitionedArray#endless_add Allows the database to continuously add and allocate, as if it were a plain PartitionedArray NOTE: consider the idea that adding a partition may mean that it saves all variables and everything to disk SUGGESTION: working this out by only saving by partition, and not by the whole database SUGGESTION: this would mean that the database would have to be loaded from the beginning, but that’s not a big deal VERSION v1.2.9 - fixes VERSION v1.2.8 - Regression and bug found and fixed; too many guard clauses at at_capacity? method (10/1/2022) VERSION v1.2.7 - fixed more bugs with dynamic allocation VERSION v1.2.6 - bug fix with array allocation given that you don’t want to create file partitions (9/27/2022 - 7:09AM) VERSION v1.2.5 - bug fixes VERSION: v1.1.4 - seemed to have sorted out the file issues… but still need to test it out VERSION: v1.1.3  many bug fixes; variables are now in sync with file i/o Stopped: problem with @latest_id not being set correctly working on load_from_archive! and how it will get the latest archive database and load up all the variables, only it seems that there is something wrong with that.  VERSION: v1.1.2 (9/13/2022 10:17 am) Prettified Added raise to ManagedPartitionedArray#at_capacity? if @has_capacity == false VERSION: v1.1.1a - got rid of class variables, and things seem to be fully working now VERSION: v1.1.0a - fully functional, but not yet tested–test in the real world VERSION: v1.0.2 - more bug fixes, added a few more tests VERSION: v1.0.1 - bug fixes VERSION: v1.0.0a - fully functional at a basic level; can load archives and the max id of the archive is always available VERSION: v0.1.3 - file saving and other methods properly working VERSION: v0.1.2 - added managed databases, but need to add more logic to make it work fully VERSION: v0.1.1 UPDATE 8/31/2022: @latest_id increments correctly now Manages the @last_entry variable, which tracks where the latest entry is, since PartitionedArray is dynamically allocated.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><div id="subclasses">
+  <h2>Direct Known Subclasses</h2>
+  <p class="children"><span class='object_link'><a href="ManagedPartitionedArrayDR.html" title="ManagedPartitionedArrayDR (class)">ManagedPartitionedArrayDR</a></span>, <span class='object_link'><a href="PureManagedPartitionedArray.html" title="PureManagedPartitionedArray (class)">PureManagedPartitionedArray</a></span></p>
+</div>
+
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="PARTITION_AMOUNT-constant" class="">PARTITION_AMOUNT =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>DB_SIZE &gt; PARTITION_AMOUNT</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>9</span></pre></dd>
+      
+        <dt id="OFFSET-constant" class="">OFFSET =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The initial, + 1</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>1</span></pre></dd>
+      
+        <dt id="DB_SIZE-constant" class="">DB_SIZE =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>This came with the math, but you can just state the PARTITION_AMOUNT in total and not worry about the offset in the end</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>20</span></pre></dd>
+      
+        <dt id="PARTITION_ARCHIVE_ID-constant" class="">PARTITION_ARCHIVE_ID =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Caveat: The DB_SIZE is the total # of partitions, but you subtract it by one since the first partition is 0, in code. that is, it is from 0 to DB_SIZE-1, but DB_SIZE is then the max allocated DB size</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>0</span></pre></dd>
+      
+        <dt id="DEFAULT_PATH-constant" class="">DEFAULT_PATH =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>default fallback/write to current path</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>./DB_TEST</span><span class='tstring_end'>&quot;</span></span></pre></dd>
+      
+        <dt id="DEBUGGING-constant" class="">DEBUGGING =
+          
+        </dt>
+        <dd><pre class="code"><span class='kw'>false</span></pre></dd>
+      
+        <dt id="PAUSE_DEBUG-constant" class="">PAUSE_DEBUG =
+          
+        </dt>
+        <dd><pre class="code"><span class='kw'>false</span></pre></dd>
+      
+        <dt id="DB_NAME-constant" class="">DB_NAME =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>partitioned_array_slice</span><span class='tstring_end'>&#39;</span></span></pre></dd>
+      
+        <dt id="PARTITION_ADDITION_AMOUNT-constant" class="">PARTITION_ADDITION_AMOUNT =
+          
+        </dt>
+        <dd><pre class="code"><span class='int'>1</span></pre></dd>
+      
+        <dt id="MAX_CAPACITY-constant" class="">MAX_CAPACITY =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>: :data_arr_size; a keyword to add to the array until its full with no buffer additions</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>data_arr_size</span><span class='tstring_end'>&quot;</span></span></pre></dd>
+      
+        <dt id="HAS_CAPACITY-constant" class="">HAS_CAPACITY =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>if false, then the max_capacity is ignored and at_capacity? raises if @has_capacity == false</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='kw'>true</span></pre></dd>
+      
+        <dt id="DYNAMICALLY_ALLOCATES-constant" class="">DYNAMICALLY_ALLOCATES =
+          
+        </dt>
+        <dd><pre class="code"><span class='kw'>true</span></pre></dd>
+      
+        <dt id="ENDLESS_ADD-constant" class="">ENDLESS_ADD =
+          
+        </dt>
+        <dd><pre class="code"><span class='kw'>false</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#data_arr-instance_method" title="#data_arr (instance method)">#<strong>data_arr</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute data_arr.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#db_name-instance_method" title="#db_name (instance method)">#<strong>db_name</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute db_name.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#db_name_with_no_archive-instance_method" title="#db_name_with_no_archive (instance method)">#<strong>db_name_with_no_archive</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute db_name_with_no_archive.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#db_path-instance_method" title="#db_path (instance method)">#<strong>db_path</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute db_path.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#db_size-instance_method" title="#db_size (instance method)">#<strong>db_size</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute db_size.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#endless_add-instance_method" title="#endless_add (instance method)">#<strong>endless_add</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute endless_add.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#has_capacity-instance_method" title="#has_capacity (instance method)">#<strong>has_capacity</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute has_capacity.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#latest_id-instance_method" title="#latest_id (instance method)">#<strong>latest_id</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute latest_id.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#max_capacity-instance_method" title="#max_capacity (instance method)">#<strong>max_capacity</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute max_capacity.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#max_partition_archive_id-instance_method" title="#max_partition_archive_id (instance method)">#<strong>max_partition_archive_id</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute max_partition_archive_id.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#partition_amount_and_offset-instance_method" title="#partition_amount_and_offset (instance method)">#<strong>partition_amount_and_offset</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute partition_amount_and_offset.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#partition_archive_id-instance_method" title="#partition_archive_id (instance method)">#<strong>partition_archive_id</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute partition_archive_id.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#range_arr-instance_method" title="#range_arr (instance method)">#<strong>range_arr</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute range_arr.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#rel_arr-instance_method" title="#rel_arr (instance method)">#<strong>rel_arr</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute rel_arr.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+  
+  
+  <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="PartitionedArray.html" title="PartitionedArray (class)">PartitionedArray</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="PartitionedArray.html#partition_addition_amount-instance_method" title="PartitionedArray#partition_addition_amount (method)">#partition_addition_amount</a></span></p>
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#add-instance_method" title="#add (instance method)">#<strong>add</strong>(return_added_element_id: true, &amp;block)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#archive_and_new_db!-instance_method" title="#archive_and_new_db! (instance method)">#<strong>archive_and_new_db!</strong>(auto_allocate: true, partition_addition_amount: @partition_addition_amount, max_capacity: @max_capacity, has_capacity: @has_capacity, partition_archive_id: @partition_archive_id, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#at_capacity%3F-instance_method" title="#at_capacity? (instance method)">#<strong>at_capacity?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>ManagedPartitionedArray#at_capacity? checks to see if the partitioned array is at its capacity.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#db_name_with_archive-instance_method" title="#db_name_with_archive (instance method)">#<strong>db_name_with_archive</strong>(db_name: @original_db_name, partition_archive_id: @partition_archive_id)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#dump_all_variables-instance_method" title="#dump_all_variables (instance method)">#<strong>dump_all_variables</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#increment_max_partition_archive_id!-instance_method" title="#increment_max_partition_archive_id! (instance method)">#<strong>increment_max_partition_archive_id!</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(endless_add: ENDLESS_ADD, dynamically_allocates: DYNAMICALLY_ALLOCATES, partition_addition_amount: PARTITION_ADDITION_AMOUNT, max_capacity: MAX_CAPACITY, has_capacity: HAS_CAPACITY, partition_archive_id: PARTITION_ARCHIVE_ID, db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: DEFAULT_PATH, db_name: DB_NAME)  &#x21d2; ManagedPartitionedArray </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A new instance of ManagedPartitionedArray.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize_max_partition_archive_id!-instance_method" title="#initialize_max_partition_archive_id! (instance method)">#<strong>initialize_max_partition_archive_id!</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#load_archive_no_auto_allocate!-instance_method" title="#load_archive_no_auto_allocate! (instance method)">#<strong>load_archive_no_auto_allocate!</strong>(has_capacity: @has_capacity, dynamically_allocates: @dynamically_allocates, endless_add: @endless_add, partition_archive_id: @max_partition_archive_id, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive, max_capacity: @max_capacity, partition_addition_amount: @partition_addition_amount)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>ex ManagedPartitionedArray#load_archive_no_auto_allocate!(partition_archive_id: partition_archive_id, …).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#load_db_name_with_no_archive_from_file!-instance_method" title="#load_db_name_with_no_archive_from_file! (instance method)">#<strong>load_db_name_with_no_archive_from_file!</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#load_endless_add_from_file!-instance_method" title="#load_endless_add_from_file! (instance method)">#<strong>load_endless_add_from_file!</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#load_everything_from_files!-instance_method" title="#load_everything_from_files! (instance method)">#<strong>load_everything_from_files!</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#load_from_archive!-instance_method" title="#load_from_archive! (instance method)">#<strong>load_from_archive!</strong>(has_capacity: @has_capacity, dynamically_allocates: @dynamically_allocates, endless_add: @endless_add, partition_archive_id: @max_partition_archive_id, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive, max_capacity: @max_capacity, partition_addition_amount: @partition_addition_amount)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>ex ManagedPartitionedArray#load_from_archive!(partition_archive_id: partition_archive_id, …).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#load_has_capacity_from_file!-instance_method" title="#load_has_capacity_from_file! (instance method)">#<strong>load_has_capacity_from_file!</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#load_last_entry_from_file!-instance_method" title="#load_last_entry_from_file! (instance method)">#<strong>load_last_entry_from_file!</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#load_max_capacity_from_file!-instance_method" title="#load_max_capacity_from_file! (instance method)">#<strong>load_max_capacity_from_file!</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#load_max_partition_archive_id_from_file!-instance_method" title="#load_max_partition_archive_id_from_file! (instance method)">#<strong>load_max_partition_archive_id_from_file!</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#load_partition_addition_amount_from_file!-instance_method" title="#load_partition_addition_amount_from_file! (instance method)">#<strong>load_partition_addition_amount_from_file!</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#load_partition_archive_id_from_file!-instance_method" title="#load_partition_archive_id_from_file! (instance method)">#<strong>load_partition_archive_id_from_file!</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#load_partition_from_file!-instance_method" title="#load_partition_from_file! (instance method)">#<strong>load_partition_from_file!</strong>(partition_id, load_variables: true)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#load_variables_from_disk!-instance_method" title="#load_variables_from_disk! (instance method)">#<strong>load_variables_from_disk!</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#max_capacity_setup!-instance_method" title="#max_capacity_setup! (instance method)">#<strong>max_capacity_setup!</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>one keyword available: :data_arr_size.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#save_data_arr_to_disk!-instance_method" title="#save_data_arr_to_disk! (instance method)">#<strong>save_data_arr_to_disk!</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#save_db_name_with_no_archive_to_file!-instance_method" title="#save_db_name_with_no_archive_to_file! (instance method)">#<strong>save_db_name_with_no_archive_to_file!</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#save_endless_add_to_file!-instance_method" title="#save_endless_add_to_file! (instance method)">#<strong>save_endless_add_to_file!</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#save_everything_to_files!-instance_method" title="#save_everything_to_files! (instance method)">#<strong>save_everything_to_files!</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#save_has_capacity_to_file!-instance_method" title="#save_has_capacity_to_file! (instance method)">#<strong>save_has_capacity_to_file!</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#save_last_entry_to_file!-instance_method" title="#save_last_entry_to_file! (instance method)">#<strong>save_last_entry_to_file!</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#save_max_capacity_to_file!-instance_method" title="#save_max_capacity_to_file! (instance method)">#<strong>save_max_capacity_to_file!</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#save_max_partition_archive_id_to_file!-instance_method" title="#save_max_partition_archive_id_to_file! (instance method)">#<strong>save_max_partition_archive_id_to_file!</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#save_partition_addition_amount_to_file!-instance_method" title="#save_partition_addition_amount_to_file! (instance method)">#<strong>save_partition_addition_amount_to_file!</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#save_partition_archive_id_to_file!-instance_method" title="#save_partition_archive_id_to_file! (instance method)">#<strong>save_partition_archive_id_to_file!</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#save_partition_to_file!-instance_method" title="#save_partition_to_file! (instance method)">#<strong>save_partition_to_file!</strong>(partition_id, save_variables: true)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>save_variables: added 10/21/2022; all variables saved/loaded to disk by default, to work around an issue where I didn’t realize I needed to save variables.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#save_variables_to_disk!-instance_method" title="#save_variables_to_disk! (instance method)">#<strong>save_variables_to_disk!</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#strip_archived_db_name-instance_method" title="#strip_archived_db_name (instance method)">#<strong>strip_archived_db_name</strong>(db_name: @original_db_name)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="PartitionedArray.html" title="PartitionedArray (class)">PartitionedArray</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="PartitionedArray.html#add_partition-instance_method" title="PartitionedArray#add_partition (method)">#add_partition</a></span>, <span class='object_link'><a href="PartitionedArray.html#all_empty_partitions%3F-instance_method" title="PartitionedArray#all_empty_partitions? (method)">#all_empty_partitions?</a></span>, <span class='object_link'><a href="PartitionedArray.html#allocate-instance_method" title="PartitionedArray#allocate (method)">#allocate</a></span>, <span class='object_link'><a href="PartitionedArray.html#debug-instance_method" title="PartitionedArray#debug (method)">#debug</a></span>, <span class='object_link'><a href="PartitionedArray.html#debug_and_pause-instance_method" title="PartitionedArray#debug_and_pause (method)">#debug_and_pause</a></span>, <span class='object_link'><a href="PartitionedArray.html#delete-instance_method" title="PartitionedArray#delete (method)">#delete</a></span>, <span class='object_link'><a href="PartitionedArray.html#delete_partition-instance_method" title="PartitionedArray#delete_partition (method)">#delete_partition</a></span>, <span class='object_link'><a href="PartitionedArray.html#delete_partition_subelement-instance_method" title="PartitionedArray#delete_partition_subelement (method)">#delete_partition_subelement</a></span>, <span class='object_link'><a href="PartitionedArray.html#dup_data_arr!-instance_method" title="PartitionedArray#dup_data_arr! (method)">#dup_data_arr!</a></span>, <span class='object_link'><a href="PartitionedArray.html#get-instance_method" title="PartitionedArray#get (method)">#get</a></span>, <span class='object_link'><a href="PartitionedArray.html#get_partition-instance_method" title="PartitionedArray#get_partition (method)">#get_partition</a></span>, <span class='object_link'><a href="PartitionedArray.html#load_dynamically_allocates_from_file!-instance_method" title="PartitionedArray#load_dynamically_allocates_from_file! (method)">#load_dynamically_allocates_from_file!</a></span>, <span class='object_link'><a href="PartitionedArray.html#load_from_files!-instance_method" title="PartitionedArray#load_from_files! (method)">#load_from_files!</a></span>, <span class='object_link'><a href="PartitionedArray.html#range_db_get-instance_method" title="PartitionedArray#range_db_get (method)">#range_db_get</a></span>, <span class='object_link'><a href="PartitionedArray.html#save_all_to_files!-instance_method" title="PartitionedArray#save_all_to_files! (method)">#save_all_to_files!</a></span>, <span class='object_link'><a href="PartitionedArray.html#save_dynamically_allocates_to_file!-instance_method" title="PartitionedArray#save_dynamically_allocates_to_file! (method)">#save_dynamically_allocates_to_file!</a></span>, <span class='object_link'><a href="PartitionedArray.html#set-instance_method" title="PartitionedArray#set (method)">#set</a></span>, <span class='object_link'><a href="PartitionedArray.html#set_partition_subelement-instance_method" title="PartitionedArray#set_partition_subelement (method)">#set_partition_subelement</a></span>, <span class='object_link'><a href="PartitionedArray.html#string2range-instance_method" title="PartitionedArray#string2range (method)">#string2range</a></span></p>
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>(endless_add: ENDLESS_ADD, dynamically_allocates: DYNAMICALLY_ALLOCATES, partition_addition_amount: PARTITION_ADDITION_AMOUNT, max_capacity: MAX_CAPACITY, has_capacity: HAS_CAPACITY, partition_archive_id: PARTITION_ARCHIVE_ID, db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: DEFAULT_PATH, db_name: DB_NAME)  &#x21d2; <tt><span class='object_link'><a href="" title="ManagedPartitionedArray (class)">ManagedPartitionedArray</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns a new instance of ManagedPartitionedArray.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 56</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='label'>endless_add:</span> <span class='const'><span class='object_link'><a href="#ENDLESS_ADD-constant" title="ManagedPartitionedArray::ENDLESS_ADD (constant)">ENDLESS_ADD</a></span></span><span class='comma'>,</span> <span class='label'>dynamically_allocates:</span> <span class='const'><span class='object_link'><a href="#DYNAMICALLY_ALLOCATES-constant" title="ManagedPartitionedArray::DYNAMICALLY_ALLOCATES (constant)">DYNAMICALLY_ALLOCATES</a></span></span><span class='comma'>,</span> <span class='label'>partition_addition_amount:</span> <span class='const'><span class='object_link'><a href="#PARTITION_ADDITION_AMOUNT-constant" title="ManagedPartitionedArray::PARTITION_ADDITION_AMOUNT (constant)">PARTITION_ADDITION_AMOUNT</a></span></span><span class='comma'>,</span> <span class='label'>max_capacity:</span> <span class='const'><span class='object_link'><a href="#MAX_CAPACITY-constant" title="ManagedPartitionedArray::MAX_CAPACITY (constant)">MAX_CAPACITY</a></span></span><span class='comma'>,</span> <span class='label'>has_capacity:</span> <span class='const'><span class='object_link'><a href="#HAS_CAPACITY-constant" title="ManagedPartitionedArray::HAS_CAPACITY (constant)">HAS_CAPACITY</a></span></span><span class='comma'>,</span> <span class='label'>partition_archive_id:</span> <span class='const'><span class='object_link'><a href="#PARTITION_ARCHIVE_ID-constant" title="ManagedPartitionedArray::PARTITION_ARCHIVE_ID (constant)">PARTITION_ARCHIVE_ID</a></span></span><span class='comma'>,</span> <span class='label'>db_size:</span> <span class='const'><span class='object_link'><a href="#DB_SIZE-constant" title="ManagedPartitionedArray::DB_SIZE (constant)">DB_SIZE</a></span></span><span class='comma'>,</span> <span class='label'>partition_amount_and_offset:</span> <span class='const'><span class='object_link'><a href="#PARTITION_AMOUNT-constant" title="ManagedPartitionedArray::PARTITION_AMOUNT (constant)">PARTITION_AMOUNT</a></span></span> <span class='op'>+</span> <span class='const'><span class='object_link'><a href="#OFFSET-constant" title="ManagedPartitionedArray::OFFSET (constant)">OFFSET</a></span></span><span class='comma'>,</span> <span class='label'>db_path:</span> <span class='const'><span class='object_link'><a href="#DEFAULT_PATH-constant" title="ManagedPartitionedArray::DEFAULT_PATH (constant)">DEFAULT_PATH</a></span></span><span class='comma'>,</span> <span class='label'>db_name:</span> <span class='const'><span class='object_link'><a href="#DB_NAME-constant" title="ManagedPartitionedArray::DB_NAME (constant)">DB_NAME</a></span></span><span class='rparen'>)</span> 
+  <span class='ivar'>@db_path</span> <span class='op'>=</span> <span class='id identifier rubyid_db_path'>db_path</span>
+  <span class='ivar'>@partition_archive_id</span> <span class='op'>=</span> <span class='id identifier rubyid_partition_archive_id'>partition_archive_id</span>
+  <span class='ivar'>@original_db_name</span> <span class='op'>=</span> <span class='id identifier rubyid_strip_archived_db_name'>strip_archived_db_name</span><span class='lparen'>(</span><span class='label'>db_name:</span> <span class='id identifier rubyid_db_name'>db_name</span><span class='rparen'>)</span>
+  <span class='ivar'>@db_name_with_archive</span> <span class='op'>=</span> <span class='id identifier rubyid_db_name_with_archive'>db_name_with_archive</span><span class='lparen'>(</span><span class='label'>db_name:</span> <span class='ivar'>@original_db_name</span><span class='comma'>,</span> <span class='label'>partition_archive_id:</span> <span class='ivar'>@partition_archive_id</span><span class='rparen'>)</span>    
+  <span class='ivar'>@max_capacity</span> <span class='op'>=</span> <span class='id identifier rubyid_max_capacity'>max_capacity</span>
+  <span class='ivar'>@latest_id</span> <span class='op'>=</span> <span class='int'>0</span> <span class='comment'># last entry    
+</span>  <span class='comment'># @max_capacity = max_capacity_setup! # =&gt; commented out on 10/4/2022 1:32am
+</span>  <span class='ivar'>@has_capacity</span> <span class='op'>=</span> <span class='id identifier rubyid_has_capacity'>has_capacity</span>
+  <span class='ivar'>@max_partition_archive_id</span> <span class='op'>=</span> <span class='id identifier rubyid_initialize_max_partition_archive_id!'>initialize_max_partition_archive_id!</span>
+  <span class='ivar'>@partition_addition_amount</span> <span class='op'>=</span> <span class='id identifier rubyid_partition_addition_amount'>partition_addition_amount</span>
+  <span class='ivar'>@max_capacity</span> <span class='op'>=</span> <span class='id identifier rubyid_max_capacity_setup!'>max_capacity_setup!</span>
+  <span class='ivar'>@dynamically_allocates</span> <span class='op'>=</span> <span class='id identifier rubyid_dynamically_allocates'>dynamically_allocates</span>  
+  <span class='ivar'>@endless_add</span> <span class='op'>=</span> <span class='id identifier rubyid_endless_add'>endless_add</span> <span class='comment'># add endlessly like a regular partitioned array
+</span>  <span class='kw'>super</span><span class='lparen'>(</span><span class='label'>partition_addition_amount:</span> <span class='ivar'>@partition_addition_amount</span><span class='comma'>,</span> <span class='label'>dynamically_allocates:</span> <span class='ivar'>@dynamically_allocates</span><span class='comma'>,</span> <span class='label'>db_size:</span> <span class='id identifier rubyid_db_size'>db_size</span><span class='comma'>,</span> <span class='label'>partition_amount_and_offset:</span> <span class='id identifier rubyid_partition_amount_and_offset'>partition_amount_and_offset</span><span class='comma'>,</span> <span class='label'>db_path:</span> <span class='id identifier rubyid_db_path'>db_path</span><span class='comma'>,</span> <span class='label'>db_name:</span> <span class='ivar'>@db_name_with_archive</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id="data_arr=-instance_method"></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="data_arr-instance_method">
+  
+    #<strong>data_arr</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute data_arr.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+39
+40
+41</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 39</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_data_arr'>data_arr</span>
+  <span class='ivar'>@data_arr</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="db_name=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="db_name-instance_method">
+  
+    #<strong>db_name</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute db_name.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+39
+40
+41</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 39</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_db_name'>db_name</span>
+  <span class='ivar'>@db_name</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="db_name_with_no_archive=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="db_name_with_no_archive-instance_method">
+  
+    #<strong>db_name_with_no_archive</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute db_name_with_no_archive.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+39
+40
+41</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 39</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_db_name_with_no_archive'>db_name_with_no_archive</span>
+  <span class='ivar'>@db_name_with_no_archive</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="db_path=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="db_path-instance_method">
+  
+    #<strong>db_path</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute db_path.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+39
+40
+41</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 39</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_db_path'>db_path</span>
+  <span class='ivar'>@db_path</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="db_size=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="db_size-instance_method">
+  
+    #<strong>db_size</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute db_size.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+39
+40
+41</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 39</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_db_size'>db_size</span>
+  <span class='ivar'>@db_size</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="endless_add=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="endless_add-instance_method">
+  
+    #<strong>endless_add</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute endless_add.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+39
+40
+41</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 39</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_endless_add'>endless_add</span>
+  <span class='ivar'>@endless_add</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="has_capacity=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="has_capacity-instance_method">
+  
+    #<strong>has_capacity</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute has_capacity.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+39
+40
+41</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 39</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_has_capacity'>has_capacity</span>
+  <span class='ivar'>@has_capacity</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="latest_id=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="latest_id-instance_method">
+  
+    #<strong>latest_id</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute latest_id.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+39
+40
+41</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 39</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_latest_id'>latest_id</span>
+  <span class='ivar'>@latest_id</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="max_capacity=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="max_capacity-instance_method">
+  
+    #<strong>max_capacity</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute max_capacity.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+39
+40
+41</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 39</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_max_capacity'>max_capacity</span>
+  <span class='ivar'>@max_capacity</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="max_partition_archive_id=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="max_partition_archive_id-instance_method">
+  
+    #<strong>max_partition_archive_id</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute max_partition_archive_id.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+39
+40
+41</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 39</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_max_partition_archive_id'>max_partition_archive_id</span>
+  <span class='ivar'>@max_partition_archive_id</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="partition_amount_and_offset=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="partition_amount_and_offset-instance_method">
+  
+    #<strong>partition_amount_and_offset</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute partition_amount_and_offset.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+39
+40
+41</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 39</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_partition_amount_and_offset'>partition_amount_and_offset</span>
+  <span class='ivar'>@partition_amount_and_offset</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="partition_archive_id=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="partition_archive_id-instance_method">
+  
+    #<strong>partition_archive_id</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute partition_archive_id.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+39
+40
+41</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 39</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_partition_archive_id'>partition_archive_id</span>
+  <span class='ivar'>@partition_archive_id</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="range_arr=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="range_arr-instance_method">
+  
+    #<strong>range_arr</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute range_arr.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+39
+40
+41</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 39</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_range_arr'>range_arr</span>
+  <span class='ivar'>@range_arr</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="rel_arr=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="rel_arr-instance_method">
+  
+    #<strong>rel_arr</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute rel_arr.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+39
+40
+41</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 39</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_rel_arr'>rel_arr</span>
+  <span class='ivar'>@rel_arr</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="add-instance_method">
+  
+    #<strong>add</strong>(return_added_element_id: true, &amp;block)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 147</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_add'>add</span><span class='lparen'>(</span><span class='label'>return_added_element_id:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+  <span class='comment'># endless add addition here
+</span>  <span class='kw'>if</span> <span class='ivar'>@endless_add</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@data_arr</span><span class='lbracket'>[</span><span class='ivar'>@latest_id</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='id identifier rubyid_add_partition'>add_partition</span>
+    <span class='id identifier rubyid_save_everything_to_files!'>save_everything_to_files!</span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_at_capacity?'>at_capacity?</span><span class='comment'># &amp;&amp; @max_capacity &amp;&amp; @has_capacity #guards against adding any additional entries
+</span>    <span class='kw'>return</span> <span class='kw'>false</span>
+  <span class='kw'>else</span> 
+    <span class='comment'># PASS, additional code later is a possibility, but this code all takes place before super(), anyways
+</span>  <span class='kw'>end</span>
+  <span class='ivar'>@latest_id</span> <span class='op'>+=</span> <span class='int'>1</span>
+  <span class='kw'>super</span><span class='lparen'>(</span><span class='label'>return_added_element_id:</span> <span class='id identifier rubyid_return_added_element_id'>return_added_element_id</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="archive_and_new_db!-instance_method">
+  
+    #<strong>archive_and_new_db!</strong>(auto_allocate: true, partition_addition_amount: @partition_addition_amount, max_capacity: @max_capacity, has_capacity: @has_capacity, partition_archive_id: @partition_archive_id, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+106
+107
+108
+109
+110
+111
+112
+113</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 106</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_archive_and_new_db!'>archive_and_new_db!</span><span class='lparen'>(</span><span class='label'>auto_allocate:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>partition_addition_amount:</span> <span class='ivar'>@partition_addition_amount</span><span class='comma'>,</span> <span class='label'>max_capacity:</span> <span class='ivar'>@max_capacity</span><span class='comma'>,</span> <span class='label'>has_capacity:</span> <span class='ivar'>@has_capacity</span><span class='comma'>,</span> <span class='label'>partition_archive_id:</span> <span class='ivar'>@partition_archive_id</span><span class='comma'>,</span> <span class='label'>db_size:</span> <span class='ivar'>@db_size</span><span class='comma'>,</span> <span class='label'>partition_amount_and_offset:</span> <span class='ivar'>@partition_amount_and_offset</span><span class='comma'>,</span> <span class='label'>db_path:</span> <span class='ivar'>@db_path</span><span class='comma'>,</span> <span class='label'>db_name:</span> <span class='ivar'>@db_name_with_archive</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_save_everything_to_files!'>save_everything_to_files!</span>
+  <span class='ivar'>@partition_archive_id</span> <span class='op'>+=</span> <span class='int'>1</span>
+  <span class='id identifier rubyid_increment_max_partition_archive_id!'>increment_max_partition_archive_id!</span>
+  <span class='id identifier rubyid_temp'>temp</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="" title="ManagedPartitionedArray (class)">ManagedPartitionedArray</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="ManagedPartitionedArray#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>max_capacity:</span> <span class='ivar'>@max_capacity</span><span class='comma'>,</span> <span class='label'>partition_archive_id:</span> <span class='ivar'>@partition_archive_id</span><span class='comma'>,</span> <span class='label'>db_size:</span> <span class='ivar'>@db_size</span><span class='comma'>,</span> <span class='label'>partition_amount_and_offset:</span> <span class='ivar'>@partition_amount_and_offset</span><span class='comma'>,</span> <span class='label'>db_path:</span> <span class='ivar'>@db_path</span><span class='comma'>,</span> <span class='label'>db_name:</span> <span class='ivar'>@db_name_with_archive</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_temp'>temp</span><span class='period'>.</span><span class='id identifier rubyid_allocate'>allocate</span> <span class='kw'>if</span> <span class='id identifier rubyid_auto_allocate'>auto_allocate</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_temp'>temp</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="at_capacity?-instance_method">
+  
+    #<strong>at_capacity?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>ManagedPartitionedArray#at_capacity? checks to see if the partitioned array is at its capacity. It is imperative to use this when going through an iterator.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 131</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_at_capacity?'>at_capacity?</span>
+  <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>if</span> <span class='ivar'>@has_capacity</span> <span class='op'>==</span> <span class='kw'>false</span>
+  <span class='kw'>case</span> <span class='ivar'>@max_capacity</span>
+    <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>data_arr_size</span><span class='tstring_end'>&quot;</span></span>
+      <span class='kw'>if</span> <span class='ivar'>@latest_id</span> <span class='op'>&gt;=</span> <span class='ivar'>@data_arr</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span>
+        <span class='kw'>return</span> <span class='kw'>true</span>
+      <span class='kw'>end</span>
+    <span class='kw'>when</span> <span class='const'>Integer</span>
+      <span class='kw'>if</span> <span class='lparen'>(</span><span class='lparen'>(</span><span class='ivar'>@latest_id</span> <span class='op'>&gt;=</span> <span class='ivar'>@max_capacity</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@has_capacity</span><span class='rparen'>)</span>
+        <span class='kw'>return</span> <span class='kw'>true</span>
+      <span class='kw'>end</span>
+    <span class='kw'>else</span>
+      <span class='kw'>return</span> <span class='kw'>false</span>      
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="db_name_with_archive-instance_method">
+  
+    #<strong>db_name_with_archive</strong>(db_name: @original_db_name, partition_archive_id: @partition_archive_id)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+360
+361
+362</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 360</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_db_name_with_archive'>db_name_with_archive</span><span class='lparen'>(</span><span class='label'>db_name:</span> <span class='ivar'>@original_db_name</span><span class='comma'>,</span> <span class='label'>partition_archive_id:</span> <span class='ivar'>@partition_archive_id</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_db_name'>db_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>[</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_partition_archive_id'>partition_archive_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>]</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="dump_all_variables-instance_method">
+  
+    #<strong>dump_all_variables</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 89</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_dump_all_variables'>dump_all_variables</span>
+  <span class='id identifier rubyid_p'>p</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>db_size: </span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_size</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_p'>p</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>partition_amount_and_offset: </span><span class='embexpr_beg'>#{</span><span class='ivar'>@partition_amount_and_offset</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_p'>p</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>db_path: </span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_path</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_p'>p</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>db_name: </span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_p'>p</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>max_capacity: </span><span class='embexpr_beg'>#{</span><span class='ivar'>@max_capacity</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_p'>p</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>has_capacity: </span><span class='embexpr_beg'>#{</span><span class='ivar'>@has_capacity</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_p'>p</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>latest_id: </span><span class='embexpr_beg'>#{</span><span class='ivar'>@latest_id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_p'>p</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>partition_archive_id: </span><span class='embexpr_beg'>#{</span><span class='ivar'>@partition_archive_id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>  
+  <span class='id identifier rubyid_p'>p</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>db_name_with_no_archive: </span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_name_with_no_archive</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_p'>p</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>db_name_with_archive: </span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_name_with_archive</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_p'>p</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>max_partition_archive_id: </span><span class='embexpr_beg'>#{</span><span class='ivar'>@max_partition_archive_id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_p'>p</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>partition_addition_amount: </span><span class='embexpr_beg'>#{</span><span class='ivar'>@partition_addition_amount</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_p'>p</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>dynamically_allocates: </span><span class='embexpr_beg'>#{</span><span class='ivar'>@dynamically_allocates</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_p'>p</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>endless_add: </span><span class='embexpr_beg'>#{</span><span class='ivar'>@endless_add</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="increment_max_partition_archive_id!-instance_method">
+  
+    #<strong>increment_max_partition_archive_id!</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+221
+222
+223
+224
+225
+226</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 221</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_increment_max_partition_archive_id!'>increment_max_partition_archive_id!</span>
+  <span class='ivar'>@max_partition_archive_id</span> <span class='op'>+=</span> <span class='int'>1</span>
+  <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='ivar'>@db_path</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/</span><span class='tstring_end'>&#39;</span></span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>max_partition_archive_id.json</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>w</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span>
+    <span class='id identifier rubyid_f'>f</span><span class='period'>.</span><span class='id identifier rubyid_write'>write</span><span class='lparen'>(</span><span class='ivar'>@max_partition_archive_id</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="initialize_max_partition_archive_id!-instance_method">
+  
+    #<strong>initialize_max_partition_archive_id!</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 300</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize_max_partition_archive_id!'>initialize_max_partition_archive_id!</span>
+  <span class='comment'># if the max_partition_archive_id.json file does not exist, create it and set it to 0
+</span>  <span class='kw'>if</span> <span class='op'>!</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exist?'>exist?</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_path</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>max_partition_archive_id.json</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
+    <span class='const'>FileUtils</span><span class='period'>.</span><span class='id identifier rubyid_mkdir_p'>mkdir_p</span><span class='lparen'>(</span><span class='ivar'>@db_path</span><span class='rparen'>)</span>
+    <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_path</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>max_partition_archive_id.json</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>w</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span>
+      <span class='id identifier rubyid_f'>f</span><span class='period'>.</span><span class='id identifier rubyid_write'>write</span><span class='lparen'>(</span><span class='int'>0</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+    <span class='ivar'>@max_partition_archive_id</span> <span class='op'>=</span> <span class='int'>0</span>
+  <span class='kw'>else</span>
+  <span class='comment'># if the max_partition_archive_id.json file does exist, load it
+</span>  <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_path</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>max_partition_archive_id.json</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>r</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span>
+    <span class='ivar'>@max_partition_archive_id</span> <span class='op'>=</span> <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_f'>f</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="load_archive_no_auto_allocate!-instance_method">
+  
+    #<strong>load_archive_no_auto_allocate!</strong>(has_capacity: @has_capacity, dynamically_allocates: @dynamically_allocates, endless_add: @endless_add, partition_archive_id: @max_partition_archive_id, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive, max_capacity: @max_capacity, partition_addition_amount: @partition_addition_amount)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>ex ManagedPartitionedArray#load_archive_no_auto_allocate!(partition_archive_id: partition_archive_id, …)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+116
+117
+118
+119</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 116</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_load_archive_no_auto_allocate!'>load_archive_no_auto_allocate!</span><span class='lparen'>(</span><span class='label'>has_capacity:</span> <span class='ivar'>@has_capacity</span><span class='comma'>,</span> <span class='label'>dynamically_allocates:</span> <span class='ivar'>@dynamically_allocates</span><span class='comma'>,</span> <span class='label'>endless_add:</span> <span class='ivar'>@endless_add</span><span class='comma'>,</span> <span class='label'>partition_archive_id:</span> <span class='ivar'>@max_partition_archive_id</span><span class='comma'>,</span> <span class='label'>db_size:</span> <span class='ivar'>@db_size</span><span class='comma'>,</span> <span class='label'>partition_amount_and_offset:</span> <span class='ivar'>@partition_amount_and_offset</span><span class='comma'>,</span> <span class='label'>db_path:</span> <span class='ivar'>@db_path</span><span class='comma'>,</span> <span class='label'>db_name:</span> <span class='ivar'>@db_name_with_archive</span><span class='comma'>,</span> <span class='label'>max_capacity:</span> <span class='ivar'>@max_capacity</span><span class='comma'>,</span> <span class='label'>partition_addition_amount:</span> <span class='ivar'>@partition_addition_amount</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_temp'>temp</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="" title="ManagedPartitionedArray (class)">ManagedPartitionedArray</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="ManagedPartitionedArray#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>dynamically_allocates:</span> <span class='id identifier rubyid_dynamically_allocates'>dynamically_allocates</span><span class='comma'>,</span> <span class='label'>endless_add:</span> <span class='id identifier rubyid_endless_add'>endless_add</span><span class='comma'>,</span> <span class='label'>max_capacity:</span> <span class='id identifier rubyid_max_capacity'>max_capacity</span><span class='comma'>,</span> <span class='label'>partition_archive_id:</span> <span class='id identifier rubyid_partition_archive_id'>partition_archive_id</span><span class='comma'>,</span> <span class='label'>db_size:</span> <span class='id identifier rubyid_db_size'>db_size</span><span class='comma'>,</span> <span class='label'>partition_amount_and_offset:</span> <span class='id identifier rubyid_partition_amount_and_offset'>partition_amount_and_offset</span><span class='comma'>,</span> <span class='label'>db_path:</span> <span class='id identifier rubyid_db_path'>db_path</span><span class='comma'>,</span> <span class='label'>db_name:</span> <span class='id identifier rubyid_db_name_with_archive'>db_name_with_archive</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_temp'>temp</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="load_db_name_with_no_archive_from_file!-instance_method">
+  
+    #<strong>load_db_name_with_no_archive_from_file!</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+234
+235
+236
+237
+238</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 234</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_load_db_name_with_no_archive_from_file!'>load_db_name_with_no_archive_from_file!</span>
+  <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_path</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>db_name_with_no_archive.json</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>r</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span>
+    <span class='ivar'>@original_db_name</span> <span class='op'>=</span> <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_f'>f</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="load_endless_add_from_file!-instance_method">
+  
+    #<strong>load_endless_add_from_file!</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+252
+253
+254
+255
+256</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 252</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_load_endless_add_from_file!'>load_endless_add_from_file!</span>
+  <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>endless_add.json</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>r</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span>
+    <span class='ivar'>@endless_add</span> <span class='op'>=</span> <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_f'>f</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="load_everything_from_files!-instance_method">
+  
+    #<strong>load_everything_from_files!</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 161</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_load_everything_from_files!'>load_everything_from_files!</span>
+  <span class='id identifier rubyid_load_from_files!'>load_from_files!</span> <span class='comment'>#PartitionedArray#load_from_files!
+</span>  <span class='id identifier rubyid_load_last_entry_from_file!'>load_last_entry_from_file!</span>
+  <span class='id identifier rubyid_load_max_partition_archive_id_from_file!'>load_max_partition_archive_id_from_file!</span>
+  <span class='id identifier rubyid_load_partition_archive_id_from_file!'>load_partition_archive_id_from_file!</span>
+  <span class='id identifier rubyid_load_max_capacity_from_file!'>load_max_capacity_from_file!</span>
+  <span class='id identifier rubyid_load_has_capacity_from_file!'>load_has_capacity_from_file!</span>
+  <span class='id identifier rubyid_load_db_name_with_no_archive_from_file!'>load_db_name_with_no_archive_from_file!</span>
+  <span class='id identifier rubyid_load_partition_addition_amount_from_file!'>load_partition_addition_amount_from_file!</span>
+  <span class='id identifier rubyid_load_endless_add_from_file!'>load_endless_add_from_file!</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="load_from_archive!-instance_method">
+  
+    #<strong>load_from_archive!</strong>(has_capacity: @has_capacity, dynamically_allocates: @dynamically_allocates, endless_add: @endless_add, partition_archive_id: @max_partition_archive_id, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive, max_capacity: @max_capacity, partition_addition_amount: @partition_addition_amount)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>ex ManagedPartitionedArray#load_from_archive!(partition_archive_id: partition_archive_id, …)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+122
+123
+124
+125
+126</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 122</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_load_from_archive!'>load_from_archive!</span><span class='lparen'>(</span><span class='label'>has_capacity:</span> <span class='ivar'>@has_capacity</span><span class='comma'>,</span> <span class='label'>dynamically_allocates:</span> <span class='ivar'>@dynamically_allocates</span><span class='comma'>,</span> <span class='label'>endless_add:</span> <span class='ivar'>@endless_add</span><span class='comma'>,</span> <span class='label'>partition_archive_id:</span> <span class='ivar'>@max_partition_archive_id</span><span class='comma'>,</span> <span class='label'>db_size:</span> <span class='ivar'>@db_size</span><span class='comma'>,</span> <span class='label'>partition_amount_and_offset:</span> <span class='ivar'>@partition_amount_and_offset</span><span class='comma'>,</span> <span class='label'>db_path:</span> <span class='ivar'>@db_path</span><span class='comma'>,</span> <span class='label'>db_name:</span> <span class='ivar'>@db_name_with_archive</span><span class='comma'>,</span> <span class='label'>max_capacity:</span> <span class='ivar'>@max_capacity</span><span class='comma'>,</span> <span class='label'>partition_addition_amount:</span> <span class='ivar'>@partition_addition_amount</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_temp'>temp</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="" title="ManagedPartitionedArray (class)">ManagedPartitionedArray</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="ManagedPartitionedArray#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>dynamically_allocates:</span> <span class='id identifier rubyid_dynamically_allocates'>dynamically_allocates</span><span class='comma'>,</span> <span class='label'>endless_add:</span> <span class='id identifier rubyid_endless_add'>endless_add</span><span class='comma'>,</span> <span class='label'>max_capacity:</span> <span class='id identifier rubyid_max_capacity'>max_capacity</span><span class='comma'>,</span> <span class='label'>partition_archive_id:</span> <span class='id identifier rubyid_partition_archive_id'>partition_archive_id</span><span class='comma'>,</span> <span class='label'>db_size:</span> <span class='id identifier rubyid_db_size'>db_size</span><span class='comma'>,</span> <span class='label'>partition_amount_and_offset:</span> <span class='id identifier rubyid_partition_amount_and_offset'>partition_amount_and_offset</span><span class='comma'>,</span> <span class='label'>db_path:</span> <span class='id identifier rubyid_db_path'>db_path</span><span class='comma'>,</span> <span class='label'>db_name:</span> <span class='id identifier rubyid_db_name_with_archive'>db_name_with_archive</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_temp'>temp</span><span class='period'>.</span><span class='id identifier rubyid_load_everything_from_files!'>load_everything_from_files!</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_temp'>temp</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="load_has_capacity_from_file!-instance_method">
+  
+    #<strong>load_has_capacity_from_file!</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+258
+259
+260
+261
+262</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 258</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_load_has_capacity_from_file!'>load_has_capacity_from_file!</span>
+  <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>has_capacity.json</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>r</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span>
+    <span class='ivar'>@has_capacity</span> <span class='op'>=</span> <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_f'>f</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="load_last_entry_from_file!-instance_method">
+  
+    #<strong>load_last_entry_from_file!</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+276
+277
+278
+279
+280</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 276</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_load_last_entry_from_file!'>load_last_entry_from_file!</span>
+  <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_db_name_with_archive'>db_name_with_archive</span><span class='lparen'>(</span><span class='label'>db_name:</span> <span class='ivar'>@original_db_name</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>last_entry.json</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>r</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_file'>file</span><span class='op'>|</span>
+    <span class='ivar'>@latest_id</span> <span class='op'>=</span> <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="load_max_capacity_from_file!-instance_method">
+  
+    #<strong>load_max_capacity_from_file!</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+338
+339
+340
+341
+342</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 338</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_load_max_capacity_from_file!'>load_max_capacity_from_file!</span>
+  <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='ivar'>@db_path</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>max_capacity.json</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>r</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_file'>file</span><span class='op'>|</span>
+    <span class='ivar'>@max_capacity</span> <span class='op'>=</span> <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="load_max_partition_archive_id_from_file!-instance_method">
+  
+    #<strong>load_max_partition_archive_id_from_file!</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 317</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_load_max_partition_archive_id_from_file!'>load_max_partition_archive_id_from_file!</span>
+  <span class='comment'># puts &quot;1 @db_path: #{@db_path}&quot;
+</span>  <span class='kw'>if</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exist?'>exist?</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='ivar'>@db_path</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>max_partition_archive_id.json</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
+    <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='ivar'>@db_path</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>max_partition_archive_id.json</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>r</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_file'>file</span><span class='op'>|</span>
+      <span class='ivar'>@max_partition_archive_id</span> <span class='op'>=</span> <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>else</span>
+    <span class='const'>FileUtils</span><span class='period'>.</span><span class='id identifier rubyid_touch'>touch</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='ivar'>@db_path</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>max_partition_archive_id.json</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
+    <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='ivar'>@db_path</span><span class='comma'>,</span> <span class='id identifier rubyid_db_name_with_archive'>db_name_with_archive</span><span class='lparen'>(</span><span class='label'>db_name:</span> <span class='ivar'>@db_name</span><span class='comma'>,</span> <span class='label'>partition_archive_id:</span> <span class='ivar'>@partition_archive_id</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>w</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_file'>file</span><span class='op'>|</span>
+      <span class='id identifier rubyid_file'>file</span><span class='period'>.</span><span class='id identifier rubyid_write'>write</span><span class='lparen'>(</span><span class='int'>0</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>      
+    <span class='kw'>return</span> <span class='int'>0</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="load_partition_addition_amount_from_file!-instance_method">
+  
+    #<strong>load_partition_addition_amount_from_file!</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+352
+353
+354
+355
+356</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 352</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_load_partition_addition_amount_from_file!'>load_partition_addition_amount_from_file!</span>
+  <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>partition_addition_amount.json</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>r</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_file'>file</span><span class='op'>|</span>
+    <span class='ivar'>@partition_addition_amount</span> <span class='op'>=</span> <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="load_partition_archive_id_from_file!-instance_method">
+  
+    #<strong>load_partition_archive_id_from_file!</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+288
+289
+290
+291
+292</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 288</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_load_partition_archive_id_from_file!'>load_partition_archive_id_from_file!</span>
+  <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_db_name_with_archive'>db_name_with_archive</span><span class='lparen'>(</span><span class='label'>db_name:</span> <span class='ivar'>@original_db_name</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>partition_archive_id.json</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>r</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_file'>file</span><span class='op'>|</span>
+    <span class='ivar'>@partition_archive_id</span> <span class='op'>=</span> <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="load_partition_from_file!-instance_method">
+  
+    #<strong>load_partition_from_file!</strong>(partition_id, load_variables: true)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+173
+174
+175
+176</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 173</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_load_partition_from_file!'>load_partition_from_file!</span><span class='lparen'>(</span><span class='id identifier rubyid_partition_id'>partition_id</span><span class='comma'>,</span> <span class='label'>load_variables:</span> <span class='kw'>true</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_load_variables_from_disk!'>load_variables_from_disk!</span> <span class='kw'>if</span> <span class='id identifier rubyid_load_variables'>load_variables</span>
+  <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_partition_id'>partition_id</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="load_variables_from_disk!-instance_method">
+  
+    #<strong>load_variables_from_disk!</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 209</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_load_variables_from_disk!'>load_variables_from_disk!</span>
+  <span class='comment'># Synchronize all known variables with their disk counterparts
+</span>  <span class='id identifier rubyid_load_last_entry_from_file!'>load_last_entry_from_file!</span> 
+  <span class='id identifier rubyid_load_partition_archive_id_from_file!'>load_partition_archive_id_from_file!</span>
+  <span class='id identifier rubyid_load_max_partition_archive_id_from_file!'>load_max_partition_archive_id_from_file!</span>
+  <span class='id identifier rubyid_load_max_capacity_from_file!'>load_max_capacity_from_file!</span>
+  <span class='id identifier rubyid_load_has_capacity_from_file!'>load_has_capacity_from_file!</span>
+  <span class='id identifier rubyid_load_db_name_with_no_archive_from_file!'>load_db_name_with_no_archive_from_file!</span>
+  <span class='id identifier rubyid_load_partition_addition_amount_from_file!'>load_partition_addition_amount_from_file!</span>
+  <span class='id identifier rubyid_load_endless_add_from_file!'>load_endless_add_from_file!</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="max_capacity_setup!-instance_method">
+  
+    #<strong>max_capacity_setup!</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>one keyword available: :data_arr_size</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 74</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_max_capacity_setup!'>max_capacity_setup!</span>
+  <span class='comment'>#p &quot;@max_capacity: #{@max_capacity}&quot;#{@max_capacity} if DEBUGGING&quot;
+</span>  <span class='kw'>if</span> <span class='lparen'>(</span><span class='ivar'>@max_capacity</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>data_arr_size</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+    <span class='comment'>#@max_capacity = (0..(db_size * (partition_amount_and_offset))).to_a.size - 1
+</span>    <span class='comment'>#@partition_addition_amount = partition_addition_amount
+</span>    <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>data_arr_size</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>else</span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_max_capacity'>max_capacity</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="save_data_arr_to_disk!-instance_method">
+  
+    #<strong>save_data_arr_to_disk!</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+85
+86
+87</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 85</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_save_data_arr_to_disk!'>save_data_arr_to_disk!</span>
+  <span class='comment'># WIP
+</span><span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="save_db_name_with_no_archive_to_file!-instance_method">
+  
+    #<strong>save_db_name_with_no_archive_to_file!</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+228
+229
+230
+231
+232</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 228</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_save_db_name_with_no_archive_to_file!'>save_db_name_with_no_archive_to_file!</span>
+  <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_path</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>db_name_with_no_archive.json</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>w</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span>
+    <span class='id identifier rubyid_f'>f</span><span class='period'>.</span><span class='id identifier rubyid_write'>write</span><span class='lparen'>(</span><span class='ivar'>@original_db_name</span><span class='period'>.</span><span class='id identifier rubyid_to_json'>to_json</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="save_endless_add_to_file!-instance_method">
+  
+    #<strong>save_endless_add_to_file!</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+246
+247
+248
+249
+250</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 246</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_save_endless_add_to_file!'>save_endless_add_to_file!</span>
+  <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>endless_add.json</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>w</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span>
+    <span class='id identifier rubyid_f'>f</span><span class='period'>.</span><span class='id identifier rubyid_write'>write</span><span class='lparen'>(</span><span class='ivar'>@endless_add</span><span class='period'>.</span><span class='id identifier rubyid_to_json'>to_json</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="save_everything_to_files!-instance_method">
+  
+    #<strong>save_everything_to_files!</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 185</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_save_everything_to_files!'>save_everything_to_files!</span>
+  <span class='id identifier rubyid_save_all_to_files!'>save_all_to_files!</span> <span class='comment'>#PartitionedArray#save_all_to_files!
+</span>  <span class='id identifier rubyid_save_last_entry_to_file!'>save_last_entry_to_file!</span>
+  <span class='id identifier rubyid_save_partition_archive_id_to_file!'>save_partition_archive_id_to_file!</span>
+  <span class='id identifier rubyid_save_max_partition_archive_id_to_file!'>save_max_partition_archive_id_to_file!</span>
+  <span class='id identifier rubyid_save_max_capacity_to_file!'>save_max_capacity_to_file!</span>
+  <span class='id identifier rubyid_save_has_capacity_to_file!'>save_has_capacity_to_file!</span>
+  <span class='id identifier rubyid_save_db_name_with_no_archive_to_file!'>save_db_name_with_no_archive_to_file!</span>
+  <span class='id identifier rubyid_save_partition_addition_amount_to_file!'>save_partition_addition_amount_to_file!</span>
+  <span class='id identifier rubyid_save_endless_add_to_file!'>save_endless_add_to_file!</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="save_has_capacity_to_file!-instance_method">
+  
+    #<strong>save_has_capacity_to_file!</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+240
+241
+242
+243
+244</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 240</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_save_has_capacity_to_file!'>save_has_capacity_to_file!</span>
+  <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>has_capacity.json</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>w</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span>
+    <span class='id identifier rubyid_f'>f</span><span class='period'>.</span><span class='id identifier rubyid_write'>write</span><span class='lparen'>(</span><span class='ivar'>@has_capacity</span><span class='period'>.</span><span class='id identifier rubyid_to_json'>to_json</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="save_last_entry_to_file!-instance_method">
+  
+    #<strong>save_last_entry_to_file!</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 264</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_save_last_entry_to_file!'>save_last_entry_to_file!</span>
+  <span class='kw'>if</span> <span class='ivar'>@partition_archive_id</span> <span class='op'>==</span> <span class='int'>0</span>      
+    <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_db_name_with_archive'>db_name_with_archive</span><span class='lparen'>(</span><span class='label'>db_name:</span> <span class='ivar'>@original_db_name</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>last_entry.json</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>w</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_file'>file</span><span class='op'>|</span>
+      <span class='id identifier rubyid_file'>file</span><span class='period'>.</span><span class='id identifier rubyid_write'>write</span><span class='lparen'>(</span><span class='lparen'>(</span><span class='ivar'>@latest_id</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_json'>to_json</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>else</span>      
+    <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_db_name_with_archive'>db_name_with_archive</span><span class='lparen'>(</span><span class='label'>db_name:</span> <span class='ivar'>@original_db_name</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>last_entry.json</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>w</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_file'>file</span><span class='op'>|</span>
+      <span class='id identifier rubyid_file'>file</span><span class='period'>.</span><span class='id identifier rubyid_write'>write</span><span class='lparen'>(</span><span class='lparen'>(</span><span class='ivar'>@latest_id</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_json'>to_json</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="save_max_capacity_to_file!-instance_method">
+  
+    #<strong>save_max_capacity_to_file!</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+332
+333
+334
+335
+336</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 332</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_save_max_capacity_to_file!'>save_max_capacity_to_file!</span>
+  <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='ivar'>@db_path</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>max_capacity.json</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>w</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_file'>file</span><span class='op'>|</span>
+    <span class='id identifier rubyid_file'>file</span><span class='period'>.</span><span class='id identifier rubyid_write'>write</span><span class='lparen'>(</span><span class='ivar'>@max_capacity</span><span class='period'>.</span><span class='id identifier rubyid_to_json'>to_json</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="save_max_partition_archive_id_to_file!-instance_method">
+  
+    #<strong>save_max_partition_archive_id_to_file!</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+294
+295
+296
+297
+298</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 294</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_save_max_partition_archive_id_to_file!'>save_max_partition_archive_id_to_file!</span>
+  <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='ivar'>@db_path</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>max_partition_archive_id.json</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>w</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_file'>file</span><span class='op'>|</span>
+    <span class='id identifier rubyid_file'>file</span><span class='period'>.</span><span class='id identifier rubyid_write'>write</span><span class='lparen'>(</span><span class='ivar'>@max_partition_archive_id</span><span class='period'>.</span><span class='id identifier rubyid_to_json'>to_json</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="save_partition_addition_amount_to_file!-instance_method">
+  
+    #<strong>save_partition_addition_amount_to_file!</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+346
+347
+348
+349
+350</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 346</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_save_partition_addition_amount_to_file!'>save_partition_addition_amount_to_file!</span>
+  <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>partition_addition_amount.json</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>w</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_file'>file</span><span class='op'>|</span>
+    <span class='id identifier rubyid_file'>file</span><span class='period'>.</span><span class='id identifier rubyid_write'>write</span><span class='lparen'>(</span><span class='ivar'>@partition_addition_amount</span><span class='period'>.</span><span class='id identifier rubyid_to_json'>to_json</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="save_partition_archive_id_to_file!-instance_method">
+  
+    #<strong>save_partition_archive_id_to_file!</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+282
+283
+284
+285
+286</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 282</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_save_partition_archive_id_to_file!'>save_partition_archive_id_to_file!</span>
+  <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_db_name_with_archive'>db_name_with_archive</span><span class='lparen'>(</span><span class='label'>db_name:</span> <span class='ivar'>@original_db_name</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>partition_archive_id.json</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>w</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_file'>file</span><span class='op'>|</span>
+    <span class='id identifier rubyid_file'>file</span><span class='period'>.</span><span class='id identifier rubyid_write'>write</span><span class='lparen'>(</span><span class='ivar'>@partition_archive_id</span><span class='period'>.</span><span class='id identifier rubyid_to_json'>to_json</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="save_partition_to_file!-instance_method">
+  
+    #<strong>save_partition_to_file!</strong>(partition_id, save_variables: true)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>save_variables: added 10/21/2022; all variables saved/loaded to disk by default, to work around an issue where I didn’t realize I needed to save variables</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+179
+180
+181
+182</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 179</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_save_partition_to_file!'>save_partition_to_file!</span><span class='lparen'>(</span><span class='id identifier rubyid_partition_id'>partition_id</span><span class='comma'>,</span> <span class='label'>save_variables:</span> <span class='kw'>true</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_save_variables_to_disk!'>save_variables_to_disk!</span> <span class='kw'>if</span> <span class='id identifier rubyid_save_variables'>save_variables</span>
+  <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_partition_id'>partition_id</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="save_variables_to_disk!-instance_method">
+  
+    #<strong>save_variables_to_disk!</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 197</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_save_variables_to_disk!'>save_variables_to_disk!</span>
+  <span class='comment'># Synchronize all known variables with their disk counterparts
+</span>  <span class='id identifier rubyid_save_last_entry_to_file!'>save_last_entry_to_file!</span>
+  <span class='id identifier rubyid_save_partition_archive_id_to_file!'>save_partition_archive_id_to_file!</span>
+  <span class='id identifier rubyid_save_max_partition_archive_id_to_file!'>save_max_partition_archive_id_to_file!</span>
+  <span class='id identifier rubyid_save_max_capacity_to_file!'>save_max_capacity_to_file!</span>
+  <span class='id identifier rubyid_save_has_capacity_to_file!'>save_has_capacity_to_file!</span>
+  <span class='id identifier rubyid_save_db_name_with_no_archive_to_file!'>save_db_name_with_no_archive_to_file!</span>
+  <span class='id identifier rubyid_save_partition_addition_amount_to_file!'>save_partition_addition_amount_to_file!</span>
+  <span class='id identifier rubyid_save_endless_add_to_file!'>save_endless_add_to_file!</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="strip_archived_db_name-instance_method">
+  
+    #<strong>strip_archived_db_name</strong>(db_name: @original_db_name)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+364
+365
+366</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 364</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_strip_archived_db_name'>strip_archived_db_name</span><span class='lparen'>(</span><span class='label'>db_name:</span> <span class='ivar'>@original_db_name</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_db_name'>db_name</span><span class='period'>.</span><span class='id identifier rubyid_sub'>sub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\[.+\]</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Wed Jan  4 05:15:38 2023 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.28 (ruby-3.2.0).
+</div>
+
+    </div>
+  </body>
+</html>

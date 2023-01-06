@@ -209,16 +209,17 @@ class FileContextManagedPartitionedArrayManager
   def table(database_table = @active_table)
     return @man_db.db(database_table)
   end
-  
+
   # set the active database table variable to avoid redundant typing
   def active_table(database_table)
     @active_table = database_table
   end
-  
+
   # set the active database variable to avoid redundant typing
   def active_database(active_database)
     @active_database = active_database
   end
+
   # gets the database table object for the database_table name, needing a database x index pair
   def database_table(database_table: @active_table, database_name: @active_database)
     # check to see if this table exists in the database first

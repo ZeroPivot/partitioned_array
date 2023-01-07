@@ -179,11 +179,13 @@ class FileContextManagedPartitionedArray
     Time.now.to_i.to_s
   end
 
+  # Create a new database to be stored and ran by the FCMPA
   def new_database(database_index_name_str, fcmpa_db_index_location: @fcmpa_db_index_location, db_name: @db_name, db_path: @db_path, only_path: false, only_name: false, initial_autosave: true)
     timestamp_str = new_timestamp # the string to give uniqueness to each database file context
     db_name_str = database_index_name_str
 
-    return @fcmpa_db_indexer_db unless @fcmpa_db_indexer_db.get(fcmpa_db_index_location)["db_name"].nil? # guard clause to prevent overwriting the database index file
+    # Returns false if the database already exists
+    return false unless @fcmpa_db_indexer_db.get(fcmpa_db_index_location)["db_name"].nil? # guard clause to prevent overwriting the database index file
   
     path = db_path + "_" + db_name_str
 
@@ -206,7 +208,8 @@ class FileContextManagedPartitionedArray
     temp.allocate
     @fcmpa_active_databases[db_name_str] = temp
     temp.save_everything_to_files! if initial_autosave
-    return temp
+    # returns true if the database was created
+    return true
   end
 
   def delete_database_from_index!(database_index_name, fcmpa_db_index_location: @fcmpa_db_index_location)

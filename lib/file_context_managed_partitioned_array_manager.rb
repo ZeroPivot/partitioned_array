@@ -21,6 +21,7 @@
 # rubocop:disable Layout/ArgumentAlignment
 require_relative 'file_context_managed_partitioned_array'
 
+# PITFALLS: As it stands, MPA#archive_and_new_db! should not be called directly, as it is a value object. You could, however, allocate it to a variable that way, and then call it on that variable. 
 # TODO: (1/3/2023 - 12:55PM)
 # set a timestamp in the databases per transaction
 # relational algebraic operations (cartesian product, etc.)
@@ -228,6 +229,26 @@ class FileContextManagedPartitionedArrayManager
     end
     # if the table entry contains the table name in @man_index, then
   end
+
+  # 1/8/2022
+  def db_file_context!(database_name:, file_context:)
+  end
+
+  def table_file_context!(database_table:, file_context:)
+  end
+
+  def db_next_file_context!
+  end
+
+  def table_next_file_context!
+  end
+
+  def db_archive_and_new_file_context!
+  end
+
+  def table_archive_and_new_file_context!
+  end
+
 
   # update: left off worrying about the db_table_name entry having to contain an array of the table names so that the database knows which tables to look for and which ones belong to it
   # left off working with new_table, and, setting the table apart from the database and placing them into independent folders (the problem is file locations)

@@ -21,6 +21,8 @@
 # rubocop:disable Layout/ArgumentAlignment
 require_relative 'file_context_managed_partitioned_array'
 
+# VERSION v2.0.3a - add method structure skeleton (left off on line 247)
+# - dealing with new file contexts and abstracting #MPA#get to #FCMPAM#get_database_table_entry
 # PITFALLS: As it stands, MPA#archive_and_new_db! should not be called directly, as it is a value object. You could, however, allocate it to a variable that way, and then call it on that variable. 
 # TODO: (1/3/2023 - 12:55PM)
 # set a timestamp in the databases per transaction
@@ -224,31 +226,42 @@ class FileContextManagedPartitionedArrayManager
   # gets the database table object for the database_table name, needing a database x index pair
   def database_table(database_table: @active_table, database_name: @active_database)
     # check to see if this table exists in the database first
+    # @man_index.start_database!(database_name, db_path: @db_path+"/MAN_DB_INDEX/INDEX", only_path: true, only_name: true, db_name: "INDEX")
+    # @man_db.start_database!(database_table, db_path: @db_path+"/MAN_DB_TABLE/#{database_name}/TABLE", only_path: true, only_name: true, db_name: "TABLE")
+
     if @man_index.db(database_name).get(0)[database_name]["db_table_name"].include? database_table
       return @man_db.db(database_table)
     end
     # if the table entry contains the table name in @man_index, then
   end
 
-  # 1/8/2022
-  def db_file_context!(database_name:, file_context:)
+  # 1/8/2023 - 1/9/2023 (11:08AM) - 1/??/2023
+=begin
+  def load_from_archive!(has_capacity: @has_capacity, dynamically_allocates: @dynamically_allocates, endless_add: @endless_add, partition_archive_id: @max_partition_archive_id, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive, max_capacity: @max_capacity, partition_addition_amount: @partition_addition_amount)
+    temp = ManagedPartitionedArray.new(dynamically_allocates: dynamically_allocates, endless_add: endless_add, max_capacity: max_capacity, partition_archive_id: partition_archive_id, db_size: db_size, partition_amount_and_offset: partition_amount_and_offset, db_path: db_path, db_name: db_name_with_archive)
+    temp.load_everything_from_files!
+    return temp
+  end
+=end
+
+# left off working on this method (1/9/2023 - 12:18PM)
+  def table_set_file_context!(database_table:, file_context_id:, save: true)
+    # @man_index.start_database!(database_name, db_path: @db_path+"/MAN_DB_INDEX/INDEX", only_path: true, only_name: true, db_name: "INDEX")
+    # @man_db.start_database!(database_table, db_path: @db_path+"/MAN_DB_TABLE/#{database_name}/TABLE", only_path: true, only_name: true, db_name: "TABLE")
+
+    if (save)
+      @man_db.fcmpa_active_databases[database_table] = @man_db.fcmpa_active_databases[database_table].load_from_archive!(has_capacity: @has_capacity, dynamically_allocates: @dynamically_allocates, endless_add: @endless_add, partition_archive_id: @max_partition_archive_id, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive, max_capacity: @max_capacity, partition_addition_amount: @partition_addition_amount)
+    else
+    end
   end
 
-  def table_file_context!(database_table:, file_context:)
+  # caution: only use this if you know what you're doing; lower level method
+  def database_next_file_context!(database_name, save: true)
   end
 
-  def db_next_file_context!
+  # sets the particular MPA running within the database as database_table to the next file context
+  def table_next_file_context!(database_table, save: true)
   end
-
-  def table_next_file_context!
-  end
-
-  def db_archive_and_new_file_context!
-  end
-
-  def table_archive_and_new_file_context!
-  end
-
 
   # update: left off worrying about the db_table_name entry having to contain an array of the table names so that the database knows which tables to look for and which ones belong to it
   # left off working with new_table, and, setting the table apart from the database and placing them into independent folders (the problem is file locations)
@@ -281,9 +294,13 @@ class FileContextManagedPartitionedArrayManager
     @man_index.start_database!(database_name, db_path: @db_path+"/MAN_DB_INDEX/INDEX", only_path: true, only_name: false, db_name: "INDEX")
   end
   
+  
+
+
   alias db_table database_table
   alias active_db active_database
   alias new_db! new_database! 
+  alias db_get database_get
 end
 
 

@@ -60,15 +60,26 @@
       <div id="content"><div id='filecontents'><h1 id="the-partitioned-array-managed-partitioned-array-and-file-context-managed-partitioned-arraymanager-fundamental-data-structures-and-array-of-hashes-database-system">The Partitioned Array, Managed Partitioned Array and File Context Managed Partitioned Array/Manager: Fundamental Data Structures and Array-Of-Hashes Database System</h1>
 
 <h2 id="updates">Updates:</h2>
+
 <ul>
-  <li>January 3, 2023 (1/3/2023) - 1:00PM - Added FileContextManagedPartitionedArrayManager info on implementation at the end of README.md; this is the final product for the partitioned array, and turns it into a database</li>
+  <li>January 10, 2023
+    <ul>
+      <li>FileContextManagedPartitionedArray (v1.0.5 release) and FileContextManagedPartitionedArrayManager (v2.0.5 release) reached a stable state, and are ready for use and battle testing</li>
+      <li>Advice: Use the FileContextManagedPartitionedArrayManager class; it is the most high level and features a NoSQL database-like interface</li>
+    </ul>
+  </li>
+  <li>
+    <p>January 3, 2023 (1/3/2023) - 1:00PM - Added FileContextManagedPartitionedArrayManager info on implementation at the end of README.md; this is the final product for the partitioned array, and turns it into a database</p>
+  </li>
   <li>TODO: Add documentation on the FileContextManagedPartitionedArrayManager class, and the FileContextManagedPartitionedArray class, like a quick tutorial</li>
 </ul>
 
-<p><strong>Quick Compatibility List:</strong>
-* <strong>Ruby 3.0+</strong>: (<code>/lib/partitioned_array</code>) - <em>lib/managed_partitioned_array.rb</em> - <strong>Fully Compatible</strong></p>
+<p><strong>Quick Compatibility List:</strong></p>
 
 <ul>
+  <li>
+    <p><strong>Ruby 3.0-3.2+</strong>: (<code>/lib/partitioned_array</code>) - <em>lib/managed_partitioned_array.rb</em> - <strong>Fully Compatible</strong></p>
+  </li>
   <li>
     <p><strong>jruby</strong>: (<code>same as ruby 3.0 version</code>)  - <em>lib/managed_partitioned_array.rb</em> - <strong>Fully Compatible</strong></p>
   </li>
@@ -89,8 +100,9 @@
 
 <p>Note: Managed partitioned array info is near the bottom of this README.md file, and will be updated accordingly; just need to get a bearing on how im going to write this documentation (Last updated: 10/19/2022 12:11PM)</p>
 
-<p>See: CHANGELOG.md for a list of changes
-## Update 11/18/2022</p>
+<p>See: CHANGELOG.md for a list of changes</p>
+
+<h2 id="update-11182022">Update 11/18/2022</h2>
 
 <ul>
   <li>Added FileContextManagedPartitionedArray info on implementation at the end of README.md</li>
@@ -102,6 +114,7 @@
 <p>In case one’s wondering, the additional layer of abstraction is called a ManagedPartitionedArray, which keeps a track of the array index and inherits from PartitionedArray. When I go to work today 2-4 hours from now I’m going to work on the ManagedPartitionedArray Documentation. -ArityWolf</p>
 
 <h2 id="wip-notes-last-updated-9142022">WIP NOTES (Last Updated: 9/14/2022)</h2>
+
 <p>In recent developments, this only describes the low-level ish nature of a PartitionedArray data structure, and even that is still incomplete.</p>
 
 <p>In the lib folder, I have completed the (inherited from PartitonedArray) ManagedPartitionedArray class which describes how to treat a PartitionedArray closer to an array with bounds set to it, and that is what the main focus of the rest of this documentation will be about. In the end, everything about the data structure will be described in full detail.</p>
@@ -110,19 +123,26 @@
 
 <p>It will also be fully compatible with the DragonRuby game development toolkit albeit with a few minor caveats, and several details that need to be addressed in some way</p>
 
-<h1 id="later-goals">Later Goals</h1>
+<h3 id="later-goals">Later Goals</h3>
+
 <ul>
-  <li>Documentation on all code on this page, leaving nothing out</li>
+  <li>
+    <p>Documentation on all code on this page, leaving nothing out</p>
+  </li>
   <li>Prettify the code, and make as efficient as possible</li>
   <li>Lower level language implementation(s)</li>
   <li>DragonRuby file I/O implementation, aimed at both Linux/Windows</li>
 </ul>
 
 <hr />
-<p># Everything below this line needs to be updated</p>
 
-<p>(But it does document the PartitionedArray class alright thus far)
-* Upcoming additions: ManagedPartitonedArray documentation, and cleaned up PartitionedArray documentation</p>
+<h3 id="everything-below-this-line-needs-to-be-updated">Everything below this line needs to be updated</h3>
+
+<p>(But it does document the PartitionedArray class alright thus far)</p>
+
+<ul>
+  <li>Upcoming additions: ManagedPartitonedArray documentation, and cleaned up PartitionedArray documentation</li>
+</ul>
 
 <h2 id="synopsis">Synopsis</h2>
 
@@ -175,8 +195,9 @@ pa.save_all_to_files!</p>
 <p>=begin
 The above is basic usage for the partitioned array data structure. For tested code and configuration options, see below.
 =end
-```
-<strong>WIP.</strong> - <strong><em>Last updated: 4.27.2022</em></strong></p>
+```</p>
+
+<p><strong>WIP.</strong> - <strong><em>Last updated: 4.27.2022</em></strong></p>
 
 <p>A partitioned array data structure which works with JSON for disk storage, and a pure JSON parser is in progress. With two constants, the algorithm creates a data structure and allocates empty associative array elements and understands the structure of the partitions.</p>
 
@@ -187,6 +208,7 @@ The above is basic usage for the partitioned array data structure. For tested co
 <h2 id="usage">Usage</h2>
 
 <h3 id="assumed-constants">Assumed Constants</h3>
+
 <p><code>ruby
 # DB_SIZE &gt; PARTITION_AMOUNT
 PARTITION_AMOUNT = 5 # Number of subelements per partition. CAVEAT: the first partition quantity is always PARTITION_AMOUNT + 1
@@ -196,15 +218,17 @@ PURE_RUBY = false # WIP
 DB_NAME = 'partitioned_array_slice'
 DEFAULT_PATH = './CGMFS'
 DEBUGGING = false
-</code>
-### Examples</p>
+</code></p>
+
+<h3 id="examples">Examples</h3>
 
 <p><code>main_refined.rb, visuals.rb</code></p>
 
 <p>Visualization of the partitions within <code>@data_arr</code></p>
 
-<p><code>visuals.rb</code>
-<code>ruby
+<p><code>visuals.rb</code></p>
+
+<p><code>ruby
 # Visuals; Show the basic data structure, by filling with entries, where each id is a part of that respective array partition
 def allocate_ranges_sequentially(partitioned_array)
   range_arr = partitioned_array.range_arr
@@ -219,8 +243,9 @@ def allocate_ranges_sequentially(partitioned_array)
 end
 </code></p>
 
-<p><code>main_refined.rb</code>
-```ruby
+<p><code>main_refined.rb</code></p>
+
+<p>```ruby
 require_relative ‘partitioned_array’
 require_relative ‘visuals’</p>
 
@@ -319,18 +344,20 @@ Output
 “Load partition data into @data_arr (0th): [“id”=&gt;0, “id”=&gt;0, “id”=&gt;0, “id”=&gt;0, “id”=&gt;0, “id”=&gt;0, “id”=&gt;0]”
 “successfully modified partition subelement: true”
 “New @data_arr: [“id”=&gt;0, :modified=&gt;”0, 0”, “id”=&gt;0, “id”=&gt;0, “id”=&gt;0, “id”=&gt;0, “id”=&gt;0, “id”=&gt;0, “id”=&gt;1, “id”=&gt;1, “id”=&gt;1, “id”=&gt;1, “id”=&gt;1, “id”=&gt;1, “id”=&gt;2, “id”=&gt;2, “id”=&gt;2, “id”=&gt;2, “id”=&gt;2, “id”=&gt;2, “id”=&gt;3, “id”=&gt;3, “id”=&gt;3, “id”=&gt;3, “id”=&gt;3, “id”=&gt;3, “id”=&gt;4, “id”=&gt;4, “id”=&gt;4, “id”=&gt;4, “id”=&gt;4, “id”=&gt;4, {}, {}, {}, {}, {}, “last”=&gt;”Nth”]”
-```
-# Managed Partitioned Array Data Structure
-## Synopsis
-# PartitionedArray/ManagedPartitionArray</p>
+```</p>
+
+<h2 id="managed-partitioned-array-data-structure">Managed Partitioned Array Data Structure</h2>
+
+<h3 id="synopsis---partitionedarraymanagedpartitionarray">Synopsis - PartitionedArray/ManagedPartitionArray</h3>
 
 <p>This will talk about the Partitioned Array and its suggested counterpart superset, the<code>ManagedPartitionedArray (lib/managed_partitioned_array.rb)</code></p>
 
-<h2 id="managedpartitionedarray">ManagedPartitionedArray</h2>
+<h4 id="managedpartitionedarray">ManagedPartitionedArray</h4>
 
 <p>(Last updated: 10/19/2022 12:11PM)</p>
 
-<h3 id="instance-methods">Instance Methods</h3>
+<h4 id="instance-methods">Instance Methods</h4>
+
 <p>```ruby
 mpa = mpa.archive_and_new_db!</p>
 
@@ -349,31 +376,37 @@ mpa = mpa.archive_and_new_db!</p>
 <p>mpa.save_everything_to_files!</p>
 
 <p>mpa.increment_max_partition_archive_id!
-<code>
-### Finite Length arrays
-</code>ruby</p>
+```</p>
+
+<h4 id="finite-length-arrays">Finite Length arrays</h4>
+
+<p>```ruby</p>
 
 <p>mpa = ManagedPartitionedArray(max_capacity: “data_arr_size” || Integer, dynamically_allocates: false)
 ```</p>
 
 <p>Capable of jumping to a new file partition
-### Never ending array adds
-```ruby</p>
+### Never ending array adds</p>
+
+<p>```ruby</p>
 
 <p>mpa = ManagedPartitionedArray.new(endless_add: true, has_capacity: false, dynamically_allocates: true)<code>
 </code>``</p>
 
-<h3 id="dynamic-allocation">Dynamic Allocation</h3>
+<h4 id="dynamic-allocation">Dynamic Allocation</h4>
+
 <p>```ruby</p>
 
 <p>mpa = ManagedPartitionedArray.new(dynamically_allocates: true)
 ```</p>
 
-<h3 id="array-split-by-file-partitions">Array split by file partitions</h3>
+<h4 id="array-split-by-file-partitions">Array split by file partitions</h4>
+
 <p><code>ruby
  mpa = ManagedPartitionedArray.new(max_capacity: "data_arr_size",   db_size: DB_SIZE,   partition_amount_and_offset: PARTITION_AMOUNT + OFFSET,   db_path: "./db/sl",   db_name: 'sl_slice')
-</code>
-Where <code>max_capacity</code> could be the max <code>@data_arr</code> size, or a defined integer</p>
+</code></p>
+
+<p>Where <code>max_capacity</code> could be the max <code>@data_arr</code> size, or a defined integer</p>
 
 <p>Check if <code>mpa.at_capacity?</code> to figure out if the MPA is at capacity</p>
 
@@ -389,7 +422,7 @@ mpa.save_everything_to_files!
 
 <p>“data_arr_size” is sure to fill the entire array before throwing  at_capacity? is true.</p>
 
-<h1 id="file-context-managed-partitioned-array-definition">File Context Managed Partitioned Array (Definition)</h1>
+<h4 id="file-context-managed-partitioned-array-definition">File Context Managed Partitioned Array (Definition)</h4>
 
 <p>We have: <code>file_context_array["file_db_name_string"].managed_partitioned_array[mpa_db_file_id_integer].partitioned_array(db_id, id)</code></p>
 
@@ -451,7 +484,7 @@ FCMPA#load_indexer_db! - loads the indexing DB</p>
 <p>FCMPA#each_not_nil(database_index_name, hash: @traverse_hash) - traverses a database, skipping nil values
 ```</p>
 
-<h1 id="file-context-managed-partitioned-array-manager-definition">File Context Managed Partitioned Array <em>Manager</em> (Definition)</h1>
+<h4 id="file-context-managed-partitioned-array-manager-definition">File Context Managed Partitioned Array <em>Manager</em> (Definition)</h4>
 <p>The database manager is the <code>FCMPAM</code> class. It is a singleton class that manages the <code>FCMPA</code> class. The <code>FCMPA</code> class manages the <code>MPA</code> class. The <code>MPA</code> class manages the <code>PA</code> class.</p>
 
 <p>FCMPAM.FCMPA.MPA.PA or FCMPAM.FCMPA.(MPA &lt; PA)</p>
@@ -476,7 +509,7 @@ FCMPAM#database(database_name = @active_database): returns the database object</
 <p>FCMPAM#database(database_name = @active_database): returns the active database
 ```</p>
 
-<h1 id="generate-documentation">Generate Documentation</h1>
+<h2 id="generate-documentation">Generate Documentation</h2>
 
 <p><code>gem install yard</code></p>
 
@@ -486,7 +519,7 @@ FCMPAM#database(database_name = @active_database): returns the database object</
 </div></div>
 
       <div id="footer">
-  Generated on Wed Jan  4 05:24:06 2023 by
+  Generated on Tue Jan 10 04:40:51 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.2.0).
 </div>

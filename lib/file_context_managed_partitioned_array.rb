@@ -18,6 +18,7 @@
 # rubocop:disable Style/MutableConstant
 # rubocop:disable Metrics/ClassLength
 require_relative 'managed_partitioned_array'
+# VERSION v1.0.5 - RELEASE VERSION, In Sync with FileContextManagedPartitionedArrayManager without having had any need for modification
 # VERSION v1.0.2a - Prettified, and listed all functions below
 # FCMPA#load_indexer_db! - loads the indexing DB
 # FCMPA#new_database! - creates a new database

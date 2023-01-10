@@ -58,13 +58,14 @@ class JSONeval
   end
 end
 
-
+=begin 
 hash = "{ \"lol\": 2, \"rofl\": \"hehe\", \"hehe\": null }"
 p JSONeval.json2ruby(hash)
 p JSONeval.ruby2json(hash)
 p jsond = JSON.parse(JSONeval.ruby2json(hash))
 jsond = JSONeval.json2ruby(jsond.to_s)
 p jsond
+=end
 
 
 =begin

@@ -96,9 +96,7 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/dr_partitioned_array/partitioned_array_dr.rb<span class="defines">,<br />
-  lib/v2.0.0-mpa_v1.2.6-pa_v1.0.2a_fcmpa_v2.0.2a-fcmpam/dr_partitioned_array/partitioned_array_dr.rb</span>
-</dd>
+    <dd>lib/dragonruby_pure_partitioned_array/partitioned_array_dr.rb</dd>
   </dl>
   
 </div>
@@ -412,7 +410,7 @@
 18</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/dr_partitioned_array/partitioned_array_dr.rb', line 14</span>
+      <pre class="code"><span class="info file"># File 'lib/dragonruby_pure_partitioned_array/partitioned_array_dr.rb', line 14</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_load_dynamically_allocates_from_file!'>load_dynamically_allocates_from_file!</span>
   <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='ivar'>@db_path</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/</span><span class='tstring_end'>&#39;</span></span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>dynamically_allocates.json</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>r</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_file'>file</span><span class='op'>|</span>
@@ -458,7 +456,7 @@
 52</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/dr_partitioned_array/partitioned_array_dr.rb', line 36</span>
+      <pre class="code"><span class="info file"># File 'lib/dragonruby_pure_partitioned_array/partitioned_array_dr.rb', line 36</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_load_from_files!'>load_from_files!</span><span class='lparen'>(</span><span class='label'>db_folder:</span> <span class='ivar'>@db_folder</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_load_partition_addition_amount_from_file!'>load_partition_addition_amount_from_file!</span>
@@ -503,7 +501,7 @@
 86</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/dr_partitioned_array/partitioned_array_dr.rb', line 83</span>
+      <pre class="code"><span class="info file"># File 'lib/dragonruby_pure_partitioned_array/partitioned_array_dr.rb', line 83</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_load_partition_addition_amount_from_file!'>load_partition_addition_amount_from_file!</span><span class='lparen'>(</span><span class='label'>db_folder:</span> <span class='ivar'>@db_folder</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_path'>path</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
@@ -556,7 +554,7 @@
 68</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/dr_partitioned_array/partitioned_array_dr.rb', line 55</span>
+      <pre class="code"><span class="info file"># File 'lib/dragonruby_pure_partitioned_array/partitioned_array_dr.rb', line 55</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_load_partition_from_file!'>load_partition_from_file!</span><span class='lparen'>(</span><span class='id identifier rubyid_partition_id'>partition_id</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_path'>path</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
@@ -597,7 +595,7 @@
 91</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/dr_partitioned_array/partitioned_array_dr.rb', line 89</span>
+      <pre class="code"><span class="info file"># File 'lib/dragonruby_pure_partitioned_array/partitioned_array_dr.rb', line 89</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_mkdir_bindir'><span class='object_link'><a href="top-level-namespace.html#mkdir_bindir-instance_method" title="#mkdir_bindir (method)">mkdir_bindir</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
   <span class='gvar'>$gtk</span><span class='period'>.</span><span class='id identifier rubyid_system'>system</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>cmd /c mkdir \&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_pwd'><span class='object_link'><a href="top-level-namespace.html#pwd-instance_method" title="#pwd (method)">pwd</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>\\</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_path'>path</span><span class='embexpr_end'>}</span><span class='tstring_content'>\&quot;</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
@@ -662,7 +660,7 @@
 130</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/dr_partitioned_array/partitioned_array_dr.rb', line 93</span>
+      <pre class="code"><span class="info file"># File 'lib/dragonruby_pure_partitioned_array/partitioned_array_dr.rb', line 93</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_save_all_to_files!'>save_all_to_files!</span><span class='lparen'>(</span><span class='label'>db_folder:</span> <span class='ivar'>@db_folder</span><span class='comma'>,</span> <span class='label'>db_path:</span> <span class='ivar'>@db_path</span><span class='comma'>,</span> <span class='label'>db_name:</span> <span class='ivar'>@db_name</span><span class='rparen'>)</span>
   <span class='comment'># Bug: files are not being written correctly.
@@ -732,7 +730,7 @@
 34</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/dr_partitioned_array/partitioned_array_dr.rb', line 27</span>
+      <pre class="code"><span class="info file"># File 'lib/dragonruby_pure_partitioned_array/partitioned_array_dr.rb', line 27</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_save_dynamically_allocates_to_file!'>save_dynamically_allocates_to_file!</span>
   <span class='comment'>#puts &quot;in PA: @dynamically_allocates = #{@dynamically_allocates}&quot;
@@ -770,7 +768,7 @@
 81</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/dr_partitioned_array/partitioned_array_dr.rb', line 76</span>
+      <pre class="code"><span class="info file"># File 'lib/dragonruby_pure_partitioned_array/partitioned_array_dr.rb', line 76</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_save_partition_addition_amount_to_file!'>save_partition_addition_amount_to_file!</span><span class='lparen'>(</span><span class='label'>db_folder:</span> <span class='ivar'>@db_folder</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_path'>path</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
@@ -805,7 +803,7 @@
 74</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/dr_partitioned_array/partitioned_array_dr.rb', line 70</span>
+      <pre class="code"><span class="info file"># File 'lib/dragonruby_pure_partitioned_array/partitioned_array_dr.rb', line 70</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_save_partition_to_file!'>save_partition_to_file!</span><span class='lparen'>(</span><span class='id identifier rubyid_partition_id'>partition_id</span><span class='comma'>,</span> <span class='label'>db_folder:</span> <span class='ivar'>@db_folder</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_partition_data'>partition_data</span> <span class='op'>=</span> <span class='id identifier rubyid_get_partition'>get_partition</span><span class='lparen'>(</span><span class='id identifier rubyid_partition_id'>partition_id</span><span class='rparen'>)</span>
@@ -838,7 +836,7 @@
 24</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/dr_partitioned_array/partitioned_array_dr.rb', line 21</span>
+      <pre class="code"><span class="info file"># File 'lib/dragonruby_pure_partitioned_array/partitioned_array_dr.rb', line 21</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_string2range'>string2range</span><span class='lparen'>(</span><span class='id identifier rubyid_range_string'>range_string</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_split_range'>split_range</span> <span class='op'>=</span> <span class='id identifier rubyid_range_string'>range_string</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>..</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
@@ -854,7 +852,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Jan  4 05:24:07 2023 by
+  Generated on Tue Jan 10 04:40:52 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.2.0).
 </div>

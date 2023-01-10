@@ -20,6 +20,7 @@
 # rubocop:disable Layout/HashAlignment
 # rubocop:disable Layout/ArgumentAlignment
 require_relative 'file_context_managed_partitioned_array'
+# VERSION v2.0.5 - release candidate (1/20/2023 - 4:26AM)
 # VERSION v2.0.5a - tested FCMPAM#table_next_file_context!
 # FCMPAM#table_set_file_context! untested, but is predictable
 # VERSION v2.0.4a - untested, switch to normal version after successful test (1/9/2023 - 11:51PM)

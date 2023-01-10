@@ -15,4 +15,6 @@ a.database("test_database33").save_everything_to_files!
 a.active_table("test_database_table24")
 a.active_database("test_database33")
 p a.table
-p a.database 
+p a.database
+a.table_next_file_context!
+p a.table 

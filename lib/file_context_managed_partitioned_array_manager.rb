@@ -20,8 +20,9 @@
 # rubocop:disable Layout/HashAlignment
 # rubocop:disable Layout/ArgumentAlignment
 require_relative 'file_context_managed_partitioned_array'
-
-# VERSION v2.0.4a - untested, switch to normal version after successful test
+# VERSION v2.0.5a - tested FCMPAM#table_next_file_context!
+# FCMPAM#table_set_file_context! untested, but is predictable
+# VERSION v2.0.4a - untested, switch to normal version after successful test (1/9/2023 - 11:51PM)
 # FCMPAM#table_set_file_context!(database_table: @active_table, database_name: @active_database, file_context_id: @db_partition_archive_id, save_prior: true, save_after: true)
 # FCMPAM#table_next_file_context!(database_table: @active_table, database_name: @active_database, save_prior: true, save_after: true)
 # VERSION v2.0.3a - add method structure skeleton (left off on line 247)
@@ -253,14 +254,16 @@ class FileContextManagedPartitionedArrayManager
     @man_db.fcmpa_active_databases[database_table].save_everything_to_files! if save_prior
     @man_db.fcmpa_active_databases[database_table] = @man_db.fcmpa_active_databases[database_table].load_from_archive!(has_capacity: @db_has_capacity, dynamically_allocates: @db_dynamically_allocates, endless_add: @db_endless_add, partition_archive_id: file_context_id, db_size: @db_size, partition_amount_and_offset: @db_partition_amount_and_offset, db_path: @db_path+"/MAN_DB_TABLE/#{database_name}/TABLE", db_name: "TABLE", max_capacity: @db_max_capacity, partition_addition_amount: @db_partition_addition_amount)
     @man_db.fcmpa_active_databases[database_table].save_everything_to_files! if save_after
+    @man_db.fcmpa_active_databases[database_table]
   end
 
   # sets the particular MPA running within the database as database_table to the next file context
   # lower level work that deals with class variables within fcmpa_active_databases
   def table_next_file_context!(database_table: @active_table, database_name: @active_database, save_prior: true, save_after: true)
     @man_db.fcmpa_active_databases[database_table].save_everything_to_files! if save_prior
-    @man_db.fcmpa_active_databases[database_table] = @man_db.fcmpa_active_databases[database_table].load_from_archive!(has_capacity: @db_has_capacity, dynamically_allocates: @db_dynamically_allocates, endless_add: @db_endless_add, db_size: @db_size, partition_amount_and_offset: @db_partition_amount_and_offset, db_path: @db_path+"/MAN_DB_TABLE/#{database_name}/TABLE", db_name: "TABLE", max_capacity: @db_max_capacity, partition_addition_amount: @db_partition_addition_amount) 
+    @man_db.fcmpa_active_databases[database_table] = @man_db.fcmpa_active_databases[database_table].archive_and_new_db!(has_capacity: @db_has_capacity, db_size: @db_size, partition_amount_and_offset: @db_partition_amount_and_offset, db_path: @db_path+"/MAN_DB_TABLE/#{database_name}/TABLE", db_name: "TABLE", max_capacity: @db_max_capacity, partition_addition_amount: @db_partition_addition_amount) 
     @man_db.fcmpa_active_databases[database_table].save_everything_to_files! if save_after
+    @man_db.fcmpa_active_databases[database_table]
   end
 
   # update: left off worrying about the db_table_name entry having to contain an array of the table names so that the database knows which tables to look for and which ones belong to it

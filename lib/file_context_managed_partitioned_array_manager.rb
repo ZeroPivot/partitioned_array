@@ -21,8 +21,10 @@
 # rubocop:disable Layout/ArgumentAlignment
 require_relative 'file_context_managed_partitioned_array'
 
+# VERSION v2.0.4a - untested, switch to normal version after successful test
+# FCMPAM#table_set_file_context!(database_table: @active_table, database_name: @active_database, file_context_id: @db_partition_archive_id, save_prior: true, save_after: true)
+# FCMPAM#table_next_file_context!(database_table: @active_table, database_name: @active_database, save_prior: true, save_after: true)
 # VERSION v2.0.3a - add method structure skeleton (left off on line 247)
-# - dealing with new file contexts and abstracting #MPA#get to #FCMPAM#get_database_table_entry
 # PITFALLS: As it stands, MPA#archive_and_new_db! should not be called directly, as it is a value object. You could, however, allocate it to a variable that way, and then call it on that variable. 
 # TODO: (1/3/2023 - 12:55PM)
 # set a timestamp in the databases per transaction
@@ -165,7 +167,7 @@ class FileContextManagedPartitionedArrayManager
                                                         fcmpa_db_index_location: @fcmpa_db_index_location,
                                                         fcmpa_db_max_capacity: @fcmpa_db_max_capacity,
                                                         fcmpa_db_partition_archive_id: @fcmpa_db_partition_archive_id,
-                                                        db_partition_addition_amount: @partition_addition_amount,
+                                                        db_partition_addition_amount: @db_partition_addition_amount,
                                                         db_size: @db_size,
                                                         db_endless_add: @db_endless_add,
                                                         db_has_capacity: @db_has_capacity,
@@ -244,23 +246,21 @@ class FileContextManagedPartitionedArrayManager
   end
 =end
 
-# left off working on this method (1/9/2023 - 12:18PM)
-  def table_set_file_context!(database_table:, file_context_id:, save: true)
+  # Lower level work that works with class variables within fcmpa_active_databases. In particular, the MPA within @man_db.fcmpa_active_databases[database_table]
+  def table_set_file_context!(database_table: @active_table, database_name: @active_database, file_context_id: @db_partition_archive_id, save_prior: true, save_after: true)
     # @man_index.start_database!(database_name, db_path: @db_path+"/MAN_DB_INDEX/INDEX", only_path: true, only_name: true, db_name: "INDEX")
     # @man_db.start_database!(database_table, db_path: @db_path+"/MAN_DB_TABLE/#{database_name}/TABLE", only_path: true, only_name: true, db_name: "TABLE")
-
-    if (save)
-      @man_db.fcmpa_active_databases[database_table] = @man_db.fcmpa_active_databases[database_table].load_from_archive!(has_capacity: @has_capacity, dynamically_allocates: @dynamically_allocates, endless_add: @endless_add, partition_archive_id: @max_partition_archive_id, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive, max_capacity: @max_capacity, partition_addition_amount: @partition_addition_amount)
-    else
-    end
-  end
-
-  # caution: only use this if you know what you're doing; lower level method
-  def database_next_file_context!(database_name, save: true)
+    @man_db.fcmpa_active_databases[database_table].save_everything_to_files! if save_prior
+    @man_db.fcmpa_active_databases[database_table] = @man_db.fcmpa_active_databases[database_table].load_from_archive!(has_capacity: @db_has_capacity, dynamically_allocates: @db_dynamically_allocates, endless_add: @db_endless_add, partition_archive_id: file_context_id, db_size: @db_size, partition_amount_and_offset: @db_partition_amount_and_offset, db_path: @db_path+"/MAN_DB_TABLE/#{database_name}/TABLE", db_name: "TABLE", max_capacity: @db_max_capacity, partition_addition_amount: @db_partition_addition_amount)
+    @man_db.fcmpa_active_databases[database_table].save_everything_to_files! if save_after
   end
 
   # sets the particular MPA running within the database as database_table to the next file context
-  def table_next_file_context!(database_table, save: true)
+  # lower level work that deals with class variables within fcmpa_active_databases
+  def table_next_file_context!(database_table: @active_table, database_name: @active_database, save_prior: true, save_after: true)
+    @man_db.fcmpa_active_databases[database_table].save_everything_to_files! if save_prior
+    @man_db.fcmpa_active_databases[database_table] = @man_db.fcmpa_active_databases[database_table].load_from_archive!(has_capacity: @db_has_capacity, dynamically_allocates: @db_dynamically_allocates, endless_add: @db_endless_add, db_size: @db_size, partition_amount_and_offset: @db_partition_amount_and_offset, db_path: @db_path+"/MAN_DB_TABLE/#{database_name}/TABLE", db_name: "TABLE", max_capacity: @db_max_capacity, partition_addition_amount: @db_partition_addition_amount) 
+    @man_db.fcmpa_active_databases[database_table].save_everything_to_files! if save_after
   end
 
   # update: left off worrying about the db_table_name entry having to contain an array of the table names so that the database knows which tables to look for and which ones belong to it
@@ -299,8 +299,9 @@ class FileContextManagedPartitionedArrayManager
 
   alias db_table database_table
   alias active_db active_database
-  alias new_db! new_database! 
-  alias db_get database_get
+  alias new_db! new_database!
+  alias new_tbl! new_table!
+
 end
 
 

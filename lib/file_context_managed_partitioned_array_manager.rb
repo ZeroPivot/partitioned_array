@@ -21,6 +21,7 @@
 # rubocop:disable Layout/ArgumentAlignment
 require_relative 'file_context_managed_partitioned_array'
 
+# VERSION v2.0.7a
 # VERSION v2.0.6a - add database (DATABASE_LIST_NAME) routines to store the set of databases that exist (1/12/2023 - 5:06AM)
 # IN: FCMPAM#new_database!(database_name)
 # VERSION v2.0.5 - release candidate (1/20/2023 - 4:26AM)
@@ -209,6 +210,8 @@ class FileContextManagedPartitionedArrayManager
                                                         db_max_capacity: @db_max_capacity, #
                                                         db_partition_archive_id: @db_partition_archive_id, #
                                                         traverse_hash: @traverse_hash)
+    # Initialize the database which keeps track of all known databases that were created
+    @man_db.start_database!(DATABASE_LIST_NAME, db_path: @db_path+"/MAN_DB_TABLE/#{DATABASE_LIST_NAME}/TABLE", only_path: true, only_name: true, db_name: "TABLE") # initialize the database list index
   end
 
   # gets the database object for the database_name (@man_index = database index; @man_db = database table)
@@ -306,7 +309,7 @@ class FileContextManagedPartitionedArrayManager
   # the index is the database name, and man_db maintains the databases defined by the index
   def new_database!(database_name)
     @man_index.start_database!(database_name, db_path: @db_path+"/MAN_DB_INDEX/INDEX", only_path: true, only_name: false, db_name: "INDEX")
-    @man_db.start_database!(DATABASE_LIST_NAME, db_path: @db_path+"/MAN_DB_TABLE/#{DATABASE_LIST_NAME}/TABLE", only_path: true, only_name: true, db_name: "TABLE")
+    #@man_db.start_database!(DATABASE_LIST_NAME, db_path: @db_path+"/MAN_DB_TABLE/#{DATABASE_LIST_NAME}/TABLE", only_path: true, only_name: true, db_name: "TABLE")
     
     index = @man_db.db(DATABASE_LIST_NAME).get(0)[DATABASE_LIST_NAME]
     if index.nil?

@@ -20,7 +20,7 @@
 # rubocop:disable Layout/HashAlignment
 # rubocop:disable Layout/ArgumentAlignment
 require_relative 'file_context_managed_partitioned_array'
-# VERSION v2.1.3-release-candidate 
+# VERSION v2.1.3-release-candidate (rc1)
 # FCMPAM#delete_database!(database_name) - deletes a database entry (untested)
 # FCMPAM#delete_table!(database_table) - deletes a table entry (untested)
 # TODO: possible: FCMPAM#delete_database_table_...!(database_name, database_table) - deletes a database table entry

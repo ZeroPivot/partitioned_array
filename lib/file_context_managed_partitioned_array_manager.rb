@@ -20,6 +20,10 @@
 # rubocop:disable Layout/HashAlignment
 # rubocop:disable Layout/ArgumentAlignment
 require_relative 'file_context_managed_partitioned_array'
+# VERSION v2.1.3-release-candidate 
+# FCMPAM#delete_database!(database_name) - deletes a database entry
+# FCMPAM#delete_table!(database_table) - deletes a table entry
+# TODO: possible: FCMPAM#delete_database_table_...!(database_name, database_table) - deletes a database table entry
 # VERSION v2.1.2a 
 # FCMPAM#new_database! - adds an entry to the database entries list and creates a database
 # VERSION v2.1.1
@@ -255,15 +259,6 @@ class FileContextManagedPartitionedArrayManager
     # if the table entry contains the table name in @man_index, then
   end
 
-  # 1/8/2023 - 1/9/2023 (11:08AM) - 1/??/2023
-=begin
-  def load_from_archive!(has_capacity: @has_capacity, dynamically_allocates: @dynamically_allocates, endless_add: @endless_add, partition_archive_id: @max_partition_archive_id, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive, max_capacity: @max_capacity, partition_addition_amount: @partition_addition_amount)
-    temp = ManagedPartitionedArray.new(dynamically_allocates: dynamically_allocates, endless_add: endless_add, max_capacity: max_capacity, partition_archive_id: partition_archive_id, db_size: db_size, partition_amount_and_offset: partition_amount_and_offset, db_path: db_path, db_name: db_name_with_archive)
-    temp.load_everything_from_files!
-    return temp
-  end
-=end
-
   # Lower level work that works with class variables within fcmpa_active_databases. In particular, the MPA within @man_db.fcmpa_active_databases[database_table]
   def table_set_file_context!(database_table: @active_table, database_name: @active_database, file_context_id: @db_partition_archive_id, save_prior: true, save_after: true)
     # @man_index.start_database!(database_name, db_path: @db_path+"/MAN_DB_INDEX/INDEX", only_path: true, only_name: true, db_name: "INDEX")
@@ -315,37 +310,47 @@ class FileContextManagedPartitionedArrayManager
       hash[DATABASE_LIST_NAME] = entry.delete(database_name)
     end
     @man_db.db(DATABASE_LIST_NAME).save_everything_to_files!
-    #@man_db.delete_database!(database_name)
+    # @man_db.delete_database!(database_name)
   end
+
+  # untested (1/12/2023 - 2:07PM)
+  def delete_database!(database_name)
+    @man_index.delete_database!(database_name)
+    @man_index.fcmpa_active_databases.delete(database_name)
+  end 
+
+  # untested (1/12/2023 - 2:07PM)
+  def delete_table!(database_table)
+    @man_db.delete_database!(database_table)
+    @man_db.fcmpa_active_databases.delete(database_table)
+  end
+
   # the index is the database name, and man_db maintains the databases defined by the index
   def new_database!(database_name)
     @man_index.start_database!(database_name, db_path: @db_path+"/MAN_DB_INDEX/INDEX", only_path: true, only_name: false, db_name: "INDEX")
-    #@man_db.start_database!(DATABASE_LIST_NAME, db_path: @db_path+"/MAN_DB_TABLE/#{DATABASE_LIST_NAME}/TABLE", only_path: true, only_name: true, db_name: "TABLE")
+    # @man_db.start_database!(DATABASE_LIST_NAME, db_path: @db_path+"/MAN_DB_TABLE/#{DATABASE_LIST_NAME}/TABLE", only_path: true, only_name: true, db_name: "TABLE")
     index = []
     index = @man_db.db(DATABASE_LIST_NAME).get(0)[DATABASE_LIST_NAME]
-  
+
     if index.nil?
       @man_db.db(DATABASE_LIST_NAME).set(0) do |hash|
         hash[DATABASE_LIST_NAME] = index
       end
     elsif !index.include?(database_name)
-        @man_db.db(DATABASE_LIST_NAME).set(0) do |hash|
-          hash[DATABASE_LIST_NAME] = index << database_name
-        end  
+      @man_db.db(DATABASE_LIST_NAME).set(0) do |hash|
+        hash[DATABASE_LIST_NAME] = index << database_name
+      end
     end
     @man_db.db(DATABASE_LIST_NAME).save_everything_to_files!
     @man_db.fcmpa_active_databases[database_name] = @man_db.db(DATABASE_LIST_NAME)
   end
-  
+
   alias db_table database_table
   alias active_db active_database
   alias new_db! new_database!
   alias new_tbl! new_table!
 
 end
-
-
-
 
 # rubocop:enable Layout/HashAlignment
 # rubocop:enable Metrics/AbcSize

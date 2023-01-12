@@ -32,4 +32,8 @@ puts "10) get the values from the first index of the table, returning additional
 a.database_table.get(0, hash: true)
 puts "11) save the table to files"
 a.database_table.save_everything_to_files!
+
+puts "new test\n\n\n\n\n\n\n"
+a.new_database!("test_database69")
+p a.table("_DATABASE_LIST_INDEX").get(0, hash: true)
 #p a.table 

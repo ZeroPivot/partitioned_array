@@ -20,6 +20,9 @@
 # rubocop:disable Layout/HashAlignment
 # rubocop:disable Layout/ArgumentAlignment
 require_relative 'file_context_managed_partitioned_array'
+
+# VERSION v2.0.6a - add database (DATABASE_LIST_NAME) routines to store the set of databases that exist (1/12/2023 - 5:06AM)
+# IN: FCMPAM#new_database!(database_name)
 # VERSION v2.0.5 - release candidate (1/20/2023 - 4:26AM)
 # VERSION v2.0.5a - tested FCMPAM#table_next_file_context!
 # FCMPAM#table_set_file_context! untested, but is predictable
@@ -95,6 +98,8 @@ class FileContextManagedPartitionedArrayManager
   DB_TRAVERSE_HASH = true
 
   INITIAL_AUTOSAVE = true
+
+  DATABASE_LIST_NAME = "_DATABASE_LIST_INDEX"
   # db
   # fcmpa
   # man_db
@@ -227,6 +232,11 @@ class FileContextManagedPartitionedArrayManager
     @active_database = active_database
   end
 
+  def existing_database_tables?(database_name: @active_database)
+    # check to see if this table exists in the database first
+    @man_index.db(database_name).get(0)[database_name]["db_table_name"]
+  end
+
   # gets the database table object for the database_table name, needing a database x index pair
   def database_table(database_table: @active_table, database_name: @active_database)
     # check to see if this table exists in the database first
@@ -293,9 +303,22 @@ class FileContextManagedPartitionedArrayManager
     @man_db.db(database_table)
   end
 
-  # the index is the database name, and man__db maintains the databases defined by the index
+  # the index is the database name, and man_db maintains the databases defined by the index
   def new_database!(database_name)
     @man_index.start_database!(database_name, db_path: @db_path+"/MAN_DB_INDEX/INDEX", only_path: true, only_name: false, db_name: "INDEX")
+    @man_db.start_database!(DATABASE_LIST_NAME, db_path: @db_path+"/MAN_DB_TABLE/#{DATABASE_LIST_NAME}/TABLE", only_path: true, only_name: true, db_name: "TABLE")
+    
+    index = @man_db.db(DATABASE_LIST_NAME).get(0)[DATABASE_LIST_NAME]
+    if index.nil?
+      @man_db.db(DATABASE_LIST_NAME).set(0) do |hash|
+        hash[DATABASE_LIST_NAME] = [database_name]
+      end
+    elsif !index.include?(database_name)
+        @man_db.db(DATABASE_LIST_NAME).set(0) do |hash|
+          hash[DATABASE_LIST_NAME] = index << database_name
+        end  
+    end
+    @man_db.db(DATABASE_LIST_NAME).save_everything_to_files!
   end
   
   

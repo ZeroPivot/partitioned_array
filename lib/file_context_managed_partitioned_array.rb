@@ -233,6 +233,8 @@ class FileContextManagedPartitionedArray
     @fcmpa_active_databases[database_index_name]
   end
 
+  
+
   def set_active_database(database_index_name) # rubocop:disable Naming/AccessorMethodName
     @active_database = database_index_name
   end

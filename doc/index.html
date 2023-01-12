@@ -59,13 +59,82 @@
 
       <div id="content"><div id='filecontents'><h1 id="the-partitioned-array-managed-partitioned-array-and-file-context-managed-partitioned-arraymanager-fundamental-data-structures-and-array-of-hashes-database-system">The Partitioned Array, Managed Partitioned Array and File Context Managed Partitioned Array/Manager: Fundamental Data Structures and Array-Of-Hashes Database System</h1>
 
-<h2 id="updates">Updates:</h2>
+<ul>
+  <li>
+    <p><strong>YARD Documentation</strong>: https://midscore.io/partitioned_array_library/doc/index.html (Last Updated: 1/10/2023 4:47AM)</p>
+  </li>
+  <li>
+    <p><strong>Source Code</strong></p>
+    <ul>
+      <li><strong>FileContextManagedPartitionedArrayManager</strong>:</li>
+      <li><strong>FileContextManagedPartitionedArray</strong>:</li>
+      <li><strong>ManagedPartitionedArray</strong>:</li>
+      <li><strong>PartitionedArray</strong>:</li>
+    </ul>
+  </li>
+</ul>
+
+<p>All in https://github.com/ZeroPivot/partitioned_array/tree/master/lib</p>
+
+<h2 id="synopsis">Synopsis</h2>
+
+<h3 id="partitioned-array--managed-partitioned-array--file-context-managed-partitioned-array-manager">Partitioned Array | Managed Partitioned Array / File Context Managed Partitioned Array [Manager]</h3>
+
+<p>Partitioned Array Library Repo: https://github.com/ZeroPivot/partitioned_array</p>
+
+<ul>
+  <li>README: https://github.com/ZeroPivot/partitioned_array#readme</li>
+  <li>YARD Documentation: https://midscore.io/partitioned_array_library/doc/index.html</li>
+</ul>
+
+<h3 id="usage">Usage</h3>
+
+<ul>
+  <li>Installation</li>
+</ul>
+
+<p><code>git clone https://github.com/ZeroPivot/partitioned_array.git</code></p>
+
+<ul>
+  <li>In Ruby:</li>
+</ul>
+
+<p><code>require 'lib/file_context_managed_partitioned_array_manager'</code></p>
+
+<ul>
+  <li>Data structures available:</li>
+</ul>
+
+<p><code>ruby
+FileContextManagedPartitionedArrayManager
+FileContextManagedPartitionedArray
+ManagedPartitionedArray
+PartitionedArray
+</code></p>
+
+<ul>
+  <li>“Inheritance Tree”</li>
+</ul>
+
+<p><code>FileContextManagedPartitonedArrayManager.FileContextManagedPartitionedArray.(ManagedPartitionedArray &lt; PartitionedArray)</code></p>
+
+<ul>
+  <li>Example:</li>
+</ul>
+
+<p><code>ruby
+a = FileContextManagedPartitionedArrayManager.new
+a.database_table("database", "table").get(0) # Resembles the "inheritance" tree in terms of object calls, and ManagedPartitionedArray &lt; PartitionedArray implies that ManagedPartitionedArray inherits from PartitionedArray, and MPA &lt; PA is being called with get(0)
+</code></p>
+
+<h2 id="updates">Updates</h2>
 
 <ul>
   <li>January 10, 2023
     <ul>
       <li>FileContextManagedPartitionedArray (v1.0.5 release) and FileContextManagedPartitionedArrayManager (v2.0.5 release) reached a stable state, and are ready for use and battle testing</li>
       <li>Advice: Use the FileContextManagedPartitionedArrayManager class; it is the most high level and features a NoSQL database-like interface</li>
+      <li><code>YARD Documentation</code> is more comprehensive (https://midscore.io/partitioned_array_library/doc/index.html)</li>
     </ul>
   </li>
   <li>
@@ -74,7 +143,7 @@
   <li>TODO: Add documentation on the FileContextManagedPartitionedArrayManager class, and the FileContextManagedPartitionedArray class, like a quick tutorial</li>
 </ul>
 
-<p><strong>Quick Compatibility List:</strong></p>
+<h2 id="quick-compatibility-list"><strong>Quick Compatibility List</strong></h2>
 
 <ul>
   <li>
@@ -84,7 +153,7 @@
     <p><strong>jruby</strong>: (<code>same as ruby 3.0 version</code>)  - <em>lib/managed_partitioned_array.rb</em> - <strong>Fully Compatible</strong></p>
   </li>
   <li>
-    <p><strong>DragonRuby</strong>: (<code>/lib/dr_partitioned_array</code>) - <em>dr_managed_partitioned_array.rb</em> - <strong>Fully Compatible</strong></p>
+    <p><strong>DragonRuby</strong>: (<code>/lib/dr_partitioned_array</code>) - <em>dr_managed_partitioned_array.rb</em> - <strong>Fully Compatible</strong> – not synchronized with FileContextManagedPartitionedArray(Manager) yet (1/20/2023 - 4:45AM)</p>
   </li>
   <li>
     <p><strong>Python</strong>: <em>./managed_partitioned_array_python</em> folder - <strong>(WIP)</strong></p>
@@ -144,7 +213,7 @@
   <li>Upcoming additions: ManagedPartitonedArray documentation, and cleaned up PartitionedArray documentation</li>
 </ul>
 
-<h2 id="synopsis">Synopsis</h2>
+<h2 id="synopsis-1">Synopsis</h2>
 
 <p>A partitioned array is defined as a datastructure which has “partitioned elements” within what should be a <code>regular array</code></p>
 
@@ -205,7 +274,7 @@ The above is basic usage for the partitioned array data structure. For tested co
 
 <p>The data structure overall is an <code>Array-Of-Hashes</code>.</p>
 
-<h2 id="usage">Usage</h2>
+<h2 id="usage-1">Usage</h2>
 
 <h3 id="assumed-constants">Assumed Constants</h3>
 
@@ -519,7 +588,7 @@ FCMPAM#database(database_name = @active_database): returns the database object</
 </div></div>
 
       <div id="footer">
-  Generated on Tue Jan 10 04:40:51 2023 by
+  Generated on Wed Jan 11 22:39:57 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.2.0).
 </div>

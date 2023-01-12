@@ -1,0 +1,1 @@
+require_relative '../../lib/file_context_managed_partitioned_array_manager'

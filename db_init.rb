@@ -1,6 +1,6 @@
 require 'json'
 require 'fileutils'
-require_relative "lib/managed_partitioned_array"
+require "partitioned-array"
 DB_SIZE = 
 PARTITION_AMOUNT = 3
 OFFSET = 1

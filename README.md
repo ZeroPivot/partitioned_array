@@ -10,6 +10,46 @@
 
 All in https://github.com/ZeroPivot/partitioned_array/tree/master/lib
 
+## Synopsis
+
+### Partitioned Array | Managed Partitioned Array / File Context Managed Partitioned Array [Manager]
+
+Partitioned Array Library Repo: https://github.com/ZeroPivot/partitioned_array
+
+* README: https://github.com/ZeroPivot/partitioned_array#readme
+* YARD Documentation: https://midscore.io/partitioned_array_library/doc/index.html
+
+### Usage
+
+
+* Installation
+
+`git clone https://github.com/ZeroPivot/partitioned_array.git`
+
+* In Ruby:
+
+`require 'lib/file_context_managed_partitioned_array_manager'`
+
+* Data structures available:
+
+```ruby
+FileContextManagedPartitionedArrayManager
+FileContextManagedPartitionedArray
+ManagedPartitionedArray
+PartitionedArray
+```
+
+* "Inheritance Tree"
+
+`FileContextManagedPartitonedArrayManager.FileContextManagedPartitionedArray.(ManagedPartitionedArray < PartitionedArray)`
+
+* Example:
+
+```ruby
+a = FileContextManagedPartitionedArrayManager.new
+a.database_table("database", "table").get(0) # Resembles the "inheritance" tree in terms of object calls, and ManagedPartitionedArray < PartitionedArray implies that ManagedPartitionedArray inherits from PartitionedArray, and MPA < PA is being called with get(0)
+```
+
 ## Updates
 
 * January 10, 2023

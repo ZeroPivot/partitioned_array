@@ -21,6 +21,7 @@
 # rubocop:disable Layout/ArgumentAlignment
 require_relative 'file_context_managed_partitioned_array'
 
+# VERSION v2.1.0
 # VERSION v2.0.7a
 # VERSION v2.0.6a - add database (DATABASE_LIST_NAME) routines to store the set of databases that exist (1/12/2023 - 5:06AM)
 # IN: FCMPAM#new_database!(database_name)
@@ -324,6 +325,13 @@ class FileContextManagedPartitionedArrayManager
     @man_db.db(DATABASE_LIST_NAME).save_everything_to_files!
   end
   
+  def delete_table!(database_table:)
+    @man_db.db(database_table).delete_everything!
+  end
+
+  def delete_database!(database_name:)
+    @man_index.db(database_name).delete_everything!
+  end
   
 
 

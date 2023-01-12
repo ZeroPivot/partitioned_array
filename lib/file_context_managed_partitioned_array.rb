@@ -18,6 +18,9 @@
 # rubocop:disable Style/MutableConstant
 # rubocop:disable Metrics/ClassLength
 require_relative 'managed_partitioned_array'
+
+# TODO: implement FCMPA#delete_database! in DragonRuby (FileContextManagedPartitionedArrayDR)
+# FCMPA#delete_database! deletes the folder entry too
 # VERSION v1.1.0a - RELEASE - FCMPA#delete_database! deletes the file entry too
 # VERSION v1.0.5 - RELEASE VERSION, In Sync with FileContextManagedPartitionedArrayManager without having had any need for modification
 # VERSION v1.0.2a - Prettified, and listed all functions below
@@ -39,6 +42,8 @@ require_relative 'managed_partitioned_array'
 # FCMPA#each(database_index_name, hash: @traverse_hash) - traverses a database
 # FCMPA#each_not_nil(database_index_name, hash: @traverse_hash) - traverses a database, skipping nil values
 
+
+# TODO: implement folder removal mechanism in FCMPA#delete_database! for DragonRuby
 # VERSION v1.0.1a - organized, prettified, and corrected one bug, or possible bug (1/3/2022 3:08PM)
 # TODO: Study this code a bit and describe the architecture further, its a bit confusing going down this low level with the partitioned arrays.
 # DONE: Prettify code, reduce linter warnings, and organize variables
@@ -315,7 +320,7 @@ class FileContextManagedPartitionedArray
   def delete_database!(database_index_name = @active_database, delete_files: false)
     path_to_delete = @fcmpa_active_databases[database_index_name]
     # TODO: implement delete_files in DragonRuby; FileUtils doesn't exist in mruby
-    FileUtils.rm_rf(path_to_delete.db_path) if delete_files
+    FileUtils.rm_rf(path_to_delete.db_path) if delete_files && path_to_delete
     delete_database_from_index!(database_index_name)
   end
 

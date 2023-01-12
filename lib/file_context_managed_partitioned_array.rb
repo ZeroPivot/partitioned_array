@@ -18,6 +18,7 @@
 # rubocop:disable Style/MutableConstant
 # rubocop:disable Metrics/ClassLength
 require_relative 'managed_partitioned_array'
+# VERSION v1.1.0a - RELEASE - FCMPA#delete_database! deletes the file entry too
 # VERSION v1.0.5 - RELEASE VERSION, In Sync with FileContextManagedPartitionedArrayManager without having had any need for modification
 # VERSION v1.0.2a - Prettified, and listed all functions below
 # FCMPA#load_indexer_db! - loads the indexing DB
@@ -311,9 +312,14 @@ class FileContextManagedPartitionedArray
     end
   end
 
-  def delete_database!(database_index_name = @active_database)
-    @fcmpa_active_databases.delete(database_index_name)
+  def delete_database!(database_index_name = @active_database, delete_files: false)
+    #@fcmpa_active_databases.delete(database_index_name)
+    path_to_delete = @fcmpa_active_databases[database_index_name]
+    FileUtils.rm_rf(path_to_delete.db_path)
+    #@fcmpa_active_databases.delete(database_index_name)
+    
     delete_database_from_index!(database_index_name)
+  #  @fcmpa_active_databases.delete(database_index_name)
   end
 
   def get_databases_list

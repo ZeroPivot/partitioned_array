@@ -20,6 +20,8 @@
 # rubocop:disable Layout/HashAlignment
 # rubocop:disable Layout/ArgumentAlignment
 require_relative 'file_context_managed_partitioned_array'
+# VERSION v2.1.2a 
+# FCMPAM#new_database! - adds an entry to the database entries list and creates a database
 # VERSION v2.1.1
 # VERSION v2.1.0
 # VERSION v2.0.7a
@@ -65,7 +67,7 @@ require_relative 'file_context_managed_partitioned_array'
 # FileContextManagedPartitionedArrayManager - manages the FileContextManagedPartitionedArray and its partitions, making the Partitioned Array a database with database IDs
 # and table keys
 class FileContextManagedPartitionedArrayManager
-  attr_accessor :fcmpa_db_indexer_db, :fcmpa_active_databases, :db_file_incrementor, :db_file_location, :db_path, :db_name, :db_size, :db_endless_add, :db_has_capacity, :fcmpa_db_indexer_name, :fcmpa_db_folder_name, :fcmpa_db_size, :fcmpa_partition_amount_and_offset, :db_partition_amount_and_offset, :partition_addition_amount, :db_dynamically_allocates, :timestamp_str
+  attr_accessor :man_db, :man_index, :fcmpa_db_indexer_db, :fcmpa_active_databases, :db_file_incrementor, :db_file_location, :db_path, :db_name, :db_size, :db_endless_add, :db_has_capacity, :fcmpa_db_indexer_name, :fcmpa_db_folder_name, :fcmpa_db_size, :fcmpa_partition_amount_and_offset, :db_partition_amount_and_offset, :partition_addition_amount, :db_dynamically_allocates, :timestamp_str
 
   INDEX = 0 # the index of the database in the database table, 0th element entry in any given database, primarily because the math leads to an extra entry in the first partition.
 
@@ -307,15 +309,24 @@ class FileContextManagedPartitionedArrayManager
     @man_db.db(database_table)
   end
 
+  def delete_database_index_entry!(database_name)
+    entry = @man_db.db(DATABASE_LIST_NAME).get(0)[DATABASE_LIST_NAME]
+    @man_db.db(DATABASE_LIST_NAME).set(0) do |hash|
+      hash[DATABASE_LIST_NAME] = entry.delete(database_name)
+    end
+    @man_db.db(DATABASE_LIST_NAME).save_everything_to_files!
+    #@man_db.delete_database!(database_name)
+  end
   # the index is the database name, and man_db maintains the databases defined by the index
   def new_database!(database_name)
     @man_index.start_database!(database_name, db_path: @db_path+"/MAN_DB_INDEX/INDEX", only_path: true, only_name: false, db_name: "INDEX")
     #@man_db.start_database!(DATABASE_LIST_NAME, db_path: @db_path+"/MAN_DB_TABLE/#{DATABASE_LIST_NAME}/TABLE", only_path: true, only_name: true, db_name: "TABLE")
-    
+    index = []
     index = @man_db.db(DATABASE_LIST_NAME).get(0)[DATABASE_LIST_NAME]
+  
     if index.nil?
       @man_db.db(DATABASE_LIST_NAME).set(0) do |hash|
-        hash[DATABASE_LIST_NAME] = [database_name]
+        hash[DATABASE_LIST_NAME] = index
       end
     elsif !index.include?(database_name)
         @man_db.db(DATABASE_LIST_NAME).set(0) do |hash|
@@ -323,6 +334,7 @@ class FileContextManagedPartitionedArrayManager
         end  
     end
     @man_db.db(DATABASE_LIST_NAME).save_everything_to_files!
+    @man_db.fcmpa_active_databases[database_name] = @man_db.db(DATABASE_LIST_NAME)
   end
   
   alias db_table database_table

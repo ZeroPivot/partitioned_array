@@ -315,7 +315,7 @@ class FileContextManagedPartitionedArray
   def delete_database!(database_index_name = @active_database, delete_files: false)
     #@fcmpa_active_databases.delete(database_index_name)
     path_to_delete = @fcmpa_active_databases[database_index_name]
-    FileUtils.rm_rf(path_to_delete.db_path)
+    FileUtils.rm_rf(path_to_delete.db_path) if delete_files
     #@fcmpa_active_databases.delete(database_index_name)
     
     delete_database_from_index!(database_index_name)

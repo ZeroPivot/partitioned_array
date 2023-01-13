@@ -17,6 +17,17 @@ module FileMethods
       f.puts line
     end
   end
+
+  def remove_line(line, filename=DB_LIST)
+    lines = read_file_lines
+    lines.delete(line)
+    File.open(filename, "w") do |f|
+      lines.each do |line|
+        f.puts line
+      end
+    end
+  end
+  
   
   
   def check_file_duplicates(check, filename=DB_LIST)
@@ -26,7 +37,7 @@ module FileMethods
   
   
   def array_duplicates?(check, array_of_strings)
-    puts array_of_strings.include?(check)
+    #puts array_of_strings.include?(check)
     array_of_strings.include?(check)
   end
   

@@ -17,12 +17,14 @@ class LineDB
   HAS_CAPACITY = true
   DATABASE_SIZE = 100
   DYNAMICALLY_ALLOCATES = true
+  DATABASE_PARTITION_AMOUNT = 20
 
-  def initialize(database_file_name: DATABASE_FILE_NAME, endless_add: ENDLESS_ADD, has_capacity: HAS_CAPACITY, db_size: DATABASE_SIZE, dynamically_allocates: DYNAMICALLY_ALLOCATES, parent_folder: PARENT_FOLDER, database_folder_name: DATABASE_FOLDER_NAME)
+  def initialize(database_partition_amount: DATABASE_PARTITION_AMOUNT, database_file_name: DATABASE_FILE_NAME, endless_add: ENDLESS_ADD, has_capacity: HAS_CAPACITY, db_size: DATABASE_SIZE, dynamically_allocates: DYNAMICALLY_ALLOCATES, parent_folder: PARENT_FOLDER, database_folder_name: DATABASE_FOLDER_NAME)
     @parent_folder = parent_folder
     @database_folder_name = database_folder_name
     @database_file_name = database_file_name
     @endless_add = endless_add
+    @database_parttion_amount = database_partition_amount
     @has_capacity = has_capacity
     @db_size = db_size
     @dynamically_allocates = dynamically_allocates  

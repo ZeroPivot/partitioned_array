@@ -1,18 +1,24 @@
 # The Partitioned Array, Managed Partitioned Array and File Context Managed Partitioned Array/Manager: Fundamental Data Structures and Array-Of-Hashes Database System
 
-* **YARD Documentation**: https://midscore.io/partitioned_array_library/doc/index.html (Last Updated: 1/10/2023 4:47AM)
+* **YARD Documentation**: https://midscore.io/partitioned_array_library/doc/index.html (Last Updated: 1/12/2023)
+* **Source Code**: https://github.com/ZeroPivot/partitioned_array/tree/master/lib
+* **GitHub README**: https://github.com/ZeroPivot/partitioned_array#readme
 
-* **Source Code**
-  * **FileContextManagedPartitionedArrayManager**:
-  * **FileContextManagedPartitionedArray**:
-  * **ManagedPartitionedArray**:
-  * **PartitionedArray**:
+## Update 1/12/2023 (10:23PM) - The Partitioned Array Database
+
+In -- https://github.com/ZeroPivot/partitioned_array/tree/master/lib:
+
+* **Partitioned Array Database**: https://github.com/ZeroPivot/partitioned_array/blob/master/lib/partitioned_array_database.rb
+* **FileContextManagedPartitionedArrayManager**: https://github.com/ZeroPivot/partitioned_array/blob/master/lib/file_context_managed_partitioned_array_manager.rb
+* **FileContextManagedPartitionedArray**: https://github.com/ZeroPivot/partitioned_array/blob/master/lib/file_context_managed_partitioned_array.rb
+* **ManagedPartitionedArray**: https://github.com/ZeroPivot/partitioned_array/blob/master/lib/managed_partitioned_array.rb
+* **PartitionedArray**: https://github.com/ZeroPivot/partitioned_array/blob/master/lib/partitioned_array.rb
 
 All in https://github.com/ZeroPivot/partitioned_array/tree/master/lib
 
 ## Synopsis
 
-### Partitioned Array | Managed Partitioned Array / File Context Managed Partitioned Array [Manager]
+### Partitioned Array [Database] | Managed Partitioned Array / File Context Managed Partitioned Array [Manager]
 
 Partitioned Array Library Repo: https://github.com/ZeroPivot/partitioned_array
 
@@ -20,7 +26,6 @@ Partitioned Array Library Repo: https://github.com/ZeroPivot/partitioned_array
 * YARD Documentation: https://midscore.io/partitioned_array_library/doc/index.html
 
 ### Usage
-
 
 * Installation
 
@@ -30,9 +35,14 @@ Partitioned Array Library Repo: https://github.com/ZeroPivot/partitioned_array
 
 `require 'lib/file_context_managed_partitioned_array_manager'`
 
+or
+
+`require 'lib/partitioned_array_database`
+
 * Data structures available:
 
 ```ruby
+PartitionedArrayDatabase
 FileContextManagedPartitionedArrayManager
 FileContextManagedPartitionedArray
 ManagedPartitionedArray
@@ -41,12 +51,15 @@ PartitionedArray
 
 * "Inheritance Tree"
 
-`FileContextManagedPartitonedArrayManager.FileContextManagedPartitionedArray.(ManagedPartitionedArray < PartitionedArray)`
+`PartitionedArrayDatabase.FileContextManagedPartitonedArrayManager.FileContextManagedPartitionedArray.(ManagedPartitionedArray < PartitionedArray)`
 
 * Example:
 
 ```ruby
 a = FileContextManagedPartitionedArrayManager.new
+
+...
+
 a.database_table("database", "table").get(0) # Resembles the "inheritance" tree in terms of object calls, and ManagedPartitionedArray < PartitionedArray implies that ManagedPartitionedArray inherits from PartitionedArray, and MPA < PA is being called with get(0)
 ```
 

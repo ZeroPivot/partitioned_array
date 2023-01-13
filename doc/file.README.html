@@ -60,25 +60,28 @@
       <div id="content"><div id='filecontents'><h1 id="the-partitioned-array-managed-partitioned-array-and-file-context-managed-partitioned-arraymanager-fundamental-data-structures-and-array-of-hashes-database-system">The Partitioned Array, Managed Partitioned Array and File Context Managed Partitioned Array/Manager: Fundamental Data Structures and Array-Of-Hashes Database System</h1>
 
 <ul>
-  <li>
-    <p><strong>YARD Documentation</strong>: https://midscore.io/partitioned_array_library/doc/index.html (Last Updated: 1/10/2023 4:47AM)</p>
-  </li>
-  <li>
-    <p><strong>Source Code</strong></p>
-    <ul>
-      <li><strong>FileContextManagedPartitionedArrayManager</strong>:</li>
-      <li><strong>FileContextManagedPartitionedArray</strong>:</li>
-      <li><strong>ManagedPartitionedArray</strong>:</li>
-      <li><strong>PartitionedArray</strong>:</li>
-    </ul>
-  </li>
+  <li><strong>YARD Documentation</strong>: https://midscore.io/partitioned_array_library/doc/index.html (Last Updated: 1/12/2023)</li>
+  <li><strong>Source Code</strong>: https://github.com/ZeroPivot/partitioned_array/tree/master/lib</li>
+  <li><strong>GitHub README</strong>: https://github.com/ZeroPivot/partitioned_array#readme</li>
+</ul>
+
+<h2 id="update-1122023-1023pm---the-partitioned-array-database">Update 1/12/2023 (10:23PM) - The Partitioned Array Database</h2>
+
+<p>In – https://github.com/ZeroPivot/partitioned_array/tree/master/lib:</p>
+
+<ul>
+  <li><strong>Partitioned Array Database</strong>: https://github.com/ZeroPivot/partitioned_array/blob/master/lib/partitioned_array_database.rb</li>
+  <li><strong>FileContextManagedPartitionedArrayManager</strong>: https://github.com/ZeroPivot/partitioned_array/blob/master/lib/file_context_managed_partitioned_array_manager.rb</li>
+  <li><strong>FileContextManagedPartitionedArray</strong>: https://github.com/ZeroPivot/partitioned_array/blob/master/lib/file_context_managed_partitioned_array.rb</li>
+  <li><strong>ManagedPartitionedArray</strong>: https://github.com/ZeroPivot/partitioned_array/blob/master/lib/managed_partitioned_array.rb</li>
+  <li><strong>PartitionedArray</strong>: https://github.com/ZeroPivot/partitioned_array/blob/master/lib/partitioned_array.rb</li>
 </ul>
 
 <p>All in https://github.com/ZeroPivot/partitioned_array/tree/master/lib</p>
 
 <h2 id="synopsis">Synopsis</h2>
 
-<h3 id="partitioned-array--managed-partitioned-array--file-context-managed-partitioned-array-manager">Partitioned Array | Managed Partitioned Array / File Context Managed Partitioned Array [Manager]</h3>
+<h3 id="partitioned-array-database--managed-partitioned-array--file-context-managed-partitioned-array-manager">Partitioned Array [Database] | Managed Partitioned Array / File Context Managed Partitioned Array [Manager]</h3>
 
 <p>Partitioned Array Library Repo: https://github.com/ZeroPivot/partitioned_array</p>
 
@@ -101,11 +104,16 @@
 
 <p><code>require 'lib/file_context_managed_partitioned_array_manager'</code></p>
 
+<p>or</p>
+
+<p><code>require 'lib/partitioned_array_database</code></p>
+
 <ul>
   <li>Data structures available:</li>
 </ul>
 
 <p><code>ruby
+PartitionedArrayDatabase
 FileContextManagedPartitionedArrayManager
 FileContextManagedPartitionedArray
 ManagedPartitionedArray
@@ -116,16 +124,19 @@ PartitionedArray
   <li>“Inheritance Tree”</li>
 </ul>
 
-<p><code>FileContextManagedPartitonedArrayManager.FileContextManagedPartitionedArray.(ManagedPartitionedArray &lt; PartitionedArray)</code></p>
+<p><code>PartitionedArrayDatabase.FileContextManagedPartitonedArrayManager.FileContextManagedPartitionedArray.(ManagedPartitionedArray &lt; PartitionedArray)</code></p>
 
 <ul>
   <li>Example:</li>
 </ul>
 
-<p><code>ruby
-a = FileContextManagedPartitionedArrayManager.new
-a.database_table("database", "table").get(0) # Resembles the "inheritance" tree in terms of object calls, and ManagedPartitionedArray &lt; PartitionedArray implies that ManagedPartitionedArray inherits from PartitionedArray, and MPA &lt; PA is being called with get(0)
-</code></p>
+<p>```ruby
+a = FileContextManagedPartitionedArrayManager.new</p>
+
+<p>…</p>
+
+<p>a.database_table(“database”, “table”).get(0) # Resembles the “inheritance” tree in terms of object calls, and ManagedPartitionedArray &lt; PartitionedArray implies that ManagedPartitionedArray inherits from PartitionedArray, and MPA &lt; PA is being called with get(0)
+```</p>
 
 <h2 id="updates">Updates</h2>
 
@@ -588,7 +599,7 @@ FCMPAM#database(database_name = @active_database): returns the database object</
 </div></div>
 
       <div id="footer">
-  Generated on Thu Jan 12 14:34:42 2023 by
+  Generated on Thu Jan 12 22:28:19 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.2.0).
 </div>

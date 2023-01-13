@@ -1,17 +1,22 @@
 require_relative "file_methods"
 require_relative "partitioned_array_database"
+
+# VERSION v0.0.1 - Database creation by superfolder
 class LineDB
-  include FileMethods
+  attr_accessor :parent_folder, :database_file_name, :linelist
+  include FileMethods  
   PARENT_FOLDER = "./database/CGMFS_db"
   DATABASE_FILE_NAME = "./database/db_list.txt"
-  #require_relative "../lib/partitioned_array/lib/partitioned_array_database"
-  def initialize(parent_folder: PARENT_FOLDER)
+  PAD = PartitionedArrayDatabase
+  
+  def initialize(parent_folder: PARENT_FOLDER, database_file_name: DATABASE_FILE_NAME)
     @parent_folder = parent_folder
+    @database_file_name = database_file_name
     @linelist = load_pad(parent_folder: @parent_folder)
   end
 
   def load_pad(parent_folder: @parent_folder || PARENT_FOLDER)
-    db_linelist = read_file_lines(DATABASE_FILE_NAME)
+    db_linelist = read_file_lines(@database_file_name)
     #puts db_linelist
     db_list = {}
     db_linelist.each do |db_name|
@@ -29,4 +34,5 @@ class LineDB
     @linelist[db_name]
   end
 
+end 
 end

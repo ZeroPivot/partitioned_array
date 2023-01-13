@@ -12,7 +12,7 @@ end
 
 def readfile_bindir(path, file)
   File.open "#{pwd}\\#{path}\\#{file}", "r" do |f|
-    $gtk.read_file("#{pwd}\\#{path}\\#{file}")
+    #$gtk.read_file("#{pwd}\\#{path}\\#{file}")
   f.read
 end
 

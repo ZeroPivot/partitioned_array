@@ -17,6 +17,11 @@ def readfile_bindir(path, file)
   end
 end
 
+#untested
+def rmdir(folder_path)
+  $gtk.system("rm -rf \"#{folder_path}\"")
+end
+
 def writefile_bindir(full_file_path_name, contents)
   readlink = "#{pwd}/#{full_file_path_name}"
   File.open(readlink, "w") do |f|

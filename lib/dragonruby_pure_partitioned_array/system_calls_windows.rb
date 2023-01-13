@@ -18,6 +18,10 @@ end
 
   end
 
+#untested
+def rmdir(folder_path)
+  $gtk.system("cmd /c rmdir /s /q \"#{folder_path}\"")
+end
 
 def writefile_bindir(file_path_name, contents)
   #$gtk.write_file("#{pwd}\\#{file_path_name}", contents)

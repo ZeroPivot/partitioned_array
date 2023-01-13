@@ -13,8 +13,3 @@ def load_pad(parent_folder: PARENT_FOLDER)
   end
   db_list
 end
-
-a = load_pad
-a.each do |key, value|
-  puts "#{key}: #{value.to_s}"
-end

@@ -20,6 +20,7 @@
 require_relative 'managed_partitioned_array'
 
 # TODO: implement FCMPA#delete_database! in DragonRuby (FileContextManagedPartitionedArrayDR)
+# VERSION v1.1.1 - RELEASE - fixed a bug with fcmpa_db_max_capacity (it as set to fcmpa_max_capacity)
 # FCMPA#delete_database! deletes the folder entry too
 # VERSION v1.1.0a - RELEASE - FCMPA#delete_database! deletes the file entry too
 # VERSION v1.0.5 - RELEASE VERSION, In Sync with FileContextManagedPartitionedArrayManager without having had any need for modification
@@ -42,7 +43,8 @@ require_relative 'managed_partitioned_array'
 # FCMPA#each(database_index_name, hash: @traverse_hash) - traverses a database
 # FCMPA#each_not_nil(database_index_name, hash: @traverse_hash) - traverses a database, skipping nil values
 
-
+# VERSION v1.1.0-release - CRITICAL BUG FIXES:
+# @fcmpa_db_max_capacity was not being set correctly (it was @fcmpa_db__max_capacity)
 # TODO: implement folder removal mechanism in FCMPA#delete_database! for DragonRuby
 # VERSION v1.0.1a - organized, prettified, and corrected one bug, or possible bug (1/3/2022 3:08PM)
 # TODO: Study this code a bit and describe the architecture further, its a bit confusing going down this low level with the partitioned arrays.
@@ -170,7 +172,7 @@ class FileContextManagedPartitionedArray
                                                        db_size: @fcmpa_db_size,
                                                        db_name: @fcmpa_db_indexer_name,
                                                        db_path: @fcmpa_db_folder_name,
-                                                       max_capacity: @fcmpa_max_capacity,
+                                                       max_capacity: @fcmpa_db_max_capacity,
                                                        partition_archive_id: @fcmpa_db_partition_archive_id
                                                        )
 

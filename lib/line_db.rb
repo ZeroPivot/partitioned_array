@@ -37,6 +37,10 @@ class LineDB
     db_list
   end
 
+  def list_databases
+    @linelist.keys
+  end
+
   def reload
     @linelist = load_pad(parent_folder: @parent_folder)
   end
@@ -49,7 +53,7 @@ class LineDB
     
   end
 
-  def rem_db(db_name)
+  def remove_db(db_name)
     @linelist.delete(db_name)
     remove_line(db_name)
     reload

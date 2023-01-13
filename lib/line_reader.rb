@@ -1,9 +1,13 @@
-# VERSION 1.0.0-release - First release 
+# VERSION 1.0.1-release - First release 
 
 DB_LIST = "db_list.txt"
 
-def read_lines(multiline_string)
-  multiline_string.map { |line| line.chomp }
+def read_lines(array)
+  array.map { |line| line.chomp }
+end
+
+def read_multi_string(string)
+  string.split("\n").map { |line| line.chomp }
 end
 
 def read_file_lines(file_name=DB_LIST)

@@ -5,7 +5,7 @@ class LineDB
   PARENT_FOLDER = "./database/CGMFS_db"
   DATABASE_FILE_NAME = "./database/db_list.txt"
   #require_relative "../lib/partitioned_array/lib/partitioned_array_database"
-  def initialize(parent_folder: PARENT_FOLDER, database_file_name: DATABASE_FILE_NAME)
+  def initialize(parent_folder: PARENT_FOLDER)
     @parent_folder = parent_folder
     @linelist = load_pad(parent_folder: @parent_folder)
   end
@@ -20,4 +20,13 @@ class LineDB
     end
     db_list
   end
+
+  def reload
+    @linelist = load_pad(parent_folder: @parent_folder)
+  end
+
+  def get_db(db_name)
+    @linelist[db_name]
+  end
+
 end

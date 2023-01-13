@@ -4,6 +4,21 @@
 * **Source Code**: https://github.com/ZeroPivot/partitioned_array/tree/master/lib
 * **GitHub README**: https://github.com/ZeroPivot/partitioned_array#readme
 
+## Update 1/13/2023 (2:28AM) - the line reader and line database
+
+### Line Database, Line Reader, Line Database Setup
+
+Created a set of helper functions to maintain a hash array set of Partitioned Array Databases:
+`lib/line_reader.rb`
+
+Helper functions to deal with line_database
+`lib/line_database_setup.rb`
+
+Setup the PartitionedArrayManager databases; specify the database names you want, which is written to a file.
+`lib/line_database.rb`
+
+`load_pad` helper function will load db_list.txt into a hash with those names referring to the PAM database objects
+
 ## Update 1/12/2023 (10:23PM) - The Partitioned Array Database
 
 In -- https://github.com/ZeroPivot/partitioned_array/tree/master/lib:
@@ -47,6 +62,12 @@ FileContextManagedPartitionedArrayManager
 FileContextManagedPartitionedArray
 ManagedPartitionedArray
 PartitionedArray
+```
+
+* Helper Functions
+
+```ruby
+pad_hash_database = load_pad # lib/line_database.rb
 ```
 
 * "Inheritance Tree"

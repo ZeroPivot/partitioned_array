@@ -1,4 +1,4 @@
 require 'fileutils'
 require 'json'
-require 'file_context_managed_partitioned_array_manager'
+require 'partitioned_array_database'
 # Requires the regular partitioned array with indexing and partitioning (managed)

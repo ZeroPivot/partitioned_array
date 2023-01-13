@@ -18,4 +18,4 @@ end
 PAD = PartitionedArrayDatabase
 
 # Path: lib/partitioned_array_database.rb
-a = PAD.new
+#a = PAD.new

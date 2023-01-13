@@ -82,9 +82,11 @@
 <p class="children">
   
     
+      <strong class="modules">Modules:</strong> <span class='object_link'><a href="FileMethods.html" title="FileMethods (module)">FileMethods</a></span>
+    
   
     
-      <strong class="classes">Classes:</strong> <span class='object_link'><a href="FileContextManagedPartitionedArray.html" title="FileContextManagedPartitionedArray (class)">FileContextManagedPartitionedArray</a></span>, <span class='object_link'><a href="FileContextManagedPartitionedArrayManager.html" title="FileContextManagedPartitionedArrayManager (class)">FileContextManagedPartitionedArrayManager</a></span>, <span class='object_link'><a href="JSONeval.html" title="JSONeval (class)">JSONeval</a></span>, <span class='object_link'><a href="ManagedPartitionedArray.html" title="ManagedPartitionedArray (class)">ManagedPartitionedArray</a></span>, <span class='object_link'><a href="ManagedPartitionedArrayDR.html" title="ManagedPartitionedArrayDR (class)">ManagedPartitionedArrayDR</a></span>, <span class='object_link'><a href="PartitionedArray.html" title="PartitionedArray (class)">PartitionedArray</a></span>, <span class='object_link'><a href="PartitionedArrayDR.html" title="PartitionedArrayDR (class)">PartitionedArrayDR</a></span>, <span class='object_link'><a href="PartitionedArrayDatabase.html" title="PartitionedArrayDatabase (class)">PartitionedArrayDatabase</a></span>
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="FileContextManagedPartitionedArray.html" title="FileContextManagedPartitionedArray (class)">FileContextManagedPartitionedArray</a></span>, <span class='object_link'><a href="FileContextManagedPartitionedArrayManager.html" title="FileContextManagedPartitionedArrayManager (class)">FileContextManagedPartitionedArrayManager</a></span>, <span class='object_link'><a href="JSONeval.html" title="JSONeval (class)">JSONeval</a></span>, <span class='object_link'><a href="LineDB.html" title="LineDB (class)">LineDB</a></span>, <span class='object_link'><a href="ManagedPartitionedArray.html" title="ManagedPartitionedArray (class)">ManagedPartitionedArray</a></span>, <span class='object_link'><a href="ManagedPartitionedArrayDR.html" title="ManagedPartitionedArrayDR (class)">ManagedPartitionedArrayDR</a></span>, <span class='object_link'><a href="PartitionedArray.html" title="PartitionedArray (class)">PartitionedArray</a></span>, <span class='object_link'><a href="PartitionedArrayDR.html" title="PartitionedArrayDR (class)">PartitionedArrayDR</a></span>, <span class='object_link'><a href="PartitionedArrayDatabase.html" title="PartitionedArrayDatabase (class)">PartitionedArrayDatabase</a></span>
     
   
 </p>
@@ -101,6 +103,38 @@
           
         </dt>
         <dd><pre class="code"><span class='kw'>true</span></pre></dd>
+      
+        <dt id="DB_LIST-constant" class="">DB_LIST =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>VERSION 1.0.1-release - First release</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>db_list.txt</span><span class='tstring_end'>&quot;</span></span></pre></dd>
+      
+        <dt id="PARENT_FOLDER-constant" class="">PARENT_FOLDER =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>VERSION 1.0.0-release - First release</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>./PAD_db</span><span class='tstring_end'>&quot;</span></span></pre></dd>
       
         <dt id="PAD-constant" class="">PAD =
           
@@ -123,6 +157,72 @@
     </h2>
 
     <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="top-level-namespace.html#array_duplicates%3F-instance_method" title="#array_duplicates? (instance method)">#<strong>array_duplicates?</strong>(check, array_of_strings)  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="top-level-namespace.html#check_file_duplicates-instance_method" title="#check_file_duplicates (instance method)">#<strong>check_file_duplicates</strong>(check, filename = DB_LIST)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="top-level-namespace.html#load_pad-instance_method" title="#load_pad (instance method)">#<strong>load_pad</strong>(parent_folder: PARENT_FOLDER)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
       
         <li class="public ">
   <span class="summary_signature">
@@ -215,7 +315,95 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="top-level-namespace.html#read_file_lines-instance_method" title="#read_file_lines (instance method)">#<strong>read_file_lines</strong>(file_name = DB_LIST)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="top-level-namespace.html#read_lines-instance_method" title="#read_lines (instance method)">#<strong>read_lines</strong>(array)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="top-level-namespace.html#read_multi_string-instance_method" title="#read_multi_string (instance method)">#<strong>read_multi_string</strong>(string)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="top-level-namespace.html#readfile_bindir-instance_method" title="#readfile_bindir (instance method)">#<strong>readfile_bindir</strong>(path, file)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="top-level-namespace.html#remove_line-instance_method" title="#remove_line (instance method)">#<strong>remove_line</strong>(name, filename = DB_LIST)  &#x21d2; Object </a>
     
 
     
@@ -262,6 +450,94 @@
   <span class="summary_signature">
     
       <a href="top-level-namespace.html#slash-instance_method" title="#slash (instance method)">#<strong>slash</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="top-level-namespace.html#test-instance_method" title="#test (instance method)">#<strong>test</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="top-level-namespace.html#test1-instance_method" title="#test1 (instance method)">#<strong>test1</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="top-level-namespace.html#write_line-instance_method" title="#write_line (instance method)">#<strong>write_line</strong>(line, filename = DB_LIST)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="top-level-namespace.html#write_lines-instance_method" title="#write_lines (instance method)">#<strong>write_lines</strong>(lines_array, filename = DB_LIST)  &#x21d2; Object </a>
     
 
     
@@ -334,7 +610,137 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="log-instance_method">
+  <h3 class="signature first" id="array_duplicates?-instance_method">
+  
+    #<strong>array_duplicates?</strong>(check, array_of_strings)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+30
+31
+32
+33</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/line_reader.rb', line 30</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_array_duplicates?'>array_duplicates?</span><span class='lparen'>(</span><span class='id identifier rubyid_check'>check</span><span class='comma'>,</span> <span class='id identifier rubyid_array_of_strings'>array_of_strings</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_array_of_strings'>array_of_strings</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_check'>check</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_array_of_strings'>array_of_strings</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_check'>check</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="check_file_duplicates-instance_method">
+  
+    #<strong>check_file_duplicates</strong>(check, filename = DB_LIST)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+24
+25
+26
+27</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/line_reader.rb', line 24</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_check_file_duplicates'>check_file_duplicates</span><span class='lparen'>(</span><span class='id identifier rubyid_check'>check</span><span class='comma'>,</span> <span class='id identifier rubyid_filename'>filename</span><span class='op'>=</span><span class='const'>DB_LIST</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_lines'>lines</span> <span class='op'>=</span> <span class='id identifier rubyid_read_file_lines'><span class='object_link'><a href="#read_file_lines-instance_method" title="#read_file_lines (method)">read_file_lines</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_filename'>filename</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_array_duplicates?'><span class='object_link'><a href="#array_duplicates%3F-instance_method" title="#array_duplicates? (method)">array_duplicates?</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_check'>check</span><span class='comma'>,</span> <span class='id identifier rubyid_lines'>lines</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="load_pad-instance_method">
+  
+    #<strong>load_pad</strong>(parent_folder: PARENT_FOLDER)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/line_database.rb', line 6</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_load_pad'>load_pad</span><span class='lparen'>(</span><span class='label'>parent_folder:</span> <span class='const'><span class='object_link'><a href="#PARENT_FOLDER-constant" title="PARENT_FOLDER (constant)">PARENT_FOLDER</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_db_linelist'>db_linelist</span> <span class='op'>=</span> <span class='id identifier rubyid_read_file_lines'><span class='object_link'><a href="#read_file_lines-instance_method" title="#read_file_lines (method)">read_file_lines</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>db_list.txt</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='comment'>#puts db_linelist
+</span>  <span class='id identifier rubyid_db_list'>db_list</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='id identifier rubyid_db_linelist'>db_linelist</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_db_name'>db_name</span><span class='op'>|</span>
+    <span class='id identifier rubyid_db_list'>db_list</span><span class='lbracket'>[</span><span class='id identifier rubyid_db_name'>db_name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#PAD-constant" title="PAD (constant)">PAD</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>database_folder_name:</span> <span class='id identifier rubyid_db_name'>db_name</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_parent_folder'>parent_folder</span>
+    <span class='id identifier rubyid_db_list'>db_list</span><span class='lbracket'>[</span><span class='id identifier rubyid_db_name'>db_name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#PAD-constant" title="PAD (constant)">PAD</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>database_folder_name:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_parent_folder'>parent_folder</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_db_name'>db_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_parent_folder'>parent_folder</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_db_list'>db_list</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="log-instance_method">
   
     #<strong>log</strong>(say)  &#x21d2; <tt>Object</tt> 
   
@@ -458,6 +864,96 @@
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="read_file_lines-instance_method">
+  
+    #<strong>read_file_lines</strong>(file_name = DB_LIST)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+13
+14
+15</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/line_reader.rb', line 13</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_read_file_lines'>read_file_lines</span><span class='lparen'>(</span><span class='id identifier rubyid_file_name'>file_name</span><span class='op'>=</span><span class='const'>DB_LIST</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_read_lines'><span class='object_link'><a href="#read_lines-instance_method" title="#read_lines (method)">read_lines</a></span></span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_readlines'>readlines</span><span class='lparen'>(</span><span class='id identifier rubyid_file_name'>file_name</span><span class='rparen'>)</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="read_lines-instance_method">
+  
+    #<strong>read_lines</strong>(array)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+5
+6
+7</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/line_reader.rb', line 5</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_read_lines'>read_lines</span><span class='lparen'>(</span><span class='id identifier rubyid_array'>array</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_array'>array</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_line'>line</span><span class='op'>|</span> <span class='id identifier rubyid_line'>line</span><span class='period'>.</span><span class='id identifier rubyid_chomp'>chomp</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="read_multi_string-instance_method">
+  
+    #<strong>read_multi_string</strong>(string)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+9
+10
+11</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/line_reader.rb', line 9</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_read_multi_string'>read_multi_string</span><span class='lparen'>(</span><span class='id identifier rubyid_string'>string</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_string'>string</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_line'>line</span><span class='op'>|</span> <span class='id identifier rubyid_line'>line</span><span class='period'>.</span><span class='id identifier rubyid_chomp'>chomp</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="readfile_bindir-instance_method">
   
     #<strong>readfile_bindir</strong>(path, file)  &#x21d2; <tt>Object</tt> 
@@ -481,6 +977,40 @@
 
 <span class='kw'>def</span> <span class='id identifier rubyid_readfile_bindir'>readfile_bindir</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
   <span class='gvar'>$gtk</span><span class='period'>.</span><span class='id identifier rubyid_read_file'>read_file</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_pwd'><span class='object_link'><a href="#pwd-instance_method" title="#pwd (method)">pwd</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>\\</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_file'>file</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="remove_line-instance_method">
+  
+    #<strong>remove_line</strong>(name, filename = DB_LIST)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+45
+46
+47
+48
+49</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/line_reader.rb', line 45</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_remove_line'>remove_line</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_filename'>filename</span><span class='op'>=</span><span class='const'>DB_LIST</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_lines'>lines</span> <span class='op'>=</span> <span class='id identifier rubyid_read_file_lines'><span class='object_link'><a href="#read_file_lines-instance_method" title="#read_file_lines (method)">read_file_lines</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_filename'>filename</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_lines'>lines</span> <span class='op'>=</span> <span class='id identifier rubyid_lines'>lines</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_write_lines'><span class='object_link'><a href="#write_lines-instance_method" title="#write_lines (method)">write_lines</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_lines'>lines</span><span class='comma'>,</span> <span class='id identifier rubyid_filename'>filename</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -559,6 +1089,144 @@
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="test-instance_method">
+  
+    #<strong>test</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+55
+56
+57
+58
+59
+60</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/line_reader.rb', line 55</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_test'>test</span><span class='lparen'>(</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_a'>a</span> <span class='op'>=</span> <span class='id identifier rubyid_read_file_lines'><span class='object_link'><a href="#read_file_lines-instance_method" title="#read_file_lines (method)">read_file_lines</a></span></span>
+  <span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_a'>a</span>
+  <span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_array_duplicates?'><span class='object_link'><a href="#array_duplicates%3F-instance_method" title="#array_duplicates? (method)">array_duplicates?</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>test</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_a'>a</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_write_line'><span class='object_link'><a href="#write_line-instance_method" title="#write_line (method)">write_line</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>test</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_array_duplicates?'><span class='object_link'><a href="#array_duplicates%3F-instance_method" title="#array_duplicates? (method)">array_duplicates?</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>test</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_a'>a</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="test1-instance_method">
+  
+    #<strong>test1</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+51
+52
+53</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/line_reader.rb', line 51</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_test1'>test1</span><span class='lparen'>(</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_write_lines'><span class='object_link'><a href="#write_lines-instance_method" title="#write_lines (method)">write_lines</a></span></span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>database_1</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>database_2</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>database_3</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>database_4</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="write_line-instance_method">
+  
+    #<strong>write_line</strong>(line, filename = DB_LIST)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+17
+18
+19
+20
+21</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/line_reader.rb', line 17</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_write_line'>write_line</span><span class='lparen'>(</span><span class='id identifier rubyid_line'>line</span><span class='comma'>,</span> <span class='id identifier rubyid_filename'>filename</span><span class='op'>=</span><span class='const'>DB_LIST</span><span class='rparen'>)</span>
+  <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='id identifier rubyid_filename'>filename</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>a</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span>
+    <span class='id identifier rubyid_f'>f</span><span class='period'>.</span><span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_line'>line</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="write_lines-instance_method">
+  
+    #<strong>write_lines</strong>(lines_array, filename = DB_LIST)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+36
+37
+38
+39
+40
+41
+42</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/line_reader.rb', line 36</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_write_lines'>write_lines</span><span class='lparen'>(</span><span class='id identifier rubyid_lines_array'>lines_array</span><span class='comma'>,</span> <span class='id identifier rubyid_filename'>filename</span><span class='op'>=</span><span class='const'>DB_LIST</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_lines_array'>lines_array</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_line'>line</span><span class='op'>|</span>
+    <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='id identifier rubyid_filename'>filename</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>a</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span>
+      <span class='id identifier rubyid_f'>f</span><span class='period'>.</span><span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_line'>line</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="writefile-instance_method">
   
     #<strong>writefile</strong>(path, contents)  &#x21d2; <tt>Object</tt> 
@@ -623,7 +1291,7 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 12 22:28:20 2023 by
+  Generated on Fri Jan 13 05:04:40 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.2.0).
 </div>

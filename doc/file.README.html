@@ -65,6 +65,31 @@
   <li><strong>GitHub README</strong>: https://github.com/ZeroPivot/partitioned_array#readme</li>
 </ul>
 
+<h2 id="update-1122023-500am---linedb">Update 1/12/2023 (5:00AM) - LineDB</h2>
+
+<h3 id="linedb-assistant-class-for-the-partitioned-array-database">LineDB assistant class for the Partitioned Array Database</h3>
+
+<p>Location: <code>lib/line_db.rb</code></p>
+
+<h4 id="linedb-setup">LineDB Setup</h4>
+
+<p>Works in tandem with <code>lib/line_database_setup.rb</code>; the setup file creates the database text file and LineDB loads those files into a hash object that points to each Partitioned Array Database, which LineDB uses.</p>
+
+<h2 id="update-1132023-228am---the-line-reader-and-line-database">Update 1/13/2023 (2:28AM) - the line reader and line database</h2>
+
+<h3 id="line-database-line-reader-line-database-setup">Line Database, Line Reader, Line Database Setup</h3>
+
+<p>Created a set of helper functions to maintain a hash array set of Partitioned Array Databases:
+<code>lib/line_reader.rb</code></p>
+
+<p>Helper functions to deal with line_database
+<code>lib/line_database_setup.rb</code></p>
+
+<p>Setup the PartitionedArrayManager databases; specify the database names you want, which is written to a file.
+<code>lib/line_database.rb</code></p>
+
+<p><code>load_pad</code> helper function will load db_list.txt into a hash with those names referring to the PAM database objects</p>
+
 <h2 id="update-1122023-1023pm---the-partitioned-array-database">Update 1/12/2023 (10:23PM) - The Partitioned Array Database</h2>
 
 <p>In – https://github.com/ZeroPivot/partitioned_array/tree/master/lib:</p>
@@ -118,6 +143,14 @@ FileContextManagedPartitionedArrayManager
 FileContextManagedPartitionedArray
 ManagedPartitionedArray
 PartitionedArray
+</code></p>
+
+<ul>
+  <li>Helper Functions</li>
+</ul>
+
+<p><code>ruby
+pad_hash_database = load_pad # lib/line_database.rb
 </code></p>
 
 <ul>
@@ -599,7 +632,7 @@ FCMPAM#database(database_name = @active_database): returns the database object</
 </div></div>
 
       <div id="footer">
-  Generated on Thu Jan 12 22:28:19 2023 by
+  Generated on Fri Jan 13 05:04:40 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.2.0).
 </div>

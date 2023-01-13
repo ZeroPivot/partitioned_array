@@ -4,6 +4,16 @@
 * **Source Code**: https://github.com/ZeroPivot/partitioned_array/tree/master/lib
 * **GitHub README**: https://github.com/ZeroPivot/partitioned_array#readme
 
+## Update 1/12/2023 (5:00AM) - LineDB
+
+### LineDB assistant class for the Partitioned Array Database
+
+Location: `lib/line_db.rb`
+
+#### LineDB Setup
+
+Works in tandem with `lib/line_database_setup.rb`; the setup file creates the database text file and LineDB loads those files into a hash object that points to each Partitioned Array Database, which LineDB uses.
+
 ## Update 1/13/2023 (2:28AM) - the line reader and line database
 
 ### Line Database, Line Reader, Line Database Setup

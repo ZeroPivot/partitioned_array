@@ -50,4 +50,4 @@ class LineDB
 
 end 
 
-a = LineDB.new(parent_folder: "./database/GALLERY_db", database_file_name: "./database/db_list.txt")
+# a = LineDB.new(parent_folder: "./database/GALLERY_db", database_file_name: "./database/db_list.txt")

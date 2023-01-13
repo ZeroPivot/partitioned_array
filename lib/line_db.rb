@@ -35,4 +35,3 @@ class LineDB
   end
 
 end 
-end

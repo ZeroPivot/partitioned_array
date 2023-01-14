@@ -106,6 +106,7 @@ class FileContextManagedPartitionedArrayManager
   DB_TRAVERSE_HASH = true
 
   INITIAL_AUTOSAVE = true
+  #TRAVERSE_HASH = true
 
   DATABASE_LIST_NAME = "_DATABASE_LIST_INDEX"
   # db
@@ -137,7 +138,8 @@ class FileContextManagedPartitionedArrayManager
                  fcmpa_db_traverse_hash: FCMPA_DB_TRAVERSE_HASH,
                  initial_autosave: INITIAL_AUTOSAVE,
                  active_database: nil,
-                 active_table: nil)
+                 active_table: nil,
+                 traverse_hash: TRAVERSE_HASH)
 
     @fcmpa_db_partition_archive_id = fcmpa_db_partition_archive_id
     @fcmpa_db_endless_add = fcmpa_db_endless_add
@@ -168,6 +170,8 @@ class FileContextManagedPartitionedArrayManager
     @initial_autosave = initial_autosave
     @active_table = active_table
     @active_database = active_database
+
+    @traverse_hash = traverse_hash
 
     @timestamp_str = Time.now.strftime("%Y-%m-%d-%H-%M-%S")
 

@@ -1,5 +1,6 @@
 require_relative "file_methods"
 require_relative "partitioned_array_database"
+# VERSION v1.0.4-release: bug fixes, new features, and tested (partitioned_array/decomposition.rb)
 # VERSION v1.0.3-release: bugs fixed and tested
 # VERSION v1.0.2-release: rem_db -> remove_db, bugs fixed and tested
 # VERSION v1.0.1-release: rem_db and add_db methods added
@@ -19,20 +20,27 @@ class LineDB
   DYNAMICALLY_ALLOCATES = true
   DATABASE_PARTITION_AMOUNT = 20
 
-  def initialize(database_partition_amount: DATABASE_PARTITION_AMOUNT, database_file_name: DATABASE_FILE_NAME, endless_add: ENDLESS_ADD, has_capacity: HAS_CAPACITY, db_size: DATABASE_SIZE, dynamically_allocates: DYNAMICALLY_ALLOCATES, parent_folder: PARENT_FOLDER, database_folder_name: DATABASE_FOLDER_NAME)
+  TRAVERSE_HASH = true
+
+  def initialize(traverse_hash: TRAVERSE_HASH, database_partition_amount: DATABASE_PARTITION_AMOUNT, database_file_name: DATABASE_FILE_NAME, endless_add: ENDLESS_ADD, has_capacity: HAS_CAPACITY, db_size: DATABASE_SIZE, dynamically_allocates: DYNAMICALLY_ALLOCATES, parent_folder: PARENT_FOLDER, database_folder_name: DATABASE_FOLDER_NAME)
     @parent_folder = parent_folder
     @database_folder_name = database_folder_name
     @database_file_name = database_file_name
     @endless_add = endless_add
-    @database_parttion_amount = database_partition_amount
+    @database_partiton_amount = database_partition_amount
     @has_capacity = has_capacity
     @db_size = db_size
-    @dynamically_allocates = dynamically_allocates  
+    @dynamically_allocates = dynamically_allocates
+    @traverse_hash = traverse_hash
     @linelist = load_pad(parent_folder: @parent_folder)
   end
 
   def list_databases
     @linelist.keys
+  end
+
+  def [](db_name)
+    @linelist[db_name]
   end
 
   def reload

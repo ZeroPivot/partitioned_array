@@ -1,6 +1,15 @@
 require_relative 'partitioned_array'
 # NOTE: ManagedPartitionedArray and PartitionedArray have different versions. PartitionedArray can work along but
 # ManagedPartitionedArray, while being the superset, depends on PartitionedArray
+# VERSION v2.1.0-mpa-release - First release
+## Implemented
+# def strip_archived_db_name(db_name: @original_db_name)    
+#  #return db_name.sub(/\[.+\]/, '')
+#  # from dragonruby implementation; doesn't use regular expressions
+#  return db_name.split('[')[0]    
+# end
+# def [](id, hash:false) -- added in PartitionedArray (lib/partitioned_array.rb)
+## Switched from regular expression usage to splitting the db_name string, should be a tinge bit faster
 # VERSION v2.0.0-mpa / v1.2.6-pa - added more arguments to the archive! methods, since file partition contexts don't need to exactly meet with all the others
 # VERSION v1.3.2-mpa / v1.2.5a-pa - save and load partition from disk now auto-saves all variables, since those always change often (10/21/2022 1:11PM)
 # VERSION ManagedPartitionedArray/PartitionedArray - v1.3.1release(MPA)/v1.2.5a(PA) (MPA-v1.3.1-rel_PA-v1.2.5a-rel)
@@ -361,7 +370,9 @@ end
     return "#{db_name}[#{partition_archive_id}]"
   end
 
-  def strip_archived_db_name(db_name: @original_db_name)
-    return db_name.sub(/\[.+\]/, '')
+  def strip_archived_db_name(db_name: @original_db_name)    
+    #return db_name.sub(/\[.+\]/, '')
+    # from dragonruby implementation; doesn't use regular expressions
+    return db_name.split('[')[0]    
   end
 end

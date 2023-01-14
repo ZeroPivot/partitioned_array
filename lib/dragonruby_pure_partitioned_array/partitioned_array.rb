@@ -316,6 +316,10 @@ class PartitionedArray
     @allocated = true
   end
 
+  def [](id, hash: false)
+    get(id, hash: hash)
+  end
+
   # Returns a hash based on the array element you are searching for.
   # Haven't done much research afterwards on the idea of
   # whether the binary search is necessary, but it seems like it is.

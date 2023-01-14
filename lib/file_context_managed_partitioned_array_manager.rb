@@ -1,9 +1,9 @@
+# rubocop:disable Style/HashSyntax
 # rubocop:disable Style/FrozenStringLiteralComment
 # rubocop:disable Lint/RedundantCopDisableDirective
 # rubocop:disable Lint/MissingCopEnableDirective
 # rubocop:disable Lint/RedundantCopDisableDirective
 # rubocop:disable Style/RedundantReturn
-# rubocop:disable Style/FrozenStringLiteralComment
 # rubocop:disable Style/IfInsideElse
 # rubocop:disable Style/IfUnlessModifier
 # rubocop:disable Style/NegatedIf
@@ -20,6 +20,13 @@
 # rubocop:disable Layout/HashAlignment
 # rubocop:disable Layout/ArgumentAlignment
 require_relative 'file_context_managed_partitioned_array'
+# VERSION v2.1.4-release
+## Implemented:
+# def [](database_name = @active_database, database_table = @active_table)
+#  database_table(database_table: database_table, database_name: database_name)
+# end
+## fixed redundant code, cleanup
+#
 # VERSION v2.1.3-release-candidate (rc1)
 # FCMPAM#delete_database!(database_name) - deletes a database entry (untested)
 # FCMPAM#delete_table!(database_table) - deletes a table entry (untested)
@@ -251,8 +258,12 @@ class FileContextManagedPartitionedArrayManager
     @man_index.db(database_name).get(0)[database_name]["db_table_name"]
   end
 
+  def [](database_name = @active_database, database_table = @active_table)
+    database_table(database_table: database_table, database_name: database_name)
+  end
+
   # gets the database table object for the database_table name, needing a database x index pair
-  def database_table(database_table: @active_table, database_name: @active_database)
+  def database_table(database_name: @active_database, database_table: @active_table)
     # check to see if this table exists in the database first
     # @man_index.start_database!(database_name, db_path: @db_path+"/MAN_DB_INDEX/INDEX", only_path: true, only_name: true, db_name: "INDEX")
     # @man_db.start_database!(database_table, db_path: @db_path+"/MAN_DB_TABLE/#{database_name}/TABLE", only_path: true, only_name: true, db_name: "TABLE")
@@ -376,3 +387,4 @@ end
 # rubocop:enable Style/FrozenStringLiteralComment
 # rubocop:enable Lint/MissingCopEnableDirective
 # rubocop:enable Lint/RedundantCopDisableDirective
+# rubocop:enable Style/HashSyntax

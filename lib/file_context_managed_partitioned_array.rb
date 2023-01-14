@@ -19,6 +19,7 @@
 # rubocop:disable Metrics/ClassLength
 require_relative 'managed_partitioned_array'
 
+# VERSION v1.1.2 - RELEASE - add [](index)
 # TODO: implement FCMPA#delete_database! in DragonRuby (FileContextManagedPartitionedArrayDR)
 # VERSION v1.1.1 - RELEASE - fixed a bug with fcmpa_db_max_capacity (it as set to fcmpa_max_capacity)
 # FCMPA#delete_database! deletes the folder entry too
@@ -219,6 +220,10 @@ class FileContextManagedPartitionedArray
     temp.save_everything_to_files! if initial_autosave
     # returns true if the database was created
     return true
+  end
+
+  def [](database_index_name)
+    @fcmpa_active_databases[database_index_name]
   end
 
   def delete_database_from_index!(database_index_name, fcmpa_db_index_location: @fcmpa_db_index_location)

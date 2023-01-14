@@ -12,6 +12,7 @@ require_relative "partitioned_array_database"
 # which decomposes to FileContextManagedPartitionedArrayManager objects;
 # which decomposes to FileContextManagedPartitionedArray objects;
 # which decomposes to ManagedPartitionedArray objects, which inherits from the PartitionedArray class.
+# VERSION v1.1.4-release: added traverse_hash constant and variable, added []; synchronized with file_context_managed_partitioned_array_manager.rb, partitioned_array_database.rb, and line_reader.rb--and managed_partitioned_array.rb
 # VERSION v1.1.3-release: documentation in comments
 # VERSION v1.1.2-release: fixed redundancy in the code
 # VERSION v1.1.0-release: bug fixes, new features, and tested (partitioned_array/decomposition.rb)

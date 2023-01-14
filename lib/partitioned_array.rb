@@ -310,8 +310,20 @@ class PartitionedArray
     @allocated = true
   end
 
-  def [](id, hash: false)
-    get(id, hash: hash)
+  def [](*ids, hash: false)
+    puts "ids: #{ids[0]}"
+    return get(ids[0], hash: false) if ids.size==1
+    #return get(id, hash: hash) if id.is_a? Integer
+    ids.map do |id|
+      case id
+      when Integer
+        get(id, hash: hash)
+      when Range
+        id.to_a.map { |i| { i => get(i, hash: hash) }}
+      end  
+    
+    end
+    #return id.to_a.map { |i| { i => get(i, hash: hash)} } if id.is_a? Range
   end
 
   # Returns a hash based on the array element you are searching for.

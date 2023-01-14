@@ -10,12 +10,13 @@
 # rubocop:disable Metrics/MethodLength
 # rubocop:disable Style/IfUnlessModifier
 # rubocop:disable Layout/LineLength
+# VERSION v1.3.0-release - 1/13/2023 - 1:39AM
 # VERSION v1.2.9-release - [](id ...) - accepts ranges, and integers as an argument splat
 ### Functionality: label the ranges and/or the integer values in the [] arguments with a hash argument
 ### --with keys pointing to the get values (for integers and/or ranges) 
 ### label_ranges: true
 ### label_integers: true
-###
+### label_integer: true
 # VERSION v1.2.8 - [](id, hash: false) - 1/13/2023
 # VERSION: v1.2.7 - implemented [](id) - uses get(id, hash: false) - 1/13/2023
 # VERSION: v1.2.6 - cleanup; plan on being able to save @data_arr to file directly (not by partitions) - 10/19/2022 2:03PM
@@ -129,6 +130,9 @@ class PartitionedArray
   DB_NAME = 'partitioned_array_slice'
   PARTITION_ADDITION_AMOUNT = 1 # The amount of partitions to add when the array is full
   DYNAMICALLY_ALLOCATES = true # If true, the array will dynamically allocate more partitions when it is full
+  LABEL_INTEGER = false
+  LABEL_INTEGERS = false
+  LABEL_RANGES = false
 
   def initialize(partition_addition_amount: PARTITION_ADDITION_AMOUNT, dynamically_allocates: DYNAMICALLY_ALLOCATES, db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: DEFAULT_PATH, db_name: DB_NAME)
 =begin
@@ -144,7 +148,9 @@ class PartitionedArray
 9. Rel array: the array that contains the partition locations.
 10. DB name: the name of the database. #
 =end
-
+    @label_integer = LABEL_INTEGER
+    @label_integers = LABEL_INTEGERS
+    @label_ranges = LABEL_RANGES
     @db_size = db_size
     @partition_amount_and_offset = partition_amount_and_offset
     @allocated = false
@@ -316,19 +322,26 @@ class PartitionedArray
     @allocated = true
   end
 
-  def [](*ids, hash: false, label_ranges: true, label_integers: true)
-    puts "ids: #{ids[0]}"
-    return get(ids[0], hash: false) if ids.size==1 && ids[0].is_a?(Integer)
+  def [](*ids, hash: false, label_ranges: @label_ranges, label_integers: @label_integers, label_integer: @label_integer)
+    #puts "ids: #{ids[0]}"
+    #return get(ids[0], hash: false) if ids.size==1 && ids[0].is_a?(Integer) && !label_integer
+    #return get(ids[0], hash: hash) if ids.size==1 && ids[0].is_a?(Integer) && label_integer
     #return get(id, hash: hash) if id.is_a? Integer
     ids.map do |id|
-      #puts id
       case id
       when Integer
-        get(id, hash: hash) if !label_integers
-        { id => get(id, hash: hash) } if label_integers
+        if (label_integer)
+          { id => get(id, hash: hash) } if label_integer
+        else
+          get(id, hash: hash) if !label_integer
+        end
+        
       when Range
-        id.to_a.map { |i| { i => get(i, hash: hash) }} if label_ranges
-        id.to_a.map { |i| get(i, hash: hash) } if !label_ranges
+        if (label_ranges)
+          id.to_a.map { |i| { i => get(i, hash: hash) }} if label_ranges
+        else
+          id.to_a.map { |i| get(i, hash: hash) } if !label_ranges
+        end
       else
         raise "Invalid id type: #{id.class}"
       end  

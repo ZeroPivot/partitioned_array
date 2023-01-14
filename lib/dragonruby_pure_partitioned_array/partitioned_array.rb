@@ -14,6 +14,7 @@
 
 
 # NOTE: this version of the partitioned arrays are for use in dragonruby only
+# VERSION: M-PA-DR-1.0.1-alpha - sync'd with main managed partitioned array library
 # VERSION: M-PA-DR-1.0.0-alpha
 
 
@@ -129,6 +130,11 @@ class PartitionedArray
   DB_NAME = 'partitioned_array_slice'
   PARTITION_ADDITION_AMOUNT = 1 # The amount of partitions to add when the array is full
   DYNAMICALLY_ALLOCATES = true # If true, the array will dynamically allocate more partitions when it is full
+
+
+  LABEL_INTEGER = false
+  LABEL_INTEGERS = false
+  LABEL_RANGES = false
 
   def initialize(partition_addition_amount: PARTITION_ADDITION_AMOUNT, dynamically_allocates: DYNAMICALLY_ALLOCATES, db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: DEFAULT_PATH, db_name: DB_NAME)
 =begin
@@ -316,8 +322,26 @@ class PartitionedArray
     @allocated = true
   end
 
-  def [](id, hash: false)
-    get(id, hash: hash)
+  def [](*ids, hash: false, label_ranges: @label_ranges, label_integers: @label_integers, label_integer: @label_integer)
+    #puts "ids: #{ids[0]}"
+    return get(ids[0], hash: false) if ids.size==1 && ids[0].is_a?(Integer) && !label_integer
+    return get(ids[0], hash: hash) if ids.size==1 && ids[0].is_a?(Integer) && label_integer
+    #return get(id, hash: hash) if id.is_a? Integer
+    ids.map do |id|
+      #puts id
+      case id
+      when Integer
+        get(id, hash: hash) if !label_integers
+        { id => get(id, hash: hash) } if label_integers
+      when Range
+        id.to_a.map { |i| { i => get(i, hash: hash) }} if label_ranges
+        id.to_a.map { |i| get(i, hash: hash) } if !label_ranges
+      else
+        raise "Invalid id type: #{id.class}"
+      end  
+    
+    end
+    #return id.to_a.map { |i| { i => get(i, hash: hash)} } if id.is_a? Range
   end
 
   # Returns a hash based on the array element you are searching for.

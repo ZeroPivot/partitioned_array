@@ -12,6 +12,8 @@ require_relative "partitioned_array_database"
 # which decomposes to FileContextManagedPartitionedArrayManager objects;
 # which decomposes to FileContextManagedPartitionedArray objects;
 # which decomposes to ManagedPartitionedArray objects, which inherits from the PartitionedArray class.
+# VERSION v1.1.3-release: documentation in comments
+# VERSION v1.1.2-release: fixed redundancy in the code
 # VERSION v1.1.0-release: bug fixes, new features, and tested (partitioned_array/decomposition.rb)
 # VERSION v1.0.3-release: bugs fixed and tested
 # VERSION v1.0.2-release: rem_db -> remove_db, bugs fixed and tested
@@ -23,15 +25,21 @@ class LineDB
 
   include FileMethods
   PAD = PartitionedArrayDatabase
+
+  ### Fallback Constants; a database folder and a db_list.txt file in the database folder must be present. ###
+  ### db_list.txt must contain line separated sets of database names (see "lib/line_database_setup.rb") ###
   PARENT_FOLDER = "./database/CGMFS_db"
   DATABASE_FOLDER_NAME = "database"
   DATABASE_FILE_NAME = "./database/db_list.txt"
+
+  ### Suggested Constants ###
   ENDLESS_ADD = true
   HAS_CAPACITY = true
   DATABASE_SIZE = 100
   DYNAMICALLY_ALLOCATES = true
   DATABASE_PARTITION_AMOUNT = 20
   TRAVERSE_HASH = true
+  ### /Suggested Constants ###
 
   def initialize(traverse_hash: TRAVERSE_HASH, database_partition_amount: DATABASE_PARTITION_AMOUNT, database_file_name: DATABASE_FILE_NAME, endless_add: ENDLESS_ADD, has_capacity: HAS_CAPACITY, db_size: DATABASE_SIZE, dynamically_allocates: DYNAMICALLY_ALLOCATES, parent_folder: PARENT_FOLDER, database_folder_name: DATABASE_FOLDER_NAME)
     @parent_folder = parent_folder
@@ -46,6 +54,7 @@ class LineDB
     @linelist = load_pad(parent_folder: @parent_folder)
   end
 
+  # List of active databases
   def list_databases
     @linelist.keys
   end
@@ -91,10 +100,7 @@ class LineDB
   end
 
   def remove_pad_single(db_name)
-    db_linelist = read_file_lines(@database_file_name)
-    if db_linelist.include?(db_name)
-      @linelist.delete(db_name)
-    end
+    @linelist.delete(db_name)
   end
 
   # TODO: implement rm_rf for dragonruby on windows and linux, and maybe android

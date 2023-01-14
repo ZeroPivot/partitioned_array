@@ -1,6 +1,6 @@
 # VERSION 1.0.1-release - First release 
 
-DB_LIST = "db_list.txt"
+DB_LIST = "./database/db_list.txt"
 
 def read_lines(array)
   array.map { |line| line.chomp }

@@ -14,6 +14,7 @@
 
 
 # NOTE: this version of the partitioned arrays are for use in dragonruby only
+# VERSION: MPA-DR-v1.0.2-alpha (untested) - fully sync'd, but untested (with VERSION v1.2.3-release lib/partitioned_array.rb)
 # VERSION: M-PA-DR-1.0.1-alpha - sync'd with main managed partitioned array library
 # VERSION: M-PA-DR-1.0.0-alpha
 
@@ -130,13 +131,12 @@ class PartitionedArray
   DB_NAME = 'partitioned_array_slice'
   PARTITION_ADDITION_AMOUNT = 1 # The amount of partitions to add when the array is full
   DYNAMICALLY_ALLOCATES = true # If true, the array will dynamically allocate more partitions when it is full
-
-
+  
+  # for []
   LABEL_INTEGER = false
-  LABEL_INTEGERS = false
   LABEL_RANGES = false
 
-  def initialize(partition_addition_amount: PARTITION_ADDITION_AMOUNT, dynamically_allocates: DYNAMICALLY_ALLOCATES, db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: DEFAULT_PATH, db_name: DB_NAME)
+  def initialize(label_integer: LABEL_INTEGER, label_ranges: LABEL_RANGES, partition_addition_amount: PARTITION_ADDITION_AMOUNT, dynamically_allocates: DYNAMICALLY_ALLOCATES, db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: DEFAULT_PATH, db_name: DB_NAME)
 =begin
 # Here is the explanation for the code below:
 1. Partition addition amount: the amount of partitions that will be added once the database reaches its limit. For example, if the partition addition amount is 10, then the database will add 10 new partitions to the database once it reaches its limit.
@@ -150,7 +150,8 @@ class PartitionedArray
 9. Rel array: the array that contains the partition locations.
 10. DB name: the name of the database. #
 =end
-
+    @label_integer = label_integer
+    @label_ranges = label_ranges
     @db_size = db_size
     @partition_amount_and_offset = partition_amount_and_offset
     @allocated = false
@@ -163,6 +164,35 @@ class PartitionedArray
     @partition_addition_amount = partition_addition_amount
     @dynamically_allocates = dynamically_allocates
   end
+
+  def [](*ids, hash: false, label_ranges: @label_ranges, label_integer: @label_integer)
+    #puts "ids: #{ids[0]}"
+    return get(ids[0], hash: hash) if (ids.size==1 && ids[0].is_a?(Integer) && !label_integer)
+    return { ids[0] => get(ids[0], hash: hash) } if ids.size==1 && ids[0].is_a?(Integer) && label_integer
+    #return get(id, hash: hash) if id.is_a? Integer
+    ids.map do |id|
+      case id
+      when Integer
+        if (label_integer)
+          { id => get(id, hash: hash) } if label_integer
+        else
+          get(id, hash: hash) if !label_integer
+        end
+        
+      when Range
+        if (label_ranges)
+          id.to_a.map { |i| { i => get(i, hash: hash) }} if label_ranges
+        else
+          id.to_a.map { |i| get(i, hash: hash) } if !label_ranges
+        end
+      else
+        raise "Invalid id type: #{id.class}"
+      end  
+    
+    end
+    #return id.to_a.map { |i| { i => get(i, hash: hash)} } if id.is_a? Range
+  end
+### LABEL_INTEGER LABEL_RANGES end here
 
   def range_db_get(range_arr, db_num)
     range_arr[db_num]

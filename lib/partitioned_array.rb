@@ -10,6 +10,7 @@
 # rubocop:disable Metrics/MethodLength
 # rubocop:disable Style/IfUnlessModifier
 # rubocop:disable Layout/LineLength
+# VERSION v1.2.3-release - @label_integer and @label_ranges, sync with line_db, etc
 # VERSION v1.2.2-release - @label_integer and @label_ranges
 # VERSION v1.3.1-release
 # VERSION v1.3.0-release - 1/13/2023 - 1:39AM
@@ -164,6 +165,35 @@ class PartitionedArray
     @partition_addition_amount = partition_addition_amount
     @dynamically_allocates = dynamically_allocates
   end
+
+  def [](*ids, hash: false, label_ranges: @label_ranges, label_integer: @label_integer)
+    #puts "ids: #{ids[0]}"
+    return get(ids[0], hash: hash) if (ids.size==1 && ids[0].is_a?(Integer) && !label_integer)
+    return { ids[0] => get(ids[0], hash: hash) } if ids.size==1 && ids[0].is_a?(Integer) && label_integer
+    #return get(id, hash: hash) if id.is_a? Integer
+    ids.map do |id|
+      case id
+      when Integer
+        if (label_integer)
+          { id => get(id, hash: hash) } if label_integer
+        else
+          get(id, hash: hash) if !label_integer
+        end
+        
+      when Range
+        if (label_ranges)
+          id.to_a.map { |i| { i => get(i, hash: hash) }} if label_ranges
+        else
+          id.to_a.map { |i| get(i, hash: hash) } if !label_ranges
+        end
+      else
+        raise "Invalid id type: #{id.class}"
+      end  
+    
+    end
+    #return id.to_a.map { |i| { i => get(i, hash: hash)} } if id.is_a? Range
+  end
+### LABEL_INTEGER LABEL_RANGES end here
 
   def range_db_get(range_arr, db_num)
     range_arr[db_num]
@@ -321,34 +351,6 @@ class PartitionedArray
     debug "@data_arr: #{@data_arr}"
 
     @allocated = true
-  end
-
-  def [](*ids, hash: false, label_ranges: @label_ranges, label_integer: @label_integer)
-    #puts "ids: #{ids[0]}"
-    return get(ids[0], hash: hash) if (ids.size==1 && ids[0].is_a?(Integer) && !label_integer)
-    return { ids[0] => get(ids[0], hash: hash) } if ids.size==1 && ids[0].is_a?(Integer) && label_integer
-    #return get(id, hash: hash) if id.is_a? Integer
-    ids.map do |id|
-      case id
-      when Integer
-        if (label_integer)
-          { id => get(id, hash: hash) } if label_integer
-        else
-          get(id, hash: hash) if !label_integer
-        end
-        
-      when Range
-        if (label_ranges)
-          id.to_a.map { |i| { i => get(i, hash: hash) }} if label_ranges
-        else
-          id.to_a.map { |i| get(i, hash: hash) } if !label_ranges
-        end
-      else
-        raise "Invalid id type: #{id.class}"
-      end  
-    
-    end
-    #return id.to_a.map { |i| { i => get(i, hash: hash)} } if id.is_a? Range
   end
 
   # Returns a hash based on the array element you are searching for.

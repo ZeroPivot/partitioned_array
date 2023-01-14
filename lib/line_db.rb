@@ -12,6 +12,8 @@ require_relative "partitioned_array_database"
 # which decomposes to FileContextManagedPartitionedArrayManager objects;
 # which decomposes to FileContextManagedPartitionedArray objects;
 # which decomposes to ManagedPartitionedArray objects, which inherits from the PartitionedArray class.
+# VERSION v1.1.6-release: label_integer and label_ranges for the ManagedPartitionedArray class, wherein you can define a set of integers or ranges separated by commas
+# --and with the arguments set, set a hash like {id => object}
 # VERSION v1.1.5-release: [] functions, which allows for selecting multiple databases
 # VERSION v1.1.4-release: added traverse_hash constant and variable, added []; synchronized with file_context_managed_partitioned_array_manager.rb, partitioned_array_database.rb, and line_reader.rb--and managed_partitioned_array.rb
 # VERSION v1.1.3-release: documentation in comments
@@ -41,9 +43,15 @@ class LineDB
   DYNAMICALLY_ALLOCATES = true
   DATABASE_PARTITION_AMOUNT = 20
   TRAVERSE_HASH = true
+
+  LABEL_INTEGER = false
+  LABEL_RANGES = false
+
   ### /Suggested Constants ###
 
-  def initialize(traverse_hash: TRAVERSE_HASH, database_partition_amount: DATABASE_PARTITION_AMOUNT, database_file_name: DATABASE_FILE_NAME, endless_add: ENDLESS_ADD, has_capacity: HAS_CAPACITY, db_size: DATABASE_SIZE, dynamically_allocates: DYNAMICALLY_ALLOCATES, parent_folder: PARENT_FOLDER, database_folder_name: DATABASE_FOLDER_NAME)
+  def initialize(label_integer: LABEL_INTEGER, label_ranges: LABEL_RANGES, traverse_hash: TRAVERSE_HASH, database_partition_amount: DATABASE_PARTITION_AMOUNT, database_file_name: DATABASE_FILE_NAME, endless_add: ENDLESS_ADD, has_capacity: HAS_CAPACITY, db_size: DATABASE_SIZE, dynamically_allocates: DYNAMICALLY_ALLOCATES, parent_folder: PARENT_FOLDER, database_folder_name: DATABASE_FOLDER_NAME)
+    @label_integer = label_integer
+    @label_ranges = label_ranges
     @parent_folder = parent_folder
     @database_folder_name = database_folder_name
     @database_file_name = database_file_name
@@ -101,8 +109,8 @@ class LineDB
   def load_pad_single(db_name, parent_folder: @parent_folder || PARENT_FOLDER)
     db_linelist = read_file_lines(@database_file_name)
     if db_linelist.include?(db_name)
-      @linelist[db_name] = PAD.new(traverse_hash: @traverse_hash, database_folder_name: db_name, endless_add: @endless_add, has_capacity: @has_capacity, dynamically_allocates: @dynamically_allocates, db_size: @db_size) if !parent_folder
-      @linelist[db_name] = PAD.new(traverse_hash: @traverse_hash, database_folder_name: "#{parent_folder}/#{db_name}", endless_add: @endless_add, has_capacity: @has_capacity, dynamically_allocates: @dynamically_allocates, db_size: @db_size) if parent_folder
+      @linelist[db_name] = PAD.new(label_integer: @label_integer, label_ranges: @label_ranges, traverse_hash: @traverse_hash, database_folder_name: db_name, endless_add: @endless_add, has_capacity: @has_capacity, dynamically_allocates: @dynamically_allocates, db_size: @db_size) if !parent_folder
+      @linelist[db_name] = PAD.new(label_integer: @label_integer, label_ranges: @label_ranges, traverse_hash: @traverse_hash, database_folder_name: "#{parent_folder}/#{db_name}", endless_add: @endless_add, has_capacity: @has_capacity, dynamically_allocates: @dynamically_allocates, db_size: @db_size) if parent_folder
     end
   end
 
@@ -123,8 +131,8 @@ class LineDB
     db_linelist = read_file_lines(@database_file_name)
     db_list = {}
     db_linelist.each do |db_name|
-      db_list[db_name] = PAD.new(traverse_hash: @traverse_hash, database_folder_name: db_name, endless_add: @endless_add, has_capacity: @has_capacity, dynamically_allocates: @dynamically_allocates, db_size: @db_size) if !parent_folder
-      db_list[db_name] = PAD.new(traverse_hash: @traverse_hash, database_folder_name: "#{parent_folder}/#{db_name}", endless_add: @endless_add, has_capacity: @has_capacity, dynamically_allocates: @dynamically_allocates, db_size: @db_size) if parent_folder
+      db_list[db_name] = PAD.new(label_integer: @label_integer, label_ranges: @label_ranges, traverse_hash: @traverse_hash, database_folder_name: db_name, endless_add: @endless_add, has_capacity: @has_capacity, dynamically_allocates: @dynamically_allocates, db_size: @db_size) if !parent_folder
+      db_list[db_name] = PAD.new(label_integer: @label_integer, label_ranges: @label_ranges, traverse_hash: @traverse_hash, database_folder_name: "#{parent_folder}/#{db_name}", endless_add: @endless_add, has_capacity: @has_capacity, dynamically_allocates: @dynamically_allocates, db_size: @db_size) if parent_folder
     end
     db_list
   end

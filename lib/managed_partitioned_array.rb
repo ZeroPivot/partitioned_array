@@ -1,6 +1,10 @@
 require_relative 'partitioned_array'
 # NOTE: ManagedPartitionedArray and PartitionedArray have different versions. PartitionedArray can work along but
 # ManagedPartitionedArray, while being the superset, depends on PartitionedArray
+# VERSION v2.1.1-mpa-release - LABEL_INTEGER - LABEL_RANGES and many bug fixes in initialize
+# Known bugs/issues:
+# initialize_max_partition_archive_id! - creates a directory on start, albeit this is the basis directory
+# may not be a need to complicate things though. At some point in time, address it, but initially it only writes a folder and a single file into it on start
 # VERSION v2.1.0-mpa-release - First release
 ## Implemented
 # def strip_archived_db_name(db_name: @original_db_name)    
@@ -62,10 +66,16 @@ class ManagedPartitionedArray < PartitionedArray
   DYNAMICALLY_ALLOCATES = true
   ENDLESS_ADD = false
 
-  def initialize(endless_add: ENDLESS_ADD, dynamically_allocates: DYNAMICALLY_ALLOCATES, partition_addition_amount: PARTITION_ADDITION_AMOUNT, max_capacity: MAX_CAPACITY, has_capacity: HAS_CAPACITY, partition_archive_id: PARTITION_ARCHIVE_ID, db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: DEFAULT_PATH, db_name: DB_NAME) 
+  LABEL_INTEGER = false
+  LABEL_RANGES = false
+
+  def initialize(label_integer: LABEL_INTEGER, label_ranges: LABEL_RANGES, endless_add: ENDLESS_ADD, dynamically_allocates: DYNAMICALLY_ALLOCATES, partition_addition_amount: PARTITION_ADDITION_AMOUNT, max_capacity: MAX_CAPACITY, has_capacity: HAS_CAPACITY, partition_archive_id: PARTITION_ARCHIVE_ID, db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: DEFAULT_PATH, db_name: DB_NAME) 
     @db_path = db_path
+    @db_size = db_size
+    @db_name = db_name
+    @partition_amount_and_offset = partition_amount_and_offset
     @partition_archive_id = partition_archive_id
-    @original_db_name = strip_archived_db_name(db_name: db_name)
+    @original_db_name = strip_archived_db_name(db_name: @db_name)
     @db_name_with_archive = db_name_with_archive(db_name: @original_db_name, partition_archive_id: @partition_archive_id)    
     @max_capacity = max_capacity
     @latest_id = 0 # last entry    
@@ -76,7 +86,9 @@ class ManagedPartitionedArray < PartitionedArray
     @max_capacity = max_capacity_setup!
     @dynamically_allocates = dynamically_allocates  
     @endless_add = endless_add # add endlessly like a regular partitioned array
-    super(partition_addition_amount: @partition_addition_amount, dynamically_allocates: @dynamically_allocates, db_size: db_size, partition_amount_and_offset: partition_amount_and_offset, db_path: db_path, db_name: @db_name_with_archive)
+    @label_integer = label_integer
+    @label_ranges = label_ranges
+    super(label_integer: @label_integer, label_ranges: @label_ranges, partition_addition_amount: @partition_addition_amount, dynamically_allocates: @dynamically_allocates, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive)
   end
 
   # one keyword available: :data_arr_size
@@ -112,29 +124,29 @@ class ManagedPartitionedArray < PartitionedArray
     p "endless_add: #{@endless_add}"
   end
 
-  def archive_and_new_db!(auto_allocate: true, partition_addition_amount: @partition_addition_amount, max_capacity: @max_capacity, has_capacity: @has_capacity, partition_archive_id: @partition_archive_id, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive)
+  def archive_and_new_db!(label_integer: @label_integer, label_ranges: @label_ranges, auto_allocate: true, partition_addition_amount: @partition_addition_amount, max_capacity: @max_capacity, has_capacity: @has_capacity, partition_archive_id: @partition_archive_id, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive)
     save_everything_to_files!
     @partition_archive_id += 1
     increment_max_partition_archive_id!
-    temp = ManagedPartitionedArray.new(max_capacity: @max_capacity, partition_archive_id: @partition_archive_id, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive)
+    temp = ManagedPartitionedArray.new(label_integer: label_integer, label_ranges: label_ranges, max_capacity: @max_capacity, partition_archive_id: @partition_archive_id, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive)
     temp.allocate if auto_allocate
     return temp
   end
 
   ## ex ManagedPartitionedArray#load_archive_no_auto_allocate!(partition_archive_id: partition_archive_id, ...)
-  def load_archive_no_auto_allocate!(has_capacity: @has_capacity, dynamically_allocates: @dynamically_allocates, endless_add: @endless_add, partition_archive_id: @max_partition_archive_id, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive, max_capacity: @max_capacity, partition_addition_amount: @partition_addition_amount)
-    temp = ManagedPartitionedArray.new(dynamically_allocates: dynamically_allocates, endless_add: endless_add, max_capacity: max_capacity, partition_archive_id: partition_archive_id, db_size: db_size, partition_amount_and_offset: partition_amount_and_offset, db_path: db_path, db_name: db_name_with_archive)
+  def load_archive_no_auto_allocate!(label_integer: @label_integer, label_ranges: @label_ranges, has_capacity: @has_capacity, dynamically_allocates: @dynamically_allocates, endless_add: @endless_add, partition_archive_id: @max_partition_archive_id, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive, max_capacity: @max_capacity, partition_addition_amount: @partition_addition_amount)
+    temp = ManagedPartitionedArray.new(label_integer: label_integer, label_ranges: label_ranges, dynamically_allocates: dynamically_allocates, endless_add: endless_add, max_capacity: max_capacity, partition_archive_id: partition_archive_id, db_size: db_size, partition_amount_and_offset: partition_amount_and_offset, db_path: db_path, db_name: db_name_with_archive)
     return temp
   end
 
   # ex ManagedPartitionedArray#load_from_archive!(partition_archive_id: partition_archive_id, ...)
-  def load_from_archive!(has_capacity: @has_capacity, dynamically_allocates: @dynamically_allocates, endless_add: @endless_add, partition_archive_id: @max_partition_archive_id, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive, max_capacity: @max_capacity, partition_addition_amount: @partition_addition_amount)
-    temp = ManagedPartitionedArray.new(dynamically_allocates: dynamically_allocates, endless_add: endless_add, max_capacity: max_capacity, partition_archive_id: partition_archive_id, db_size: db_size, partition_amount_and_offset: partition_amount_and_offset, db_path: db_path, db_name: db_name_with_archive)
+  def load_from_archive!(label_integer: @label_integer, label_ranges: @label_ranges, has_capacity: @has_capacity, dynamically_allocates: @dynamically_allocates, endless_add: @endless_add, partition_archive_id: @max_partition_archive_id, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive, max_capacity: @max_capacity, partition_addition_amount: @partition_addition_amount)
+    temp = ManagedPartitionedArray.new(label_integer: label_integer, label_ranges: label_ranges, dynamically_allocates: dynamically_allocates, endless_add: endless_add, max_capacity: max_capacity, partition_archive_id: partition_archive_id, db_size: db_size, partition_amount_and_offset: partition_amount_and_offset, db_path: db_path, db_name: db_name_with_archive)
     temp.load_everything_from_files!
     return temp
   end
 
-
+#### lagel_integer and label_ranges v2.1.1 changes end here
 
   # ManagedPartitionedArray#at_capacity? checks to see if the partitioned array is at its capacity. It is imperative to use this when going through an iterator.
   def at_capacity?

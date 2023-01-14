@@ -116,6 +116,8 @@ class FileContextManagedPartitionedArrayManager
   #TRAVERSE_HASH = true
 
   DATABASE_LIST_NAME = "_DATABASE_LIST_INDEX"
+  LABEL_INTEGER = false
+  LABEL_RANGES = false
   # db
   # fcmpa
   # man_db
@@ -146,7 +148,9 @@ class FileContextManagedPartitionedArrayManager
                  initial_autosave: INITIAL_AUTOSAVE,
                  active_database: nil,
                  active_table: nil,
-                 traverse_hash: TRAVERSE_HASH)
+                 traverse_hash: TRAVERSE_HASH,
+                 label_integer: LABEL_INTEGER,
+                 label_ranges: LABEL_RANGES)
 
     @fcmpa_db_partition_archive_id = fcmpa_db_partition_archive_id
     @fcmpa_db_endless_add = fcmpa_db_endless_add
@@ -178,10 +182,13 @@ class FileContextManagedPartitionedArrayManager
     @active_table = active_table
     @active_database = active_database
 
+    @label_integer = label_integer
+    @label_ranges = label_ranges
+
     @traverse_hash = traverse_hash
 
     @timestamp_str = Time.now.strftime("%Y-%m-%d-%H-%M-%S")
-
+    p "FCMPA: #{@label_integer}"
     @man_index = FileContextManagedPartitionedArray.new(fcmpa_db_partition_amount_and_offset: @fcmpa_db_partition_amount_and_offset,
                                                         fcmpa_db_size: @fcmpa_db_size,
                                                         fcmpa_db_indexer_name: @fcmpa_db_indexer_name+"_"+"indexer",
@@ -227,7 +234,9 @@ class FileContextManagedPartitionedArrayManager
                                                         db_partition_amount_and_offset: @db_partition_amount_and_offset, #
                                                         db_max_capacity: @db_max_capacity, #
                                                         db_partition_archive_id: @db_partition_archive_id, #
-                                                        traverse_hash: @traverse_hash)
+                                                        traverse_hash: @traverse_hash,
+                                                        label_integer: @label_integer,
+                                                        label_ranges: @label_ranges)
     # Initialize the database which keeps track of all known databases that were created
     @man_db.start_database!(DATABASE_LIST_NAME, db_path: @db_path+"/MAN_DB_TABLE/#{DATABASE_LIST_NAME}/TABLE", only_path: true, only_name: true, db_name: "TABLE") # initialize the database list index
   end

@@ -99,6 +99,10 @@ class FileContextManagedPartitionedArray
   FCMPA_DB_OFFSET = 1  
   FCMPA_DB_INDEX_LOCATION = 0
 
+
+  LABEL_INTEGER = false
+  LABEL_RANGES = false
+
   TRAVERSE_HASH = true
   DEBUG = true
 
@@ -130,7 +134,9 @@ class FileContextManagedPartitionedArray
                  fcmpa_db_endless_add: FCMPA_DB_ENDLESS_ADD,
                  fcmpa_db_max_capacity: FCMPA_DB_MAX_CAPACITY,
                  fcmpa_db_partition_archive_id: FCMPA_DB_PARTITION_ARCHIVE_ID,
-                 fcmpa_db_index_location: FCMPA_DB_INDEX_LOCATION
+                 fcmpa_db_index_location: FCMPA_DB_INDEX_LOCATION,
+                  label_integer: LABEL_INTEGER,
+                  label_ranges: LABEL_RANGES
                  )
 
 
@@ -161,6 +167,10 @@ class FileContextManagedPartitionedArray
     @fcmpa_active_databases = {}
     @fcmpa_db_indexer_db = {}
     @timestamp_str = new_timestamp
+
+    @label_integer = label_integer
+    @label_ranges = label_ranges
+    p "integer label: #{@label_integer}"
     load_indexer_db!
   end
 
@@ -214,7 +224,9 @@ class FileContextManagedPartitionedArray
                                       db_size: @db_size,
                                       db_name: db_name + "_" + db_name_str,
                                       db_path: path,
-                                      partition_archive_id: @db_partition_archive_id)
+                                      partition_archive_id: @db_partition_archive_id,
+                                      label_integer: @label_integer,
+                                      label_ranges: @label_ranges)
     temp.allocate
     @fcmpa_active_databases[db_name_str] = temp
     temp.save_everything_to_files! if initial_autosave
@@ -271,6 +283,8 @@ class FileContextManagedPartitionedArray
       # debug "db name debug #{db_name}"
       # debug "db path debug #{db_path}"
       # debug "db index debug #{db_index.keys}"
+
+
       @fcmpa_active_databases[database_index_name] = ManagedPartitionedArray.new(endless_add: @db_endless_add,
                                                                                  dynamically_allocates: @db_dynamically_allocates,
                                                                                  has_capacity: @db_has_capacity,
@@ -280,7 +294,9 @@ class FileContextManagedPartitionedArray
                                                                                  db_size: @db_size,
                                                                                  db_name: db_name,
                                                                                  db_path: db_path,
-                                                                                 partition_archive_id: @db_partition_archive_id)
+                                                                                 partition_archive_id: @db_partition_archive_id,
+                                                                                 label_integer: @label_integer,
+                                                                                 label_ranges: @label_ranges )                                                                                 
       begin
         @fcmpa_active_databases[database_index_name].load_everything_from_files!
         # debug "database loaded"

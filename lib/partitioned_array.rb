@@ -10,6 +10,7 @@
 # rubocop:disable Metrics/MethodLength
 # rubocop:disable Style/IfUnlessModifier
 # rubocop:disable Layout/LineLength
+# VERSION v1.3.1-release
 # VERSION v1.3.0-release - 1/13/2023 - 1:39AM
 # VERSION v1.2.9-release - [](id ...) - accepts ranges, and integers as an argument splat
 ### Functionality: label the ranges and/or the integer values in the [] arguments with a hash argument
@@ -130,8 +131,9 @@ class PartitionedArray
   DB_NAME = 'partitioned_array_slice'
   PARTITION_ADDITION_AMOUNT = 1 # The amount of partitions to add when the array is full
   DYNAMICALLY_ALLOCATES = true # If true, the array will dynamically allocate more partitions when it is full
+  
+  # for []
   LABEL_INTEGER = false
-  LABEL_INTEGERS = false
   LABEL_RANGES = false
 
   def initialize(partition_addition_amount: PARTITION_ADDITION_AMOUNT, dynamically_allocates: DYNAMICALLY_ALLOCATES, db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: DEFAULT_PATH, db_name: DB_NAME)
@@ -149,7 +151,6 @@ class PartitionedArray
 10. DB name: the name of the database. #
 =end
     @label_integer = LABEL_INTEGER
-    @label_integers = LABEL_INTEGERS
     @label_ranges = LABEL_RANGES
     @db_size = db_size
     @partition_amount_and_offset = partition_amount_and_offset
@@ -322,7 +323,7 @@ class PartitionedArray
     @allocated = true
   end
 
-  def [](*ids, hash: false, label_ranges: @label_ranges, label_integers: @label_integers, label_integer: @label_integer)
+  def [](*ids, hash: false, label_ranges: @label_ranges, label_integer: @label_integer)
     #puts "ids: #{ids[0]}"
     #return get(ids[0], hash: false) if ids.size==1 && ids[0].is_a?(Integer) && !label_integer
     #return get(ids[0], hash: hash) if ids.size==1 && ids[0].is_a?(Integer) && label_integer

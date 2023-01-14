@@ -67,6 +67,7 @@ or
 * Data structures available:
 
 ```ruby
+LineDB
 PartitionedArrayDatabase
 FileContextManagedPartitionedArrayManager
 FileContextManagedPartitionedArray

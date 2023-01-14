@@ -8,10 +8,11 @@
 
 require_relative "file_methods"
 require_relative "partitioned_array_database"
-# LineDB: Line Database - Create a database of PartitionedArrayDatabase objects;
+
 # which decomposes to FileContextManagedPartitionedArrayManager objects;
 # which decomposes to FileContextManagedPartitionedArray objects;
 # which decomposes to ManagedPartitionedArray objects, which inherits from the PartitionedArray class.
+# VERSION v1.1.7-release: cleanup
 # VERSION v1.1.6-release: label_integer and label_ranges for the ManagedPartitionedArray class, wherein you can define a set of integers or ranges separated by commas
 # --and with the arguments set, set a hash like {id => object}
 # VERSION v1.1.5-release: [] functions, which allows for selecting multiple databases
@@ -24,6 +25,8 @@ require_relative "partitioned_array_database"
 # VERSION v1.0.1-release: rem_db and add_db methods added
 # VERSION v1.0.0-release
 # VERSION v0.0.1 - Database creation by superfolder
+
+# LineDB: Line Database - Create a database of PartitionedArrayDatabase objects;
 class LineDB
   attr_accessor :parent_folder, :database_folder_name, :linelist, :database_file_name, :endless_add, :has_capacity, :db_size, :dynamically_allocates, :partition_amount, :traverse_hash
 

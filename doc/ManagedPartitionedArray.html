@@ -274,6 +274,12 @@
 
 
 
+  
+  
+  <h3 class="inherited">Constants inherited
+     from <span class='object_link'><a href="PartitionedArray.html" title="PartitionedArray (class)">PartitionedArray</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="PartitionedArray.html#LABEL_INTEGER-constant" title="PartitionedArray::LABEL_INTEGER (constant)">PartitionedArray::LABEL_INTEGER</a></span>, <span class='object_link'><a href="PartitionedArray.html#LABEL_INTEGERS-constant" title="PartitionedArray::LABEL_INTEGERS (constant)">PartitionedArray::LABEL_INTEGERS</a></span>, <span class='object_link'><a href="PartitionedArray.html#LABEL_RANGES-constant" title="PartitionedArray::LABEL_RANGES (constant)">PartitionedArray::LABEL_RANGES</a></span></p>
+
 
   <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
   <ul class="summary">
@@ -1501,25 +1507,25 @@
       <pre class="lines">
 
 
-56
-57
-58
-59
-60
-61
-62
-63
-64
 65
 66
 67
 68
 69
 70
-71</pre>
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 56</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 65</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='label'>endless_add:</span> <span class='const'><span class='object_link'><a href="#ENDLESS_ADD-constant" title="ManagedPartitionedArray::ENDLESS_ADD (constant)">ENDLESS_ADD</a></span></span><span class='comma'>,</span> <span class='label'>dynamically_allocates:</span> <span class='const'><span class='object_link'><a href="#DYNAMICALLY_ALLOCATES-constant" title="ManagedPartitionedArray::DYNAMICALLY_ALLOCATES (constant)">DYNAMICALLY_ALLOCATES</a></span></span><span class='comma'>,</span> <span class='label'>partition_addition_amount:</span> <span class='const'><span class='object_link'><a href="#PARTITION_ADDITION_AMOUNT-constant" title="ManagedPartitionedArray::PARTITION_ADDITION_AMOUNT (constant)">PARTITION_ADDITION_AMOUNT</a></span></span><span class='comma'>,</span> <span class='label'>max_capacity:</span> <span class='const'><span class='object_link'><a href="#MAX_CAPACITY-constant" title="ManagedPartitionedArray::MAX_CAPACITY (constant)">MAX_CAPACITY</a></span></span><span class='comma'>,</span> <span class='label'>has_capacity:</span> <span class='const'><span class='object_link'><a href="#HAS_CAPACITY-constant" title="ManagedPartitionedArray::HAS_CAPACITY (constant)">HAS_CAPACITY</a></span></span><span class='comma'>,</span> <span class='label'>partition_archive_id:</span> <span class='const'><span class='object_link'><a href="#PARTITION_ARCHIVE_ID-constant" title="ManagedPartitionedArray::PARTITION_ARCHIVE_ID (constant)">PARTITION_ARCHIVE_ID</a></span></span><span class='comma'>,</span> <span class='label'>db_size:</span> <span class='const'><span class='object_link'><a href="#DB_SIZE-constant" title="ManagedPartitionedArray::DB_SIZE (constant)">DB_SIZE</a></span></span><span class='comma'>,</span> <span class='label'>partition_amount_and_offset:</span> <span class='const'><span class='object_link'><a href="#PARTITION_AMOUNT-constant" title="ManagedPartitionedArray::PARTITION_AMOUNT (constant)">PARTITION_AMOUNT</a></span></span> <span class='op'>+</span> <span class='const'><span class='object_link'><a href="#OFFSET-constant" title="ManagedPartitionedArray::OFFSET (constant)">OFFSET</a></span></span><span class='comma'>,</span> <span class='label'>db_path:</span> <span class='const'><span class='object_link'><a href="#DEFAULT_PATH-constant" title="ManagedPartitionedArray::DEFAULT_PATH (constant)">DEFAULT_PATH</a></span></span><span class='comma'>,</span> <span class='label'>db_name:</span> <span class='const'><span class='object_link'><a href="#DB_NAME-constant" title="ManagedPartitionedArray::DB_NAME (constant)">DB_NAME</a></span></span><span class='rparen'>)</span> 
   <span class='ivar'>@db_path</span> <span class='op'>=</span> <span class='id identifier rubyid_db_path'>db_path</span>
@@ -1575,12 +1581,12 @@
       <pre class="lines">
 
 
-39
-40
-41</pre>
+48
+49
+50</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 48</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_data_arr'>data_arr</span>
   <span class='ivar'>@data_arr</span>
@@ -1618,12 +1624,12 @@
       <pre class="lines">
 
 
-39
-40
-41</pre>
+48
+49
+50</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 48</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_db_name'>db_name</span>
   <span class='ivar'>@db_name</span>
@@ -1661,12 +1667,12 @@
       <pre class="lines">
 
 
-39
-40
-41</pre>
+48
+49
+50</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 48</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_db_name_with_no_archive'>db_name_with_no_archive</span>
   <span class='ivar'>@db_name_with_no_archive</span>
@@ -1704,12 +1710,12 @@
       <pre class="lines">
 
 
-39
-40
-41</pre>
+48
+49
+50</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 48</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_db_path'>db_path</span>
   <span class='ivar'>@db_path</span>
@@ -1747,12 +1753,12 @@
       <pre class="lines">
 
 
-39
-40
-41</pre>
+48
+49
+50</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 48</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_db_size'>db_size</span>
   <span class='ivar'>@db_size</span>
@@ -1790,12 +1796,12 @@
       <pre class="lines">
 
 
-39
-40
-41</pre>
+48
+49
+50</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 48</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_endless_add'>endless_add</span>
   <span class='ivar'>@endless_add</span>
@@ -1833,12 +1839,12 @@
       <pre class="lines">
 
 
-39
-40
-41</pre>
+48
+49
+50</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 48</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_has_capacity'>has_capacity</span>
   <span class='ivar'>@has_capacity</span>
@@ -1876,12 +1882,12 @@
       <pre class="lines">
 
 
-39
-40
-41</pre>
+48
+49
+50</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 48</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_latest_id'>latest_id</span>
   <span class='ivar'>@latest_id</span>
@@ -1919,12 +1925,12 @@
       <pre class="lines">
 
 
-39
-40
-41</pre>
+48
+49
+50</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 48</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_max_capacity'>max_capacity</span>
   <span class='ivar'>@max_capacity</span>
@@ -1962,12 +1968,12 @@
       <pre class="lines">
 
 
-39
-40
-41</pre>
+48
+49
+50</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 48</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_max_partition_archive_id'>max_partition_archive_id</span>
   <span class='ivar'>@max_partition_archive_id</span>
@@ -2005,12 +2011,12 @@
       <pre class="lines">
 
 
-39
-40
-41</pre>
+48
+49
+50</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 48</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_partition_amount_and_offset'>partition_amount_and_offset</span>
   <span class='ivar'>@partition_amount_and_offset</span>
@@ -2048,12 +2054,12 @@
       <pre class="lines">
 
 
-39
-40
-41</pre>
+48
+49
+50</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 48</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_partition_archive_id'>partition_archive_id</span>
   <span class='ivar'>@partition_archive_id</span>
@@ -2091,12 +2097,12 @@
       <pre class="lines">
 
 
-39
-40
-41</pre>
+48
+49
+50</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 48</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_range_arr'>range_arr</span>
   <span class='ivar'>@range_arr</span>
@@ -2134,12 +2140,12 @@
       <pre class="lines">
 
 
-39
-40
-41</pre>
+48
+49
+50</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 48</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_rel_arr'>rel_arr</span>
   <span class='ivar'>@rel_arr</span>
@@ -2171,22 +2177,22 @@
       <pre class="lines">
 
 
-147
-148
-149
-150
-151
-152
-153
-154
-155
 156
 157
 158
-159</pre>
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 147</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 156</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add'>add</span><span class='lparen'>(</span><span class='label'>return_added_element_id:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='comment'># endless add addition here
@@ -2221,17 +2227,17 @@
       <pre class="lines">
 
 
-106
-107
-108
-109
-110
-111
-112
-113</pre>
+115
+116
+117
+118
+119
+120
+121
+122</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 106</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 115</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_archive_and_new_db!'>archive_and_new_db!</span><span class='lparen'>(</span><span class='label'>auto_allocate:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>partition_addition_amount:</span> <span class='ivar'>@partition_addition_amount</span><span class='comma'>,</span> <span class='label'>max_capacity:</span> <span class='ivar'>@max_capacity</span><span class='comma'>,</span> <span class='label'>has_capacity:</span> <span class='ivar'>@has_capacity</span><span class='comma'>,</span> <span class='label'>partition_archive_id:</span> <span class='ivar'>@partition_archive_id</span><span class='comma'>,</span> <span class='label'>db_size:</span> <span class='ivar'>@db_size</span><span class='comma'>,</span> <span class='label'>partition_amount_and_offset:</span> <span class='ivar'>@partition_amount_and_offset</span><span class='comma'>,</span> <span class='label'>db_path:</span> <span class='ivar'>@db_path</span><span class='comma'>,</span> <span class='label'>db_name:</span> <span class='ivar'>@db_name_with_archive</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_save_everything_to_files!'>save_everything_to_files!</span>
@@ -2285,24 +2291,24 @@
       <pre class="lines">
 
 
-131
-132
-133
-134
-135
-136
-137
-138
-139
 140
 141
 142
 143
 144
-145</pre>
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 131</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 140</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_at_capacity?'>at_capacity?</span>
   <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>if</span> <span class='ivar'>@has_capacity</span> <span class='op'>==</span> <span class='kw'>false</span>
@@ -2339,12 +2345,12 @@
       <pre class="lines">
 
 
-360
-361
-362</pre>
+369
+370
+371</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 360</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 369</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_db_name_with_archive'>db_name_with_archive</span><span class='lparen'>(</span><span class='label'>db_name:</span> <span class='ivar'>@original_db_name</span><span class='comma'>,</span> <span class='label'>partition_archive_id:</span> <span class='ivar'>@partition_archive_id</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_db_name'>db_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>[</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_partition_archive_id'>partition_archive_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>]</span><span class='tstring_end'>&quot;</span></span>
@@ -2369,25 +2375,25 @@
       <pre class="lines">
 
 
-89
-90
-91
-92
-93
-94
-95
-96
-97
 98
 99
 100
 101
 102
 103
-104</pre>
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 89</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 98</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_dump_all_variables'>dump_all_variables</span>
   <span class='id identifier rubyid_p'>p</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>db_size: </span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_size</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
@@ -2425,15 +2431,15 @@
       <pre class="lines">
 
 
-221
-222
-223
-224
-225
-226</pre>
+230
+231
+232
+233
+234
+235</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 221</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 230</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_increment_max_partition_archive_id!'>increment_max_partition_archive_id!</span>
   <span class='ivar'>@max_partition_archive_id</span> <span class='op'>+=</span> <span class='int'>1</span>
@@ -2461,24 +2467,24 @@
       <pre class="lines">
 
 
-300
-301
-302
-303
-304
-305
-306
-307
-308
 309
 310
 311
 312
 313
-314</pre>
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 300</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 309</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize_max_partition_archive_id!'>initialize_max_partition_archive_id!</span>
   <span class='comment'># if the max_partition_archive_id.json file does not exist, create it and set it to 0
@@ -2526,13 +2532,13 @@
       <pre class="lines">
 
 
-116
-117
-118
-119</pre>
+125
+126
+127
+128</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 116</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 125</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_load_archive_no_auto_allocate!'>load_archive_no_auto_allocate!</span><span class='lparen'>(</span><span class='label'>has_capacity:</span> <span class='ivar'>@has_capacity</span><span class='comma'>,</span> <span class='label'>dynamically_allocates:</span> <span class='ivar'>@dynamically_allocates</span><span class='comma'>,</span> <span class='label'>endless_add:</span> <span class='ivar'>@endless_add</span><span class='comma'>,</span> <span class='label'>partition_archive_id:</span> <span class='ivar'>@max_partition_archive_id</span><span class='comma'>,</span> <span class='label'>db_size:</span> <span class='ivar'>@db_size</span><span class='comma'>,</span> <span class='label'>partition_amount_and_offset:</span> <span class='ivar'>@partition_amount_and_offset</span><span class='comma'>,</span> <span class='label'>db_path:</span> <span class='ivar'>@db_path</span><span class='comma'>,</span> <span class='label'>db_name:</span> <span class='ivar'>@db_name_with_archive</span><span class='comma'>,</span> <span class='label'>max_capacity:</span> <span class='ivar'>@max_capacity</span><span class='comma'>,</span> <span class='label'>partition_addition_amount:</span> <span class='ivar'>@partition_addition_amount</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_temp'>temp</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="" title="ManagedPartitionedArray (class)">ManagedPartitionedArray</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="ManagedPartitionedArray#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>dynamically_allocates:</span> <span class='id identifier rubyid_dynamically_allocates'>dynamically_allocates</span><span class='comma'>,</span> <span class='label'>endless_add:</span> <span class='id identifier rubyid_endless_add'>endless_add</span><span class='comma'>,</span> <span class='label'>max_capacity:</span> <span class='id identifier rubyid_max_capacity'>max_capacity</span><span class='comma'>,</span> <span class='label'>partition_archive_id:</span> <span class='id identifier rubyid_partition_archive_id'>partition_archive_id</span><span class='comma'>,</span> <span class='label'>db_size:</span> <span class='id identifier rubyid_db_size'>db_size</span><span class='comma'>,</span> <span class='label'>partition_amount_and_offset:</span> <span class='id identifier rubyid_partition_amount_and_offset'>partition_amount_and_offset</span><span class='comma'>,</span> <span class='label'>db_path:</span> <span class='id identifier rubyid_db_path'>db_path</span><span class='comma'>,</span> <span class='label'>db_name:</span> <span class='id identifier rubyid_db_name_with_archive'>db_name_with_archive</span><span class='rparen'>)</span>
@@ -2558,14 +2564,14 @@
       <pre class="lines">
 
 
-234
-235
-236
-237
-238</pre>
+243
+244
+245
+246
+247</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 234</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 243</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_load_db_name_with_no_archive_from_file!'>load_db_name_with_no_archive_from_file!</span>
   <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_path</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>db_name_with_no_archive.json</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>r</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span>
@@ -2592,14 +2598,14 @@
       <pre class="lines">
 
 
-252
-253
-254
-255
-256</pre>
+261
+262
+263
+264
+265</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 252</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 261</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_load_endless_add_from_file!'>load_endless_add_from_file!</span>
   <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>endless_add.json</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>r</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span>
@@ -2626,20 +2632,20 @@
       <pre class="lines">
 
 
-161
-162
-163
-164
-165
-166
-167
-168
-169
 170
-171</pre>
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 161</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 170</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_load_everything_from_files!'>load_everything_from_files!</span>
   <span class='id identifier rubyid_load_from_files!'>load_from_files!</span> <span class='comment'>#PartitionedArray#load_from_files!
@@ -2683,14 +2689,14 @@
       <pre class="lines">
 
 
-122
-123
-124
-125
-126</pre>
+131
+132
+133
+134
+135</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 122</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 131</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_load_from_archive!'>load_from_archive!</span><span class='lparen'>(</span><span class='label'>has_capacity:</span> <span class='ivar'>@has_capacity</span><span class='comma'>,</span> <span class='label'>dynamically_allocates:</span> <span class='ivar'>@dynamically_allocates</span><span class='comma'>,</span> <span class='label'>endless_add:</span> <span class='ivar'>@endless_add</span><span class='comma'>,</span> <span class='label'>partition_archive_id:</span> <span class='ivar'>@max_partition_archive_id</span><span class='comma'>,</span> <span class='label'>db_size:</span> <span class='ivar'>@db_size</span><span class='comma'>,</span> <span class='label'>partition_amount_and_offset:</span> <span class='ivar'>@partition_amount_and_offset</span><span class='comma'>,</span> <span class='label'>db_path:</span> <span class='ivar'>@db_path</span><span class='comma'>,</span> <span class='label'>db_name:</span> <span class='ivar'>@db_name_with_archive</span><span class='comma'>,</span> <span class='label'>max_capacity:</span> <span class='ivar'>@max_capacity</span><span class='comma'>,</span> <span class='label'>partition_addition_amount:</span> <span class='ivar'>@partition_addition_amount</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_temp'>temp</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="" title="ManagedPartitionedArray (class)">ManagedPartitionedArray</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="ManagedPartitionedArray#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>dynamically_allocates:</span> <span class='id identifier rubyid_dynamically_allocates'>dynamically_allocates</span><span class='comma'>,</span> <span class='label'>endless_add:</span> <span class='id identifier rubyid_endless_add'>endless_add</span><span class='comma'>,</span> <span class='label'>max_capacity:</span> <span class='id identifier rubyid_max_capacity'>max_capacity</span><span class='comma'>,</span> <span class='label'>partition_archive_id:</span> <span class='id identifier rubyid_partition_archive_id'>partition_archive_id</span><span class='comma'>,</span> <span class='label'>db_size:</span> <span class='id identifier rubyid_db_size'>db_size</span><span class='comma'>,</span> <span class='label'>partition_amount_and_offset:</span> <span class='id identifier rubyid_partition_amount_and_offset'>partition_amount_and_offset</span><span class='comma'>,</span> <span class='label'>db_path:</span> <span class='id identifier rubyid_db_path'>db_path</span><span class='comma'>,</span> <span class='label'>db_name:</span> <span class='id identifier rubyid_db_name_with_archive'>db_name_with_archive</span><span class='rparen'>)</span>
@@ -2717,14 +2723,14 @@
       <pre class="lines">
 
 
-258
-259
-260
-261
-262</pre>
+267
+268
+269
+270
+271</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 258</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 267</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_load_has_capacity_from_file!'>load_has_capacity_from_file!</span>
   <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>has_capacity.json</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>r</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span>
@@ -2751,14 +2757,14 @@
       <pre class="lines">
 
 
-276
-277
-278
-279
-280</pre>
+285
+286
+287
+288
+289</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 276</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 285</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_load_last_entry_from_file!'>load_last_entry_from_file!</span>
   <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_db_name_with_archive'>db_name_with_archive</span><span class='lparen'>(</span><span class='label'>db_name:</span> <span class='ivar'>@original_db_name</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>last_entry.json</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>r</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_file'>file</span><span class='op'>|</span>
@@ -2785,14 +2791,14 @@
       <pre class="lines">
 
 
-338
-339
-340
-341
-342</pre>
+347
+348
+349
+350
+351</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 338</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 347</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_load_max_capacity_from_file!'>load_max_capacity_from_file!</span>
   <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='ivar'>@db_path</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>max_capacity.json</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>r</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_file'>file</span><span class='op'>|</span>
@@ -2819,23 +2825,23 @@
       <pre class="lines">
 
 
-317
-318
-319
-320
-321
-322
-323
-324
-325
 326
 327
 328
 329
-330</pre>
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 317</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 326</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_load_max_partition_archive_id_from_file!'>load_max_partition_archive_id_from_file!</span>
   <span class='comment'># puts &quot;1 @db_path: #{@db_path}&quot;
@@ -2871,14 +2877,14 @@
       <pre class="lines">
 
 
-352
-353
-354
-355
-356</pre>
+361
+362
+363
+364
+365</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 352</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 361</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_load_partition_addition_amount_from_file!'>load_partition_addition_amount_from_file!</span>
   <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>partition_addition_amount.json</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>r</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_file'>file</span><span class='op'>|</span>
@@ -2905,14 +2911,14 @@
       <pre class="lines">
 
 
-288
-289
-290
-291
-292</pre>
+297
+298
+299
+300
+301</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 288</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 297</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_load_partition_archive_id_from_file!'>load_partition_archive_id_from_file!</span>
   <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_db_name_with_archive'>db_name_with_archive</span><span class='lparen'>(</span><span class='label'>db_name:</span> <span class='ivar'>@original_db_name</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>partition_archive_id.json</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>r</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_file'>file</span><span class='op'>|</span>
@@ -2939,13 +2945,13 @@
       <pre class="lines">
 
 
-173
-174
-175
-176</pre>
+182
+183
+184
+185</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 173</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 182</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_load_partition_from_file!'>load_partition_from_file!</span><span class='lparen'>(</span><span class='id identifier rubyid_partition_id'>partition_id</span><span class='comma'>,</span> <span class='label'>load_variables:</span> <span class='kw'>true</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_load_variables_from_disk!'>load_variables_from_disk!</span> <span class='kw'>if</span> <span class='id identifier rubyid_load_variables'>load_variables</span>
@@ -2971,20 +2977,20 @@
       <pre class="lines">
 
 
-209
-210
-211
-212
-213
-214
-215
-216
-217
 218
-219</pre>
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 209</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 218</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_load_variables_from_disk!'>load_variables_from_disk!</span>
   <span class='comment'># Synchronize all known variables with their disk counterparts
@@ -3028,19 +3034,19 @@
       <pre class="lines">
 
 
-74
-75
-76
-77
-78
-79
-80
-81
-82
-83</pre>
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 74</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 83</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_max_capacity_setup!'>max_capacity_setup!</span>
   <span class='comment'>#p &quot;@max_capacity: #{@max_capacity}&quot;#{@max_capacity} if DEBUGGING&quot;
@@ -3072,12 +3078,12 @@
       <pre class="lines">
 
 
-85
-86
-87</pre>
+94
+95
+96</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 85</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 94</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_save_data_arr_to_disk!'>save_data_arr_to_disk!</span>
   <span class='comment'># WIP
@@ -3102,14 +3108,14 @@
       <pre class="lines">
 
 
-228
-229
-230
-231
-232</pre>
+237
+238
+239
+240
+241</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 228</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 237</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_save_db_name_with_no_archive_to_file!'>save_db_name_with_no_archive_to_file!</span>
   <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_path</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>db_name_with_no_archive.json</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>w</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span>
@@ -3136,14 +3142,14 @@
       <pre class="lines">
 
 
-246
-247
-248
-249
-250</pre>
+255
+256
+257
+258
+259</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 246</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 255</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_save_endless_add_to_file!'>save_endless_add_to_file!</span>
   <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>endless_add.json</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>w</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span>
@@ -3170,20 +3176,20 @@
       <pre class="lines">
 
 
-185
-186
-187
-188
-189
-190
-191
-192
-193
 194
-195</pre>
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 185</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 194</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_save_everything_to_files!'>save_everything_to_files!</span>
   <span class='id identifier rubyid_save_all_to_files!'>save_all_to_files!</span> <span class='comment'>#PartitionedArray#save_all_to_files!
@@ -3216,14 +3222,14 @@
       <pre class="lines">
 
 
-240
-241
-242
-243
-244</pre>
+249
+250
+251
+252
+253</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 240</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 249</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_save_has_capacity_to_file!'>save_has_capacity_to_file!</span>
   <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>has_capacity.json</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>w</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span>
@@ -3250,20 +3256,20 @@
       <pre class="lines">
 
 
-264
-265
-266
-267
-268
-269
-270
-271
-272
 273
-274</pre>
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 264</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 273</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_save_last_entry_to_file!'>save_last_entry_to_file!</span>
   <span class='kw'>if</span> <span class='ivar'>@partition_archive_id</span> <span class='op'>==</span> <span class='int'>0</span>      
@@ -3296,14 +3302,14 @@
       <pre class="lines">
 
 
-332
-333
-334
-335
-336</pre>
+341
+342
+343
+344
+345</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 332</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 341</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_save_max_capacity_to_file!'>save_max_capacity_to_file!</span>
   <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='ivar'>@db_path</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>max_capacity.json</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>w</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_file'>file</span><span class='op'>|</span>
@@ -3330,14 +3336,14 @@
       <pre class="lines">
 
 
-294
-295
-296
-297
-298</pre>
+303
+304
+305
+306
+307</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 294</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 303</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_save_max_partition_archive_id_to_file!'>save_max_partition_archive_id_to_file!</span>
   <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='ivar'>@db_path</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>max_partition_archive_id.json</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>w</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_file'>file</span><span class='op'>|</span>
@@ -3364,14 +3370,14 @@
       <pre class="lines">
 
 
-346
-347
-348
-349
-350</pre>
+355
+356
+357
+358
+359</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 346</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 355</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_save_partition_addition_amount_to_file!'>save_partition_addition_amount_to_file!</span>
   <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>partition_addition_amount.json</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>w</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_file'>file</span><span class='op'>|</span>
@@ -3398,14 +3404,14 @@
       <pre class="lines">
 
 
-282
-283
-284
-285
-286</pre>
+291
+292
+293
+294
+295</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 282</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 291</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_save_partition_archive_id_to_file!'>save_partition_archive_id_to_file!</span>
   <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_db_name_with_archive'>db_name_with_archive</span><span class='lparen'>(</span><span class='label'>db_name:</span> <span class='ivar'>@original_db_name</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>partition_archive_id.json</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>w</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_file'>file</span><span class='op'>|</span>
@@ -3443,13 +3449,13 @@
       <pre class="lines">
 
 
-179
-180
-181
-182</pre>
+188
+189
+190
+191</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 179</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 188</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_save_partition_to_file!'>save_partition_to_file!</span><span class='lparen'>(</span><span class='id identifier rubyid_partition_id'>partition_id</span><span class='comma'>,</span> <span class='label'>save_variables:</span> <span class='kw'>true</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_save_variables_to_disk!'>save_variables_to_disk!</span> <span class='kw'>if</span> <span class='id identifier rubyid_save_variables'>save_variables</span>
@@ -3475,20 +3481,20 @@
       <pre class="lines">
 
 
-197
-198
-199
-200
-201
-202
-203
-204
-205
 206
-207</pre>
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 197</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 206</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_save_variables_to_disk!'>save_variables_to_disk!</span>
   <span class='comment'># Synchronize all known variables with their disk counterparts
@@ -3521,15 +3527,19 @@
       <pre class="lines">
 
 
-364
-365
-366</pre>
+373
+374
+375
+376
+377</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 364</span>
+      <pre class="code"><span class="info file"># File 'lib/managed_partitioned_array.rb', line 373</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_strip_archived_db_name'>strip_archived_db_name</span><span class='lparen'>(</span><span class='label'>db_name:</span> <span class='ivar'>@original_db_name</span><span class='rparen'>)</span>
-  <span class='kw'>return</span> <span class='id identifier rubyid_db_name'>db_name</span><span class='period'>.</span><span class='id identifier rubyid_sub'>sub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\[.+\]</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_strip_archived_db_name'>strip_archived_db_name</span><span class='lparen'>(</span><span class='label'>db_name:</span> <span class='ivar'>@original_db_name</span><span class='rparen'>)</span>    
+  <span class='comment'>#return db_name.sub(/\[.+\]/, &#39;&#39;)
+</span>  <span class='comment'># from dragonruby implementation; doesn&#39;t use regular expressions
+</span>  <span class='kw'>return</span> <span class='id identifier rubyid_db_name'>db_name</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>[</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>    
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -3541,7 +3551,7 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Jan 13 23:27:50 2023 by
+  Generated on Sat Jan 14 02:33:42 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.2.0).
 </div>

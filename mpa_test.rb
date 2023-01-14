@@ -15,7 +15,8 @@ end
 
 end
 
-p b["test"].pad["test_database", "test"][0..25]
-p b["test"].db["test_database", "test"][0..25]
-p b["test"].PAD["test_database", "test"][0..25]
-p b["test"].DB["test_database", "test"][0..25]
+#p b["test"].pad["test_database", "test"][0..25]
+#p b["test"].db["test_database", "test"][0..25]
+#p b["test"].PAD["test_database", "test"][0..25]
+b["test"].DB["test_database", "test"][0..3]
+p a[0]

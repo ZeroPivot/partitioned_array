@@ -1,4 +1,5 @@
 require_relative 'file_context_managed_partitioned_array_manager'
+# VERSION v0.0.6 - more aliases
 # VERSION v0.0.5 - alias db pad
 # VERSION v0.0.4 - sync with LineDB
 # VERSION v0.0.3 - cleanup
@@ -46,6 +47,7 @@ class PartitionedArrayDatabase
   alias DB pad
   alias PAD pad
   alias d pad
+  alias D pad
 end
 PAD = PartitionedArrayDatabase
 

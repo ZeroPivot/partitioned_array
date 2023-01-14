@@ -75,7 +75,7 @@ class LineDB
   def [](*db_names)
     #@linelist[db_name]
     if db_names.size > 1
-      return db_names.map { |db_name|{ db_name => @linelist[db_name] }}
+      return db_names.map { |db_name| @linelist[db_name] }
     else
       return @linelist[db_names[0]]
     end

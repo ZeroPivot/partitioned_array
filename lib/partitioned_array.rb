@@ -16,7 +16,6 @@
 ### Functionality: label the ranges and/or the integer values in the [] arguments with a hash argument
 ### --with keys pointing to the get values (for integers and/or ranges) 
 ### label_ranges: true
-### label_integers: true
 ### label_integer: true
 # VERSION v1.2.8 - [](id, hash: false) - 1/13/2023
 # VERSION: v1.2.7 - implemented [](id) - uses get(id, hash: false) - 1/13/2023

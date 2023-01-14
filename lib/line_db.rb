@@ -30,9 +30,9 @@ class LineDB
 
   ### Fallback Constants; a database folder and a db_list.txt file in the database folder must be present. ###
   ### db_list.txt must contain line separated sets of database names (see "lib/line_database_setup.rb") ###
-  PARENT_FOLDER = "./database/CGMFS_db"
+  PARENT_FOLDER = "./db/CGMFS_db"
   DATABASE_FOLDER_NAME = "database"
-  DATABASE_FILE_NAME = "./database/db_list.txt"
+  DATABASE_FILE_NAME = "./db/db_list.txt"
 
   ### Suggested Constants ###
   ENDLESS_ADD = true

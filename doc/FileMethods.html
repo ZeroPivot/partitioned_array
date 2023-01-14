@@ -232,6 +232,28 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#remove_line-instance_method" title="#remove_line (instance method)">#<strong>remove_line</strong>(line, filename = DB_LIST)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#write_line-instance_method" title="#write_line (instance method)">#<strong>write_line</strong>(line, filename = DB_LIST)  &#x21d2; Object </a>
     
 
@@ -319,17 +341,17 @@
       <pre class="lines">
 
 
-28
-29
-30
-31</pre>
+39
+40
+41
+42</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/file_methods.rb', line 28</span>
+      <pre class="code"><span class="info file"># File 'lib/file_methods.rb', line 39</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_array_duplicates?'><span class='object_link'><a href="top-level-namespace.html#array_duplicates%3F-instance_method" title="#array_duplicates? (method)">array_duplicates?</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_check'>check</span><span class='comma'>,</span> <span class='id identifier rubyid_array_of_strings'>array_of_strings</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_array_of_strings'>array_of_strings</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_check'>check</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_array_of_strings'>array_of_strings</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_check'>check</span><span class='rparen'>)</span>
+  <span class='comment'>#puts array_of_strings.include?(check)
+</span>  <span class='id identifier rubyid_array_of_strings'>array_of_strings</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_check'>check</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -351,13 +373,13 @@
       <pre class="lines">
 
 
-22
-23
-24
-25</pre>
+33
+34
+35
+36</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/file_methods.rb', line 22</span>
+      <pre class="code"><span class="info file"># File 'lib/file_methods.rb', line 33</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_check_file_duplicates'><span class='object_link'><a href="top-level-namespace.html#check_file_duplicates-instance_method" title="#check_file_duplicates (method)">check_file_duplicates</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_check'>check</span><span class='comma'>,</span> <span class='id identifier rubyid_filename'>filename</span><span class='op'>=</span><span class='const'>DB_LIST</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_lines'>lines</span> <span class='op'>=</span> <span class='id identifier rubyid_read_file_lines'><span class='object_link'><a href="top-level-namespace.html#read_file_lines-instance_method" title="#read_file_lines (method)">read_file_lines</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_filename'>filename</span><span class='rparen'>)</span>
@@ -459,6 +481,48 @@
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="remove_line-instance_method">
+  
+    #<strong>remove_line</strong>(line, filename = DB_LIST)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+21
+22
+23
+24
+25
+26
+27
+28
+29</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/file_methods.rb', line 21</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_remove_line'><span class='object_link'><a href="top-level-namespace.html#remove_line-instance_method" title="#remove_line (method)">remove_line</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_line'>line</span><span class='comma'>,</span> <span class='id identifier rubyid_filename'>filename</span><span class='op'>=</span><span class='const'>DB_LIST</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_lines'>lines</span> <span class='op'>=</span> <span class='id identifier rubyid_read_file_lines'><span class='object_link'><a href="top-level-namespace.html#read_file_lines-instance_method" title="#read_file_lines (method)">read_file_lines</a></span></span>
+  <span class='id identifier rubyid_lines'>lines</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='id identifier rubyid_line'>line</span><span class='rparen'>)</span>
+  <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='id identifier rubyid_filename'>filename</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>w</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span>
+    <span class='id identifier rubyid_lines'>lines</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_line'>line</span><span class='op'>|</span>
+      <span class='id identifier rubyid_f'>f</span><span class='period'>.</span><span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_line'>line</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="write_line-instance_method">
   
     #<strong>write_line</strong>(line, filename = DB_LIST)  &#x21d2; <tt>Object</tt> 
@@ -507,16 +571,16 @@
       <pre class="lines">
 
 
-34
-35
-36
-37
-38
-39
-40</pre>
+45
+46
+47
+48
+49
+50
+51</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/file_methods.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'lib/file_methods.rb', line 45</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_write_lines'><span class='object_link'><a href="top-level-namespace.html#write_lines-instance_method" title="#write_lines (method)">write_lines</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_lines_array'>lines_array</span><span class='comma'>,</span> <span class='id identifier rubyid_filename'>filename</span><span class='op'>=</span><span class='const'>DB_LIST</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_lines_array'>lines_array</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_line'>line</span><span class='op'>|</span>
@@ -535,7 +599,7 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Jan 13 05:16:19 2023 by
+  Generated on Fri Jan 13 23:27:50 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.2.0).
 </div>

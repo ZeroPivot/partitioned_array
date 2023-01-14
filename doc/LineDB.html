@@ -124,20 +124,77 @@
 
     <dl class="constants">
       
-        <dt id="PARENT_FOLDER-constant" class="">PARENT_FOLDER =
+        <dt id="PAD-constant" class="">PAD =
           
         </dt>
+        <dd><pre class="code"><span class='const'><span class='object_link'><a href="PartitionedArrayDatabase.html" title="PartitionedArrayDatabase (class)">PartitionedArrayDatabase</a></span></span></pre></dd>
+      
+        <dt id="PARENT_FOLDER-constant" class="">PARENT_FOLDER =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Fallback Constants; a database folder and a db_list.txt file in the database folder must be present. ### db_list.txt must contain line separated sets of database names (see “lib/line_database_setup.rb”) ###</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
         <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>./database/CGMFS_db</span><span class='tstring_end'>&quot;</span></span></pre></dd>
+      
+        <dt id="DATABASE_FOLDER_NAME-constant" class="">DATABASE_FOLDER_NAME =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>database</span><span class='tstring_end'>&quot;</span></span></pre></dd>
       
         <dt id="DATABASE_FILE_NAME-constant" class="">DATABASE_FILE_NAME =
           
         </dt>
         <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>./database/db_list.txt</span><span class='tstring_end'>&quot;</span></span></pre></dd>
       
-        <dt id="PAD-constant" class="">PAD =
+        <dt id="ENDLESS_ADD-constant" class="">ENDLESS_ADD =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Suggested Constants ###</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='kw'>true</span></pre></dd>
+      
+        <dt id="HAS_CAPACITY-constant" class="">HAS_CAPACITY =
           
         </dt>
-        <dd><pre class="code"><span class='const'><span class='object_link'><a href="PartitionedArrayDatabase.html" title="PartitionedArrayDatabase (class)">PartitionedArrayDatabase</a></span></span></pre></dd>
+        <dd><pre class="code"><span class='kw'>true</span></pre></dd>
+      
+        <dt id="DATABASE_SIZE-constant" class="">DATABASE_SIZE =
+          
+        </dt>
+        <dd><pre class="code"><span class='int'>100</span></pre></dd>
+      
+        <dt id="DYNAMICALLY_ALLOCATES-constant" class="">DYNAMICALLY_ALLOCATES =
+          
+        </dt>
+        <dd><pre class="code"><span class='kw'>true</span></pre></dd>
+      
+        <dt id="DATABASE_PARTITION_AMOUNT-constant" class="">DATABASE_PARTITION_AMOUNT =
+          
+        </dt>
+        <dd><pre class="code"><span class='int'>20</span></pre></dd>
+      
+        <dt id="TRAVERSE_HASH-constant" class="">TRAVERSE_HASH =
+          
+        </dt>
+        <dd><pre class="code"><span class='kw'>true</span></pre></dd>
       
     </dl>
   
@@ -176,6 +233,141 @@
   
     <span class="summary_desc"><div class='inline'>
 <p>Returns the value of attribute database_file_name.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#database_folder_name-instance_method" title="#database_folder_name (instance method)">#<strong>database_folder_name</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute database_folder_name.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#db_size-instance_method" title="#db_size (instance method)">#<strong>db_size</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute db_size.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#dynamically_allocates-instance_method" title="#dynamically_allocates (instance method)">#<strong>dynamically_allocates</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute dynamically_allocates.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#endless_add-instance_method" title="#endless_add (instance method)">#<strong>endless_add</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute endless_add.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#has_capacity-instance_method" title="#has_capacity (instance method)">#<strong>has_capacity</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute has_capacity.</p>
 </div></span>
   
 </li>
@@ -235,6 +427,60 @@
 </li>
 
     
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#partition_amount-instance_method" title="#partition_amount (instance method)">#<strong>partition_amount</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute partition_amount.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#traverse_hash-instance_method" title="#traverse_hash (instance method)">#<strong>traverse_hash</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute traverse_hash.</p>
+</div></span>
+  
+</li>
+
+    
   </ul>
 
 
@@ -251,7 +497,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#get_db-instance_method" title="#get_db (instance method)">#<strong>get_db</strong>(db_name)  &#x21d2; Object </a>
+      <a href="#[]-instance_method" title="#[] (instance method)">#<strong>[]</strong>(db_name)  &#x21d2; Object </a>
     
 
     
@@ -273,7 +519,99 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(parent_folder: PARENT_FOLDER, database_file_name: DATABASE_FILE_NAME)  &#x21d2; LineDB </a>
+      <a href="#add_db!-instance_method" title="#add_db! (instance method)">#<strong>add_db!</strong>(db_name)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#db-instance_method" title="#db (instance method)">#<strong>db</strong>(db_name)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete_db!-instance_method" title="#delete_db! (instance method)">#<strong>delete_db!</strong>(db_name)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>TODO: implement rm_rf for dragonruby on windows and linux, and maybe android.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete_pad_single-instance_method" title="#delete_pad_single (instance method)">#<strong>delete_pad_single</strong>(db_name)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>TODO: implement rm_rf for dragonruby on windows and linux, and maybe android.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(traverse_hash: TRAVERSE_HASH, database_partition_amount: DATABASE_PARTITION_AMOUNT, database_file_name: DATABASE_FILE_NAME, endless_add: ENDLESS_ADD, has_capacity: HAS_CAPACITY, db_size: DATABASE_SIZE, dynamically_allocates: DYNAMICALLY_ALLOCATES, parent_folder: PARENT_FOLDER, database_folder_name: DATABASE_FOLDER_NAME)  &#x21d2; LineDB </a>
     
 
     
@@ -290,7 +628,31 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>A new instance of LineDB.</p>
+<p>/Suggested Constants ###.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#list_databases-instance_method" title="#list_databases (instance method)">#<strong>list_databases</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>List of active databases.</p>
 </div></span>
   
 </li>
@@ -321,7 +683,75 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#load_pad_single-instance_method" title="#load_pad_single (instance method)">#<strong>load_pad_single</strong>(db_name, parent_folder: @parent_folder || PARENT_FOLDER)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Low level methods (but we don’t enforce it lol, because they can still have their uses) #### private.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#reload-instance_method" title="#reload (instance method)">#<strong>reload</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#remove_db!-instance_method" title="#remove_db! (instance method)">#<strong>remove_db!</strong>(db_name)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#remove_pad_single-instance_method" title="#remove_pad_single (instance method)">#<strong>remove_pad_single</strong>(db_name)  &#x21d2; Object </a>
     
 
     
@@ -353,14 +783,14 @@
   
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="FileMethods.html" title="FileMethods (module)">FileMethods</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="FileMethods.html#array_duplicates%3F-instance_method" title="FileMethods#array_duplicates? (method)">#array_duplicates?</a></span>, <span class='object_link'><a href="FileMethods.html#check_file_duplicates-instance_method" title="FileMethods#check_file_duplicates (method)">#check_file_duplicates</a></span>, <span class='object_link'><a href="FileMethods.html#read_file_lines-instance_method" title="FileMethods#read_file_lines (method)">#read_file_lines</a></span>, <span class='object_link'><a href="FileMethods.html#read_lines-instance_method" title="FileMethods#read_lines (method)">#read_lines</a></span>, <span class='object_link'><a href="FileMethods.html#read_multi_string-instance_method" title="FileMethods#read_multi_string (method)">#read_multi_string</a></span>, <span class='object_link'><a href="FileMethods.html#write_line-instance_method" title="FileMethods#write_line (method)">#write_line</a></span>, <span class='object_link'><a href="FileMethods.html#write_lines-instance_method" title="FileMethods#write_lines (method)">#write_lines</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="FileMethods.html#array_duplicates%3F-instance_method" title="FileMethods#array_duplicates? (method)">#array_duplicates?</a></span>, <span class='object_link'><a href="FileMethods.html#check_file_duplicates-instance_method" title="FileMethods#check_file_duplicates (method)">#check_file_duplicates</a></span>, <span class='object_link'><a href="FileMethods.html#read_file_lines-instance_method" title="FileMethods#read_file_lines (method)">#read_file_lines</a></span>, <span class='object_link'><a href="FileMethods.html#read_lines-instance_method" title="FileMethods#read_lines (method)">#read_lines</a></span>, <span class='object_link'><a href="FileMethods.html#read_multi_string-instance_method" title="FileMethods#read_multi_string (method)">#read_multi_string</a></span>, <span class='object_link'><a href="FileMethods.html#remove_line-instance_method" title="FileMethods#remove_line (method)">#remove_line</a></span>, <span class='object_link'><a href="FileMethods.html#write_line-instance_method" title="FileMethods#write_line (method)">#write_line</a></span>, <span class='object_link'><a href="FileMethods.html#write_lines-instance_method" title="FileMethods#write_lines (method)">#write_lines</a></span></p>
 <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
   
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    #<strong>initialize</strong>(parent_folder: PARENT_FOLDER, database_file_name: DATABASE_FILE_NAME)  &#x21d2; <tt><span class='object_link'><a href="" title="LineDB (class)">LineDB</a></span></tt> 
+    #<strong>initialize</strong>(traverse_hash: TRAVERSE_HASH, database_partition_amount: DATABASE_PARTITION_AMOUNT, database_file_name: DATABASE_FILE_NAME, endless_add: ENDLESS_ADD, has_capacity: HAS_CAPACITY, db_size: DATABASE_SIZE, dynamically_allocates: DYNAMICALLY_ALLOCATES, parent_folder: PARENT_FOLDER, database_folder_name: DATABASE_FOLDER_NAME)  &#x21d2; <tt><span class='object_link'><a href="" title="LineDB (class)">LineDB</a></span></tt> 
   
 
   
@@ -369,7 +799,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns a new instance of LineDB.</p>
+<p>/Suggested Constants ###</p>
 
 
   </div>
@@ -383,18 +813,32 @@
       <pre class="lines">
 
 
-12
-13
-14
-15
-16</pre>
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/line_db.rb', line 12</span>
+      <pre class="code"><span class="info file"># File 'lib/line_db.rb', line 44</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='label'>parent_folder:</span> <span class='const'><span class='object_link'><a href="#PARENT_FOLDER-constant" title="LineDB::PARENT_FOLDER (constant)">PARENT_FOLDER</a></span></span><span class='comma'>,</span> <span class='label'>database_file_name:</span> <span class='const'><span class='object_link'><a href="#DATABASE_FILE_NAME-constant" title="LineDB::DATABASE_FILE_NAME (constant)">DATABASE_FILE_NAME</a></span></span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='label'>traverse_hash:</span> <span class='const'><span class='object_link'><a href="#TRAVERSE_HASH-constant" title="LineDB::TRAVERSE_HASH (constant)">TRAVERSE_HASH</a></span></span><span class='comma'>,</span> <span class='label'>database_partition_amount:</span> <span class='const'><span class='object_link'><a href="#DATABASE_PARTITION_AMOUNT-constant" title="LineDB::DATABASE_PARTITION_AMOUNT (constant)">DATABASE_PARTITION_AMOUNT</a></span></span><span class='comma'>,</span> <span class='label'>database_file_name:</span> <span class='const'><span class='object_link'><a href="#DATABASE_FILE_NAME-constant" title="LineDB::DATABASE_FILE_NAME (constant)">DATABASE_FILE_NAME</a></span></span><span class='comma'>,</span> <span class='label'>endless_add:</span> <span class='const'><span class='object_link'><a href="#ENDLESS_ADD-constant" title="LineDB::ENDLESS_ADD (constant)">ENDLESS_ADD</a></span></span><span class='comma'>,</span> <span class='label'>has_capacity:</span> <span class='const'><span class='object_link'><a href="#HAS_CAPACITY-constant" title="LineDB::HAS_CAPACITY (constant)">HAS_CAPACITY</a></span></span><span class='comma'>,</span> <span class='label'>db_size:</span> <span class='const'><span class='object_link'><a href="#DATABASE_SIZE-constant" title="LineDB::DATABASE_SIZE (constant)">DATABASE_SIZE</a></span></span><span class='comma'>,</span> <span class='label'>dynamically_allocates:</span> <span class='const'><span class='object_link'><a href="#DYNAMICALLY_ALLOCATES-constant" title="LineDB::DYNAMICALLY_ALLOCATES (constant)">DYNAMICALLY_ALLOCATES</a></span></span><span class='comma'>,</span> <span class='label'>parent_folder:</span> <span class='const'><span class='object_link'><a href="#PARENT_FOLDER-constant" title="LineDB::PARENT_FOLDER (constant)">PARENT_FOLDER</a></span></span><span class='comma'>,</span> <span class='label'>database_folder_name:</span> <span class='const'><span class='object_link'><a href="#DATABASE_FOLDER_NAME-constant" title="LineDB::DATABASE_FOLDER_NAME (constant)">DATABASE_FOLDER_NAME</a></span></span><span class='rparen'>)</span>
   <span class='ivar'>@parent_folder</span> <span class='op'>=</span> <span class='id identifier rubyid_parent_folder'>parent_folder</span>
+  <span class='ivar'>@database_folder_name</span> <span class='op'>=</span> <span class='id identifier rubyid_database_folder_name'>database_folder_name</span>
   <span class='ivar'>@database_file_name</span> <span class='op'>=</span> <span class='id identifier rubyid_database_file_name'>database_file_name</span>
+  <span class='ivar'>@endless_add</span> <span class='op'>=</span> <span class='id identifier rubyid_endless_add'>endless_add</span>
+  <span class='ivar'>@database_partiton_amount</span> <span class='op'>=</span> <span class='id identifier rubyid_database_partition_amount'>database_partition_amount</span>
+  <span class='ivar'>@has_capacity</span> <span class='op'>=</span> <span class='id identifier rubyid_has_capacity'>has_capacity</span>
+  <span class='ivar'>@db_size</span> <span class='op'>=</span> <span class='id identifier rubyid_db_size'>db_size</span>
+  <span class='ivar'>@dynamically_allocates</span> <span class='op'>=</span> <span class='id identifier rubyid_dynamically_allocates'>dynamically_allocates</span>
+  <span class='ivar'>@traverse_hash</span> <span class='op'>=</span> <span class='id identifier rubyid_traverse_hash'>traverse_hash</span>
   <span class='ivar'>@linelist</span> <span class='op'>=</span> <span class='id identifier rubyid_load_pad'><span class='object_link'><a href="top-level-namespace.html#load_pad-instance_method" title="#load_pad (method)">load_pad</a></span></span><span class='lparen'>(</span><span class='label'>parent_folder:</span> <span class='ivar'>@parent_folder</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -435,15 +879,230 @@
       <pre class="lines">
 
 
-6
-7
-8</pre>
+24
+25
+26</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/line_db.rb', line 6</span>
+      <pre class="code"><span class="info file"># File 'lib/line_db.rb', line 24</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_database_file_name'>database_file_name</span>
   <span class='ivar'>@database_file_name</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="database_folder_name=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="database_folder_name-instance_method">
+  
+    #<strong>database_folder_name</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute database_folder_name.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+24
+25
+26</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/line_db.rb', line 24</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_database_folder_name'>database_folder_name</span>
+  <span class='ivar'>@database_folder_name</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="db_size=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="db_size-instance_method">
+  
+    #<strong>db_size</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute db_size.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+24
+25
+26</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/line_db.rb', line 24</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_db_size'>db_size</span>
+  <span class='ivar'>@db_size</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="dynamically_allocates=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="dynamically_allocates-instance_method">
+  
+    #<strong>dynamically_allocates</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute dynamically_allocates.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+24
+25
+26</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/line_db.rb', line 24</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_dynamically_allocates'>dynamically_allocates</span>
+  <span class='ivar'>@dynamically_allocates</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="endless_add=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="endless_add-instance_method">
+  
+    #<strong>endless_add</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute endless_add.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+24
+25
+26</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/line_db.rb', line 24</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_endless_add'>endless_add</span>
+  <span class='ivar'>@endless_add</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="has_capacity=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="has_capacity-instance_method">
+  
+    #<strong>has_capacity</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute has_capacity.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+24
+25
+26</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/line_db.rb', line 24</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_has_capacity'>has_capacity</span>
+  <span class='ivar'>@has_capacity</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -478,12 +1137,12 @@
       <pre class="lines">
 
 
-6
-7
-8</pre>
+24
+25
+26</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/line_db.rb', line 6</span>
+      <pre class="code"><span class="info file"># File 'lib/line_db.rb', line 24</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_linelist'>linelist</span>
   <span class='ivar'>@linelist</span>
@@ -521,15 +1180,101 @@
       <pre class="lines">
 
 
-6
-7
-8</pre>
+24
+25
+26</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/line_db.rb', line 6</span>
+      <pre class="code"><span class="info file"># File 'lib/line_db.rb', line 24</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_parent_folder'>parent_folder</span>
   <span class='ivar'>@parent_folder</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="partition_amount=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="partition_amount-instance_method">
+  
+    #<strong>partition_amount</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute partition_amount.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+24
+25
+26</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/line_db.rb', line 24</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_partition_amount'>partition_amount</span>
+  <span class='ivar'>@partition_amount</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="traverse_hash=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="traverse_hash-instance_method">
+  
+    #<strong>traverse_hash</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute traverse_hash.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+24
+25
+26</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/line_db.rb', line 24</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_traverse_hash'>traverse_hash</span>
+  <span class='ivar'>@traverse_hash</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -544,9 +1289,9 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="get_db-instance_method">
+  <h3 class="signature first" id="[]-instance_method">
   
-    #<strong>get_db</strong>(db_name)  &#x21d2; <tt>Object</tt> 
+    #<strong>[]</strong>(db_name)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -558,15 +1303,210 @@
       <pre class="lines">
 
 
-33
-34
-35</pre>
+62
+63
+64</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/line_db.rb', line 33</span>
+      <pre class="code"><span class="info file"># File 'lib/line_db.rb', line 62</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_get_db'>get_db</span><span class='lparen'>(</span><span class='id identifier rubyid_db_name'>db_name</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='op'>[]</span><span class='lparen'>(</span><span class='id identifier rubyid_db_name'>db_name</span><span class='rparen'>)</span>
   <span class='ivar'>@linelist</span><span class='lbracket'>[</span><span class='id identifier rubyid_db_name'>db_name</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="add_db!-instance_method">
+  
+    #<strong>add_db!</strong>(db_name)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+86
+87
+88
+89</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/line_db.rb', line 86</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_add_db!'>add_db!</span><span class='lparen'>(</span><span class='id identifier rubyid_db_name'>db_name</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_write_line'><span class='object_link'><a href="top-level-namespace.html#write_line-instance_method" title="#write_line (method)">write_line</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_db_name'>db_name</span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_check_file_duplicates'><span class='object_link'><a href="top-level-namespace.html#check_file_duplicates-instance_method" title="#check_file_duplicates (method)">check_file_duplicates</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_db_name'>db_name</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_load_pad_single'>load_pad_single</span><span class='lparen'>(</span><span class='id identifier rubyid_db_name'>db_name</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="db-instance_method">
+  
+    #<strong>db</strong>(db_name)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+70
+71
+72</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/line_db.rb', line 70</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_db'>db</span><span class='lparen'>(</span><span class='id identifier rubyid_db_name'>db_name</span><span class='rparen'>)</span>
+  <span class='ivar'>@linelist</span><span class='lbracket'>[</span><span class='id identifier rubyid_db_name'>db_name</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="delete_db!-instance_method">
+  
+    #<strong>delete_db!</strong>(db_name)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>TODO: implement rm_rf for dragonruby on windows and linux, and maybe android</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+81
+82
+83
+84</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/line_db.rb', line 81</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_delete_db!'>delete_db!</span><span class='lparen'>(</span><span class='id identifier rubyid_db_name'>db_name</span><span class='rparen'>)</span>
+  <span class='const'>FileUtils</span><span class='period'>.</span><span class='id identifier rubyid_rm_rf'>rm_rf</span><span class='lparen'>(</span><span class='id identifier rubyid_db'>db</span><span class='lparen'>(</span><span class='id identifier rubyid_db_name'>db_name</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_database_folder_name'>database_folder_name</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_remove_db!'>remove_db!</span><span class='lparen'>(</span><span class='id identifier rubyid_db_name'>db_name</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="delete_pad_single-instance_method">
+  
+    #<strong>delete_pad_single</strong>(db_name)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>TODO: implement rm_rf for dragonruby on windows and linux, and maybe android</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+107
+108
+109
+110
+111
+112
+113</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/line_db.rb', line 107</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_delete_pad_single'>delete_pad_single</span><span class='lparen'>(</span><span class='id identifier rubyid_db_name'>db_name</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_db_linelist'>db_linelist</span> <span class='op'>=</span> <span class='id identifier rubyid_read_file_lines'><span class='object_link'><a href="top-level-namespace.html#read_file_lines-instance_method" title="#read_file_lines (method)">read_file_lines</a></span></span><span class='lparen'>(</span><span class='ivar'>@database_file_name</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_db_linelist'>db_linelist</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_db_name'>db_name</span><span class='rparen'>)</span>
+    <span class='ivar'>@linelist</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='id identifier rubyid_db_name'>db_name</span><span class='rparen'>)</span>
+    <span class='const'>FileUtils</span><span class='period'>.</span><span class='id identifier rubyid_rm_rf'>rm_rf</span><span class='lparen'>(</span><span class='id identifier rubyid_db'>db</span><span class='lparen'>(</span><span class='id identifier rubyid_db_name'>db_name</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_database_folder_name'>database_folder_name</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="list_databases-instance_method">
+  
+    #<strong>list_databases</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>List of active databases</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+58
+59
+60</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/line_db.rb', line 58</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_list_databases'>list_databases</span>
+  <span class='ivar'>@linelist</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -588,29 +1528,76 @@
       <pre class="lines">
 
 
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27</pre>
+115
+116
+117
+118
+119
+120
+121
+122
+123</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/line_db.rb', line 18</span>
+      <pre class="code"><span class="info file"># File 'lib/line_db.rb', line 115</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_load_pad'><span class='object_link'><a href="top-level-namespace.html#load_pad-instance_method" title="#load_pad (method)">load_pad</a></span></span><span class='lparen'>(</span><span class='label'>parent_folder:</span> <span class='ivar'>@parent_folder</span> <span class='op'>||</span> <span class='const'><span class='object_link'><a href="#PARENT_FOLDER-constant" title="LineDB::PARENT_FOLDER (constant)">PARENT_FOLDER</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_db_linelist'>db_linelist</span> <span class='op'>=</span> <span class='id identifier rubyid_read_file_lines'><span class='object_link'><a href="top-level-namespace.html#read_file_lines-instance_method" title="#read_file_lines (method)">read_file_lines</a></span></span><span class='lparen'>(</span><span class='ivar'>@database_file_name</span><span class='rparen'>)</span>
-  <span class='comment'>#puts db_linelist
-</span>  <span class='id identifier rubyid_db_list'>db_list</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='id identifier rubyid_db_list'>db_list</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
   <span class='id identifier rubyid_db_linelist'>db_linelist</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_db_name'>db_name</span><span class='op'>|</span>
-    <span class='id identifier rubyid_db_list'>db_list</span><span class='lbracket'>[</span><span class='id identifier rubyid_db_name'>db_name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#PAD-constant" title="LineDB::PAD (constant)">PAD</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="LineDB#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>database_folder_name:</span> <span class='id identifier rubyid_db_name'>db_name</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_parent_folder'>parent_folder</span>
-    <span class='id identifier rubyid_db_list'>db_list</span><span class='lbracket'>[</span><span class='id identifier rubyid_db_name'>db_name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#PAD-constant" title="LineDB::PAD (constant)">PAD</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="LineDB#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>database_folder_name:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_parent_folder'>parent_folder</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_db_name'>db_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_parent_folder'>parent_folder</span>
+    <span class='id identifier rubyid_db_list'>db_list</span><span class='lbracket'>[</span><span class='id identifier rubyid_db_name'>db_name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#PAD-constant" title="LineDB::PAD (constant)">PAD</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="LineDB#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>traverse_hash:</span> <span class='ivar'>@traverse_hash</span><span class='comma'>,</span> <span class='label'>database_folder_name:</span> <span class='id identifier rubyid_db_name'>db_name</span><span class='comma'>,</span> <span class='label'>endless_add:</span> <span class='ivar'>@endless_add</span><span class='comma'>,</span> <span class='label'>has_capacity:</span> <span class='ivar'>@has_capacity</span><span class='comma'>,</span> <span class='label'>dynamically_allocates:</span> <span class='ivar'>@dynamically_allocates</span><span class='comma'>,</span> <span class='label'>db_size:</span> <span class='ivar'>@db_size</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_parent_folder'>parent_folder</span>
+    <span class='id identifier rubyid_db_list'>db_list</span><span class='lbracket'>[</span><span class='id identifier rubyid_db_name'>db_name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#PAD-constant" title="LineDB::PAD (constant)">PAD</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="LineDB#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>traverse_hash:</span> <span class='ivar'>@traverse_hash</span><span class='comma'>,</span> <span class='label'>database_folder_name:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_parent_folder'>parent_folder</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_db_name'>db_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>endless_add:</span> <span class='ivar'>@endless_add</span><span class='comma'>,</span> <span class='label'>has_capacity:</span> <span class='ivar'>@has_capacity</span><span class='comma'>,</span> <span class='label'>dynamically_allocates:</span> <span class='ivar'>@dynamically_allocates</span><span class='comma'>,</span> <span class='label'>db_size:</span> <span class='ivar'>@db_size</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_parent_folder'>parent_folder</span>
   <span class='kw'>end</span>
   <span class='id identifier rubyid_db_list'>db_list</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="load_pad_single-instance_method">
+  
+    #<strong>load_pad_single</strong>(db_name, parent_folder: @parent_folder || PARENT_FOLDER)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Low level methods (but we don’t enforce it lol, because they can still have their uses) #### private</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+94
+95
+96
+97
+98
+99
+100</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/line_db.rb', line 94</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_load_pad_single'>load_pad_single</span><span class='lparen'>(</span><span class='id identifier rubyid_db_name'>db_name</span><span class='comma'>,</span> <span class='label'>parent_folder:</span> <span class='ivar'>@parent_folder</span> <span class='op'>||</span> <span class='const'><span class='object_link'><a href="#PARENT_FOLDER-constant" title="LineDB::PARENT_FOLDER (constant)">PARENT_FOLDER</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_db_linelist'>db_linelist</span> <span class='op'>=</span> <span class='id identifier rubyid_read_file_lines'><span class='object_link'><a href="top-level-namespace.html#read_file_lines-instance_method" title="#read_file_lines (method)">read_file_lines</a></span></span><span class='lparen'>(</span><span class='ivar'>@database_file_name</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_db_linelist'>db_linelist</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_db_name'>db_name</span><span class='rparen'>)</span>
+    <span class='ivar'>@linelist</span><span class='lbracket'>[</span><span class='id identifier rubyid_db_name'>db_name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#PAD-constant" title="LineDB::PAD (constant)">PAD</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="LineDB#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>traverse_hash:</span> <span class='ivar'>@traverse_hash</span><span class='comma'>,</span> <span class='label'>database_folder_name:</span> <span class='id identifier rubyid_db_name'>db_name</span><span class='comma'>,</span> <span class='label'>endless_add:</span> <span class='ivar'>@endless_add</span><span class='comma'>,</span> <span class='label'>has_capacity:</span> <span class='ivar'>@has_capacity</span><span class='comma'>,</span> <span class='label'>dynamically_allocates:</span> <span class='ivar'>@dynamically_allocates</span><span class='comma'>,</span> <span class='label'>db_size:</span> <span class='ivar'>@db_size</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_parent_folder'>parent_folder</span>
+    <span class='ivar'>@linelist</span><span class='lbracket'>[</span><span class='id identifier rubyid_db_name'>db_name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#PAD-constant" title="LineDB::PAD (constant)">PAD</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="LineDB#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>traverse_hash:</span> <span class='ivar'>@traverse_hash</span><span class='comma'>,</span> <span class='label'>database_folder_name:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_parent_folder'>parent_folder</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_db_name'>db_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>endless_add:</span> <span class='ivar'>@endless_add</span><span class='comma'>,</span> <span class='label'>has_capacity:</span> <span class='ivar'>@has_capacity</span><span class='comma'>,</span> <span class='label'>dynamically_allocates:</span> <span class='ivar'>@dynamically_allocates</span><span class='comma'>,</span> <span class='label'>db_size:</span> <span class='ivar'>@db_size</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_parent_folder'>parent_folder</span>
+  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -632,15 +1619,79 @@
       <pre class="lines">
 
 
-29
-30
-31</pre>
+66
+67
+68</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/line_db.rb', line 29</span>
+      <pre class="code"><span class="info file"># File 'lib/line_db.rb', line 66</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_reload'>reload</span>
   <span class='ivar'>@linelist</span> <span class='op'>=</span> <span class='id identifier rubyid_load_pad'><span class='object_link'><a href="top-level-namespace.html#load_pad-instance_method" title="#load_pad (method)">load_pad</a></span></span><span class='lparen'>(</span><span class='label'>parent_folder:</span> <span class='ivar'>@parent_folder</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="remove_db!-instance_method">
+  
+    #<strong>remove_db!</strong>(db_name)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+74
+75
+76
+77
+78</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/line_db.rb', line 74</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_remove_db!'>remove_db!</span><span class='lparen'>(</span><span class='id identifier rubyid_db_name'>db_name</span><span class='rparen'>)</span>
+  <span class='ivar'>@linelist</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='id identifier rubyid_db_name'>db_name</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_remove_line'><span class='object_link'><a href="top-level-namespace.html#remove_line-instance_method" title="#remove_line (method)">remove_line</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_db_name'>db_name</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_remove_pad_single'>remove_pad_single</span><span class='lparen'>(</span><span class='id identifier rubyid_db_name'>db_name</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="remove_pad_single-instance_method">
+  
+    #<strong>remove_pad_single</strong>(db_name)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+102
+103
+104</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/line_db.rb', line 102</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_remove_pad_single'>remove_pad_single</span><span class='lparen'>(</span><span class='id identifier rubyid_db_name'>db_name</span><span class='rparen'>)</span>
+  <span class='ivar'>@linelist</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='id identifier rubyid_db_name'>db_name</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -652,7 +1703,7 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Jan 13 05:16:19 2023 by
+  Generated on Fri Jan 13 23:27:50 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.2.0).
 </div>

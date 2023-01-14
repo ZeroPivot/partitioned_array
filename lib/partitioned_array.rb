@@ -10,6 +10,8 @@
 # rubocop:disable Metrics/MethodLength
 # rubocop:disable Style/IfUnlessModifier
 # rubocop:disable Layout/LineLength
+# VERSION v1.2.8 - [](id, hash: false) - 1/13/2023
+# VERSION: v1.2.7 - implemented [](id) - uses get(id, hash: false) - 1/13/2023
 # VERSION: v1.2.6 - cleanup; plan on being able to save @data_arr to file directly (not by partitions) - 10/19/2022 2:03PM
 # VERSION v1.2.5a - endless add implementation in ManagedPartitionedArray#endless_add
 # Allows the database to continuously add and allocate, as if it were a plain PartitionedArray
@@ -306,6 +308,10 @@ class PartitionedArray
     debug "@data_arr: #{@data_arr}"
 
     @allocated = true
+  end
+
+  def [](id, hash: false)
+    get(id, hash: hash)
   end
 
   # Returns a hash based on the array element you are searching for.

@@ -324,8 +324,8 @@ class PartitionedArray
 
   def [](*ids, hash: false, label_ranges: @label_ranges, label_integer: @label_integer)
     #puts "ids: #{ids[0]}"
-    #return get(ids[0], hash: false) if ids.size==1 && ids[0].is_a?(Integer) && !label_integer
-    #return get(ids[0], hash: hash) if ids.size==1 && ids[0].is_a?(Integer) && label_integer
+    return get(ids[0], hash: hash) if (ids.size==1 && ids[0].is_a?(Integer) && !label_integer)
+    return { ids[0] => get(ids[0], hash: hash) } if ids.size==1 && ids[0].is_a?(Integer) && label_integer
     #return get(id, hash: hash) if id.is_a? Integer
     ids.map do |id|
       case id

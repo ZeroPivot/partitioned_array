@@ -12,6 +12,7 @@ require_relative "partitioned_array_database"
 # which decomposes to FileContextManagedPartitionedArrayManager objects;
 # which decomposes to FileContextManagedPartitionedArray objects;
 # which decomposes to ManagedPartitionedArray objects, which inherits from the PartitionedArray class.
+# VERSION v1.1.5-release: [] functions, which allows for selecting multiple databases
 # VERSION v1.1.4-release: added traverse_hash constant and variable, added []; synchronized with file_context_managed_partitioned_array_manager.rb, partitioned_array_database.rb, and line_reader.rb--and managed_partitioned_array.rb
 # VERSION v1.1.3-release: documentation in comments
 # VERSION v1.1.2-release: fixed redundancy in the code
@@ -60,8 +61,13 @@ class LineDB
     @linelist.keys
   end
 
-  def [](db_name)
-    @linelist[db_name]
+  def [](*db_names)
+    #@linelist[db_name]
+    if db_names.size > 1
+      return db_names.map { |db_name|{ db_name => @linelist[db_name] }}
+    else
+      return @linelist[db_names[0]]
+    end
   end
 
   def reload

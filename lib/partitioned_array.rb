@@ -10,6 +10,7 @@
 # rubocop:disable Metrics/MethodLength
 # rubocop:disable Style/IfUnlessModifier
 # rubocop:disable Layout/LineLength
+# VERSION v1.2.2-release - @label_integer and @label_ranges
 # VERSION v1.3.1-release
 # VERSION v1.3.0-release - 1/13/2023 - 1:39AM
 # VERSION v1.2.9-release - [](id ...) - accepts ranges, and integers as an argument splat
@@ -135,7 +136,7 @@ class PartitionedArray
   LABEL_INTEGER = false
   LABEL_RANGES = false
 
-  def initialize(partition_addition_amount: PARTITION_ADDITION_AMOUNT, dynamically_allocates: DYNAMICALLY_ALLOCATES, db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: DEFAULT_PATH, db_name: DB_NAME)
+  def initialize(label_integer: LABEL_INTEGER, label_ranges: LABEL_RANGES, partition_addition_amount: PARTITION_ADDITION_AMOUNT, dynamically_allocates: DYNAMICALLY_ALLOCATES, db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: DEFAULT_PATH, db_name: DB_NAME)
 =begin
 # Here is the explanation for the code below:
 1. Partition addition amount: the amount of partitions that will be added once the database reaches its limit. For example, if the partition addition amount is 10, then the database will add 10 new partitions to the database once it reaches its limit.
@@ -149,8 +150,8 @@ class PartitionedArray
 9. Rel array: the array that contains the partition locations.
 10. DB name: the name of the database. #
 =end
-    @label_integer = LABEL_INTEGER
-    @label_ranges = LABEL_RANGES
+    @label_integer = label_integer
+    @label_ranges = label_ranges
     @db_size = db_size
     @partition_amount_and_offset = partition_amount_and_offset
     @allocated = false

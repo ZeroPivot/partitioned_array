@@ -10,6 +10,12 @@
 # rubocop:disable Metrics/MethodLength
 # rubocop:disable Style/IfUnlessModifier
 # rubocop:disable Layout/LineLength
+# VERSION v1.2.9-release - [](id ...) - accepts ranges, and integers as an argument splat
+### Functionality: label the ranges and/or the integer values in the [] arguments with a hash argument
+### --with keys pointing to the get values (for integers and/or ranges) 
+### label_ranges: true
+### label_integers: true
+###
 # VERSION v1.2.8 - [](id, hash: false) - 1/13/2023
 # VERSION: v1.2.7 - implemented [](id) - uses get(id, hash: false) - 1/13/2023
 # VERSION: v1.2.6 - cleanup; plan on being able to save @data_arr to file directly (not by partitions) - 10/19/2022 2:03PM
@@ -310,16 +316,21 @@ class PartitionedArray
     @allocated = true
   end
 
-  def [](*ids, hash: false)
+  def [](*ids, hash: false, label_ranges: true, label_integers: true)
     puts "ids: #{ids[0]}"
-    return get(ids[0], hash: false) if ids.size==1
+    return get(ids[0], hash: false) if ids.size==1 && ids[0].is_a?(Integer)
     #return get(id, hash: hash) if id.is_a? Integer
     ids.map do |id|
+      #puts id
       case id
       when Integer
-        get(id, hash: hash)
+        get(id, hash: hash) if !label_integers
+        { id => get(id, hash: hash) } if label_integers
       when Range
-        id.to_a.map { |i| { i => get(i, hash: hash) }}
+        id.to_a.map { |i| { i => get(i, hash: hash) }} if label_ranges
+        id.to_a.map { |i| get(i, hash: hash) } if !label_ranges
+      else
+        raise "Invalid id type: #{id.class}"
       end  
     
     end

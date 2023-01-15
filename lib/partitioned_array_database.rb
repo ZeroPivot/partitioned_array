@@ -1,4 +1,6 @@
 require_relative 'file_context_managed_partitioned_array_manager'
+
+# VERSION v0.0.7 - partition_addition_amount -> db_partition_addition_amount
 # VERSION v0.0.6 - more aliases and sync with LineDB
 # VERSION v0.0.5 - alias db pad
 # VERSION v0.0.4 - sync with LineDB
@@ -16,6 +18,7 @@ class PartitionedArrayDatabase
   DB_SIZE = 200
   DYNAMICALLY_ALLOCATES = true
   TRAVERSE_HASH = true
+  PARTITION_ADDITION_AMOUNT = 15
 
   LABEL_INTEGER = false
   LABEL_RANGES = false
@@ -23,7 +26,7 @@ class PartitionedArrayDatabase
   DATABASE_FOLDER_NAME = './default' # folder name in terms of a full or relative path  
   FCMPAM = FileContextManagedPartitionedArrayManager
   # For a change of database variables, check the file constants in the file_context_managed_partitioned_array_manager.rb library, etc.
-  def initialize(label_integer: LABEL_INTEGER, label_ranges: LABEL_RANGES, traverse_hash: TRAVERSE_HASH, partition_amount: PARTITION_AMOUNT, database_folder_name: DATABASE_FOLDER_NAME, endless_add: ENDLESS_ADD, has_capacity: DB_HAS_CAPACITY, dynamically_allocates: DYNAMICALLY_ALLOCATES, db_size: DATABASE_SIZE)
+  def initialize(partition_addition_amount: PARTITION_ADDITION_AMOUNT, label_integer: LABEL_INTEGER, label_ranges: LABEL_RANGES, traverse_hash: TRAVERSE_HASH, partition_amount: PARTITION_AMOUNT, database_folder_name: DATABASE_FOLDER_NAME, endless_add: ENDLESS_ADD, has_capacity: DB_HAS_CAPACITY, dynamically_allocates: DYNAMICALLY_ALLOCATES, db_size: DATABASE_SIZE)
     @database_folder_name = database_folder_name
     @endless_add = endless_add
     @has_capacity = has_capacity
@@ -32,8 +35,10 @@ class PartitionedArrayDatabase
     @dynamically_allocates = dynamically_allocates
     @traverse_hash = traverse_hash 
     @label_integer = label_integer
-    @label_ranges = label_ranges  
-    @pad = FCMPAM.new(label_integer: @label_integer, label_ranges: @label_ranges, traverse_hash: @traverse_hash, db_partition_amount_and_offset: @partition_amount, db_has_capacity: @has_capacity, db_dynamically_allocates: @dynamically_allocates, db_size: @db_size, db_path: "#{database_folder_name}/#{DB_NAME}", fcmpa_db_folder_name: "#{database_folder_name}/#{FCMPAM_DB_INDEX_NAME}")
+    @label_ranges = label_ranges
+    @partition_addition_amount = partition_addition_amount 
+    puts @partition_addition_amount 
+    @pad = FCMPAM.new(db_partition_addition_amount: @partition_addition_amount, label_integer: @label_integer, label_ranges: @label_ranges, traverse_hash: @traverse_hash, db_partition_amount_and_offset: @partition_amount, db_has_capacity: @has_capacity, db_dynamically_allocates: @dynamically_allocates, db_size: @db_size, db_path: "#{database_folder_name}/#{DB_NAME}", fcmpa_db_folder_name: "#{database_folder_name}/#{FCMPAM_DB_INDEX_NAME}")
   end
   def pad
     

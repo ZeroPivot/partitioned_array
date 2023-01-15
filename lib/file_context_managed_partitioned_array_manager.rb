@@ -20,6 +20,7 @@
 # rubocop:disable Layout/HashAlignment
 # rubocop:disable Layout/ArgumentAlignment
 require_relative 'file_context_managed_partitioned_array'
+# VERSION v2.1.5-release - partition_addition_amount passes from partitioned_array_database to file_context_managed_partitioned_array_manager
 # VERSION v2.1.4-release
 ## Implemented:
 # def [](database_name = @active_database, database_table = @active_table)
@@ -186,7 +187,7 @@ class FileContextManagedPartitionedArrayManager
     @label_ranges = label_ranges
 
     @traverse_hash = traverse_hash
-
+    puts @db_partition_addition_amount
     @timestamp_str = Time.now.strftime("%Y-%m-%d-%H-%M-%S")
     p "FCMPA: #{@label_integer}"
     @man_index = FileContextManagedPartitionedArray.new(fcmpa_db_partition_amount_and_offset: @fcmpa_db_partition_amount_and_offset,
@@ -224,7 +225,7 @@ class FileContextManagedPartitionedArrayManager
                                                         fcmpa_db_index_location: @fcmpa_db_index_location,
                                                         fcmpa_db_max_capacity: @fcmpa_db_max_capacity,
                                                         fcmpa_db_partition_archive_id: @fcmpa_db_partition_archive_id,
-                                                        db_partition_addition_amount: @partition_addition_amount,
+                                                        db_partition_addition_amount: @db_partition_addition_amount,
                                                         db_size: @db_size, #
                                                         db_endless_add: @db_endless_add, #
                                                         db_has_capacity: @db_has_capacity, #

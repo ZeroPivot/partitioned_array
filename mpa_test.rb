@@ -18,7 +18,7 @@ end
 #p b["test"].pad["test_database", "test"][0..25]
 #p b["test"].db["test_database", "test"][0..25]
 #p b["test"].PAD["test_database", "test"][0..25]
-b["test", "test2"].map do |hash|
+b["test", "test"].map do |hash|
  p hash.DB["test_database", "test_table"][9999]
 end
 #.DB["test_database", "test_table"][0,2,4,4,5,5..30][0..3]

@@ -187,9 +187,9 @@ class FileContextManagedPartitionedArrayManager
     @label_ranges = label_ranges
 
     @traverse_hash = traverse_hash
-    puts @db_partition_addition_amount
+    #puts @db_partition_addition_amount
     @timestamp_str = Time.now.strftime("%Y-%m-%d-%H-%M-%S")
-    p "FCMPA: #{@label_integer}"
+    #p "FCMPA: #{@label_integer}"
     @man_index = FileContextManagedPartitionedArray.new(fcmpa_db_partition_amount_and_offset: @fcmpa_db_partition_amount_and_offset,
                                                         fcmpa_db_size: @fcmpa_db_size,
                                                         fcmpa_db_indexer_name: @fcmpa_db_indexer_name+"_"+"indexer",

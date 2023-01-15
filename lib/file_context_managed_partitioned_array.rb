@@ -170,7 +170,7 @@ class FileContextManagedPartitionedArray
 
     @label_integer = label_integer
     @label_ranges = label_ranges
-    p "integer label: #{@label_integer}"
+    #p "integer label: #{@label_integer}"
     load_indexer_db!
   end
 

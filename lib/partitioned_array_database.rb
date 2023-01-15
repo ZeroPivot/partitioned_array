@@ -37,7 +37,7 @@ class PartitionedArrayDatabase
     @label_integer = label_integer
     @label_ranges = label_ranges
     @partition_addition_amount = partition_addition_amount 
-    puts @partition_addition_amount 
+    #puts @partition_addition_amount 
     @pad = FCMPAM.new(db_partition_addition_amount: @partition_addition_amount, label_integer: @label_integer, label_ranges: @label_ranges, traverse_hash: @traverse_hash, db_partition_amount_and_offset: @partition_amount, db_has_capacity: @has_capacity, db_dynamically_allocates: @dynamically_allocates, db_size: @db_size, db_path: "#{database_folder_name}/#{DB_NAME}", fcmpa_db_folder_name: "#{database_folder_name}/#{FCMPAM_DB_INDEX_NAME}")
   end
   def pad

@@ -10,6 +10,7 @@
 # rubocop:disable Metrics/MethodLength
 # rubocop:disable Style/IfUnlessModifier
 # rubocop:disable Layout/LineLength
+# VERSION v1.2.4-release - cleanup puts in add_partition 
 # VERSION v1.2.3-release - @label_integer and @label_ranges, sync with line_db, etc
 # VERSION v1.2.2-release - @label_integer and @label_ranges
 # VERSION v1.3.1-release
@@ -308,7 +309,7 @@ class PartitionedArray
       if element == {} && block_given? # (if element is nill, no data is added because the partition is "offline")
         block.call(@data_arr[element_index]) # seems == to block.call(element)
         if @dynamically_allocates && (element_index == @db_size - 1 && at_capacity?)
-          @partition_addition_amount.times { add_partition; puts "adding partition" } #if element_index == @data_arr.size - 1 # easier code; add if you reach the end of the array
+          @partition_addition_amount.times { add_partition } #if element_index == @data_arr.size - 1 # easier code; add if you reach the end of the array
           save_all_to_files! # save the data to the files
         end
         element_id_to_return = element_index

@@ -36,7 +36,7 @@ class LineDB
   ### Fallback Constants; a database folder and a db_list.txt file in the database folder must be present. ###
   ### db_list.txt must contain line separated sets of database names (see "lib/line_database_setup.rb") ###
   PARENT_FOLDER = "./db/CGMFS_db"
-  DATABASE_FOLDER_NAME = "database"
+  DATABASE_FOLDER_NAME = "db"
   DATABASE_FILE_NAME = "./db/db_list.txt"
 
   ### Suggested Constants ###
@@ -64,7 +64,7 @@ class LineDB
     @db_size = db_size
     @dynamically_allocates = dynamically_allocates
     @traverse_hash = traverse_hash
-    @linelist = load_pad(parent_folder: @parent_folder)
+    @linelist = load_pad(parent_folder: @parent_folder)    
   end
 
   # List of active databases
@@ -102,7 +102,7 @@ class LineDB
   end
 
   def add_db!(db_name)
-    write_line(db_name) unless check_file_duplicates(db_name)
+    write_line(db_name, @database_file_name) unless check_file_duplicates(db_name)
     load_pad_single(db_name)
   end
 

@@ -1,4 +1,3 @@
-
 # Intro - The Partitioned Array Data Structure Library and LineDB
 
 ## Introduction
@@ -329,9 +328,7 @@ A visual is shown of the underlying data structure and use of the LineDB. "test"
 
   Place a 'db_list.txt' file into that folder with whichever number of databases you want, separated by line. In my case, I only created a database named "test". mpa_text.rb is in the root folder of the partitioned array libr
 
-  `require_relative
-
-
+  `require_relative "lib/line_db"`
 
 ## Quick note on getting LineDB working
 

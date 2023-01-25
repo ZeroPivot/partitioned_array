@@ -327,9 +327,9 @@ A visual is shown of the underlying data structure and use of the LineDB. "test"
 
   The default searchup that LineDB seeks is a 'db' folder.
 
-  Place a 'db_list.txt' file into that folder with whichever number of databases you want, separated by line. In my case, I only created a database named "test". mpa_text.rb is in the root folder of the partitioned array libr
+  Place a 'db_list.txt' file into that folder with whichever number of databases you want, separated by line. In my case, I only created a database named "test". mpa_text.rb is in the root folder of the partitioned array library
 
-  `require_relative
+  `require_relative "lib/line_db"`
 
 
 

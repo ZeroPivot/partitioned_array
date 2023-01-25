@@ -4,6 +4,10 @@
 * **Source Code**: https://github.com/ZeroPivot/partitioned_array/tree/master/lib
 * **GitHub README**: https://github.com/ZeroPivot/partitioned_array#readme
 
+## Update - 1/25/2023 - LineDB/Partitioned Array Library Writeup
+https://github.com/ZeroPivot/partitioned_array/tree/master/LineDB
+
+
 ## Update 1/12/2023 (5:00AM) - LineDB
 
 ### LineDB database class for the Partitioned Array Database

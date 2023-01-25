@@ -1,5 +1,5 @@
 module FileMethods
-  DB_LIST = "./database/db_list.txt"
+  DB_LIST = "./db/db_list.txt"
   def read_lines(array)
     array.map { |line| line.chomp }
   end

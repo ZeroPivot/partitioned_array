@@ -308,6 +308,16 @@
         </dt>
         <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>_DATABASE_LIST_INDEX</span><span class='tstring_end'>&quot;</span></span></pre></dd>
       
+        <dt id="LABEL_INTEGER-constant" class="">LABEL_INTEGER =
+          
+        </dt>
+        <dd><pre class="code"><span class='kw'>false</span></pre></dd>
+      
+        <dt id="LABEL_RANGES-constant" class="">LABEL_RANGES =
+          
+        </dt>
+        <dd><pre class="code"><span class='kw'>false</span></pre></dd>
+      
     </dl>
   
 
@@ -1060,7 +1070,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(db_max_capacity: DB_MAX_CAPACITY, db_size: DB_SIZE, db_endless_add: DB_ENDLESS_ADD, db_has_capacity: DB_HAS_CAPACITY, db_name: DB_NAME, db_path: DB_PATH, db_partition_addition_amount: DB_PARTITION_ADDITION_AMOUNT, db_dynamically_allocates: DB_DYNAMICALLY_ALLOCATES, db_partition_amount_and_offset: DB_PARTITION_AMOUNT + DB_PARTITION_OFFSET, db_partition_archive_id: DB_PARTITION_ARCHIVE_ID, db_traverse_hash: DB_TRAVERSE_HASH, fcmpa_db_size: FCMPA_DB_SIZE, fcmpa_db_indexer_name: FCMPA_DB_INDEXER_NAME, fcmpa_db_index_location: FCMPA_DB_INDEX_LOCATION, fcmpa_db_folder_name: FCMPA_DB_FOLDER_NAME, fcmpa_db_partition_amount_and_offset: FCMPA_PARTITION_AMOUNT + FCMPA_OFFSET, fcmpa_db_has_capacity: FCMPA_DB_HAS_CAPACITY, fcmpa_db_partition_addition_amount: FCMPA_DB_PARTITION_ADDITION_AMOUNT, fcmpa_db_dynamically_allocates: FCMPA_DB_DYNAMICALLY_ALLOCATES, fcmpa_db_endless_add: FCMPA_DB_ENDLESS_ADD, fcmpa_db_max_capacity: FCMPA_DB_MAX_CAPACITY, fcmpa_db_partition_archive_id: FCMPA_DB_PARTITION_ARCHIVE_ID, fcmpa_db_traverse_hash: FCMPA_DB_TRAVERSE_HASH, initial_autosave: INITIAL_AUTOSAVE, active_database: nil, active_table: nil, traverse_hash: TRAVERSE_HASH)  &#x21d2; FileContextManagedPartitionedArrayManager </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(db_max_capacity: DB_MAX_CAPACITY, db_size: DB_SIZE, db_endless_add: DB_ENDLESS_ADD, db_has_capacity: DB_HAS_CAPACITY, db_name: DB_NAME, db_path: DB_PATH, db_partition_addition_amount: DB_PARTITION_ADDITION_AMOUNT, db_dynamically_allocates: DB_DYNAMICALLY_ALLOCATES, db_partition_amount_and_offset: DB_PARTITION_AMOUNT + DB_PARTITION_OFFSET, db_partition_archive_id: DB_PARTITION_ARCHIVE_ID, db_traverse_hash: DB_TRAVERSE_HASH, fcmpa_db_size: FCMPA_DB_SIZE, fcmpa_db_indexer_name: FCMPA_DB_INDEXER_NAME, fcmpa_db_index_location: FCMPA_DB_INDEX_LOCATION, fcmpa_db_folder_name: FCMPA_DB_FOLDER_NAME, fcmpa_db_partition_amount_and_offset: FCMPA_PARTITION_AMOUNT + FCMPA_OFFSET, fcmpa_db_has_capacity: FCMPA_DB_HAS_CAPACITY, fcmpa_db_partition_addition_amount: FCMPA_DB_PARTITION_ADDITION_AMOUNT, fcmpa_db_dynamically_allocates: FCMPA_DB_DYNAMICALLY_ALLOCATES, fcmpa_db_endless_add: FCMPA_DB_ENDLESS_ADD, fcmpa_db_max_capacity: FCMPA_DB_MAX_CAPACITY, fcmpa_db_partition_archive_id: FCMPA_DB_PARTITION_ARCHIVE_ID, fcmpa_db_traverse_hash: FCMPA_DB_TRAVERSE_HASH, initial_autosave: INITIAL_AUTOSAVE, active_database: nil, active_table: nil, traverse_hash: TRAVERSE_HASH, label_integer: LABEL_INTEGER, label_ranges: LABEL_RANGES)  &#x21d2; FileContextManagedPartitionedArrayManager </a>
     
 
     
@@ -1216,7 +1226,7 @@
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    #<strong>initialize</strong>(db_max_capacity: DB_MAX_CAPACITY, db_size: DB_SIZE, db_endless_add: DB_ENDLESS_ADD, db_has_capacity: DB_HAS_CAPACITY, db_name: DB_NAME, db_path: DB_PATH, db_partition_addition_amount: DB_PARTITION_ADDITION_AMOUNT, db_dynamically_allocates: DB_DYNAMICALLY_ALLOCATES, db_partition_amount_and_offset: DB_PARTITION_AMOUNT + DB_PARTITION_OFFSET, db_partition_archive_id: DB_PARTITION_ARCHIVE_ID, db_traverse_hash: DB_TRAVERSE_HASH, fcmpa_db_size: FCMPA_DB_SIZE, fcmpa_db_indexer_name: FCMPA_DB_INDEXER_NAME, fcmpa_db_index_location: FCMPA_DB_INDEX_LOCATION, fcmpa_db_folder_name: FCMPA_DB_FOLDER_NAME, fcmpa_db_partition_amount_and_offset: FCMPA_PARTITION_AMOUNT + FCMPA_OFFSET, fcmpa_db_has_capacity: FCMPA_DB_HAS_CAPACITY, fcmpa_db_partition_addition_amount: FCMPA_DB_PARTITION_ADDITION_AMOUNT, fcmpa_db_dynamically_allocates: FCMPA_DB_DYNAMICALLY_ALLOCATES, fcmpa_db_endless_add: FCMPA_DB_ENDLESS_ADD, fcmpa_db_max_capacity: FCMPA_DB_MAX_CAPACITY, fcmpa_db_partition_archive_id: FCMPA_DB_PARTITION_ARCHIVE_ID, fcmpa_db_traverse_hash: FCMPA_DB_TRAVERSE_HASH, initial_autosave: INITIAL_AUTOSAVE, active_database: nil, active_table: nil, traverse_hash: TRAVERSE_HASH)  &#x21d2; <tt><span class='object_link'><a href="" title="FileContextManagedPartitionedArrayManager (class)">FileContextManagedPartitionedArrayManager</a></span></tt> 
+    #<strong>initialize</strong>(db_max_capacity: DB_MAX_CAPACITY, db_size: DB_SIZE, db_endless_add: DB_ENDLESS_ADD, db_has_capacity: DB_HAS_CAPACITY, db_name: DB_NAME, db_path: DB_PATH, db_partition_addition_amount: DB_PARTITION_ADDITION_AMOUNT, db_dynamically_allocates: DB_DYNAMICALLY_ALLOCATES, db_partition_amount_and_offset: DB_PARTITION_AMOUNT + DB_PARTITION_OFFSET, db_partition_archive_id: DB_PARTITION_ARCHIVE_ID, db_traverse_hash: DB_TRAVERSE_HASH, fcmpa_db_size: FCMPA_DB_SIZE, fcmpa_db_indexer_name: FCMPA_DB_INDEXER_NAME, fcmpa_db_index_location: FCMPA_DB_INDEX_LOCATION, fcmpa_db_folder_name: FCMPA_DB_FOLDER_NAME, fcmpa_db_partition_amount_and_offset: FCMPA_PARTITION_AMOUNT + FCMPA_OFFSET, fcmpa_db_has_capacity: FCMPA_DB_HAS_CAPACITY, fcmpa_db_partition_addition_amount: FCMPA_DB_PARTITION_ADDITION_AMOUNT, fcmpa_db_dynamically_allocates: FCMPA_DB_DYNAMICALLY_ALLOCATES, fcmpa_db_endless_add: FCMPA_DB_ENDLESS_ADD, fcmpa_db_max_capacity: FCMPA_DB_MAX_CAPACITY, fcmpa_db_partition_archive_id: FCMPA_DB_PARTITION_ARCHIVE_ID, fcmpa_db_traverse_hash: FCMPA_DB_TRAVERSE_HASH, initial_autosave: INITIAL_AUTOSAVE, active_database: nil, active_table: nil, traverse_hash: TRAVERSE_HASH, label_integer: LABEL_INTEGER, label_ranges: LABEL_RANGES)  &#x21d2; <tt><span class='object_link'><a href="" title="FileContextManagedPartitionedArrayManager (class)">FileContextManagedPartitionedArrayManager</a></span></tt> 
   
 
   
@@ -1239,9 +1249,6 @@
       <pre class="lines">
 
 
-123
-124
-125
 126
 127
 128
@@ -1349,10 +1356,20 @@
 230
 231
 232
-233</pre>
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 123</span>
+      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 126</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='label'>db_max_capacity:</span> <span class='const'><span class='object_link'><a href="#DB_MAX_CAPACITY-constant" title="FileContextManagedPartitionedArrayManager::DB_MAX_CAPACITY (constant)">DB_MAX_CAPACITY</a></span></span><span class='comma'>,</span>
                <span class='label'>db_size:</span> <span class='const'><span class='object_link'><a href="#DB_SIZE-constant" title="FileContextManagedPartitionedArrayManager::DB_SIZE (constant)">DB_SIZE</a></span></span><span class='comma'>,</span>
@@ -1380,7 +1397,9 @@
                <span class='label'>initial_autosave:</span> <span class='const'><span class='object_link'><a href="#INITIAL_AUTOSAVE-constant" title="FileContextManagedPartitionedArrayManager::INITIAL_AUTOSAVE (constant)">INITIAL_AUTOSAVE</a></span></span><span class='comma'>,</span>
                <span class='label'>active_database:</span> <span class='kw'>nil</span><span class='comma'>,</span>
                <span class='label'>active_table:</span> <span class='kw'>nil</span><span class='comma'>,</span>
-               <span class='label'>traverse_hash:</span> <span class='const'><span class='object_link'><a href="#TRAVERSE_HASH-constant" title="FileContextManagedPartitionedArrayManager::TRAVERSE_HASH (constant)">TRAVERSE_HASH</a></span></span><span class='rparen'>)</span>
+               <span class='label'>traverse_hash:</span> <span class='const'><span class='object_link'><a href="#TRAVERSE_HASH-constant" title="FileContextManagedPartitionedArrayManager::TRAVERSE_HASH (constant)">TRAVERSE_HASH</a></span></span><span class='comma'>,</span>
+               <span class='label'>label_integer:</span> <span class='const'><span class='object_link'><a href="#LABEL_INTEGER-constant" title="FileContextManagedPartitionedArrayManager::LABEL_INTEGER (constant)">LABEL_INTEGER</a></span></span><span class='comma'>,</span>
+               <span class='label'>label_ranges:</span> <span class='const'><span class='object_link'><a href="#LABEL_RANGES-constant" title="FileContextManagedPartitionedArrayManager::LABEL_RANGES (constant)">LABEL_RANGES</a></span></span><span class='rparen'>)</span>
 
   <span class='ivar'>@fcmpa_db_partition_archive_id</span> <span class='op'>=</span> <span class='id identifier rubyid_fcmpa_db_partition_archive_id'>fcmpa_db_partition_archive_id</span>
   <span class='ivar'>@fcmpa_db_endless_add</span> <span class='op'>=</span> <span class='id identifier rubyid_fcmpa_db_endless_add'>fcmpa_db_endless_add</span>
@@ -1412,11 +1431,14 @@
   <span class='ivar'>@active_table</span> <span class='op'>=</span> <span class='id identifier rubyid_active_table'>active_table</span>
   <span class='ivar'>@active_database</span> <span class='op'>=</span> <span class='id identifier rubyid_active_database'>active_database</span>
 
+  <span class='ivar'>@label_integer</span> <span class='op'>=</span> <span class='id identifier rubyid_label_integer'>label_integer</span>
+  <span class='ivar'>@label_ranges</span> <span class='op'>=</span> <span class='id identifier rubyid_label_ranges'>label_ranges</span>
+
   <span class='ivar'>@traverse_hash</span> <span class='op'>=</span> <span class='id identifier rubyid_traverse_hash'>traverse_hash</span>
-
-  <span class='ivar'>@timestamp_str</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='period'>.</span><span class='id identifier rubyid_strftime'>strftime</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>%Y-%m-%d-%H-%M-%S</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-
-  <span class='ivar'>@man_index</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="FileContextManagedPartitionedArray.html" title="FileContextManagedPartitionedArray (class)">FileContextManagedPartitionedArray</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="FileContextManagedPartitionedArray.html#initialize-instance_method" title="FileContextManagedPartitionedArray#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>fcmpa_db_partition_amount_and_offset:</span> <span class='ivar'>@fcmpa_db_partition_amount_and_offset</span><span class='comma'>,</span>
+  <span class='comment'>#puts @db_partition_addition_amount
+</span>  <span class='ivar'>@timestamp_str</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='period'>.</span><span class='id identifier rubyid_strftime'>strftime</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>%Y-%m-%d-%H-%M-%S</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='comment'>#p &quot;FCMPA: #{@label_integer}&quot;
+</span>  <span class='ivar'>@man_index</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="FileContextManagedPartitionedArray.html" title="FileContextManagedPartitionedArray (class)">FileContextManagedPartitionedArray</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="FileContextManagedPartitionedArray.html#initialize-instance_method" title="FileContextManagedPartitionedArray#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>fcmpa_db_partition_amount_and_offset:</span> <span class='ivar'>@fcmpa_db_partition_amount_and_offset</span><span class='comma'>,</span>
                                                       <span class='label'>fcmpa_db_size:</span> <span class='ivar'>@fcmpa_db_size</span><span class='comma'>,</span>
                                                       <span class='label'>fcmpa_db_indexer_name:</span> <span class='ivar'>@fcmpa_db_indexer_name</span><span class='op'>+</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>_</span><span class='tstring_end'>&quot;</span></span><span class='op'>+</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>indexer</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
                                                       <span class='label'>fcmpa_db_folder_name:</span> <span class='ivar'>@fcmpa_db_folder_name</span><span class='op'>+</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>_</span><span class='tstring_end'>&quot;</span></span><span class='op'>+</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>indexer</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
@@ -1451,7 +1473,7 @@
                                                       <span class='label'>fcmpa_db_index_location:</span> <span class='ivar'>@fcmpa_db_index_location</span><span class='comma'>,</span>
                                                       <span class='label'>fcmpa_db_max_capacity:</span> <span class='ivar'>@fcmpa_db_max_capacity</span><span class='comma'>,</span>
                                                       <span class='label'>fcmpa_db_partition_archive_id:</span> <span class='ivar'>@fcmpa_db_partition_archive_id</span><span class='comma'>,</span>
-                                                      <span class='label'>db_partition_addition_amount:</span> <span class='ivar'>@partition_addition_amount</span><span class='comma'>,</span>
+                                                      <span class='label'>db_partition_addition_amount:</span> <span class='ivar'>@db_partition_addition_amount</span><span class='comma'>,</span>
                                                       <span class='label'>db_size:</span> <span class='ivar'>@db_size</span><span class='comma'>,</span> <span class='comment'>#
 </span>                                                      <span class='label'>db_endless_add:</span> <span class='ivar'>@db_endless_add</span><span class='comma'>,</span> <span class='comment'>#
 </span>                                                      <span class='label'>db_has_capacity:</span> <span class='ivar'>@db_has_capacity</span><span class='comma'>,</span> <span class='comment'>#
@@ -1461,7 +1483,9 @@
 </span>                                                      <span class='label'>db_partition_amount_and_offset:</span> <span class='ivar'>@db_partition_amount_and_offset</span><span class='comma'>,</span> <span class='comment'>#
 </span>                                                      <span class='label'>db_max_capacity:</span> <span class='ivar'>@db_max_capacity</span><span class='comma'>,</span> <span class='comment'>#
 </span>                                                      <span class='label'>db_partition_archive_id:</span> <span class='ivar'>@db_partition_archive_id</span><span class='comma'>,</span> <span class='comment'>#
-</span>                                                      <span class='label'>traverse_hash:</span> <span class='ivar'>@traverse_hash</span><span class='rparen'>)</span>
+</span>                                                      <span class='label'>traverse_hash:</span> <span class='ivar'>@traverse_hash</span><span class='comma'>,</span>
+                                                      <span class='label'>label_integer:</span> <span class='ivar'>@label_integer</span><span class='comma'>,</span>
+                                                      <span class='label'>label_ranges:</span> <span class='ivar'>@label_ranges</span><span class='rparen'>)</span>
   <span class='comment'># Initialize the database which keeps track of all known databases that were created
 </span>  <span class='ivar'>@man_db</span><span class='period'>.</span><span class='id identifier rubyid_start_database!'>start_database!</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="#DATABASE_LIST_NAME-constant" title="FileContextManagedPartitionedArrayManager::DATABASE_LIST_NAME (constant)">DATABASE_LIST_NAME</a></span></span><span class='comma'>,</span> <span class='label'>db_path:</span> <span class='ivar'>@db_path</span><span class='op'>+</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/MAN_DB_TABLE/</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#DATABASE_LIST_NAME-constant" title="FileContextManagedPartitionedArrayManager::DATABASE_LIST_NAME (constant)">DATABASE_LIST_NAME</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>/TABLE</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>only_path:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>only_name:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>db_name:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>TABLE</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='comment'># initialize the database list index
 </span><span class='kw'>end</span></pre>
@@ -1503,12 +1527,12 @@
       <pre class="lines">
 
 
-81
 82
-83</pre>
+83
+84</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 81</span>
+      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 82</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_db_dynamically_allocates'>db_dynamically_allocates</span>
   <span class='ivar'>@db_dynamically_allocates</span>
@@ -1546,12 +1570,12 @@
       <pre class="lines">
 
 
-81
 82
-83</pre>
+83
+84</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 81</span>
+      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 82</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_db_endless_add'>db_endless_add</span>
   <span class='ivar'>@db_endless_add</span>
@@ -1589,12 +1613,12 @@
       <pre class="lines">
 
 
-81
 82
-83</pre>
+83
+84</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 81</span>
+      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 82</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_db_file_incrementor'>db_file_incrementor</span>
   <span class='ivar'>@db_file_incrementor</span>
@@ -1632,12 +1656,12 @@
       <pre class="lines">
 
 
-81
 82
-83</pre>
+83
+84</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 81</span>
+      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 82</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_db_file_location'>db_file_location</span>
   <span class='ivar'>@db_file_location</span>
@@ -1675,12 +1699,12 @@
       <pre class="lines">
 
 
-81
 82
-83</pre>
+83
+84</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 81</span>
+      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 82</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_db_has_capacity'>db_has_capacity</span>
   <span class='ivar'>@db_has_capacity</span>
@@ -1718,12 +1742,12 @@
       <pre class="lines">
 
 
-81
 82
-83</pre>
+83
+84</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 81</span>
+      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 82</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_db_name'>db_name</span>
   <span class='ivar'>@db_name</span>
@@ -1761,12 +1785,12 @@
       <pre class="lines">
 
 
-81
 82
-83</pre>
+83
+84</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 81</span>
+      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 82</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_db_partition_amount_and_offset'>db_partition_amount_and_offset</span>
   <span class='ivar'>@db_partition_amount_and_offset</span>
@@ -1804,12 +1828,12 @@
       <pre class="lines">
 
 
-81
 82
-83</pre>
+83
+84</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 81</span>
+      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 82</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_db_path'>db_path</span>
   <span class='ivar'>@db_path</span>
@@ -1847,12 +1871,12 @@
       <pre class="lines">
 
 
-81
 82
-83</pre>
+83
+84</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 81</span>
+      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 82</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_db_size'>db_size</span>
   <span class='ivar'>@db_size</span>
@@ -1890,12 +1914,12 @@
       <pre class="lines">
 
 
-81
 82
-83</pre>
+83
+84</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 81</span>
+      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 82</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_fcmpa_active_databases'>fcmpa_active_databases</span>
   <span class='ivar'>@fcmpa_active_databases</span>
@@ -1933,12 +1957,12 @@
       <pre class="lines">
 
 
-81
 82
-83</pre>
+83
+84</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 81</span>
+      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 82</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_fcmpa_db_folder_name'>fcmpa_db_folder_name</span>
   <span class='ivar'>@fcmpa_db_folder_name</span>
@@ -1976,12 +2000,12 @@
       <pre class="lines">
 
 
-81
 82
-83</pre>
+83
+84</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 81</span>
+      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 82</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_fcmpa_db_indexer_db'>fcmpa_db_indexer_db</span>
   <span class='ivar'>@fcmpa_db_indexer_db</span>
@@ -2019,12 +2043,12 @@
       <pre class="lines">
 
 
-81
 82
-83</pre>
+83
+84</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 81</span>
+      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 82</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_fcmpa_db_indexer_name'>fcmpa_db_indexer_name</span>
   <span class='ivar'>@fcmpa_db_indexer_name</span>
@@ -2062,12 +2086,12 @@
       <pre class="lines">
 
 
-81
 82
-83</pre>
+83
+84</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 81</span>
+      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 82</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_fcmpa_db_size'>fcmpa_db_size</span>
   <span class='ivar'>@fcmpa_db_size</span>
@@ -2105,12 +2129,12 @@
       <pre class="lines">
 
 
-81
 82
-83</pre>
+83
+84</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 81</span>
+      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 82</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_fcmpa_partition_amount_and_offset'>fcmpa_partition_amount_and_offset</span>
   <span class='ivar'>@fcmpa_partition_amount_and_offset</span>
@@ -2148,12 +2172,12 @@
       <pre class="lines">
 
 
-81
 82
-83</pre>
+83
+84</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 81</span>
+      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 82</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_man_db'>man_db</span>
   <span class='ivar'>@man_db</span>
@@ -2191,12 +2215,12 @@
       <pre class="lines">
 
 
-81
 82
-83</pre>
+83
+84</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 81</span>
+      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 82</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_man_index'>man_index</span>
   <span class='ivar'>@man_index</span>
@@ -2234,12 +2258,12 @@
       <pre class="lines">
 
 
-81
 82
-83</pre>
+83
+84</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 81</span>
+      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 82</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_partition_addition_amount'>partition_addition_amount</span>
   <span class='ivar'>@partition_addition_amount</span>
@@ -2277,12 +2301,12 @@
       <pre class="lines">
 
 
-81
 82
-83</pre>
+83
+84</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 81</span>
+      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 82</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_timestamp_str'>timestamp_str</span>
   <span class='ivar'>@timestamp_str</span>
@@ -2314,12 +2338,12 @@
       <pre class="lines">
 
 
-261
-262
-263</pre>
+271
+272
+273</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 261</span>
+      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 271</span>
 
 <span class='kw'>def</span> <span class='op'>[]</span><span class='lparen'>(</span><span class='id identifier rubyid_database_name'>database_name</span> <span class='op'>=</span> <span class='ivar'>@active_database</span><span class='comma'>,</span> <span class='id identifier rubyid_database_table'>database_table</span> <span class='op'>=</span> <span class='ivar'>@active_table</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_database_table'>database_table</span><span class='lparen'>(</span><span class='label'>database_table:</span> <span class='id identifier rubyid_database_table'>database_table</span><span class='comma'>,</span> <span class='label'>database_name:</span> <span class='id identifier rubyid_database_name'>database_name</span><span class='rparen'>)</span>
@@ -2359,12 +2383,12 @@
       <pre class="lines">
 
 
-252
-253
-254</pre>
+262
+263
+264</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 252</span>
+      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 262</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_active_database'>active_database</span><span class='lparen'>(</span><span class='id identifier rubyid_active_database'>active_database</span><span class='rparen'>)</span>
   <span class='ivar'>@active_database</span> <span class='op'>=</span> <span class='id identifier rubyid_active_database'>active_database</span>
@@ -2400,12 +2424,12 @@
       <pre class="lines">
 
 
-247
-248
-249</pre>
+257
+258
+259</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 247</span>
+      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 257</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_active_table'>active_table</span><span class='lparen'>(</span><span class='id identifier rubyid_database_table'>database_table</span><span class='rparen'>)</span>
   <span class='ivar'>@active_table</span> <span class='op'>=</span> <span class='id identifier rubyid_database_table'>database_table</span>
@@ -2441,13 +2465,13 @@
       <pre class="lines">
 
 
-236
-237
-238
-239</pre>
+246
+247
+248
+249</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 236</span>
+      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 246</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_database'>database</span><span class='lparen'>(</span><span class='id identifier rubyid_database_name'>database_name</span> <span class='op'>=</span> <span class='ivar'>@active_database</span><span class='rparen'>)</span>
   <span class='comment'># check to see if this table exists in the database first
@@ -2488,19 +2512,19 @@
       <pre class="lines">
 
 
-266
-267
-268
-269
-270
-271
-272
-273
-274
-275</pre>
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 266</span>
+      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 276</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_database_table'>database_table</span><span class='lparen'>(</span><span class='label'>database_name:</span> <span class='ivar'>@active_database</span><span class='comma'>,</span> <span class='label'>database_table:</span> <span class='ivar'>@active_table</span><span class='rparen'>)</span>
   <span class='comment'># check to see if this table exists in the database first
@@ -2543,13 +2567,13 @@
       <pre class="lines">
 
 
-332
-333
-334
-335</pre>
+342
+343
+344
+345</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 332</span>
+      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 342</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_delete_database!'>delete_database!</span><span class='lparen'>(</span><span class='id identifier rubyid_database_name'>database_name</span><span class='rparen'>)</span>
   <span class='ivar'>@man_index</span><span class='period'>.</span><span class='id identifier rubyid_delete_database!'>delete_database!</span><span class='lparen'>(</span><span class='id identifier rubyid_database_name'>database_name</span><span class='rparen'>)</span>
@@ -2575,17 +2599,17 @@
       <pre class="lines">
 
 
-322
-323
-324
-325
-326
-327
-328
-329</pre>
+332
+333
+334
+335
+336
+337
+338
+339</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 322</span>
+      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 332</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_delete_database_index_entry!'>delete_database_index_entry!</span><span class='lparen'>(</span><span class='id identifier rubyid_database_name'>database_name</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_entry'>entry</span> <span class='op'>=</span> <span class='ivar'>@man_db</span><span class='period'>.</span><span class='id identifier rubyid_db'>db</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="#DATABASE_LIST_NAME-constant" title="FileContextManagedPartitionedArrayManager::DATABASE_LIST_NAME (constant)">DATABASE_LIST_NAME</a></span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='int'>0</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='const'><span class='object_link'><a href="#DATABASE_LIST_NAME-constant" title="FileContextManagedPartitionedArrayManager::DATABASE_LIST_NAME (constant)">DATABASE_LIST_NAME</a></span></span><span class='rbracket'>]</span>
@@ -2626,13 +2650,13 @@
       <pre class="lines">
 
 
-338
-339
-340
-341</pre>
+348
+349
+350
+351</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 338</span>
+      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 348</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_delete_table!'>delete_table!</span><span class='lparen'>(</span><span class='id identifier rubyid_database_table'>database_table</span><span class='rparen'>)</span>
   <span class='ivar'>@man_db</span><span class='period'>.</span><span class='id identifier rubyid_delete_database!'>delete_database!</span><span class='lparen'>(</span><span class='id identifier rubyid_database_table'>database_table</span><span class='rparen'>)</span>
@@ -2680,13 +2704,13 @@
       <pre class="lines">
 
 
-256
-257
-258
-259</pre>
+266
+267
+268
+269</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 256</span>
+      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 266</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_existing_database_tables?'>existing_database_tables?</span><span class='lparen'>(</span><span class='label'>database_name:</span> <span class='ivar'>@active_database</span><span class='rparen'>)</span>
   <span class='comment'># check to see if this table exists in the database first
@@ -2727,16 +2751,6 @@
       <pre class="lines">
 
 
-344
-345
-346
-347
-348
-349
-350
-351
-352
-353
 354
 355
 356
@@ -2744,10 +2758,20 @@
 358
 359
 360
-361</pre>
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 344</span>
+      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 354</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_new_database!'>new_database!</span><span class='lparen'>(</span><span class='id identifier rubyid_database_name'>database_name</span><span class='rparen'>)</span>
   <span class='ivar'>@man_index</span><span class='period'>.</span><span class='id identifier rubyid_start_database!'>start_database!</span><span class='lparen'>(</span><span class='id identifier rubyid_database_name'>database_name</span><span class='comma'>,</span> <span class='label'>db_path:</span> <span class='ivar'>@db_path</span><span class='op'>+</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/MAN_DB_INDEX/INDEX</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>only_path:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>only_name:</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>db_name:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>INDEX</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
@@ -2802,16 +2826,6 @@
       <pre class="lines">
 
 
-298
-299
-300
-301
-302
-303
-304
-305
-306
-307
 308
 309
 310
@@ -2824,10 +2838,20 @@
 317
 318
 319
-320</pre>
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 298</span>
+      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 308</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_new_table!'>new_table!</span><span class='lparen'>(</span><span class='label'>database_table:</span><span class='comma'>,</span> <span class='label'>database_name:</span><span class='comma'>,</span> <span class='label'>initial_autosave:</span> <span class='ivar'>@initial_autosave</span><span class='rparen'>)</span>
   <span class='ivar'>@man_index</span><span class='period'>.</span><span class='id identifier rubyid_start_database!'>start_database!</span><span class='lparen'>(</span><span class='id identifier rubyid_database_name'>database_name</span><span class='comma'>,</span> <span class='label'>db_path:</span> <span class='ivar'>@db_path</span><span class='op'>+</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/MAN_DB_INDEX/INDEX</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>only_path:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>only_name:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>db_name:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>INDEX</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
@@ -2883,12 +2907,12 @@
       <pre class="lines">
 
 
-242
-243
-244</pre>
+252
+253
+254</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 242</span>
+      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 252</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_table'>table</span><span class='lparen'>(</span><span class='id identifier rubyid_database_table'>database_table</span> <span class='op'>=</span> <span class='ivar'>@active_table</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='ivar'>@man_db</span><span class='period'>.</span><span class='id identifier rubyid_db'>db</span><span class='lparen'>(</span><span class='id identifier rubyid_database_table'>database_table</span><span class='rparen'>)</span>
@@ -2924,15 +2948,15 @@
       <pre class="lines">
 
 
-289
-290
-291
-292
-293
-294</pre>
+299
+300
+301
+302
+303
+304</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 289</span>
+      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 299</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_table_next_file_context!'>table_next_file_context!</span><span class='lparen'>(</span><span class='label'>database_table:</span> <span class='ivar'>@active_table</span><span class='comma'>,</span> <span class='label'>database_name:</span> <span class='ivar'>@active_database</span><span class='comma'>,</span> <span class='label'>save_prior:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>save_after:</span> <span class='kw'>true</span><span class='rparen'>)</span>
   <span class='ivar'>@man_db</span><span class='period'>.</span><span class='id identifier rubyid_fcmpa_active_databases'>fcmpa_active_databases</span><span class='lbracket'>[</span><span class='id identifier rubyid_database_table'>database_table</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_save_everything_to_files!'>save_everything_to_files!</span> <span class='kw'>if</span> <span class='id identifier rubyid_save_prior'>save_prior</span>
@@ -2971,17 +2995,17 @@
       <pre class="lines">
 
 
-278
-279
-280
-281
-282
-283
-284
-285</pre>
+288
+289
+290
+291
+292
+293
+294
+295</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 278</span>
+      <pre class="code"><span class="info file"># File 'lib/file_context_managed_partitioned_array_manager.rb', line 288</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_table_set_file_context!'>table_set_file_context!</span><span class='lparen'>(</span><span class='label'>database_table:</span> <span class='ivar'>@active_table</span><span class='comma'>,</span> <span class='label'>database_name:</span> <span class='ivar'>@active_database</span><span class='comma'>,</span> <span class='label'>file_context_id:</span> <span class='ivar'>@db_partition_archive_id</span><span class='comma'>,</span> <span class='label'>save_prior:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>save_after:</span> <span class='kw'>true</span><span class='rparen'>)</span>
   <span class='comment'># @man_index.start_database!(database_name, db_path: @db_path+&quot;/MAN_DB_INDEX/INDEX&quot;, only_path: true, only_name: true, db_name: &quot;INDEX&quot;)
@@ -3001,7 +3025,7 @@
 </div>
 
       <div id="footer">
-  Generated on Sat Jan 14 02:33:42 2023 by
+  Generated on Wed Jan 25 03:04:17 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.2.0).
 </div>

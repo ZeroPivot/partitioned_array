@@ -6,7 +6,6 @@ require_relative "lib/line_db"
 
 b = LineDB.new(label_integer: true, label_ranges: true)
 b["test"].pad.new_table!(database_table: "test_table", database_name: "test_database")
-#p b["aritywolf", "kejento"]
 2000.times do |i|
 b["test"].pad["test_database", "test_table"].add do |hash|
   hash[:name] = "name#{i}"
@@ -15,9 +14,12 @@ end
 
 end
 
-#p b["test"].pad["test_database", "test"][0..25]
-#p b["test"].db["test_database", "test"][0..25]
-#p b["test"].PAD["test_database", "test"][0..25]
+p b["test"].pad["test_database", "test_table"][0..20]
+puts
+p b["test"].db["test_database", "test_table"][0..27]
+puts
+p b["test"].PAD["test_database", "test_table"][0..26]
+puts
 b["test", "test"].map do |hash|
  p hash.DB["test_database", "test_table"][9999]
 end

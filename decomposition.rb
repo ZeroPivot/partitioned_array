@@ -1,9 +1,9 @@
 require_relative "lib/line_db"
 ldb = LineDB.new
 p ldb.class # => LineDB
-zero = ldb["aritywolf"] # PartitionedArrayDatabase
+zero = ldb["test"] # PartitionedArrayDatabase
 p zero.class # => PartitionedArrayDatabase
-b = ldb.db("aritywolf").pad
+b = ldb.db("test").pad
 p b.class # => FileContextPartitionedArrayManager
 p b.man_db.class # => FileContextManagedPartitionedArray
 c = b.man_db

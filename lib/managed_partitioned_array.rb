@@ -1,4 +1,6 @@
 require_relative 'partitioned_array'
+# UPDATE: VERSION v2.2.0 - bug fixes
+# * load_archive_no_allocate! and load_archive! now work properly; update in DragonRuby Library Accordingly
 # NOTE: ManagedPartitionedArray and PartitionedArray have different versions. PartitionedArray can work along but
 # ManagedPartitionedArray, while being the superset, depends on PartitionedArray
 # VERSION v2.1.1-mpa-release - LABEL_INTEGER - LABEL_RANGES and many bug fixes in initialize
@@ -128,20 +130,21 @@ class ManagedPartitionedArray < PartitionedArray
     save_everything_to_files!
     @partition_archive_id += 1
     increment_max_partition_archive_id!
-    temp = ManagedPartitionedArray.new(label_integer: label_integer, label_ranges: label_ranges, max_capacity: @max_capacity, partition_archive_id: @partition_archive_id, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive)
+    temp = ManagedPartitionedArray.new(label_integer: label_integer, label_ranges: label_ranges, max_capacity: max_capacity, partition_archive_id: partition_archive_id, db_size: db_size, partition_amount_and_offset: partition_amount_and_offset, db_path: db_path, db_name: db_name_with_archive)
     temp.allocate if auto_allocate
     return temp
   end
 
+  # Bugs fixed in 2 below functions - 1/27/2023 12:46PM - Be sure to add to dragonruby functions
   ## ex ManagedPartitionedArray#load_archive_no_auto_allocate!(partition_archive_id: partition_archive_id, ...)
   def load_archive_no_auto_allocate!(label_integer: @label_integer, label_ranges: @label_ranges, has_capacity: @has_capacity, dynamically_allocates: @dynamically_allocates, endless_add: @endless_add, partition_archive_id: @max_partition_archive_id, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive, max_capacity: @max_capacity, partition_addition_amount: @partition_addition_amount)
-    temp = ManagedPartitionedArray.new(label_integer: label_integer, label_ranges: label_ranges, dynamically_allocates: dynamically_allocates, endless_add: endless_add, max_capacity: max_capacity, partition_archive_id: partition_archive_id, db_size: db_size, partition_amount_and_offset: partition_amount_and_offset, db_path: db_path, db_name: db_name_with_archive)
+    temp = ManagedPartitionedArray.new(label_integer: label_integer, label_ranges: label_ranges, dynamically_allocates: dynamically_allocates, endless_add: endless_add, max_capacity: max_capacity, partition_archive_id: partition_archive_id, db_size: db_size, partition_amount_and_offset: partition_amount_and_offset, db_path: db_path, db_name: db_name, partition_addition_amount: partition_addition_amount)
     return temp
   end
 
   # ex ManagedPartitionedArray#load_from_archive!(partition_archive_id: partition_archive_id, ...)
   def load_from_archive!(label_integer: @label_integer, label_ranges: @label_ranges, has_capacity: @has_capacity, dynamically_allocates: @dynamically_allocates, endless_add: @endless_add, partition_archive_id: @max_partition_archive_id, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive, max_capacity: @max_capacity, partition_addition_amount: @partition_addition_amount)
-    temp = ManagedPartitionedArray.new(label_integer: label_integer, label_ranges: label_ranges, dynamically_allocates: dynamically_allocates, endless_add: endless_add, max_capacity: max_capacity, partition_archive_id: partition_archive_id, db_size: db_size, partition_amount_and_offset: partition_amount_and_offset, db_path: db_path, db_name: db_name_with_archive)
+    temp = ManagedPartitionedArray.new(label_integer: label_integer, label_ranges: label_ranges, dynamically_allocates: dynamically_allocates, endless_add: endless_add, max_capacity: max_capacity, partition_archive_id: partition_archive_id, db_size: db_size, partition_amount_and_offset: partition_amount_and_offset, db_path: db_path, db_name: db_name, partition_addition_amount: partition_addition_amount)
     temp.load_everything_from_files!
     return temp
   end

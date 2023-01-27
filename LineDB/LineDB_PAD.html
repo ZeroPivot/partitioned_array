@@ -521,6 +521,80 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; }
 <figcaption aria-hidden="true">LineDB Structure</figcaption>
 </figure>
 </section>
+<section id="the-partitioned-array" class="level3">
+<h3>The Partitioned Array</h3>
+<p>Any given partitioned array has x number of partitions within it which are defined by the defining constants. You can call and work with different partitions, one way being to perform a <code>get(id)</code> on some entry that you want the partition out of.</p>
+<p><code>(ManagedPartitionedArray &gt; PartitionedArray)#load_partition_from_file!(partition_id)</code></p>
+<p><code>(ManagedPartitionedArray &gt; PartitionedArray)#get_partition(partition_id)</code></p>
+<p><code>(ManagedPartitionedArray &gt; PartitionedArray)#delete_partition(partition_id) # =&gt; make sure that you save the partition to disk first</code></p>
+<p><code>(ManagedPartitionedArray &gt; PartitionedArray)#set_partition_subelement(id, partition_id, &amp;block)</code></p>
+<p><code>(ManagedPartitionedArray &gt; PartitionedArray)#delete_partition_subelement(id, partition_id)</code></p>
+<p><code>(ManagedPartitionedArray &gt; PartitionedArray)#save_partition_to_file!(partition_id, db_folder: @db_folder)</code></p>
+<section id="file-context-managed-partitioned-array" class="level4">
+<h4>File Context Managed Partitioned Array</h4>
+<p>We have: <code>file_context_array[&quot;file_db_name_string&quot;].managed_partitioned_array[mpa_db_file_id_integer].partitioned_array(db_id, id)</code></p>
+<p>let <code>PA (partitioned array) = P</code></p>
+<p>let <code>MPA = a = Q &lt; P</code></p>
+<p>let <code>FCA = f = b&lt;a ~= b.a</code></p>
+<p><code>f</code> expands to <code>f.(Q &lt; P)</code> =&gt; <code>f.(b &lt; a)</code> =~&gt; <code>f.(b.a)</code></p>
+<p>and,</p>
+<p>we have in this context:</p>
+<p><code>file_context_array[&quot;file_db_name_string&quot;].managed_partitioned_array[mpa_db_file_id_integer].partitioned_array(db_id, id)</code></p>
+<p>Could also be written as: <code>file_context_array[&quot;file_db_name_string&quot;].(managed_partitioned_array[mpa_db_file_id_integer] &lt; partitioned_array(db_id, id))</code></p>
+<p>Methods:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="cn">FCMPA</span><span class="co">#load_indexer_db! - loads the indexing DB</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="cn">FCMPA</span><span class="co">#new_database! - creates a new database</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="cn">FCMPA</span><span class="co">#start_database! - starts a database</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="cn">FCMPA</span><span class="co">#delete_database_from_index! - deletes a database from the index</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="cn">FCMPA</span><span class="co">#add_database_to_index! - adds a database to the index</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="cn">FCMPA</span><span class="co">#db(database_index_name = @active_database) - returns the database</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="cn">FCMPA</span><span class="co">#set_active_database(database_index_name) - sets the active database</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="cn">FCMPA</span><span class="co">#stop_database!(database_index_name) - stops a database</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="cn">FCMPA</span><span class="co">#stop_databases! - stops all databases</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="cn">FCMPA</span><span class="co">#save_databases! - saves all databases</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="cn">FCMPA</span><span class="co">#load_database!(database_index_name = @active_database) - loads a database</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a><span class="cn">FCMPA</span><span class="co">#load_databases! - loads all databases</span></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a><span class="cn">FCMPA</span><span class="co">#delete_database!(database_index_name = @active_database) - deletes a database</span></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a><span class="cn">FCMPA</span><span class="co">#get_databases_list - returns a list of databases</span></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a><span class="cn">FCMPA</span><span class="co">#set_new_file_archive!(database_index_name = @active_database) - sets a new file archive for a database</span></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a><span class="cn">FCMPA</span><span class="co">#each(database_index_name, hash: @traverse_hash) - traverses a database</span></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a><span class="cn">FCMPA</span><span class="co">#each_not_nil(database_index_name, hash: @traverse_hash) - traverses a database, skipping nil values</span></span></code></pre></div>
+</section>
+<section id="file-context-managed-partitioned-array-manager" class="level4">
+<h4>File Context Managed Partitioned Array Manager</h4>
+<div class="sourceCode" id="cb13"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="cn">FCMPAM</span><span class="co">#database(database_name = @active_database): returns the database object</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="cn">FCMPAM</span><span class="co">#database_table(database_name: @active_database, database_table: @active_table): returns the database table object</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="cn">FCMPAM</span><span class="co">#new_database!(database_name): creates a new database</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="cn">FCMPAM</span><span class="co">#new_table!(database_name:, database_table:): creates a new table in the database</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="cn">FCMPAM</span><span class="co">#active_database(database_name): sets the active database</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="cn">FCMPAM</span><span class="co">#active_table(database_table): sets the active table</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="cn">FCMPAM</span><span class="co">#table(database_table = @active_table): returns the active table</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="cn">FCMPAM</span><span class="co">#database(database_name = @active_database): returns the active database</span></span></code></pre></div>
+</section>
+</section>
 </section>
 <section id="ending-statement" class="level2">
 <h2>Ending statement</h2>
@@ -530,7 +604,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; }
 <section id="contact-links" class="level2">
 <h2>Contact &amp; Links</h2>
 <ul>
-<li>Name: Duke Grable</li>
 <li>Twitter: ‘SimulWolf’ - https://twitter.com/SimulWolf</li>
 <li>E-mail: City.Wolf.In.Rural@gmail.com</li>
 <li>Partitioned Array Algorithms Source Code: https://github.com/ZeroPivot/partitioned_array (contained in <code>lib</code> root folder; every class can work on its own, but LineDB simplifies it)</li>

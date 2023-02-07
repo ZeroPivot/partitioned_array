@@ -10,6 +10,7 @@
 # rubocop:disable Metrics/MethodLength
 # rubocop:disable Style/IfUnlessModifier
 # rubocop:disable Layout/LineLength
+# VERSION v2.0.0-release - add :all :last :first keywords to [] method, unrefined and untested
 # VERSION v1.2.4-release - cleanup puts in add_partition 
 # VERSION v1.2.3-release - @label_integer and @label_ranges, sync with line_db, etc
 # VERSION v1.2.2-release - @label_integer and @label_ranges
@@ -187,6 +188,12 @@ class PartitionedArray
         else
           id.to_a.map { |i| get(i, hash: hash) } if !label_ranges
         end
+      when :all
+        @data_arr.map { |i| get(i, hash: hash) }
+      when :first
+        get(0, hash: hash)
+      when :last
+        get(@data_arr.size - 1, hash: hash)
       else
         raise "Invalid id type: #{id.class}"
       end  

@@ -10,6 +10,7 @@
 # rubocop:disable Metrics/MethodLength
 # rubocop:disable Style/IfUnlessModifier
 # rubocop:disable Layout/LineLength
+# VERSION v2.0.1-release - remove :last and :first in favor of [:all].last and [:all].first; update in DRAGONRUBY ACCORDINGLY (2/7/2023 11:14AM)
 # VERSION v2.0.0-release - add :all :last :first keywords to [] method, unrefined and untested
 # VERSION v1.2.4-release - cleanup puts in add_partition 
 # VERSION v1.2.3-release - @label_integer and @label_ranges, sync with line_db, etc
@@ -168,8 +169,19 @@ class PartitionedArray
     @dynamically_allocates = dynamically_allocates
   end
 
+  # 2/7/2023 10:39AM
+  #examine closely later (also: this was never imnplemented in DragonRuby's PartitionedArray classes)
   def [](*ids, hash: false, label_ranges: @label_ranges, label_integer: @label_integer)
     #puts "ids: #{ids[0]}"
+    @elements = []
+    if (ids[0] == "all" || ids[0] == :all)
+      # setup for "all" or :all as an only argument in the array subscript for now to get the entire @data_arr
+      0.upto(@db_size - 1) do |element_id|
+        # puts "element_id: #{element_id}"
+        @elements << @data_arr[element_id]
+      end
+      return @elements
+    end
     return get(ids[0], hash: hash) if (ids.size==1 && ids[0].is_a?(Integer) && !label_integer)
     return { ids[0] => get(ids[0], hash: hash) } if ids.size==1 && ids[0].is_a?(Integer) && label_integer
     #return get(id, hash: hash) if id.is_a? Integer
@@ -187,13 +199,7 @@ class PartitionedArray
           id.to_a.map { |i| { i => get(i, hash: hash) }} if label_ranges
         else
           id.to_a.map { |i| get(i, hash: hash) } if !label_ranges
-        end
-      when :all
-        @data_arr.map { |i| get(i, hash: hash) }
-      when :first
-        get(0, hash: hash)
-      when :last
-        get(@data_arr.size - 1, hash: hash)
+        end 
       else
         raise "Invalid id type: #{id.class}"
       end  

@@ -148,3 +148,5 @@ end
 # rubocop:enable Style/GuardClause
 # rubocop:enable Style/NegatedIf
 # rubocop:enable Metrics/ParameterLists
+
+# Q: how do I resolve a merge conflict?

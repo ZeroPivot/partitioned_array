@@ -12,6 +12,7 @@ require_relative "partitioned_array_database"
 # which decomposes to FileContextManagedPartitionedArrayManager objects;
 # which decomposes to FileContextManagedPartitionedArray objects;
 # which decomposes to ManagedPartitionedArray objects, which inherits from the PartitionedArray class.
+# VERSION: v1.2.0-release  
 # VERSION v1.1.7-release: cleanup
 # VERSION v1.1.6-release: label_integer and label_ranges for the ManagedPartitionedArray class, wherein you can define a set of integers or ranges separated by commas
 # --and with the arguments set, set a hash like {id => object}
@@ -64,12 +65,28 @@ class LineDB
     @db_size = db_size
     @dynamically_allocates = dynamically_allocates
     @traverse_hash = traverse_hash
-    @linelist = load_pad(parent_folder: @parent_folder)    
+    @linelist = load_pad(parent_folder: @parent_folder)
+    @lambda_list = ->{@linelist.keys.map { |db_name| db_name }}
+    #@lambda_list_all = ->{@linelist.keys.map { |db_name| db_name }}
+    #@lambda_list = ->(database_name){@linelist.keys.map { |db_name| @linelist[db_name] }}     
   end
 
   # List of active databases
   def list_databases
     @linelist.keys
+  end
+
+  def databases_list
+
+  end
+
+  def databases
+    #gets "calling lambda"
+     @lambda_list.call
+  end
+  
+  def update_databases
+    @lambda_list = -> {@linelist.keys.map { |db_name| db_name }} 
   end
 
   def [](*db_names)

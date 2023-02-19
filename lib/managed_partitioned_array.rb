@@ -1,4 +1,5 @@
 require_relative 'partitioned_array'
+# VERSION v2.2.3f - bug fix: cleanup, dont need a certain function in archive_and_new_db! anymore
 # VERSION v2.2.2f - major bug fixes:
 =begin
     # Bug fixed 2/19/2023 - be sure to add to dragonruby -- and another bug fixed which prevented the creation of new file contexts in a MPA sense; be sure to add to dragonruby when it comes down to that (this was a major bug, which probably occured due to "fixing things")
@@ -157,8 +158,8 @@ class ManagedPartitionedArray < PartitionedArray
     p "endless_add: #{@endless_add}"
   end
   
-    # Bug fixed 2/19/2023 - be sure to add to dragonruby -- and another bug fixed which prevented the creation of new file contexts in a MPA sense; be sure to add to dragonruby when it comes down to that (this was a major bug, which probably occured due to "fixing things")
-    def archive_and_new_db!(label_integer: @label_integer, label_ranges: @label_ranges, auto_allocate: true, partition_addition_amount: @partition_addition_amount, max_capacity: @max_capacity, has_capacity: @has_capacity, partition_archive_id: @partition_archive_id, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive)
+    # Bug fixed 2/19/2023 - be sure to add to dragonruby -- and another bug fixed which prevented the creation of new file contexts in a MPA sense; be sure to add to dragonruby when it comes down to that (this was a major bug, which probably occured due to "fixing things") - removed partition_archive_id from arguments
+    def archive_and_new_db!(label_integer: @label_integer, label_ranges: @label_ranges, auto_allocate: true, partition_addition_amount: @partition_addition_amount, max_capacity: @max_capacity, has_capacity: @has_capacity, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive)
       save_everything_to_files!
       @partition_archive_id += 1
       increment_max_partition_archive_id!    

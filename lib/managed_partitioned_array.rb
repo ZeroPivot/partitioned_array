@@ -1,4 +1,5 @@
 require_relative 'partitioned_array'
+# VERSION v2.2.1 - bug fixes:   def save_last_entry_to_file! -- added FileUtils mkdir methods to make the last entry directory, since I can't figure out how it was done beforehand; BE SURE TO ADD TO DRAGONRUBY (2/19/2023)
 # UPDATE: VERSION v2.2.0 - bug fixes
 # * load_archive_no_allocate! and load_archive! now work properly; update in DragonRuby Library Accordingly
 # NOTE: ManagedPartitionedArray and PartitionedArray have different versions. PartitionedArray can work along but
@@ -124,6 +125,21 @@ class ManagedPartitionedArray < PartitionedArray
     p "partition_addition_amount: #{@partition_addition_amount}"
     p "dynamically_allocates: #{@dynamically_allocates}"
     p "endless_add: #{@endless_add}"
+  end
+  
+  # Added 2/19/2023 (FileUtils.mkdir_p); this is a bug fix--add to dragonruby
+  def save_last_entry_to_file!
+    if @partition_archive_id == 0      
+      File.open(File.join("#{@db_path}/#{db_name_with_archive(db_name: @original_db_name)}", 'last_entry.json'), 'w') do |file|
+        file.write((@latest_id).to_json)
+      end
+    else
+      # FileUtils mkdir added on 2/19/2023; this is a bug fix--add to dragonruby
+      FileUtils.mkdir_p(File.join("#{@db_path}", "#{db_name_with_archive(db_name: @original_db_name)}")) if !File.directory? File.join("#{@db_path}", "#{db_name_with_archive(db_name: @original_db_name)}")
+      File.open(File.join("#{@db_path}/#{db_name_with_archive(db_name: @original_db_name)}", 'last_entry.json'), 'w') do |file|
+        file.write((@latest_id).to_json)
+      end
+    end
   end
 
   def archive_and_new_db!(label_integer: @label_integer, label_ranges: @label_ranges, auto_allocate: true, partition_addition_amount: @partition_addition_amount, max_capacity: @max_capacity, has_capacity: @has_capacity, partition_archive_id: @partition_archive_id, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive)
@@ -283,19 +299,7 @@ class ManagedPartitionedArray < PartitionedArray
     File.open(File.join("#{@db_path}/#{@db_name}", "has_capacity.json"), "r") do |f|
       @has_capacity = JSON.parse(f.read)
     end
-  end
-
-  def save_last_entry_to_file!
-    if @partition_archive_id == 0      
-      File.open(File.join("#{@db_path}/#{db_name_with_archive(db_name: @original_db_name)}", 'last_entry.json'), 'w') do |file|
-        file.write((@latest_id).to_json)
-      end
-    else      
-      File.open(File.join("#{@db_path}/#{db_name_with_archive(db_name: @original_db_name)}", 'last_entry.json'), 'w') do |file|
-        file.write((@latest_id).to_json)
-      end
-    end
-  end
+  end  
 
   def load_last_entry_from_file!
     File.open(File.join("#{@db_path}/#{db_name_with_archive(db_name: @original_db_name)}", 'last_entry.json'), 'r') do |file|

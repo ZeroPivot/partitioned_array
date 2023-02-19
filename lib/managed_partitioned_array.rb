@@ -1,5 +1,10 @@
 require_relative 'partitioned_array'
-# VERSION v2.2.3f - bug fix: cleanup, dont need a certain function in archive_and_new_db! anymore
+ # VERSION 2.2.3alpha - 11:10AM - 2023/19/02 - 11:13AM
+ # CHANGES that also need to be added to dragonruby
+ # initialize_max_partition_archive_id2! and changing the initialize_max_partition_archive_id! to initialize_max_partition_archive_id2! in the initialize method
+ # create_basedir! and create_basedir_once! and adding create_basedir_once! to the save_everything_to_files! method
+ # save_everything_to_files! has been changed as well
+ # Main goal and result of changes: The algorithm no longer writes to file on initialization, which allows for using it just as a data structure alone
 # VERSION v2.2.2f - major bug fixes:
 =begin
     # Bug fixed 2/19/2023 - be sure to add to dragonruby -- and another bug fixed which prevented the creation of new file contexts in a MPA sense; be sure to add to dragonruby when it comes down to that (this was a major bug, which probably occured due to "fixing things")
@@ -115,16 +120,77 @@ class ManagedPartitionedArray < PartitionedArray
     @latest_id = 0 # last entry    
     # @max_capacity = max_capacity_setup! # => commented out on 10/4/2022 1:32am
     @has_capacity = has_capacity
-    @max_partition_archive_id = initialize_max_partition_archive_id!
+    @max_partition_archive_id = initialize_max_partition_archive_id2! #2 corrects the intended bug of always writing to a directory upon initialization
     @partition_addition_amount = partition_addition_amount
     @max_capacity = max_capacity_setup!
     @dynamically_allocates = dynamically_allocates  
     @endless_add = endless_add # add endlessly like a regular partitioned array
     @label_integer = label_integer
     @label_ranges = label_ranges
+    @basedir_created = false
     super(label_integer: @label_integer, label_ranges: @label_ranges, partition_addition_amount: @partition_addition_amount, dynamically_allocates: @dynamically_allocates, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive)
   end
 
+
+  # be sure to add to dragonruby CODE
+  # changed 2/19/2023 11:04AM
+  def save_everything_to_files!
+    create_basedir_once!
+    save_all_to_files! #PartitionedArray#save_all_to_files!
+    save_last_entry_to_file!
+    save_partition_archive_id_to_file!
+    save_max_partition_archive_id_to_file!
+    save_max_capacity_to_file!
+    save_has_capacity_to_file!
+    save_db_name_with_no_archive_to_file!
+    save_partition_addition_amount_to_file!
+    save_endless_add_to_file!
+  end
+
+  # added 2/19/2023
+  # be sure to add to dragonruby CODE
+  def create_basedir_once!
+    if @basedir_created == false
+      create_basedir!
+      @basedir_created = true
+    end
+  end
+
+  # added 2/19/2023
+  # be sure tto add to dragonruby library
+  def create_basedir!
+    Dir.mkdir(@db_path) unless Dir.exist?(@db_path)
+  end
+
+  # changes added on 2/19/2023 11:03AM
+  # be sure to add to DragonRuby 
+  def initialize_max_partition_archive_id2!
+    # if the file exists, load it
+    if File.exist?(File.join("#{@db_path}", "max_partition_archive_id.json"))
+      File.open(File.join("#{@db_path}", "max_partition_archive_id.json"), "r") do |f|
+        @max_partition_archive_id = JSON.parse(f.read)
+      end
+    else
+      
+      @max_partition_archive_id = 0
+    end
+  end
+  
+  def initialize_max_partition_archive_id!
+    # if the max_partition_archive_id.json file does not exist, create it and set it to 0
+    if !File.exist?(File.join("#{@db_path}", "max_partition_archive_id.json"))
+      FileUtils.mkdir_p(@db_path)
+      File.open(File.join("#{@db_path}", "max_partition_archive_id.json"), "w") do |f|
+        f.write(0)
+      end
+      @max_partition_archive_id = 0
+    else
+    # if the max_partition_archive_id.json file does exist, load it
+    File.open(File.join("#{@db_path}", "max_partition_archive_id.json"), "r") do |f|
+      @max_partition_archive_id = JSON.parse(f.read)
+    end
+    end
+  end
   # one keyword available: :data_arr_size
   def max_capacity_setup!
     #p "@max_capacity: #{@max_capacity}"#{@max_capacity} if DEBUGGING"
@@ -258,17 +324,10 @@ class ManagedPartitionedArray < PartitionedArray
   end
 
 
-  def save_everything_to_files!
-    save_all_to_files! #PartitionedArray#save_all_to_files!
-    save_last_entry_to_file!
-    save_partition_archive_id_to_file!
-    save_max_partition_archive_id_to_file!
-    save_max_capacity_to_file!
-    save_has_capacity_to_file!
-    save_db_name_with_no_archive_to_file!
-    save_partition_addition_amount_to_file!
-    save_endless_add_to_file!
-  end
+    
+
+
+
 
   def save_variables_to_disk!
     # Synchronize all known variables with their disk counterparts
@@ -361,21 +420,6 @@ class ManagedPartitionedArray < PartitionedArray
     end
   end
 
-def initialize_max_partition_archive_id!
-  # if the max_partition_archive_id.json file does not exist, create it and set it to 0
-  if !File.exist?(File.join("#{@db_path}", "max_partition_archive_id.json"))
-    FileUtils.mkdir_p(@db_path)
-    File.open(File.join("#{@db_path}", "max_partition_archive_id.json"), "w") do |f|
-      f.write(0)
-    end
-    @max_partition_archive_id = 0
-  else
-  # if the max_partition_archive_id.json file does exist, load it
-  File.open(File.join("#{@db_path}", "max_partition_archive_id.json"), "r") do |f|
-    @max_partition_archive_id = JSON.parse(f.read)
-  end
-  end
-end
 
 
   def load_max_partition_archive_id_from_file!
@@ -430,4 +474,6 @@ end
     # from dragonruby implementation; doesn't use regular expressions
     return db_name.split('[')[0]    
   end
+  alias save! save_everything_to_files!
+  alias load! load_everything_from_files!
 end

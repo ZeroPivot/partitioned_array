@@ -159,7 +159,7 @@ class ManagedPartitionedArray < PartitionedArray
   # added 2/19/2023
   # be sure tto add to dragonruby library
   def create_basedir!
-    Dir.mkdir(@db_path) unless Dir.exist?(@db_path)
+    FileUtils.mkdir_p(@db_path) unless Dir.exist?(@db_path) 
   end
 
   # changes added on 2/19/2023 11:03AM

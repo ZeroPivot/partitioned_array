@@ -16,7 +16,7 @@ end
 
 def write_line(line, filename=DB_LIST)
   File.open(filename, "a") do |f|
-    f.puts line
+    f.puts line.chomp
   end
 end
 
@@ -36,7 +36,7 @@ end
 def write_lines(lines_array, filename=DB_LIST)
   lines_array.each do |line|
     File.open(filename, "a") do |f|
-      f.puts line
+      f.puts line.chomp
     end
   end
 end

@@ -169,7 +169,7 @@ class PartitionedArray
 
     @partition_addition_amount = partition_addition_amount
     @dynamically_allocates = dynamically_allocates
-  end
+  end 
 
   # 2/7/2023 10:39AM
   #examine closely later (also: this was never imnplemented in DragonRuby's PartitionedArray classes)

@@ -95,7 +95,7 @@
   <dl>
     <dt>Defined in:</dt>
     <dd>lib/all.rb<span class="defines">,<br />
-  lib/partitioned_array.rb,<br /> lib/dragonruby_pure_partitioned_array/partitioned_array.rb</span>
+  lib/partitioned_array.rb,<br /> lib/dr/partitioned_array.rb</span>
 </dd>
   </dl>
   
@@ -103,18 +103,8 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <ul><li>
-<p>Notes: Have to manually convert all the string data to their proper data structure</p>
-</li><li>
-<p>HURDLE: converting strings to their proper data structures is non-trivial; could check stackoverflow for a solution</p>
-</li></ul>
-
-<p>VERSION v2.0 (4/22/2022) - added PartitionedArray#add(&amp;block) function, to make additions to the array fast (fundamental method) VERSION v0.6 (2022/03/30) - finished functions necessary for the partitioned array to be useful VERSION: v0.5 (2022/03/14) Implemented PartitionedArray#get_part(partition_id) # =&gt; returns the partition specified by partition_id or nil if it doesn’t exist PartitionedArray#add_part(void) # =&gt; adds a partition to the array, bookkeeping is done in the process VERSION: v0.4 (11:55PM) Fixed bugs, fixed array_id; allocate and get are fully implemented and working correctly for sure VERSION: v0.3 (3:46PM) allocate and get(id) are seemingly fully implemented and working correctly</p>
-<ul><li>
-<p>start work on “allocate_file!”</p>
-</li></ul>
-
-<p>VERSION: v0.2 (02.28/2022 3:10PM) Currently working on get(id). VERSION: v0.1 (12/9/2021 12:31AM) Implementing allocate SYNOPSIS: An array system that is partitioned at a lower level, but functions as an almost-normal array at the high level DESCRIPTION: This is a system that is designed to be used as a database, but also as a normal array. NOTES: When loading a JSON database file (*_db.json), the related @ arr variables need to be set to what is within the JSON file database. This means the need to parse a file, and @allocated is set to true in the end. require ‘fileutils’ require ‘json’ PartitionedArray class, a data structure that is partitioned at a lower level, but functions as an almost-normal array at the high level</p>
+    
+<p>PartitionedArray class, a data structure that is partitioned at a lower level, but functions as an almost-normal array at the high level</p>
 
 
   </div>
@@ -519,7 +509,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#[]-instance_method" title="#[] (instance method)">#<strong>[]</strong>(*ids, hash: false, label_ranges: @label_ranges, label_integers: @label_integers, label_integer: @label_integer)  &#x21d2; Object </a>
+      <a href="#[]-instance_method" title="#[] (instance method)">#<strong>[]</strong>(*ids, hash: false, label_ranges: @label_ranges, label_integer: @label_integer)  &#x21d2; Object </a>
     
 
     
@@ -533,7 +523,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>2/7/2023 10:39AM examine closely later (also: this was never imnplemented in DragonRuby’s PartitionedArray classes).</p>
+</div></span>
   
 </li>
 
@@ -929,6 +921,28 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#mkdir_bindir-instance_method" title="#mkdir_bindir (instance method)">#<strong>mkdir_bindir</strong>(path)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#range_db_get-instance_method" title="#range_db_get (instance method)">#<strong>range_db_get</strong>(range_arr, db_num)  &#x21d2; Object </a>
     
 
@@ -1212,12 +1226,12 @@
       <pre class="lines">
 
 
-124
-125
-126</pre>
+126
+127
+128</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/partitioned_array.rb', line 124</span>
+      <pre class="code"><span class="info file"># File 'lib/partitioned_array.rb', line 126</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_data_arr'>data_arr</span>
   <span class='ivar'>@data_arr</span>
@@ -1255,12 +1269,12 @@
       <pre class="lines">
 
 
-124
-125
-126</pre>
+126
+127
+128</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/partitioned_array.rb', line 124</span>
+      <pre class="code"><span class="info file"># File 'lib/partitioned_array.rb', line 126</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_db_name'>db_name</span>
   <span class='ivar'>@db_name</span>
@@ -1298,12 +1312,12 @@
       <pre class="lines">
 
 
-124
-125
-126</pre>
+126
+127
+128</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/partitioned_array.rb', line 124</span>
+      <pre class="code"><span class="info file"># File 'lib/partitioned_array.rb', line 126</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_db_path'>db_path</span>
   <span class='ivar'>@db_path</span>
@@ -1341,12 +1355,12 @@
       <pre class="lines">
 
 
-124
-125
-126</pre>
+126
+127
+128</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/partitioned_array.rb', line 124</span>
+      <pre class="code"><span class="info file"># File 'lib/partitioned_array.rb', line 126</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_db_size'>db_size</span>
   <span class='ivar'>@db_size</span>
@@ -1384,12 +1398,12 @@
       <pre class="lines">
 
 
-124
-125
-126</pre>
+126
+127
+128</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/partitioned_array.rb', line 124</span>
+      <pre class="code"><span class="info file"># File 'lib/partitioned_array.rb', line 126</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_partition_addition_amount'>partition_addition_amount</span>
   <span class='ivar'>@partition_addition_amount</span>
@@ -1427,12 +1441,12 @@
       <pre class="lines">
 
 
-124
-125
-126</pre>
+126
+127
+128</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/partitioned_array.rb', line 124</span>
+      <pre class="code"><span class="info file"># File 'lib/partitioned_array.rb', line 126</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_partition_amount_and_offset'>partition_amount_and_offset</span>
   <span class='ivar'>@partition_amount_and_offset</span>
@@ -1470,12 +1484,12 @@
       <pre class="lines">
 
 
-124
-125
-126</pre>
+126
+127
+128</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/partitioned_array.rb', line 124</span>
+      <pre class="code"><span class="info file"># File 'lib/partitioned_array.rb', line 126</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_range_arr'>range_arr</span>
   <span class='ivar'>@range_arr</span>
@@ -1513,12 +1527,12 @@
       <pre class="lines">
 
 
-124
-125
-126</pre>
+126
+127
+128</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/partitioned_array.rb', line 124</span>
+      <pre class="code"><span class="info file"># File 'lib/partitioned_array.rb', line 126</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_rel_arr'>rel_arr</span>
   <span class='ivar'>@rel_arr</span>
@@ -1538,48 +1552,59 @@
       <div class="method_details first">
   <h3 class="signature first" id="[]-instance_method">
   
-    #<strong>[]</strong>(*ids, hash: false, label_ranges: @label_ranges, label_integers: @label_integers, label_integer: @label_integer)  &#x21d2; <tt>Object</tt> 
+    #<strong>[]</strong>(*ids, hash: false, label_ranges: @label_ranges, label_integer: @label_integer)  &#x21d2; <tt>Object</tt> 
   
 
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>2/7/2023 10:39AM examine closely later (also: this was never imnplemented in DragonRuby’s PartitionedArray classes)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58</pre>
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/all.rb', line 32</span>
+      <pre class="code"><span class="info file"># File 'lib/partitioned_array.rb', line 174</span>
 
 <span class='kw'>def</span> <span class='op'>[]</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_ids'>ids</span><span class='comma'>,</span> <span class='label'>hash:</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>label_ranges:</span> <span class='ivar'>@label_ranges</span><span class='comma'>,</span> <span class='label'>label_integer:</span> <span class='ivar'>@label_integer</span><span class='rparen'>)</span>
   <span class='comment'>#puts &quot;ids: #{ids[0]}&quot;
@@ -1639,27 +1664,27 @@
       <pre class="lines">
 
 
-296
-297
-298
-299
-300
-301
-302
-303
-304
-305
-306
-307
-308
 309
 310
 311
 312
-313</pre>
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/partitioned_array.rb', line 296</span>
+      <pre class="code"><span class="info file"># File 'lib/partitioned_array.rb', line 309</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add'>add</span><span class='lparen'>(</span><span class='label'>return_added_element_id:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span> 
   <span class='id identifier rubyid_element_id_to_return'>element_id_to_return</span> <span class='op'>=</span> <span class='kw'>nil</span>
@@ -1814,19 +1839,6 @@
       <pre class="lines">
 
 
-327
-328
-329
-330
-331
-332
-333
-334
-335
-336
-337
-338
-339
 340
 341
 342
@@ -1841,10 +1853,23 @@
 351
 352
 353
-354</pre>
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/partitioned_array.rb', line 327</span>
+      <pre class="code"><span class="info file"># File 'lib/partitioned_array.rb', line 340</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_allocate'>allocate</span><span class='lparen'>(</span><span class='label'>db_size:</span> <span class='ivar'>@db_size</span><span class='comma'>,</span> <span class='label'>partition_amount_and_offset:</span> <span class='ivar'>@partition_amount_and_offset</span><span class='comma'>,</span> <span class='label'>override:</span> <span class='kw'>false</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='op'>!</span><span class='ivar'>@allocated</span> <span class='op'>||</span> <span class='id identifier rubyid_override'>override</span>
@@ -2107,19 +2132,6 @@
       <pre class="lines">
 
 
-361
-362
-363
-364
-365
-366
-367
-368
-369
-370
-371
-372
-373
 374
 375
 376
@@ -2146,10 +2158,23 @@
 397
 398
 399
-400</pre>
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/partitioned_array.rb', line 361</span>
+      <pre class="code"><span class="info file"># File 'lib/partitioned_array.rb', line 374</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='label'>hash:</span> <span class='kw'>false</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>unless</span> <span class='ivar'>@allocated</span> <span class='comment'># if the database has not been allocated, return nil
@@ -2300,26 +2325,26 @@
       <pre class="lines">
 
 
-443
-444
-445
-446
-447
-448
-449
-450
-451
-452
-453
-454
-455
 456
 457
 458
-459</pre>
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/partitioned_array.rb', line 443</span>
+      <pre class="code"><span class="info file"># File 'lib/partitioned_array.rb', line 456</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_load_from_files!'>load_from_files!</span><span class='lparen'>(</span><span class='label'>db_folder:</span> <span class='ivar'>@db_folder</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_load_partition_addition_amount_from_file!'>load_partition_addition_amount_from_file!</span>
@@ -2401,23 +2426,23 @@
       <pre class="lines">
 
 
-471
-472
-473
-474
-475
-476
-477
-478
-479
-480
-481
-482
-483
-484</pre>
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/partitioned_array.rb', line 471</span>
+      <pre class="code"><span class="info file"># File 'lib/partitioned_array.rb', line 484</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_load_partition_from_file!'>load_partition_from_file!</span><span class='lparen'>(</span><span class='id identifier rubyid_partition_id'>partition_id</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_path'>path</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@db_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
@@ -2432,6 +2457,36 @@
     <span class='ivar'>@data_arr</span><span class='lbracket'>[</span><span class='id identifier rubyid_range_element'>range_element</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_partition_data'>partition_data</span><span class='lbracket'>[</span><span class='id identifier rubyid_range_element'>range_element</span><span class='rbracket'>]</span>
   <span class='kw'>end</span>
   <span class='ivar'>@data_arr</span><span class='lbracket'>[</span><span class='ivar'>@range_arr</span><span class='lbracket'>[</span><span class='id identifier rubyid_partition_id'>partition_id</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="mkdir_bindir-instance_method">
+  
+    #<strong>mkdir_bindir</strong>(path)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+521
+522
+523</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/dr/partitioned_array.rb', line 521</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_mkdir_bindir'><span class='object_link'><a href="top-level-namespace.html#mkdir_bindir-instance_method" title="#mkdir_bindir (method)">mkdir_bindir</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
+  <span class='gvar'>$gtk</span><span class='period'>.</span><span class='id identifier rubyid_system'>system</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>cmd /c mkdir \&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_pwd'><span class='object_link'><a href="top-level-namespace.html#pwd-instance_method" title="#pwd (method)">pwd</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>\\</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_path'>path</span><span class='embexpr_end'>}</span><span class='tstring_content'>\&quot;</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2703,25 +2758,25 @@
       <pre class="lines">
 
 
-277
-278
-279
-280
-281
-282
-283
-284
-285
-286
-287
-288
-289
 290
 291
-292</pre>
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/partitioned_array.rb', line 277</span>
+      <pre class="code"><span class="info file"># File 'lib/partitioned_array.rb', line 290</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_set'>set</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_id'>id</span> <span class='op'>&lt;=</span> <span class='ivar'>@db_size</span> <span class='op'>-</span> <span class='int'>1</span>
@@ -2770,26 +2825,26 @@
       <pre class="lines">
 
 
-238
-239
-240
-241
-242
-243
-244
-245
-246
-247
-248
-249
-250
 251
 252
 253
-254</pre>
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/partitioned_array.rb', line 238</span>
+      <pre class="code"><span class="info file"># File 'lib/partitioned_array.rb', line 251</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_set_partition_subelement'>set_partition_subelement</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_partition_id'>partition_id</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_set_successfully'>set_successfully</span> <span class='op'>=</span> <span class='kw'>false</span>
@@ -2850,9 +2905,9 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Jan 27 05:11:26 2023 by
+  Generated on Fri Mar 31 16:01:16 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.28 (ruby-3.2.0).
+  0.9.28 (ruby-3.2.1).
 </div>
 
     </div>

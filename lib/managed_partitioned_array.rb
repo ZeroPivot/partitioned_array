@@ -286,6 +286,7 @@ class ManagedPartitionedArray < PartitionedArray
     end
   end
 
+  # runtime complexity: O(n)
   def add(return_added_element_id: true, &block)
     # endless add addition here
     if @endless_add && @data_arr[@latest_id].nil?
@@ -299,6 +300,10 @@ class ManagedPartitionedArray < PartitionedArray
     @latest_id += 1
     super(return_added_element_id: return_added_element_id, &block)
   end
+
+
+
+
 
   def load_everything_from_files!
     load_from_files! #PartitionedArray#load_from_files!

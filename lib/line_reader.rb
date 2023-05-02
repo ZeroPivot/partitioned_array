@@ -2,6 +2,15 @@
 
 DB_LIST = "./database/db_list.txt"
 
+
+def create_db_list_file_mkdir
+  FileUtils.mkdir_p("./database")
+  FileUtils.touch(DB_LIST)
+end
+
+  
+
+
 def read_lines(array)
   array.map { |line| line.chomp }
 end

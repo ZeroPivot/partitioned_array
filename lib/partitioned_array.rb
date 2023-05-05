@@ -10,6 +10,8 @@
 # rubocop:disable Metrics/MethodLength
 # rubocop:disable Style/IfUnlessModifier
 # rubocop:disable Layout/LineLength
+# Q: how do I fix git conflits with git commands?
+# A: git checkout --ours lib/partitioned_array/lib/partitioned_array.rb
 # VERSION v3.0.0-release - 5/5/2023
 # *  switched code around so that add only saves the partition of which the id is within: add(id, hash: false) - 5/5/2023
 # * see additional changes in ManagedPartitionedArray v3.0.0-release

@@ -12,6 +12,10 @@ require_relative "partitioned_array_database"
 # which decomposes to FileContextManagedPartitionedArrayManager objects;
 # which decomposes to FileContextManagedPartitionedArray objects;
 # which decomposes to ManagedPartitionedArray objects, which inherits from the PartitionedArray class.
+# VERSION v3.0.0-release:
+# NOTE: This is a major update, and IS backwards compatible with the previous versions.
+# SEE managed_partitioned_array.rb and partitioned_array.rb for more information DragonRuby version and regular lib version)
+# NOTE: FILES ARE ALL SYNCED WITH THE DRAGONRUBY VERSION and VICE VERSA
 # VERSION: v1.2.0-release  
 # VERSION v1.1.7-release: cleanup
 # VERSION v1.1.6-release: label_integer and label_ranges for the ManagedPartitionedArray class, wherein you can define a set of integers or ranges separated by commas

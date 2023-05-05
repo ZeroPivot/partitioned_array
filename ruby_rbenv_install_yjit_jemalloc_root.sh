@@ -19,6 +19,9 @@ echo 'DONE.'
 echo '"Sourcing $HOME/.cargo/env" (rust)'
 source "$HOME/.cargo/env"
 echo "DONE."
+echo "Additional packages..."
+sudo apt-get install autoconf bison patch build-essential libssl-dev libyaml-dev libreadline6-dev zlib1g-dev libgmp-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev libdb-dev uuid-dev
+echo "DONE."
 echo "---------------------------------------------------------------"
 echo "SETUP END NOTES:"
 echo "note: --enable-yjit has been added to bashrc and temp terminal path"

@@ -10,6 +10,11 @@
 # rubocop:disable Metrics/MethodLength
 # rubocop:disable Style/IfUnlessModifier
 # rubocop:disable Layout/LineLength
+# VERSION v3.0.0-dragonruby-release
+# ADD: add(id, hash: false)
+# * CHANGES: sync with lib/partitioned_array.rb (cop-out, sue me)
+# * switched code around so that add only saves the partition of which the id is in
+# NOTE: see managed_partitioned_array and partitioned_array.rb for all 3.0.0 updates
 # VERSION v2.0.1-dragonruby-release
 # VERSION v2.0.1-release - remove :last and :first in favor of [:all].last and [:all].first; update in DRAGONRUBY ACCORDINGLY (2/7/2023 11:14AM)
 # VERSION v2.0.0-release - add :all :last :first keywords to [] method, unrefined and untested
@@ -327,7 +332,12 @@ class PartitionedArray
         block.call(@data_arr[element_index]) # seems == to block.call(element)
         if @dynamically_allocates && (element_index == @db_size - 1 && at_capacity?)
           @partition_addition_amount.times { add_partition } #if element_index == @data_arr.size - 1 # easier code; add if you reach the end of the array
-          save_all_to_files! # save the data to the files
+          #save_all_to_files! # save the data to the files -- superceded by save_partition_to_file! below
+          # ...
+          # WTF!? This is a bug! It should be saving the partition that was just added, not all of them!
+          partition_id = get_partition_id(element_index)
+          save_partition_to_file!(partition_id) # save the data to the files; needs to be optimized
+
         end
         element_id_to_return = element_index
         break

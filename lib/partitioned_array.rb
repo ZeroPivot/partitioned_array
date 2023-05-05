@@ -10,6 +10,10 @@
 # rubocop:disable Metrics/MethodLength
 # rubocop:disable Style/IfUnlessModifier
 # rubocop:disable Layout/LineLength
+# VERSION v3.0.0-release - 5/5/2023
+# *  switched code around so that add only saves the partition of which the id is within: add(id, hash: false) - 5/5/2023
+# * see additional changes in ManagedPartitionedArray v3.0.0-release
+# NOTE: dr-version has been synced with this version
 # VERSION v2.0.1-release - remove :last and :first in favor of [:all].last and [:all].first; update in DRAGONRUBY ACCORDINGLY (2/7/2023 11:14AM)
 # VERSION v2.0.0-release - add :all :last :first keywords to [] method, unrefined and untested
 # VERSION v1.2.4-release - cleanup puts in add_partition 

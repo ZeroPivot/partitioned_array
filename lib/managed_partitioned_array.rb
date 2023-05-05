@@ -1,4 +1,5 @@
 require_relative 'partitioned_array'
+ # VERSION v3.0.0-release and v3.0.0-dragonruby
  # VERSION 2.2.3alpha - 11:10AM - 2023/19/02 - 11:13AM
  # CHANGES that also need to be added to dragonruby
  # initialize_max_partition_archive_id2! and changing the initialize_max_partition_archive_id! to initialize_max_partition_archive_id2! in the initialize method
@@ -130,6 +131,14 @@ class ManagedPartitionedArray < PartitionedArray
     @basedir_created = false
     super(label_integer: @label_integer, label_ranges: @label_ranges, partition_addition_amount: @partition_addition_amount, dynamically_allocates: @dynamically_allocates, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive)
   end
+
+  #iterates @data_arr
+  def iterate
+    0.upto(@latest_id) do |i|
+      yield i
+    end
+  end
+
 
 
   # be sure to add to dragonruby CODE

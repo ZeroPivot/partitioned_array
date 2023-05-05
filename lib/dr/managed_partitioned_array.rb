@@ -1,4 +1,14 @@
 require_relative 'partitioned_array'
+
+# THIS STUPID QUESTION IS ASKED ALOT, SO ASK THAT JERK GITHUB COPILOT FOR HELP:
+# Q: how do I update the username and password in git?
+# A: git config --global user.name "your_username"
+#    git config --global user.password "your_password"
+#    git config --global user.email "your_email"
+
+
+
+
 # VERSION v3.0.0-release and VERSION v3.0.0-dragonruby
 # NOTE: iterate() added to ManagedPartitonedArray
 # SEE: partitioned_array.rb for more information on add() changes (save_all_to_files! -> save_partition_to_file!(partition_id)

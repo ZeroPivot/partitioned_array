@@ -143,6 +143,14 @@ class LineDB
   end
 
   # TODO: implement rm_rf for dragonruby on windows and linux, and maybe android
+  # not as easy to implement as it seems, because dragonruby doesn't have a FileUtils module
+
+
+  # create a fileutils eeuivalent function for dragonruby
+  # def rm_rf(path)
+  
+
+
   def delete_pad_single(db_name)
     db_linelist = read_file_lines(@database_file_name)
     if db_linelist.include?(db_name)

@@ -1,16 +1,12 @@
 require_relative 'partitioned_array'
 
-# THIS STUPID QUESTION IS ASKED ALOT, SO ASK THAT JERK GITHUB COPILOT FOR HELP:
-# Q: how do I update the username and password in git?
-# A: git config --global user.name "your_username"
-#    git config --global user.password "your_password"
-#    git config --global user.email "your_email"
 
+# proposed name: lib-mpartitioned_array
+# proposed name: dr-mpartitioned_array
 
-
-
+# VERSION: v3.0.0-dragonruby release, sync'd with lib versions v3.0.0=release
 # VERSION v3.0.0-release and VERSION v3.0.0-dragonruby
-# NOTE: iterate() added to ManagedPartitonedArray
+# NOTE: iterate() added to ManagedPartitonedArray (dr && lib ver)
 # SEE: partitioned_array.rb for more information on add() changes (save_all_to_files! -> save_partition_to_file!(partition_id)
 # NOTE: SYNC has been done with dragonruby implementation
 # VERSION v2.2.3-dragonruby 
@@ -179,11 +175,12 @@ class ManagedPartitionedArray < PartitionedArray
 
   # changes added on 2/19/2023 11:03AM
   # be sure to add to DragonRuby 
+    # fully fixed for dragonruby
   def initialize_max_partition_archive_id2!
     # if the file exists, load it
     if File.exist?(File.join("#{@db_path}", "max_partition_archive_id.json"))
       File.open(File.join("#{@db_path}", "max_partition_archive_id.json"), "r") do |f|
-        @max_partition_archive_id = JSON.parse(f.read)
+        @max_partition_archive_id = JSONeval.json2ruby(f.read)
       end
     else
       
@@ -191,6 +188,7 @@ class ManagedPartitionedArray < PartitionedArray
     end
   end
   
+# deprecated
   def initialize_max_partition_archive_id!
     # if the max_partition_archive_id.json file does not exist, create it and set it to 0
     if !File.exist?(File.join("#{@db_path}", "max_partition_archive_id.json"))
@@ -202,7 +200,7 @@ class ManagedPartitionedArray < PartitionedArray
     else
     # if the max_partition_archive_id.json file does exist, load it
     File.open(File.join("#{@db_path}", "max_partition_archive_id.json"), "r") do |f|
-      @max_partition_archive_id = JSON.parse(f.read)
+      @max_partition_archive_id = JSONeval.json2ruby(f.read)
     end
     end
   end
@@ -275,7 +273,7 @@ class ManagedPartitionedArray < PartitionedArray
       # FileUtils mkdir added on 2/19/2023; this is a bug fix--add to dragonruby
       FileUtils.mkdir_p(File.join("#{@db_path}", "#{db_name_with_archive(db_name: @original_db_name)}")) if !File.directory? File.join("#{@db_path}", "#{db_name_with_archive(db_name: @original_db_name)}")
       File.open(File.join("#{@db_path}/#{db_name_with_archive(db_name: @original_db_name)}", 'last_entry.json'), 'w') do |file|
-        file.write((JSONeval.ruby2json(@latest_id)).to_json)
+        file.write((JSONeval.ruby2json(@latest_id)))
       end
     end
   end
@@ -497,4 +495,5 @@ class ManagedPartitionedArray < PartitionedArray
   end
   alias save! save_everything_to_files!
   alias load! load_everything_from_files!
+end
 end

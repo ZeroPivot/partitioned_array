@@ -89,30 +89,52 @@ class LineDB
   def nillize_partition_subelement!(partition_number, subelement_index)
     if (@active_database)
       db[@active_database].PAD.save_partition_to_file!(partition_number)
-      db[@active_database].PAD.set_partition_subelement!(partition_number, nil)
-      
+      @data_array[partition_number][subelement_index] = nil
       return true
-    else
+    else      
       return false
     end
       
   end
 
-  def nillize_partition!(partition_number)
+
+  
+  # by definition, when you revive one element, that entire partiton is also a revenant
+  def revenant_partition!(partition_number)
+    if (@active_database)
+      db[@active_database].PAD.load_partition_from_file!(partition_number)
+      return true
+    else
+      return false
+    end
+  end
+
+
+  def kill_partition!(partition_number)
     if (@active_database)
       db[@active_database].PAD.save_partition_to_file!(partition_number)
-      db[@active_database].PAD.each_with_index do |subelement, subelement_index|
-        db[@active_database].PAD.set_partition_subelement!(partition_number, subelement_index, nil)
+      db[@active_database].PAD.each_with_index do |partition_id, subelement_index|
+        db[@active_database].PAD.data_arr[partition_id][subelement_index] = nil
+        
       end
-      return true
-    else
-      return false
-    end
+        return true
+      else
+        return false
     end
   end
 
 
-    
+  def active_database=(db_name)
+    @active_database = db_name
+  end
+
+  def active_database?
+    if (@active_database)
+      db[@active_database]
+    else
+      false 
+    end
+  end
 
 
 
@@ -159,9 +181,7 @@ class LineDB
     remove_pad_single(db_name)
   end
 
-  def active_database!(db_name)
-    @active_database = db_name
-  end
+  
 
 
   # TODO: implement rm_rf for dragonruby on windows and linux, and maybe android

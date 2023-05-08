@@ -71,9 +71,52 @@ class LineDB
     @traverse_hash = traverse_hash
     @linelist = load_pad(parent_folder: @parent_folder)
     @lambda_list = ->{@linelist.keys.map { |db_name| db_name }}
+    @active_database = nil
     #@lambda_list_all = ->{@linelist.keys.map { |db_name| db_name }}
     #@lambda_list = ->(database_name){@linelist.keys.map { |db_name| @linelist[db_name] }}     
   end
+
+  # add to the database starting from the left hand side, and skipping over nils
+  def lhs_add
+
+  end
+
+  # add to the database starting from the right hand side, and skipping over nils going from left to right
+  def rhs_add
+    
+  end
+
+  def nillize_partition_subelement!(partition_number, subelement_index)
+    if (@active_database)
+      db[@active_database].PAD.save_partition_to_file!(partition_number)
+      db[@active_database].PAD.set_partition_subelement!(partition_number, nil)
+      
+      return true
+    else
+      return false
+    end
+      
+  end
+
+  def nillize_partition!(partition_number)
+    if (@active_database)
+      db[@active_database].PAD.save_partition_to_file!(partition_number)
+      db[@active_database].PAD.each_with_index do |subelement, subelement_index|
+        db[@active_database].PAD.set_partition_subelement!(partition_number, subelement_index, nil)
+      end
+      return true
+    else
+      return false
+    end
+    end
+  end
+
+
+    
+
+
+
+
 
   # List of active databases
   def list_databases
@@ -90,7 +133,7 @@ class LineDB
   end
   
   def update_databases
-    @lambda_list = -> {@linelist.keys.map { |db_name| db_name }} 
+    @lambda_list = ->{@linelist.keys.map { |db_name| db_name }} 
   end
 
   def [](*db_names)
@@ -115,6 +158,11 @@ class LineDB
     remove_line(db_name)
     remove_pad_single(db_name)
   end
+
+  def active_database!(db_name)
+    @active_database = db_name
+  end
+
 
   # TODO: implement rm_rf for dragonruby on windows and linux, and maybe android
   def delete_db!(db_name)

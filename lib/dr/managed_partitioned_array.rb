@@ -298,6 +298,13 @@ class ManagedPartitionedArray < PartitionedArray
     end
   end
 
+
+
+  def np_add(return_added_element_id: true, &block)
+    # endless add addition here
+  end
+
+  # Linear Add
   def add(return_added_element_id: true, &block)
     # endless add addition here
     if @endless_add && @data_arr[@latest_id].nil?

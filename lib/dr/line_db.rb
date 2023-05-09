@@ -76,52 +76,7 @@ class LineDB
     #@lambda_list = ->(database_name){@linelist.keys.map { |db_name| @linelist[db_name] }}     
   end
 
-  # add to the database starting from the left hand side, and skipping over nils
-  def lhs_add
-
-  end
-
-  # add to the database starting from the right hand side, and skipping over nils going from left to right
-  def rhs_add
-    
-  end
-
-  def nillize_partition_subelement!(partition_number, subelement_index)
-    if (@active_database)
-      db[@active_database].PAD.save_partition_to_file!(partition_number)
-      @data_array[partition_number][subelement_index] = nil
-      return true
-    else      
-      return false
-    end
-      
-  end
-
-
   
-  # by definition, when you revive one element, that entire partiton is also a revenant
-  def revenant_partition!(partition_number)
-    if (@active_database)
-      db[@active_database].PAD.load_partition_from_file!(partition_number)
-      return true
-    else
-      return false
-    end
-  end
-
-
-  def kill_partition!(partition_number)
-    if (@active_database)
-      db[@active_database].PAD.save_partition_to_file!(partition_number)
-      db[@active_database].PAD.each_with_index do |partition_id, subelement_index|
-        db[@active_database].PAD.data_arr[partition_id][subelement_index] = nil
-        
-      end
-        return true
-      else
-        return false
-    end
-  end
 
 
   def active_database=(db_name)

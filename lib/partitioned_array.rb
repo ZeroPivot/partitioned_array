@@ -175,6 +175,21 @@ class PartitionedArray
     @dynamically_allocates = dynamically_allocates
   end
 
+
+      # by definition, when you revive one element, that entire partiton is also a revenant
+      def revenant_partition!(partition_number)    
+        load_partition_from_file!(partition_number)
+      end
+  
+  
+    def kill_partition!(partition_number)    
+        save_partition_to_file!(partition_number)
+        @data_arr[@range_arr[partition_number]] = nil
+            
+  
+  
+    end
+
   # 2/7/2023 10:39AM
   #examine closely later (also: this was never imnplemented in DragonRuby's PartitionedArray classes)
   def [](*ids, hash: false, label_ranges: @label_ranges, label_integer: @label_integer)

@@ -71,9 +71,74 @@ class LineDB
     @traverse_hash = traverse_hash
     @linelist = load_pad(parent_folder: @parent_folder)
     @lambda_list = ->{@linelist.keys.map { |db_name| db_name }}
+    @active_database = nil
     #@lambda_list_all = ->{@linelist.keys.map { |db_name| db_name }}
     #@lambda_list = ->(database_name){@linelist.keys.map { |db_name| @linelist[db_name] }}     
   end
+
+  # add to the database starting from the left hand side, and skipping over nils
+  def lhs_add
+
+  end
+
+  # add to the database starting from the right hand side, and skipping over nils going from left to right
+  def rhs_add
+    
+  end
+
+  def nillize_partition_subelement!(partition_number, subelement_index)
+    if (@active_database)
+      db[@active_database].PAD.save_partition_to_file!(partition_number)
+      @data_array[partition_number][subelement_index] = nil
+      return true
+    else      
+      return false
+    end
+      
+  end
+
+
+  
+  # by definition, when you revive one element, that entire partiton is also a revenant
+  def revenant_partition!(partition_number)
+    if (@active_database)
+      db[@active_database].PAD.load_partition_from_file!(partition_number)
+      return true
+    else
+      return false
+    end
+  end
+
+
+  def kill_partition!(partition_number)
+    if (@active_database)
+      db[@active_database].PAD.save_partition_to_file!(partition_number)
+      db[@active_database].PAD.each_with_index do |partition_id, subelement_index|
+        db[@active_database].PAD.data_arr[partition_id][subelement_index] = nil
+        
+      end
+        return true
+      else
+        return false
+    end
+  end
+
+
+  def active_database=(db_name)
+    @active_database = db_name
+  end
+
+  def active_database?
+    if (@active_database)
+      db[@active_database]
+    else
+      false 
+    end
+  end
+
+
+
+
 
   # List of active databases
   def list_databases
@@ -90,7 +155,7 @@ class LineDB
   end
   
   def update_databases
-    @lambda_list = -> {@linelist.keys.map { |db_name| db_name }} 
+    @lambda_list = ->{@linelist.keys.map { |db_name| db_name }} 
   end
 
   def [](*db_names)
@@ -115,6 +180,9 @@ class LineDB
     remove_line(db_name)
     remove_pad_single(db_name)
   end
+
+  
+
 
   # TODO: implement rm_rf for dragonruby on windows and linux, and maybe android
   def delete_db!(db_name)
@@ -143,14 +211,6 @@ class LineDB
   end
 
   # TODO: implement rm_rf for dragonruby on windows and linux, and maybe android
-  # not as easy to implement as it seems, because dragonruby doesn't have a FileUtils module
-
-
-  # create a fileutils eeuivalent function for dragonruby
-  # def rm_rf(path)
-  
-
-
   def delete_pad_single(db_name)
     db_linelist = read_file_lines(@database_file_name)
     if db_linelist.include?(db_name)

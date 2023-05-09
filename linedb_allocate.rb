@@ -34,13 +34,5 @@ puts b-a
 
 
 
-puts "regular array addition"
-a = Time.now
-10000.times do |i|
-  arr ||= []
-  arr << i
-end
-b = Time.now
-puts b-a
 
 

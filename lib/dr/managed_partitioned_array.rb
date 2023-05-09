@@ -143,6 +143,7 @@ class ManagedPartitionedArray < PartitionedArray
   end
 
 
+
   # be sure to add to dragonruby CODE
   # changed 2/19/2023 11:04AM
   def save_everything_to_files!
@@ -170,7 +171,7 @@ class ManagedPartitionedArray < PartitionedArray
   # added 2/19/2023
   # be sure tto add to dragonruby library
   def create_basedir!
-    midir_bindir(@db_path) unless Dir.exist?(@db_path) 
+    mkdir_bindir(@db_path) unless Dir.exist?(@db_path) 
   end
 
   # changes added on 2/19/2023 11:03AM

@@ -23,12 +23,9 @@ test["test"].db["test_database", "test_table"].add do |hash|  # benchmark with n
 end
 end
 
-test["test"].db["test_database", "test_table"].delete_partition!(1)
 test["test"].db["test_database", "test_table"].save_everything_to_files!
 b = Time.now
 puts b-a
 
-0..90.times do |i|
-  p test["test"].db["test_database", "test_table"].get(i)
-  puts "\n\n\n\n\n"
-end
+
+  p test["test"].db["test_database", "test_table"]["all"]

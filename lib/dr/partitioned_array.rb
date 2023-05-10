@@ -496,7 +496,6 @@ class PartitionedArray
     @data_arr.clone
   end
 
-
 # Plan: be able to dump @data_arr to disk anytime you want
   def load_partition_from_file!(partition_id)
     path = "#{@db_path}/#{@db_name}"

@@ -193,7 +193,7 @@ class PartitionedArray
 
       # by definition, when you revive one element, that entire partiton is also a revenant
       def revenant_partition!(partition_number)
-        # possible code could go here that would keep track of revenant partitions (partitions revived from file)    
+        # possible code could go here that would keep    
         load_partition_from_file!(partition_number)
       end
   
@@ -205,8 +205,7 @@ class PartitionedArray
   
   
     
-  # finished functions necessary for the partitioned array to be useful
-  # 2023-05-10 6:36AM - FINISHED
+
   # 2/7/2023 10:39AM
   #examine closely later (also: this was never imnplemented in DragonRuby's PartitionedArray classes)
   def [](*ids, hash: false, label_ranges: @label_ranges, label_integer: @label_integer)

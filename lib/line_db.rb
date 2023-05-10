@@ -8,7 +8,9 @@
 
 require_relative "file_methods"
 require_relative "partitioned_array_database"
-
+# VERSION v4.0.0-release: synchronized with PartitionedArray
+# TODO: fully implement for DragonRuby (/lib/dr)
+#################
 # which decomposes to FileContextManagedPartitionedArrayManager objects;
 # which decomposes to FileContextManagedPartitionedArray objects;
 # which decomposes to ManagedPartitionedArray objects, which inherits from the PartitionedArray class.

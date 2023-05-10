@@ -12,6 +12,20 @@
 # rubocop:disable Layout/LineLength
 # Q: how do I fix git conflits with git commands?
 # A: git checkout --ours lib/partitioned_array/lib/partitioned_array.rb
+
+# VERSION v4.0.0-release - 5/9/2023
+# * fixed delete_partition!, aka kill_partition! - 2023-05-09 5:00PM
+# * binary space partitioning now works correctly, or in the first place
+# * use PartitionedArray#kill_partition! or PartitionedArray#delete_partition! to flip the bit of the partition to 0
+# * added a few more tests (revenant_partitions.rb)
+# TODO: potential cleanup
+# QUICK NOTES:
+# * PartitionedArray#delete_partition! and PartitionedArray#kill_partition! are the same thing
+# use the delete methods to remove a partition from the database in memory; 
+# be fully aware that if that partition was saved onto disk (.json), you can load it back
+# up with ParititionedArray#load_partition_from_file!
+
+
 # VERSION v3.0.0-release - 5/5/2023
 # *  switched code around so that add only saves the partition of which the id is within: add(id, hash: false) - 5/5/2023
 # * see additional changes in ManagedPartitionedArray v3.0.0-release
@@ -287,7 +301,9 @@ class PartitionedArray
     set_successfully
   end
 
-
+  # delete the partition's array named partition, by id
+  # loopy, non-trivial code that may not work as intended,
+  # but works for binary space partitioning
   def delete_partition!(partition_id)
     # delete the partition id data
     debug "Partition ID: #{partition_id}"  

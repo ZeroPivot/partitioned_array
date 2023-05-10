@@ -32,5 +32,3 @@ puts b-a
   p test["test"].db["test_database", "test_table"].get(i)
   puts "\n\n\n\n\n"
 end
-
-

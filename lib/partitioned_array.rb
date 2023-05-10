@@ -12,6 +12,20 @@
 # rubocop:disable Layout/LineLength
 # Q: how do I fix git conflits with git commands?
 # A: git checkout --ours lib/partitioned_array/lib/partitioned_array.rb
+
+# VERSION v4.0.0-release - 5/9/2023
+# * fixed delete_partition!, aka kill_partition! - 2023-05-09 5:00PM
+# * binary space partitioning now works correctly, or in the first place
+# * use PartitionedArray#kill_partition! or PartitionedArray#delete_partition! to flip the bit of the partition to 0
+# * added a few more tests (revenant_partitions.rb)
+# TODO: potential cleanup
+# QUICK NOTES:
+# * PartitionedArray#delete_partition! and PartitionedArray#kill_partition! are the same thing
+# use the delete methods to remove a partition from the database in memory; 
+# be fully aware that if that partition was saved onto disk (.json), you can load it back
+# up with ParititionedArray#load_partition_from_file!
+
+
 # VERSION v3.0.0-release - 5/5/2023
 # *  switched code around so that add only saves the partition of which the id is within: add(id, hash: false) - 5/5/2023
 # * see additional changes in ManagedPartitionedArray v3.0.0-release
@@ -183,12 +197,12 @@ class PartitionedArray
   
   
     def kill_partition!(partition_number)    
-        save_partition_to_file!(partition_number)
-        @data_arr[@range_arr[partition_number]] = nil
-            
-  
-  
+      delete_partition!(partition_number)
     end
+        
+  
+  
+    
 
   # 2/7/2023 10:39AM
   #examine closely later (also: this was never imnplemented in DragonRuby's PartitionedArray classes)
@@ -287,13 +301,29 @@ class PartitionedArray
     set_successfully
   end
 
-  def delete_partition(partition_id)
+  # delete the partition's array named partition, by id
+  # loopy, non-trivial code that may not work as intended,
+  # but works for binary space partitioning
+  def delete_partition!(partition_id)
     # delete the partition id data
-    debug "Partition ID: #{partition_id}"
-    @data_arr[@range_arr[partition_id]].each_with_index do |_, index|
-      @data_arr[index] = nil
+    debug "Partition ID: #{partition_id}"  
+      a = @data_arr[range_db_get(@range_arr, partition_id)]
+      if (a.all? { |x| x.nil? } == false)
+        a.each_with_index do |item, index|
+          @data_arr[a[index]["id"]] = nil      
+        end
+      end
     end
-  end
+      
+  
+      #  p a
+      #a_id = a[a[index]["id"]]
+      #p "a: #{a_id}"
+      #exitZcxxvd2
+      #12d
+      
+      #@data_arr[a["data_partition"][index]["id"]] = nil
+    
 
   def get_partition(partition_id)
     # get the partition id data
@@ -516,10 +546,18 @@ class PartitionedArray
     @rel_arr = File.open("#{path}/rel_arr.json", 'r') { |f| JSON.parse(f.read) }
     sliced_range_arr = @range_arr[partition_id].to_a.map { |range_element| range_element }
     partition_data = File.open("#{path}/#{@db_name}_part_#{partition_id}.json", 'r') { |f| JSON.parse(f.read) }
+    p "load: #{partition_data.to_s}"
+    p "Path: #{path}"
+    p "Partition ID: #{partition_id}"
+    p "Sliced Range Arr: #{sliced_range_arr}"
+    p "Range Arr: #{@range_arr}"
+    p "Partition Data: #{partition_data}"
+    puts "#{path}/#{@db_name}_part_#{partition_id}.json"
+    gets
     ((sliced_range_arr[0].to_i)..(sliced_range_arr[-1].to_i)).to_a.each do |range_element|
       @data_arr[range_element] = partition_data[range_element]
     end
-    @data_arr[@range_arr[partition_id]]
+  p   @data_arr[@range_arr[partition_id]].to_s
   end
 
   def save_partition_to_file!(partition_id, db_folder: @db_folder)

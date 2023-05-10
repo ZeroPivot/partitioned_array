@@ -4,13 +4,9 @@
 			"path": "."
 		}
 	],
-	"settings": {
-		"ctags": {
-			"executePath": "/home/aritywolf/.rbenv/shims/ripper-tags",
-			"options": "--tag-file=.tags --recursive --force --exclude=/assets/ --exclude=.bundle --exclude=.git/ --exclude=coverage/ --exclude=.arcanist-extensions/ --exclude=log/ --exclude=tmp/ --exclude=bin/",
-			"fileName": ".tags"
-		}
-
-
-	}
+	"settings": {  "ruby.rubocop.executePath": "/home/aritywolf/.rbenv/shims/",
+	
+		"ruby.rubocop.suppressRubocopWarnings": true,
+		"solargraph.useBundler": true,
+	"ruby.rubocop.useBundler": true}
 }

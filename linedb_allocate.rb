@@ -32,7 +32,14 @@ test["test"].db["test_database", "test_table"].save_everything_to_files!
 b = Time.now
 puts b-a
 
-
+test["test"].db["test_database", "test_table"].delete_partition!(0)
+test["test"].db["test_database", "test_table"].delete_partition!(1)
+test["test"].db["test_database", "test_table"].delete_partition!(2)
+test["test"].db["test_database", "test_table"].delete_partition!(3)
+test["test"].db["test_database", "test_table"].delete_partition!(4)
+test["test"].db["test_database", "test_table"].delete_partition!(5)
+test["test"].db["test_database", "test_table"].delete_partition!(6)
+test["test"].db["test_database", "test_table"].save_everything_to_files!
 
 
 

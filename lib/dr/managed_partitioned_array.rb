@@ -320,6 +320,22 @@ class ManagedPartitionedArray < PartitionedArray
     super(return_added_element_id: return_added_element_id, &block)
   end
 
+
+    # Linear Add
+    def add2(return_added_element_id: true, &block)
+      # endless add addition here
+      if @endless_add && @data_arr[@latest_id].nil?
+        add_partition
+        save_everything_to_files!
+      elsif at_capacity?# && @max_capacity && @has_capacity #guards against adding any additional entries
+        return false
+      else 
+        # PASS, additional code later is a possibility, but this code all takes place before super(), anyways
+      end
+      @latest_id += 1
+      super(return_added_element_id: return_added_element_id, &block)
+    end
+
   def load_everything_from_files!
     load_from_files! #PartitionedArray#load_from_files!
     load_last_entry_from_file!

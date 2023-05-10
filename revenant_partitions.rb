@@ -49,7 +49,11 @@ b = Time.now
 puts b-a
 
 
+<<<<<<< HEAD
 
 
 
 p test["test"].db["test_database", "test_table"].get(0)
+=======
+  p test["test"].db["test_database", "test_table"]["all"]
+>>>>>>> b1de2c62febde5d77f06124ac59ecd3d2506a95a

@@ -184,6 +184,7 @@ class PartitionedArray
     @range_arr = [] # the range array which maintains the partition locations
     @rel_arr = [] # a basic array from 1..n used in binary search
     @db_name = db_name
+  
 
     @partition_addition_amount = partition_addition_amount
     @dynamically_allocates = dynamically_allocates
@@ -191,7 +192,8 @@ class PartitionedArray
 
 
       # by definition, when you revive one element, that entire partiton is also a revenant
-      def revenant_partition!(partition_number)    
+      def revenant_partition!(partition_number)
+        # possible code could go here that would keep    
         load_partition_from_file!(partition_number)
       end
   
@@ -211,7 +213,7 @@ class PartitionedArray
     @elements = []
     if (ids[0] == "all" || ids[0] == :all)
       # setup for "all" or :all as an only argument in the array subscript for now to get the entire @data_arr
-      0.upto(@db_size - 1) do |element_id|
+      0.upto(@data_arr.size - 1) do |element_id|
         # puts "element_id: #{element_id}"
         @elements << @data_arr[element_id]
       end

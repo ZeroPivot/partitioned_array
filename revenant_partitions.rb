@@ -10,6 +10,26 @@ write_lines(["test"])
 test = LineDB.new(db_size: 2, database_partition_amount: 1)
 test["test"].db.new_table!(database_name: "test_database", database_table: "test_table")
 
+
+test["test"].db["test_database", "test_table"].revenant_partition!(0)
+test["test"].db["test_database", "test_table"].set(0) do |hash|
+  hash["data"] = "test_data234"
+end
+test["test"].db["test_database", "test_table"].set(1) do |hash|
+  hash["data"] = "test_data2344325"
+end
+
+test["test"].db["test_database", "test_table"].add do |hash|
+  hash["data"] = "test_data_revenant"
+end
+test["test"].db["test_database", "test_table"].revenant_partition!(0)
+
+0..90.times do |i|
+  p test["test"].db["test_database", "test_table"].get(i)
+  
+end
+
+exit
 $incrementor = 0
 a= Time.now
 80.times do |i|
@@ -28,7 +48,8 @@ test["test"].db["test_database", "test_table"].save_everything_to_files!
 b = Time.now
 puts b-a
 
-0..90.times do |i|
-  p test["test"].db["test_database", "test_table"].get(i)
-  puts "\n\n\n\n\n"
-end
+
+
+
+
+p test["test"].db["test_database", "test_table"].get(0)

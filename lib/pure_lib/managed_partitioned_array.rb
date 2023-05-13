@@ -279,6 +279,11 @@ class ManagedPartitionedArray < PartitionedArray
     end
   end
 
+  def replicate
+    @data_arr.flat_map do |partition|
+      partition.to_a
+    end.to_h
+  end
 
 
 #### lagel_integer and label_ranges v2.1.1 changes end here

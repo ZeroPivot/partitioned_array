@@ -141,6 +141,11 @@ class ManagedPartitionedArray < PartitionedArray
 
     
 
+  def replicate
+    @data_arr.flat_map do |partition|
+      partition.to_a
+    end.to_h
+  end
     
   
 

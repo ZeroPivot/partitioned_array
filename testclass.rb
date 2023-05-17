@@ -1,7 +1,12 @@
 require_relative "lib/managed_partitioned_array"
 a = ManagedPartitionedArray.new
 a.allocate
+a.add do |i|
+  i["test"] = "test"
+end
 
+y = a.replicate
+p y
 
 
 # Path: testclass.rb

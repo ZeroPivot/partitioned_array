@@ -140,14 +140,17 @@ class ManagedPartitionedArray < PartitionedArray
   end
 
     
-
+# probably a shallow copy if the hashes go too deep
   def replicate
     @data_arr.flat_map do |partition|
-      partition.to_a
+      partition.nil? ? {} : partition.to_a
     end.to_h
   end
-    
-  
+
+  # full copy but 
+  def replicate2
+    Marshal.load(Marshal.dump(@data_arr))
+  end
 
   # be sure to add to dragonruby CODE
   # changed 2/19/2023 11:04AM

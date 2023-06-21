@@ -348,7 +348,7 @@ class PartitionedArray
   # TODO: Class#set(integer id) -> boolean
   # Will yield a hash to some element id within the data array, to which you could use a block and modify said data
   def set(id, &block)
-    if id <= @data_arr - 1
+    if id <= @data_arr.size - 1
       if block_given? && @data_arr[id].instance_of?(Hash)
         block.call(@data_arr[id]) # put the openstruct into the block as an argument
         # @data_arr[id] = data

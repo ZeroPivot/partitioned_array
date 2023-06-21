@@ -103,6 +103,8 @@ a.database_table("database", "table").get(0) # Resembles the "inheritance" tree 
 ```
 
 ## Updates
+* June 06, 2023
+ * MAJOR VERSION UPDATE; VERSION of LineDB sync'd to PartitionedArray (partitioned array is the formal version, as it is the superset basis)
 
 * January 10, 2023
   * FileContextManagedPartitionedArray (v1.0.5 release) and FileContextManagedPartitionedArrayManager (v2.0.5 release) reached a stable state, and are ready for use and battle testing
@@ -244,7 +246,7 @@ DEFAULT_PATH = './CGMFS'
 DEBUGGING = false
 ```
 
-### Examples 
+### Examples
 
 `main_refined.rb, visuals.rb`
 
@@ -287,7 +289,7 @@ puts
 # Set an element within @data_arr; ignores partitions and goes for raw ids
 
 partitioned_array.set(id) do |hash|
-   hash["first"] = "1st"   
+   hash["first"] = "1st"
 end
 
 partitioned_array.set(id + 1) do |hash|
@@ -295,7 +297,7 @@ partitioned_array.set(id + 1) do |hash|
 end
 
 # add a partition to the @range_arr; @data_arr, add partition_amount_andoffset to @rel_arr, @db_size increases by one
-partitioned_array.add_partition 
+partitioned_array.add_partition
 partitioned_array.add_partition
 
 allocate_ranges_sequentially(partitioned_array)
@@ -458,7 +460,7 @@ let `FCA = f = b<a ~= b.a`
 
 `f` expands to `f.(Q < P)` => `f.(b < a)` =~> `f.(b.a)`
 
-and, 
+and,
 
 we have in this context:
 

@@ -13,6 +13,13 @@
 # Q: how do I fix git conflits with git commands?
 # A: git checkout --ours lib/partitioned_array/lib/partitioned_array.rb
 
+# VERSION v4.0.1-release - 2023 - June - 21 ("Simmer Down Solsice") [06/21/2023] - MAJOR UPDATE!
+# MAJOR BUG FIXES:
+# PartitionedArray#set(id, value, hash: true or false)
+## Fixed a fundamentaa flaw caused by a bug where it was looking at `@db_size` instead of `@data_arr - 1`
+# NOTICE: Partitioned Array and LineDB should be fully functional now, as in battle tested and a confirmed bug that
+# was causing the data to not be #set or overwritten has been fixed.
+
 # VERSION v4.0.0-release - 5/9/2023
 # * fixed delete_partition!, aka kill_partition! - 2023-05-09 5:00PM
 # * binary space partitioning now works correctly, or in the first place
@@ -21,7 +28,7 @@
 # TODO: potential cleanup
 # QUICK NOTES:
 # * PartitionedArray#delete_partition! and PartitionedArray#kill_partition! are the same thing
-# use the delete methods to remove a partition from the database in memory; 
+# use the delete methods to remove a partition from the database in memory;
 # be fully aware that if that partition was saved onto disk (.json), you can load it back
 # up with ParititionedArray#load_partition_from_file!
 
@@ -32,14 +39,14 @@
 # NOTE: dr-version has been synced with this version
 # VERSION v2.0.1-release - remove :last and :first in favor of [:all].last and [:all].first; update in DRAGONRUBY ACCORDINGLY (2/7/2023 11:14AM)
 # VERSION v2.0.0-release - add :all :last :first keywords to [] method, unrefined and untested
-# VERSION v1.2.4-release - cleanup puts in add_partition 
+# VERSION v1.2.4-release - cleanup puts in add_partition
 # VERSION v1.2.3-release - @label_integer and @label_ranges, sync with line_db, etc
 # VERSION v1.2.2-release - @label_integer and @label_ranges
 # VERSION v1.3.1-release
 # VERSION v1.3.0-release - 1/13/2023 - 1:39AM
 # VERSION v1.2.9-release - [](id ...) - accepts ranges, and integers as an argument splat
 ### Functionality: label the ranges and/or the integer values in the [] arguments with a hash argument
-### --with keys pointing to the get values (for integers and/or ranges) 
+### --with keys pointing to the get values (for integers and/or ranges)
 ### label_ranges: true
 ### label_integer: true
 # VERSION v1.2.8 - [](id, hash: false) - 1/13/2023
@@ -57,7 +64,7 @@
 #                 - file cleanup
 # VERSION v1.2.0 - Cleanup according to rubocop and solargraph linter; clarification in places added (8/11/2022 - 6:01am)
 # VERSION v1.1.1 - Documenting code and scanning for bugs and any version wrap-ups
-#     -   v1.1.2 - PartitionedArray#add(return_added_element_id: true, &block): return element id of the location of the addition 
+#     -   v1.1.2 - PartitionedArray#add(return_added_element_id: true, &block): return element id of the location of the addition
 # VERSION v1.1.0a (8/11/2022 - 5:11am)
 # -- PartitionedArray#add_partition now works correctly.
 #    Various bug fixes that lead to array variable inconsistencies
@@ -77,7 +84,7 @@
 # partition3: [{}, {}, {}, {}, {}]
 # partition4: [{}, {}, {}, {}, {}]
 
-# partition0 is the length that the partitions should be in this case, p_1 had an entry appended to itself somehow, and 
+# partition0 is the length that the partitions should be in this case, p_1 had an entry appended to itself somehow, and
 # PartitionedArray won't add any more entries to it, once it reaches its max and has an additional element added.
 
 # VERSION v1.0.4 (7/30/2022 9:37PM)
@@ -155,7 +162,7 @@ class PartitionedArray
   DB_NAME = 'partitioned_array_slice'
   PARTITION_ADDITION_AMOUNT = 1 # The amount of partitions to add when the array is full
   DYNAMICALLY_ALLOCATES = true # If true, the array will dynamically allocate more partitions when it is full
-  
+
   # for []
   LABEL_INTEGER = false
   LABEL_RANGES = false
@@ -184,7 +191,7 @@ class PartitionedArray
     @range_arr = [] # the range array which maintains the partition locations
     @rel_arr = [] # a basic array from 1..n used in binary search
     @db_name = db_name
-  
+
 
     @partition_addition_amount = partition_addition_amount
     @dynamically_allocates = dynamically_allocates
@@ -193,18 +200,18 @@ class PartitionedArray
 
       # by definition, when you revive one element, that entire partiton is also a revenant
       def revenant_partition!(partition_number)
-        # possible code could go here that would keep    
+        # possible code could go here that would keep
         load_partition_from_file!(partition_number)
       end
-  
-  
-    def kill_partition!(partition_number)    
+
+
+    def kill_partition!(partition_number)
       delete_partition!(partition_number)
     end
-        
-  
-  
-    
+
+
+
+
 
   # 2/7/2023 10:39AM
   #examine closely later (also: this was never imnplemented in DragonRuby's PartitionedArray classes)
@@ -230,17 +237,17 @@ class PartitionedArray
         else
           get(id, hash: hash) if !label_integer
         end
-        
+
       when Range
         if (label_ranges)
           id.to_a.map { |i| { i => get(i, hash: hash) }} if label_ranges
         else
           id.to_a.map { |i| get(i, hash: hash) } if !label_ranges
-        end 
+        end
       else
         raise "Invalid id type: #{id.class}"
-      end  
-    
+      end
+
     end
     #return id.to_a.map { |i| { i => get(i, hash: hash)} } if id.is_a? Range
   end
@@ -271,7 +278,7 @@ class PartitionedArray
 
 
   def save_dynamically_allocates_to_file!
-    #puts "in PA: @dynamically_allocates = #{@dynamically_allocates}" 
+    #puts "in PA: @dynamically_allocates = #{@dynamically_allocates}"
     FileUtils.touch(@db_path + '/' + 'dynamically_allocates.json')
     File.open(@db_path + '/' + 'dynamically_allocates.json', 'w') do |file|
       file.write(@dynamically_allocates.to_json)
@@ -308,24 +315,24 @@ class PartitionedArray
   # but works for binary space partitioning
   def delete_partition!(partition_id)
     # delete the partition id data
-    debug "Partition ID: #{partition_id}"  
+    debug "Partition ID: #{partition_id}"
       a = @data_arr[range_db_get(@range_arr, partition_id)]
       if (a.all? { |x| x.nil? } == false)
         a.each_with_index do |item, index|
-          @data_arr[a[index]["id"]] = nil      
+          @data_arr[a[index]["id"]] = nil
         end
       end
     end
-      
-  
+
+
       #  p a
       #a_id = a[a[index]["id"]]
       #p "a: #{a_id}"
       #exitZcxxvd2
       #12d
-      
+
       #@data_arr[a["data_partition"][index]["id"]] = nil
-    
+
 
   def get_partition(partition_id)
     # get the partition id data
@@ -341,7 +348,7 @@ class PartitionedArray
   # TODO: Class#set(integer id) -> boolean
   # Will yield a hash to some element id within the data array, to which you could use a block and modify said data
   def set(id, &block)
-    if id <= @db_size - 1
+    if id <= @data_arr - 1
       if block_given? && @data_arr[id].instance_of?(Hash)
         block.call(@data_arr[id]) # put the openstruct into the block as an argument
         # @data_arr[id] = data
@@ -359,7 +366,7 @@ class PartitionedArray
 
   # We define the add_left routine as starting from the end of @data_arr, and working the way back
   # until we find the first element that is nilm if no elements return nil, then return nil as well
-  def add(return_added_element_id: true, &block) 
+  def add(return_added_element_id: true, &block)
     # figure out what to have add return, but for now its technically in a programming sense "void", because this
     # function always works, so long as you have a block
     # Proposal: have add return the id of the element that was added, and have the caller know if it was added successfully
@@ -368,7 +375,7 @@ class PartitionedArray
     # and you use the block to modify the element if you want to
 
     # add the data to the array, searching until an empty hash elemet is found
-    
+
     element_id_to_return = nil
     @data_arr.each_with_index do |element, element_index|
       #puts "element: #{element}"
@@ -515,7 +522,7 @@ class PartitionedArray
     load_partition_addition_amount_from_file!
     load_dynamically_allocates_from_file!
     # @db_size needs to be taken into account and changed accordingly
-    path = "#{@db_path}/#{@db_name}"    
+    path = "#{@db_path}/#{@db_name}"
     @partition_amount_and_offset = File.open("#{path}/partition_amount_and_offset.json", 'r') { |f| JSON.parse(f.read) }
     @range_arr = File.open("#{path}/range_arr.json", 'r') { |f| JSON.parse(f.read) }
     @range_arr.map!{ |range_element| string2range(range_element) }
@@ -582,7 +589,7 @@ class PartitionedArray
   def save_all_to_files!(db_folder: @db_folder, db_path: @db_path, db_name: @db_name)
     # Bug: files are not being written correctly.
     # Fix: (8/11/2022 - 5:55am) - add db_size.json
-    
+
     unless Dir.exist?(db_path)
       Dir.mkdir(db_path)
     end

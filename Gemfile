@@ -14,5 +14,5 @@ gem 'solargraph'
 gem 'net-uri'
 gem 'net-http'
 gem 'rake'
-
-
+gem 'rails'
+gem 'solargraph'

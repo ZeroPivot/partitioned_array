@@ -211,6 +211,33 @@ class PartitionedArray
 
 
 
+      #SimulWolf: I'm not sure if this is a good idea, but I'm going to try it out
+  #ArityWolf: fast_set is a good idea, but it will remain untested for a while,
+  #           because it is not used in the codebase yet.
+  #SimulWolf: I'm going to use it in the codebase
+  #ArityWolf: I'm going to use it in the codebase
+  #ArityWolf: But seriously, let's play some Everquest on the REAL LIVE server; so much to explore as a druid...
+  def fast_set(id, data_hash)
+    if id <= @data_arr.size - 1
+      if @data_arr[id].nil?
+        @data_arr[id] = {}
+      elsif @data_arr[id].instance_of?(Hash)
+        #return @data_arr[id]
+        @data_arr[id] = data_hash
+      end
+    end
+  end
+
+  def fast_get(id, data_hash)
+    if id <= @data_arr.size - 1
+      if @data_arr[id].nil?
+        @data_arr[id] = {}
+      elsif @data_arr[id].instance_of?(Hash)
+        return @data_arr[id]
+        #@data_arr[id] = data_hash
+      end
+    end
+  end
 
 
   # 2/7/2023 10:39AM

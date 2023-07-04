@@ -4,8 +4,8 @@
 			"path": "."
 		}
 	],
-	"settings": {  "ruby.rubocop.executePath": "/home/aritywolf/.rbenv/shims/",
-	
+	"settings": {  "ruby.rubocop.executePath": "D:\\Ruby31-x64\\bin\\",
+
 		"ruby.rubocop.suppressRubocopWarnings": true,
 		"solargraph.useBundler": true,
 	"ruby.rubocop.useBundler": true}

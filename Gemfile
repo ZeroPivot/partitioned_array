@@ -11,4 +11,4 @@ gem 'rerun'
 gem 'sequel'
 gem 'thin'
 gem 'rails'
-
+gem 'solargraph'

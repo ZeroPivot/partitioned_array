@@ -32,7 +32,7 @@ GEM
       uri
     net-uri (0.0.1)
     nio4r (2.5.9)
-    nokogiri (1.15.2-x64-mingw-ucrt)
+    nokogiri (1.15.3-x64-mingw-ucrt)
       racc (~> 1.4)
     parallel (1.23.0)
     parser (3.2.2.3)
@@ -64,8 +64,7 @@ GEM
     ripper-tags (1.0.1)
     roda (3.69.0)
       rack
-    rubocop (1.52.1)
-    rubocop (1.54.0)
+    rubocop (1.54.1)
       json (~> 2.3)
       language_server-protocol (>= 3.17.0)
       parallel (~> 1.10)
@@ -78,7 +77,7 @@ GEM
       unicode-display_width (>= 2.4.0, < 3.0)
     rubocop-ast (1.29.0)
       parser (>= 3.2.1.0)
-    ruby-progressbar (1.13.0
+    ruby-progressbar (1.13.0)
     sequel (5.70.0)
     solargraph (0.49.0)
       backport (~> 1.2)
@@ -103,7 +102,7 @@ GEM
     thor (1.2.2)
     tilt (2.2.0)
     unicode-display_width (2.4.2)
-    uri (0.12.1)
+    uri (0.12.2)
     yard (0.9.34)
 
 PLATFORMS
@@ -114,8 +113,8 @@ DEPENDENCIES
   net-uri
   puma
   rack (>= 3.0)
-  rake
   rails
+  rake
   rerun
   ripper-tags
   roda
@@ -124,4 +123,4 @@ DEPENDENCIES
   thin
 
 BUNDLED WITH
-   2.4.14
+   2.4.16

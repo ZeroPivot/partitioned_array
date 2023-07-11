@@ -8,7 +8,8 @@ DEFAULT_PATH = './db/stress_test'
 DB_NAME = 'stress_test'
 
 a = ManagedPartitionedArray.new(max_capacity: "data_arr_size", has_capacity: true, db_size: DB_SIZE, partition_amount_and_offset: PARTITION_AMOUNT + OFFSET, db_path: DEFAULT_PATH, db_name: DB_NAME)
-
+a.allocate
+a.save!
 a.load_everything_from_files!
 entry = a.add(return_added_element_id: true) do |hash|
   hash[:id] = SecureRandom.uuid
@@ -21,12 +22,12 @@ p entry
 #p a.data_arr
 #50_000.times do |i|
 
-0.upto(9) do |i|
+0.upto(999) do |i|
  # p a
   puts a.max_capacity
   until (a.at_capacity?)
     a.add do |entry|
-      puts "adding entry #{i}"     
+      puts "adding entry #{i}"
       entry["id_chunk"] = i
       entry["random_number"] = rand(10000)
       #break
@@ -41,15 +42,16 @@ end
 #a.add do |entry|
 #  entry["final entry"] = "final entry"
 #end
-a.save_everything_to_files! 
+a.save_everything_to_files!
 entry = a.add do |hash|
-  hash[:id] = "jumbled, wont save to disc"
-  hash[:data] = "you know it"
+  hash["id"] = "jumbled, wont save to disc"
+  hash["data"] = "you know it"
 end
 
 
 puts "entry: #{entry}"
 puts "#{a.get(entry, hash: true)["db_index"]}"
+puts "#{a.get(entry, hash: true)["data"]}"
 a.save_partition_to_file!(a.get(entry, hash: true)["db_index"])
 #p a.get(0)
 #a = a.load_from_archive!(partition_archive_id: 0)

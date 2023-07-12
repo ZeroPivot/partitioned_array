@@ -18,7 +18,7 @@ require_relative "partitioned_array_database"
 # NOTE: This is a major update, and IS backwards compatible with the previous versions.
 # SEE managed_partitioned_array.rb and partitioned_array.rb for more information DragonRuby version and regular lib version)
 # NOTE: FILES ARE ALL SYNCED WITH THE DRAGONRUBY VERSION and VICE VERSA
-# VERSION: v1.2.0-release  
+# VERSION: v1.2.0-release
 # VERSION v1.1.7-release: cleanup
 # VERSION v1.1.6-release: label_integer and label_ranges for the ManagedPartitionedArray class, wherein you can define a set of integers or ranges separated by commas
 # --and with the arguments set, set a hash like {id => object}
@@ -53,10 +53,8 @@ class LineDB
   DYNAMICALLY_ALLOCATES = true
   DATABASE_PARTITION_AMOUNT = 20
   TRAVERSE_HASH = true
-
   LABEL_INTEGER = false
   LABEL_RANGES = false
-
   ### /Suggested Constants ###
 
   def initialize(label_integer: LABEL_INTEGER, label_ranges: LABEL_RANGES, traverse_hash: TRAVERSE_HASH, database_partition_amount: DATABASE_PARTITION_AMOUNT, database_file_name: DATABASE_FILE_NAME, endless_add: ENDLESS_ADD, has_capacity: HAS_CAPACITY, db_size: DATABASE_SIZE, dynamically_allocates: DYNAMICALLY_ALLOCATES, parent_folder: PARENT_FOLDER, database_folder_name: DATABASE_FOLDER_NAME)
@@ -75,7 +73,7 @@ class LineDB
     @lambda_list = ->{@linelist.keys.map { |db_name| db_name }}
     @active_database = nil
     #@lambda_list_all = ->{@linelist.keys.map { |db_name| db_name }}
-    #@lambda_list = ->(database_name){@linelist.keys.map { |db_name| @linelist[db_name] }}     
+    #@lambda_list = ->(database_name){@linelist.keys.map { |db_name| @linelist[db_name] }}
   end
 
   # add to the database starting from the left hand side, and skipping over nils
@@ -85,7 +83,7 @@ class LineDB
 
   # add to the database starting from the right hand side, and skipping over nils going from left to right
   def rhs_add
-    
+
   end
 
   def nillize_partition_subelement!(partition_number, subelement_index)
@@ -93,14 +91,12 @@ class LineDB
       db[@active_database].PAD.save_partition_to_file!(partition_number)
       @data_array[partition_number][subelement_index] = nil
       return true
-    else      
+    else
       return false
     end
-      
+
   end
 
-
-  
   # by definition, when you revive one element, that entire partiton is also a revenant
   def revenant_partition!(partition_number)
     if (@active_database)
@@ -117,7 +113,7 @@ class LineDB
       db[@active_database].PAD.save_partition_to_file!(partition_number)
       db[@active_database].PAD.each_with_index do |partition_id, subelement_index|
         db[@active_database].PAD.data_arr[partition_id][subelement_index] = nil
-        
+
       end
         return true
       else
@@ -134,13 +130,9 @@ class LineDB
     if (@active_database)
       db[@active_database]
     else
-      false 
+      false
     end
   end
-
-
-
-
 
   # List of active databases
   def list_databases
@@ -155,9 +147,9 @@ class LineDB
     #gets "calling lambda"
      @lambda_list.call
   end
-  
+
   def update_databases
-    @lambda_list = ->{@linelist.keys.map { |db_name| db_name }} 
+    @lambda_list = ->{@linelist.keys.map { |db_name| db_name }}
   end
 
   def [](*db_names)
@@ -183,8 +175,6 @@ class LineDB
     remove_pad_single(db_name)
   end
 
-  
-
 
   # TODO: implement rm_rf for dragonruby on windows and linux, and maybe android
   def delete_db!(db_name)
@@ -199,7 +189,6 @@ class LineDB
 
   #### Low level methods (but we don't enforce it lol, because they can still have their uses) ####
   # private
-
   def load_pad_single(db_name, parent_folder: @parent_folder || PARENT_FOLDER)
     db_linelist = read_file_lines(@database_file_name)
     if db_linelist.include?(db_name)

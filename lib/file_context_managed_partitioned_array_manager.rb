@@ -32,7 +32,7 @@ require_relative 'file_context_managed_partitioned_array'
 # FCMPAM#delete_database!(database_name) - deletes a database entry (untested)
 # FCMPAM#delete_table!(database_table) - deletes a table entry (untested)
 # TODO: possible: FCMPAM#delete_database_table_...!(database_name, database_table) - deletes a database table entry
-# VERSION v2.1.2a 
+# VERSION v2.1.2a
 # FCMPAM#new_database! - adds an entry to the database entries list and creates a database
 # VERSION v2.1.1
 # VERSION v2.1.0
@@ -46,7 +46,7 @@ require_relative 'file_context_managed_partitioned_array'
 # FCMPAM#table_set_file_context!(database_table: @active_table, database_name: @active_database, file_context_id: @db_partition_archive_id, save_prior: true, save_after: true)
 # FCMPAM#table_next_file_context!(database_table: @active_table, database_name: @active_database, save_prior: true, save_after: true)
 # VERSION v2.0.3a - add method structure skeleton (left off on line 247)
-# PITFALLS: As it stands, MPA#archive_and_new_db! should not be called directly, as it is a value object. You could, however, allocate it to a variable that way, and then call it on that variable. 
+# PITFALLS: As it stands, MPA#archive_and_new_db! should not be called directly, as it is a value object. You could, however, allocate it to a variable that way, and then call it on that variable.
 # TODO: (1/3/2023 - 12:55PM)
 # set a timestamp in the databases per transaction
 # relational algebraic operations (cartesian product, etc.)
@@ -54,7 +54,7 @@ require_relative 'file_context_managed_partitioned_array'
 # VERSION v2.0.1a - prettify, remove old unused code; alias (1/3/2023 12:54PM)
 # alias db_table database_table
 # alias active_db active_database
-# alias new_db! new_database! 
+# alias new_db! new_database!
 # VERSION v2.0.0a - Got the basics of the database table working, all works (1/3/2023)
 # Defined Methods:
 # FCMPAM#database(database_name = @active_database): returns the database object
@@ -65,10 +65,8 @@ require_relative 'file_context_managed_partitioned_array'
 # FCMPAM#active_table(database_table): sets the active table
 # FCMPAM#table(database_table = @active_table): returns the active table
 # FCMPAM#database(database_name = @active_database): returns the active database
-
 # save_everything_to_files!: saves everything to files
 # load_everything_from_files!: loads everything from files
-
 # VERSION v1.0.3 - got man_db to contain the many tables of its own
 # VERSION v1.0.2a - working on new_database, where the database table entries have to contain an array of the tables, so the database knows which tables belong to it
 # VERSION v1.0.1a - -left off at line 169
@@ -98,8 +96,6 @@ class FileContextManagedPartitionedArrayManager
   FCMPA_DB_SIZE = 20
   FCMPA_DB_INDEX_LOCATION = 0
   FCMPA_DB_TRAVERSE_HASH = true
-
-  # FCMPA_DB_[type]
   DB_PARTITION_AMOUNT = 9
   DB_PARTITION_OFFSET = 1
   DB_NAME = "FCMPA_DB"
@@ -112,16 +108,10 @@ class FileContextManagedPartitionedArrayManager
   DB_SIZE = 20
   DB_PARTITION_ADDITION_AMOUNT = 5
   DB_TRAVERSE_HASH = true
-
   INITIAL_AUTOSAVE = true
-  #TRAVERSE_HASH = true
-
   DATABASE_LIST_NAME = "_DATABASE_LIST_INDEX"
   LABEL_INTEGER = false
   LABEL_RANGES = false
-  # db
-  # fcmpa
-  # man_db
 
   def initialize(db_max_capacity: DB_MAX_CAPACITY,
                  db_size: DB_SIZE,
@@ -130,16 +120,16 @@ class FileContextManagedPartitionedArrayManager
                  db_name: DB_NAME,
                  db_path: DB_PATH,
                  db_partition_addition_amount: DB_PARTITION_ADDITION_AMOUNT,
-                 db_dynamically_allocates: DB_DYNAMICALLY_ALLOCATES,   
+                 db_dynamically_allocates: DB_DYNAMICALLY_ALLOCATES,
                  db_partition_amount_and_offset: DB_PARTITION_AMOUNT + DB_PARTITION_OFFSET,
                  db_partition_archive_id: DB_PARTITION_ARCHIVE_ID,
                  db_traverse_hash: DB_TRAVERSE_HASH,
                  fcmpa_db_size: FCMPA_DB_SIZE,
                  fcmpa_db_indexer_name: FCMPA_DB_INDEXER_NAME,
-                 fcmpa_db_index_location: FCMPA_DB_INDEX_LOCATION, 
+                 fcmpa_db_index_location: FCMPA_DB_INDEX_LOCATION,
                  fcmpa_db_folder_name: FCMPA_DB_FOLDER_NAME,
                  fcmpa_db_partition_amount_and_offset: FCMPA_PARTITION_AMOUNT + FCMPA_OFFSET,
-                 fcmpa_db_has_capacity: FCMPA_DB_HAS_CAPACITY, 
+                 fcmpa_db_has_capacity: FCMPA_DB_HAS_CAPACITY,
                  fcmpa_db_partition_addition_amount: FCMPA_DB_PARTITION_ADDITION_AMOUNT,
                  fcmpa_db_dynamically_allocates: FCMPA_DB_DYNAMICALLY_ALLOCATES,
                  fcmpa_db_endless_add: FCMPA_DB_ENDLESS_ADD,
@@ -182,7 +172,6 @@ class FileContextManagedPartitionedArrayManager
     @initial_autosave = initial_autosave
     @active_table = active_table
     @active_database = active_database
-
     @label_integer = label_integer
     @label_ranges = label_ranges
 
@@ -298,7 +287,7 @@ class FileContextManagedPartitionedArrayManager
   # lower level work that deals with class variables within fcmpa_active_databases
   def table_next_file_context!(database_table: @active_table, database_name: @active_database, save_prior: true, save_after: true)
     @man_db.fcmpa_active_databases[database_table].save_everything_to_files! if save_prior
-    @man_db.fcmpa_active_databases[database_table] = @man_db.fcmpa_active_databases[database_table].archive_and_new_db!(has_capacity: @db_has_capacity, db_size: @db_size, partition_amount_and_offset: @db_partition_amount_and_offset, db_path: @db_path+"/MAN_DB_TABLE/#{database_name}/TABLE", db_name: "TABLE", max_capacity: @db_max_capacity, partition_addition_amount: @db_partition_addition_amount) 
+    @man_db.fcmpa_active_databases[database_table] = @man_db.fcmpa_active_databases[database_table].archive_and_new_db!(has_capacity: @db_has_capacity, db_size: @db_size, partition_amount_and_offset: @db_partition_amount_and_offset, db_path: @db_path+"/MAN_DB_TABLE/#{database_name}/TABLE", db_name: "TABLE", max_capacity: @db_max_capacity, partition_addition_amount: @db_partition_addition_amount)
     @man_db.fcmpa_active_databases[database_table].save_everything_to_files! if save_after
     @man_db.fcmpa_active_databases[database_table]
   end
@@ -342,7 +331,7 @@ class FileContextManagedPartitionedArrayManager
   def delete_database!(database_name)
     @man_index.delete_database!(database_name)
     @man_index.fcmpa_active_databases.delete(database_name)
-  end 
+  end
 
   # untested (1/12/2023 - 2:07PM)
   def delete_table!(database_table)
@@ -374,7 +363,6 @@ class FileContextManagedPartitionedArrayManager
   alias active_db active_database
   alias new_db! new_database!
   alias new_tbl! new_table!
-
 end
 
 # rubocop:enable Layout/HashAlignment

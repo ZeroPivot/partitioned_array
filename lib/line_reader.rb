@@ -1,4 +1,4 @@
-# VERSION 1.0.1-release - First release 
+# VERSION 1.0.1-release - First release
 
 DB_LIST = "./database/db_list.txt"
 
@@ -7,9 +7,6 @@ def create_db_list_file_mkdir
   FileUtils.mkdir_p("./database")
   FileUtils.touch(DB_LIST)
 end
-
-  
-
 
 def read_lines(array)
   array.map { |line| line.chomp }
@@ -67,6 +64,3 @@ def test()
   puts array_duplicates?("test", a)
   write_line("test") if !array_duplicates?("test", a)
 end
-
-#test1
-#test

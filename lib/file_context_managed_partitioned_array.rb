@@ -96,7 +96,7 @@ class FileContextManagedPartitionedArray
   FCMPA_DB_MAX_CAPACITY = "data_arr_size"
   FCMPA_DB_PARTITION_ARCHIVE_ID = 0
   FCMPA_DB_PARTITION_AMOUNT = 9
-  FCMPA_DB_OFFSET = 1  
+  FCMPA_DB_OFFSET = 1
   FCMPA_DB_INDEX_LOCATION = 0
 
 
@@ -128,7 +128,7 @@ class FileContextManagedPartitionedArray
                  fcmpa_db_folder_name: FCMPA_DB_FOLDER_NAME,
                  fcmpa_db_size: FCMPA_DB_SIZE,
                  fcmpa_db_partition_amount_and_offset: FCMPA_DB_PARTITION_AMOUNT + FCMPA_DB_OFFSET,
-                 fcmpa_db_has_capacity: FCMPA_DB_HAS_CAPACITY, 
+                 fcmpa_db_has_capacity: FCMPA_DB_HAS_CAPACITY,
                  fcmpa_db_partition_addition_amount: FCMPA_DB_PARTITION_ADDITION_AMOUNT,
                  fcmpa_db_dynamically_allocates: FCMPA_DB_DYNAMICALLY_ALLOCATES,
                  fcmpa_db_endless_add: FCMPA_DB_ENDLESS_ADD,
@@ -201,12 +201,10 @@ class FileContextManagedPartitionedArray
 
   # Create a new database to be stored and ran by the FCMPA
   def new_database(database_index_name_str, fcmpa_db_index_location: @fcmpa_db_index_location, db_name: @db_name, db_path: @db_path, only_path: false, only_name: false, initial_autosave: true)
-    timestamp_str = new_timestamp # the string to give uniqueness to each database file context
     db_name_str = database_index_name_str
-
     # Returns false if the database already exists
     return false unless @fcmpa_db_indexer_db.get(fcmpa_db_index_location)["db_name"].nil? # guard clause to prevent overwriting the database index file
-  
+
     path = db_path + "_" + db_name_str
 
     @fcmpa_db_indexer_db.set(fcmpa_db_index_location) do |entry|
@@ -258,7 +256,7 @@ class FileContextManagedPartitionedArray
     @fcmpa_active_databases[database_index_name]
   end
 
-  
+
 
   def set_active_database(database_index_name) # rubocop:disable Naming/AccessorMethodName
     @active_database = database_index_name
@@ -276,14 +274,8 @@ class FileContextManagedPartitionedArray
 
       new_database(database_index_name, db_name: db_name, db_path: db_path) # start a new database if one wasn't assigned
     else
-      # debug "db index debug #{db_index}" 
-      # debug "db_index[database_index_name] doesn't exist"
       db_name = db_index[database_index_name]["db_name"]
       db_path = db_index[database_index_name]["db_path"]
-      # debug "db name debug #{db_name}"
-      # debug "db path debug #{db_path}"
-      # debug "db index debug #{db_index.keys}"
-
 
       @fcmpa_active_databases[database_index_name] = ManagedPartitionedArray.new(endless_add: @db_endless_add,
                                                                                  dynamically_allocates: @db_dynamically_allocates,
@@ -296,7 +288,7 @@ class FileContextManagedPartitionedArray
                                                                                  db_path: db_path,
                                                                                  partition_archive_id: @db_partition_archive_id,
                                                                                  label_integer: @label_integer,
-                                                                                 label_ranges: @label_ranges )                                                                                 
+                                                                                 label_ranges: @label_ranges )
       begin
         @fcmpa_active_databases[database_index_name].load_everything_from_files!
         # debug "database loaded"
@@ -330,7 +322,7 @@ class FileContextManagedPartitionedArray
     end
   end
 
-  def load_database!(database_index_name = @active_database)  
+  def load_database!(database_index_name = @active_database)
     start_database!(database_index_name)
   end
 
@@ -357,8 +349,6 @@ class FileContextManagedPartitionedArray
     temp = @fcmpa_active_databases[database_index_name]
     temp = temp.archive_and_new_db!
     @fcmpa_active_databases[database_index_name] = temp
-
-    # temp = db(database_index_name)
   end
 
   # traverses the database and yields every element in @data_arr, even nils
@@ -385,7 +375,7 @@ class FileContextManagedPartitionedArray
   end
 end
 
-# rubocop:enable Metrics/ClassLength
+# rubo1cop:enable Metrics/ClassLength
 # rubocop:enable Style/MutableConstant
 # rubocop:enable Style/StringLiterals
 # rubocop:enable Style/RedundantReturn

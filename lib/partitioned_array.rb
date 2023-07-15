@@ -162,8 +162,6 @@ class PartitionedArray
   DB_NAME = 'partitioned_array_slice'
   PARTITION_ADDITION_AMOUNT = 1 # The amount of partitions to add when the array is full
   DYNAMICALLY_ALLOCATES = true # If true, the array will dynamically allocate more partitions when it is full
-
-  # for []
   LABEL_INTEGER = false
   LABEL_RANGES = false
 
@@ -209,9 +207,7 @@ class PartitionedArray
       delete_partition!(partition_number)
     end
 
-
-
-      #SimulWolf: I'm not sure if this is a good idea, but I'm going to try it out
+  #SimulWolf: I'm not sure if this is a good idea, but I'm going to try it out
   #ArityWolf: fast_set is a good idea, but it will remain untested for a while,
   #           because it is not used in the codebase yet.
   #SimulWolf: I'm going to use it in the codebase
@@ -238,7 +234,6 @@ class PartitionedArray
       end
     end
   end
-
 
   # 2/7/2023 10:39AM
   #examine closely later (also: this was never imnplemented in DragonRuby's PartitionedArray classes)
@@ -303,7 +298,6 @@ class PartitionedArray
     end
   end
 
-
   def save_dynamically_allocates_to_file!
     #puts "in PA: @dynamically_allocates = #{@dynamically_allocates}"
     FileUtils.touch(@db_path + '/' + 'dynamically_allocates.json')
@@ -311,7 +305,6 @@ class PartitionedArray
       file.write(@dynamically_allocates.to_json)
     end
   end
-
 
   def delete_partition_subelement(id, partition_id)
     # delete the partition's array element to what is specified
@@ -350,16 +343,6 @@ class PartitionedArray
         end
       end
     end
-
-
-      #  p a
-      #a_id = a[a[index]["id"]]
-      #p "a: #{a_id}"
-      #exitZcxxvd2
-      #12d
-
-      #@data_arr[a["data_partition"][index]["id"]] = nil
-
 
   def get_partition(partition_id)
     # get the partition id data
@@ -570,7 +553,6 @@ class PartitionedArray
   def dup_data_arr!
     @data_arr.clone
   end
-
 
 # Plan: be able to dump @data_arr to disk anytime you want
   def load_partition_from_file!(partition_id)

@@ -306,8 +306,12 @@ class ManagedPartitionedArray < PartitionedArray
     # endless add addition here
     if @endless_add && @data_arr[@latest_id].nil?
       add_partition
-      # TODO: if computations necessary: save per partition instead of everything (2023-07-20)
-      save_everything_to_files! if save_on_partition_add
+
+      # efficiency implementation
+      partition_to_save = get(@latest_id+1, hash: true)["db_index"]
+      save_partition_to_file!(partition_to_save) if save_on_partition_add
+
+      #save_everything_to_files! if save_on_partition_add
     elsif at_capacity?# && @max_capacity && @has_capacity #guards against adding any additional entries
       return false
     else

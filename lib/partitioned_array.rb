@@ -374,6 +374,8 @@ class PartitionedArray
     end
   end
 
+
+
   # We define the add_left routine as starting from the end of @data_arr, and working the way back
   # until we find the first element that is nilm if no elements return nil, then return nil as well
   def add(return_added_element_id: true, &block)
@@ -407,6 +409,35 @@ class PartitionedArray
       end
     end
     return element_id_to_return if return_added_element_id
+  end
+
+  def add_nosave(return_added_element_id: true, &block)
+    element_id_to_return = nil
+    @data_arr.each_with_index do |element, element_index|
+      #puts "element: #{element}"
+      if element == {} && block_given? # (if element is nill, no data is added because the partition is "offline")
+        block.call(@data_arr[element_index]) # seems == to block.call(element)
+        if @dynamically_allocates && (element_index == @db_size - 1 && at_capacity?)
+          @partition_addition_amount.times { add_partition } #if element_index == @data_arr.size - 1 # easier code; add if you reach the end of the array
+          #save_all_to_files! # save the data to the files -- superceded by save_partition_to_file! below
+          # ...
+          # WTF!? This is a bug! It should be saving the partition that was just added, not all of them!
+          #partition_id = get_partition_id(element_index)
+          #save_partition_to_file!(partition_id) # save the data to the files; needs to be optimized
+
+        end
+        element_id_to_return = element_index
+        break
+      elsif !block_given?
+        raise "No block given for element #{element}"
+      end
+    end
+    return element_id_to_return if return_added_element_id
+  end
+
+
+  # add_immediate
+  def add_imm(return_added_element_id: true, &block)
   end
 
   # create an initial database (instance variable)

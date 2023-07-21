@@ -13,7 +13,15 @@
 # Q: how do I fix git conflits with git commands?
 # A: git checkout --ours lib/partitioned_array/lib/partitioned_array.rb
 
-# VERSION v4.0.1-release - 2023 - June - 21 ("Simmer Down Solsice") [06/21/2023] - MAJOR UPDATE!
+
+# CHANGELOG
+# VERSION v4.0.2-release - 2023 - July - 4 ("Black Summer, Half Moon") [07/04/2023] - MAJOR UPDATE!
+# MAJOR BUG FIXES:
+# fixed another `gets` debug-bug in PartitionedArray
+# added add_nosave to PartitionedArray
+# add_nosave: adds an element to @data_arr, but does not save the partition to file (compare to add's bug fix)
+
+# VERSION v4.0.1-release - 2023 - June - 21 ("Simmer Down Solstice") [06/21/2023] - MAJOR UPDATE!
 # MAJOR BUG FIXES:
 # PartitionedArray#set(id, value, hash: true or false)
 ## Fixed a fundamentaa flaw caused by a bug where it was looking at `@db_size` instead of `@data_arr - 1`
@@ -198,7 +206,7 @@ class PartitionedArray
 
       # by definition, when you revive one element, that entire partiton is also a revenant
       def revenant_partition!(partition_number)
-        # possible code could go here that would keep
+        # possible code could go here that would keep tabs on the revenant partition(s) in question.
         load_partition_from_file!(partition_number)
       end
 
@@ -342,7 +350,7 @@ class PartitionedArray
           @data_arr[a[index]["id"]] = nil
         end
       end
-    end
+  end
 
   def get_partition(partition_id)
     # get the partition id data
@@ -467,8 +475,8 @@ class PartitionedArray
     else
       debug 'Initial database has been already allocated.'
     end
-    debug "@data_arr element count: #{@data_arr.flatten.count - 1}"
-    debug "@data_arr: #{@data_arr}"
+    #debug "@data_arr element count: #{@data_arr.flatten.count - 1}"
+    #debug "@data_arr: #{@data_arr}"
 
     @allocated = true
   end
@@ -602,11 +610,10 @@ class PartitionedArray
     p "Range Arr: #{@range_arr}"
     p "Partition Data: #{partition_data}"
     puts "#{path}/#{@db_name}_part_#{partition_id}.json"
-    gets
     ((sliced_range_arr[0].to_i)..(sliced_range_arr[-1].to_i)).to_a.each do |range_element|
       @data_arr[range_element] = partition_data[range_element]
     end
-  p   @data_arr[@range_arr[partition_id]].to_s
+  #p   @data_arr[@range_arr[partition_id]].to_s
   end
 
   def save_partition_to_file!(partition_id, db_folder: @db_folder)

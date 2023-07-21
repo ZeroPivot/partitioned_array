@@ -307,7 +307,7 @@ class ManagedPartitionedArray < PartitionedArray
     if @endless_add && @data_arr[@latest_id].nil?
       add_partition
 
-      # efficiency implementation
+      # efficiency implementation (not really tested...)
       partition_to_save = get(@latest_id+1, hash: true)["db_index"]
       save_partition_to_file!(partition_to_save) if save_on_partition_add
 

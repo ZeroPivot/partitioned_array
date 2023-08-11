@@ -1,0 +1,30 @@
+Field Testers' Log
+
+While working on Midscore I/O's BashAsset engine for games and animatics, I figured out how to compile contemporary Ruby 3.0+ scripts on windows (not to mention work with bytecode compilation)...
+
+Those of which will compile on windows to a .exe file, with perhaps, necessary .dlls in the same directory.
+
+Computation has increased by so many folds that it's feasible to create a game in interpreted languages.
+
+It was always hard in Ruby, and I was never a fan of Python one bit (but that's for another post).
+
+Fig0 in the image upload shows a main file named main.rb.
+In this file, there is enough boilerplate code to get a game going in gosu.
+
+Fig1 shows the compilation process of marshalizing ruby code and saving that serialized object  as main.rbc
+- That is, start.rb and end.rb compile and runs main.rb as a serizlided/de-serialized object
+- To convert this script an exe, install the ocran gem:
+
+`gem install ocran`
+
+* use ocran in the CLI:
+
+`ocran end.rb`
+
+And, you should have, as coded in fig2, something that takes advantage of serialization, so your object could be saved from and loaded to its pre-existing state.
+
+compilation to main.exe is an option, implying that the debug process is as simple as a script run of: `ruby end.rb`
+
+Next thing I'm going to look more into is webassembly with Ruby (which currently does not support netowkring), which allows for binary compatible applications across all platforms.
+
+#rubylang #code #vscode #art #gamedevelopment #indiedev #code #coding #algorithms #compilation #clang #cpp #javascript #webassembly #datastructure #indiegamedev #gamedevelopment

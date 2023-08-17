@@ -11,3 +11,8 @@ gem 'rake'
 gem 'solargraph'
 gem 'gosu'
 gem 'ocran'
+gem "win32ole"
+gem "mechanize"
+gem "fastimage"
+gem "nokogiri"
+gem "yaml"

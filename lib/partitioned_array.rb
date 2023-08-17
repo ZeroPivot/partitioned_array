@@ -183,8 +183,8 @@ class PartitionedArray
 5. DB path: the path of the database.
 6. DB name: the name of the database.
 7. Data array: the array that contains the data.
-8. Range array: the array that contains the partitions.
-9. Rel array: the array that contains the partition locations.
+8. Range array: the array that contains the partition Range(s).
+9. Rel array: @rel_arr: the array that contains the partition locations.
 10. DB name: the name of the database. #
 =end
     @label_integer = label_integer
@@ -207,6 +207,8 @@ class PartitionedArray
       # by definition, when you revive one element, that entire partiton is also a revenant
       def revenant_partition!(partition_number)
         # possible code could go here that would keep tabs on the revenant partition(s) in question.
+        # for now, just delete the partition
+      #  delete_partition!(partition_number)
         load_partition_from_file!(partition_number)
       end
 

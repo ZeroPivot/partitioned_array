@@ -1,16 +1,24 @@
 GEM
   remote: http://rubygems.org/
   specs:
+    addressable (2.8.5)
+      public_suffix (>= 2.0.2, < 6.0)
     ast (2.4.2)
     backport (1.2.0)
     base64 (0.1.1)
     benchmark (0.2.1)
+    connection_pool (2.4.1)
     daemons (1.4.1)
     diff-lcs (1.5.0)
+    domain_name (0.5.20190701)
+      unf (>= 0.0.5, < 1.0.0)
     e2mmap (0.1.0)
     eventmachine (1.2.7)
+    fastimage (2.2.7)
     ffi (1.15.5)
     gosu (1.4.6)
+    http-cookie (1.0.5)
+      domain_name (~> 0.5)
     jaro_winkler (1.5.6)
     json (2.6.3)
     kramdown (2.4.0)
@@ -21,8 +29,25 @@ GEM
     listen (3.8.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
+    mechanize (2.9.1)
+      addressable (~> 2.8)
+      domain_name (~> 0.5, >= 0.5.20190701)
+      http-cookie (~> 1.0, >= 1.0.3)
+      mime-types (~> 3.0)
+      net-http-digest_auth (~> 1.4, >= 1.4.1)
+      net-http-persistent (>= 2.5.2, < 5.0.dev)
+      nokogiri (~> 1.11, >= 1.11.2)
+      rubyntlm (~> 0.6, >= 0.6.3)
+      webrick (~> 1.7)
+      webrobots (~> 0.1.2)
+    mime-types (3.5.0)
+      mime-types-data (~> 3.2015)
+    mime-types-data (3.2023.0808)
     net-http (0.3.2)
       uri
+    net-http-digest_auth (1.4.1)
+    net-http-persistent (4.0.2)
+      connection_pool (~> 2.2)
     net-uri (0.0.1)
     nio4r (2.5.9)
     nokogiri (1.15.3-x64-mingw-ucrt)
@@ -32,6 +57,7 @@ GEM
     parser (3.2.2.3)
       ast (~> 2.4.1)
       racc
+    public_suffix (5.0.3)
     puma (6.3.0)
       nio4r (~> 2.0)
     racc (1.7.1)
@@ -66,6 +92,7 @@ GEM
     rubocop-ast (1.29.0)
       parser (>= 3.2.1.0)
     ruby-progressbar (1.13.0)
+    rubyntlm (0.6.3)
     solargraph (0.49.0)
       backport (~> 1.2)
       benchmark
@@ -88,17 +115,27 @@ GEM
       rack (>= 1.0.0)
     thor (1.2.2)
     tilt (2.2.0)
+    unf (0.1.4)
+      unf_ext
+    unf_ext (0.0.8.2)
     unicode-display_width (2.4.2)
     uri (0.12.2)
+    webrick (1.8.1)
+    webrobots (0.1.2)
+    win32ole (1.8.9)
+    yaml (0.2.1)
     yard (0.9.34)
 
 PLATFORMS
   x64-mingw-ucrt
 
 DEPENDENCIES
+  fastimage
   gosu
+  mechanize
   net-http
   net-uri
+  nokogiri
   ocran
   puma
   rack (>= 3.0)
@@ -108,6 +145,8 @@ DEPENDENCIES
   roda
   solargraph
   thin
+  win32ole
+  yaml
 
 BUNDLED WITH
    2.4.17

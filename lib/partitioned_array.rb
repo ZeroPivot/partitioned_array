@@ -447,6 +447,7 @@ class PartitionedArray
 
 
   # add_immediate
+  # adds directly to @data_arr; PartitionedArray loses its place and nothing will work right unless the data structure is patched live
   def add_imm(return_added_element_id: true, &block)
   end
 
@@ -659,14 +660,6 @@ class PartitionedArray
       FileUtils.touch("#{path}/#{db_folder}/#{@db_name}_part_#{index}.json")
       File.open("#{path}/#{@db_name}_part_#{index}.json", 'w') do |f|
         partition = get_partition(index)
-        debug_and_pause("partition index: #{index}")
-        debug "partition index: #{index}"
-        debug "@db_size: #{@db_size}"
-        debug "partition: #{partition}"
-        debug "@rel_arr: #{@rel_arr}"
-        debug "@range_arr: #{@range_arr}"
-        debug "@data_arr: #{@data_arr.size}"
-        debug "@data_arr: #{@data_arr}"
         f.write(partition.to_json)
       end
     end

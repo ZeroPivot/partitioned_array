@@ -57,6 +57,19 @@ class LineDB
   LABEL_RANGES = false
   ### /Suggested Constants ###
 
+  # Initializes a new instance of the LineDB class.
+  #
+  # @param label_integer [Boolean] Whether to label integers.
+  # @param label_ranges [Boolean] Whether to label ranges.
+  # @param traverse_hash [Boolean] Whether to traverse the hash.
+  # @param database_partition_amount [Integer] The number of partitions in the database.
+  # @param database_file_name [String] The name of the database file.
+  # @param endless_add [Boolean] Whether to allow endless adding to the database.
+  # @param has_capacity [Boolean] Whether the database has a capacity.
+  # @param db_size [Integer] The size of the database.
+  # @param dynamically_allocates [Boolean] Whether the database dynamically allocates memory.
+  # @param parent_folder [String] The parent folder of the database.
+  # @param database_folder_name [String] The name of the database folder.
   def initialize(label_integer: LABEL_INTEGER, label_ranges: LABEL_RANGES, traverse_hash: TRAVERSE_HASH, database_partition_amount: DATABASE_PARTITION_AMOUNT, database_file_name: DATABASE_FILE_NAME, endless_add: ENDLESS_ADD, has_capacity: HAS_CAPACITY, db_size: DATABASE_SIZE, dynamically_allocates: DYNAMICALLY_ALLOCATES, parent_folder: PARENT_FOLDER, database_folder_name: DATABASE_FOLDER_NAME)
     @label_integer = label_integer
     @label_ranges = label_ranges
@@ -76,16 +89,21 @@ class LineDB
     #@lambda_list = ->(database_name){@linelist.keys.map { |db_name| @linelist[db_name] }}
   end
 
-  # add to the database starting from the left hand side, and skipping over nils
+  # Adds an element to the database starting from the left hand side, and skipping over nils.
   def lhs_add
 
   end
 
-  # add to the database starting from the right hand side, and skipping over nils going from left to right
+  # Adds an element to the database starting from the right hand side, and skipping over nils going from left to right.
   def rhs_add
 
   end
 
+  # Sets a subelement in a partition to nil.
+  #
+  # @param partition_number [Integer] The partition number.
+  # @param subelement_index [Integer] The subelement index.
+  # @return [Boolean] True if successful, false otherwise.
   def nillize_partition_subelement!(partition_number, subelement_index)
     if (@active_database)
       db[@active_database].PAD.save_partition_to_file!(partition_number)
@@ -94,10 +112,12 @@ class LineDB
     else
       return false
     end
-
   end
 
-  # by definition, when you revive one element, that entire partiton is also a revenant
+  # Makes a partition and its subelements revenant.
+  #
+  # @param partition_number [Integer] The partition number.
+  # @return [Boolean] True if successful, false otherwise.
   def revenant_partition!(partition_number)
     if (@active_database)
       db[@active_database].PAD.load_partition_from_file!(partition_number)
@@ -107,25 +127,32 @@ class LineDB
     end
   end
 
-
+  # Deletes a partition and sets all its subelements to nil.
+  #
+  # @param partition_number [Integer] The partition number.
+  # @return [Boolean] True if successful, false otherwise.
   def kill_partition!(partition_number)
     if (@active_database)
       db[@active_database].PAD.save_partition_to_file!(partition_number)
       db[@active_database].PAD.each_with_index do |partition_id, subelement_index|
         db[@active_database].PAD.data_arr[partition_id][subelement_index] = nil
-
       end
-        return true
-      else
-        return false
+      return true
+    else
+      return false
     end
   end
 
-
+  # Sets the active database.
+  #
+  # @param db_name [String] The name of the database.
   def active_database=(db_name)
     @active_database = db_name
   end
 
+  # Checks if there is an active database.
+  #
+  # @return [PartitionedArrayDatabase, false] The active database if exists, false otherwise.
   def active_database?
     if (@active_database)
       db[@active_database]
@@ -134,7 +161,9 @@ class LineDB
     end
   end
 
-  # List of active databases
+  # Returns a list of active databases.
+  #
+  # @return [Array<String>] The list of active databases.
   def list_databases
     @linelist.keys
   end
@@ -143,17 +172,23 @@ class LineDB
 
   end
 
+  # Returns a list of databases.
+  #
+  # @return [Array<String>] The list of databases.
   def databases
-    #gets "calling lambda"
-     @lambda_list.call
+    @lambda_list.call
   end
 
+  # Updates the list of databases.
   def update_databases
     @lambda_list = ->{@linelist.keys.map { |db_name| db_name }}
   end
 
+  # Returns the specified databases.
+  #
+  # @param db_names [Array<String>] The names of the databases.
+  # @return [PartitionedArrayDatabase, Array<PartitionedArrayDatabase>] The specified databases.
   def [](*db_names)
-    #@linelist[db_name]
     if db_names.size > 1
       return db_names.map { |db_name| @linelist[db_name] }
     else
@@ -161,27 +196,39 @@ class LineDB
     end
   end
 
+  # Reloads the database.
   def reload
     @linelist = load_pad(parent_folder: @parent_folder)
   end
 
+  # Returns the specified database.
+  #
+  # @param db_name [String] The name of the database.
+  # @return [PartitionedArrayDatabase] The specified database.
   def db(db_name)
     @linelist[db_name]
   end
 
+  # Removes a database.
+  #
+  # @param db_name [String] The name of the database.
   def remove_db!(db_name)
     @linelist.delete(db_name)
     remove_line(db_name)
     remove_pad_single(db_name)
   end
 
-
-  # TODO: implement rm_rf for dragonruby on windows and linux, and maybe android
+  # Deletes a database.
+  #
+  # @param db_name [String] The name of the database.
   def delete_db!(db_name)
     FileUtils.rm_rf(db(db_name).database_folder_name)
     remove_db!(db_name)
   end
 
+  # Adds a database.
+  #
+  # @param db_name [String] The name of the database.
   def add_db!(db_name)
     write_line(db_name, @database_file_name) unless check_file_duplicates(db_name)
     load_pad_single(db_name)

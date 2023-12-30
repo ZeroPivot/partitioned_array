@@ -9,7 +9,7 @@ gem 'net-uri'
 gem 'net-http'
 gem 'rake'
 gem 'solargraph'
-gem 'gosu'
+# gem 'gosu'
 gem 'ocran'
 gem "win32ole"
 gem "mechanize"

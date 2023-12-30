@@ -197,8 +197,6 @@ class PartitionedArray
     @range_arr = [] # the range array which maintains the partition locations
     @rel_arr = [] # a basic array from 1..n used in binary search
     @db_name = db_name
-
-
     @partition_addition_amount = partition_addition_amount
     @dynamically_allocates = dynamically_allocates
   end
@@ -283,7 +281,7 @@ class PartitionedArray
     end
     #return id.to_a.map { |i| { i => get(i, hash: hash)} } if id.is_a? Range
   end
-### LABEL_INTEGER LABEL_RANGES end here
+  ### LABEL_INTEGER LABEL_RANGES end here
 
   def range_db_get(range_arr, db_num)
     range_arr[db_num]
@@ -468,7 +466,7 @@ class PartitionedArray
         end
         partition += partition_amount_and_offset
         @range_arr << ((partition - partition_amount_and_offset + 1)..partition)
-        debug_and_pause "@range_arr: #{@range_arr}"
+
       end
 
       x = 0 # offset test, for debug purposes
@@ -570,7 +568,7 @@ class PartitionedArray
   # data_arr => it is output to json
   # rel_arr => it is output to json
   # part_} => it is taken from the range_arr subdivisions; perform a map and load it into the database, one by one
-  def load_from_files!(db_folder: @db_folder)
+  def load_from_files!
     load_partition_addition_amount_from_file!
     load_dynamically_allocates_from_file!
     # @db_size needs to be taken into account and changed accordingly
@@ -596,7 +594,7 @@ class PartitionedArray
     @data_arr.clone
   end
 
-# Plan: be able to dump @data_arr to disk anytime you want
+  # Plan: be able to dump @data_arr to disk anytime you want
   def load_partition_from_file!(partition_id)
     path = "#{@db_path}/#{@db_name}"
     # @data_arr = File.open("#{path}/data_arr.json", 'r') { |f| JSON.parse(f.read) } # can write the entire array to disk for certain operations

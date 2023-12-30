@@ -4,7 +4,7 @@
 			"path": "."
 		}
 	],
-	"settings": {  "ruby.rubocop.executePath": "D:\\Ruby32-x64\\bin\\",
+	"settings": {  "ruby.rubocop.executePath": "/home/aritywolf/.rbenv/versions/3.3.0/bin/",
 
 	"ruby.rubocop.suppressRubocopWarnings": true,
 "ruby.rubocop.onSave": true,

@@ -232,7 +232,7 @@ class PartitionedArray
     end
   end
 
-  def fast_get(id, data_hash)
+  def fast_get(id)
     if id <= @data_arr.size - 1
       if @data_arr[id].nil?
         @data_arr[id] = {}
@@ -457,7 +457,6 @@ class PartitionedArray
       @allocated = false
       partition = 0
 
-      # TODO: @range_arr does not create a range index correctly and numbers may overlap
       db_size.times do
         if @range_arr.empty?
           partition += partition_amount_and_offset
@@ -535,9 +534,6 @@ class PartitionedArray
   end
 
   def add_partition
-    # NOTE: add_partition is not working properly, and has to look at PARTITION_ADDITION_AMOUNT to determine how many partitions to add. Keep this in mind when debugging.
-    # add a partition to the @range_arr, add partition_amount_and_offset to @rel_arr, @db_size increases by one
-    # debug_and_pause("add_partition called")
     last_range_num = @range_arr.last.to_a.last + 1
     debug "last_range_num: #{last_range_num}"
     @range_arr << (last_range_num..(last_range_num + @partition_amount_and_offset - 1)) #works
@@ -604,13 +600,6 @@ class PartitionedArray
     @rel_arr = File.open("#{path}/rel_arr.json", 'r') { |f| JSON.parse(f.read) }
     sliced_range_arr = @range_arr[partition_id].to_a.map { |range_element| range_element }
     partition_data = File.open("#{path}/#{@db_name}_part_#{partition_id}.json", 'r') { |f| JSON.parse(f.read) }
-    p "load: #{partition_data.to_s}"
-    p "Path: #{path}"
-    p "Partition ID: #{partition_id}"
-    p "Sliced Range Arr: #{sliced_range_arr}"
-    p "Range Arr: #{@range_arr}"
-    p "Partition Data: #{partition_data}"
-    puts "#{path}/#{@db_name}_part_#{partition_id}.json"
     ((sliced_range_arr[0].to_i)..(sliced_range_arr[-1].to_i)).to_a.each do |range_element|
       @data_arr[range_element] = partition_data[range_element]
     end
@@ -641,6 +630,7 @@ class PartitionedArray
     unless Dir.exist?(db_path)
       Dir.mkdir(db_path)
     end
+    
     path = "#{db_path}/#{db_name}"
 
     unless Dir.exist?(path)

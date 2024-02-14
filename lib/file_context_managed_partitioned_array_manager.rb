@@ -228,7 +228,7 @@ class FileContextManagedPartitionedArrayManager
                                                         label_integer: @label_integer,
                                                         label_ranges: @label_ranges)
     # Initialize the database which keeps track of all known databases that were created
-    @man_db.start_database!(DATABASE_LIST_NAME, db_path: @db_path+"/MAN_DB_TABLE/#{DATABASE_LIST_NAME}/TABLE", only_path: true, only_name: true, db_name: "TABLE") # initialize the database list index
+    @man_db.start_database!(DATABASE_LIST_NAME, db_path: @db_path+"/MAN_DB_TABLE/#{DATABASE_LIST_NAME}/TABLE", db_name: "TABLE") # initialize the database list index
   end
 
   # gets the database object for the database_name (@man_index = database index; @man_db = database table)
@@ -295,8 +295,8 @@ class FileContextManagedPartitionedArrayManager
   # update: left off worrying about the db_table_name entry having to contain an array of the table names so that the database knows which tables to look for and which ones belong to it
   # left off working with new_table, and, setting the table apart from the database and placing them into independent folders (the problem is file locations)
   def new_table!(database_table:, database_name:, initial_autosave: @initial_autosave)
-    @man_index.start_database!(database_name, db_path: @db_path+"/MAN_DB_INDEX/INDEX", only_path: true, only_name: true, db_name: "INDEX")
-    @man_db.start_database!(database_table, db_path: @db_path+"/MAN_DB_TABLE/#{database_name}/TABLE", only_path: true, only_name: true, db_name: "TABLE")
+    @man_index.start_database!(database_name, db_path: @db_path+"/MAN_DB_INDEX/INDEX", db_name: "INDEX")
+    @man_db.start_database!(database_table, db_path: @db_path+"/MAN_DB_TABLE/#{database_name}/TABLE", db_name: "TABLE")
 
     old_db_table_name = @man_index.db(database_name).get(0).dig(database_name, "db_table_name")
     if old_db_table_name.nil?

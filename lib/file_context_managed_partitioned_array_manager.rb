@@ -1,4 +1,4 @@
-# rubocop:disable Style/HashSyntax
+# rubocop:disable Style/HashSyntax, Lint/RedundantCopDisableDirective, Lint/RedundantCopEnableDirective, Style/FrozenStringLiteralComment
 # rubocop:disable Style/FrozenStringLiteralComment
 # rubocop:disable Lint/RedundantCopDisableDirective
 # rubocop:disable Lint/MissingCopEnableDirective
@@ -176,9 +176,9 @@ class FileContextManagedPartitionedArrayManager
     @label_ranges = label_ranges
 
     @traverse_hash = traverse_hash
-    #puts @db_partition_addition_amount
+    # puts @db_partition_addition_amount
     @timestamp_str = Time.now.strftime("%Y-%m-%d-%H-%M-%S")
-    #p "FCMPA: #{@label_integer}"
+    # p "FCMPA: #{@label_integer}"
     @man_index = FileContextManagedPartitionedArray.new(fcmpa_db_partition_amount_and_offset: @fcmpa_db_partition_amount_and_offset,
                                                         fcmpa_db_size: @fcmpa_db_size,
                                                         fcmpa_db_indexer_name: @fcmpa_db_indexer_name+"_"+"indexer",
@@ -304,12 +304,12 @@ class FileContextManagedPartitionedArrayManager
         hash[database_name] = { "db_name" => database_name, "db_path" => @db_path+"/DB_#{database_name}", "db_table_name" => [database_table] }
       end
     else
-      if !old_db_table_name.include?(database_table)
+      if !old_db_table_name.include?(database_table) # rubocop:disable Style/NegatedIfElseCondition
         @man_index.db(database_name).set(0) do |hash|
           hash[database_name] = { "db_name" => database_name, "db_path" => @db_path+"/DB_#{database_name}", "db_table_name" => old_db_table_name << database_table }
         end
       else
-        #puts "table already exists, not updating"
+        puts "table already exists, not updating"
       end
     end
 
@@ -385,4 +385,4 @@ end
 # rubocop:enable Style/FrozenStringLiteralComment
 # rubocop:enable Lint/MissingCopEnableDirective
 # rubocop:enable Lint/RedundantCopDisableDirective
-# rubocop:enable Style/HashSyntax
+# rubocop:enable Style/HashSyntax, Lint/RedundantCopDisableDirective, Lint/RedundantCopEnableDirective, Style/FrozenStringLiteralComment

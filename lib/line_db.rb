@@ -1,4 +1,4 @@
-# rubocop:disable Style/FrozenStringLiteralComment
+# rubocop:disable Style/FrozenStringLiteralComment, Metrics/ClassLength, Metrics/MethodLength, Style/RedundantReturn
 # rubocop:disable Metrics/ParameterLists
 # rubocop:disable Style/NegatedIf
 # rubocop:disable Style/GuardClause
@@ -8,6 +8,7 @@
 
 require_relative "file_methods"
 require_relative "partitioned_array_database"
+# VERSION v4.1.0-release: cleanup of all files.
 # VERSION v4.0.0-release: synchronized with PartitionedArray
 # TODO: fully implement for DragonRuby (/lib/dr)
 #################
@@ -83,21 +84,17 @@ class LineDB
     @dynamically_allocates = dynamically_allocates
     @traverse_hash = traverse_hash
     @linelist = load_pad(parent_folder: @parent_folder)
-    @lambda_list = ->{@linelist.keys.map { |db_name| db_name }}
+    @lambda_list = -> { @linelist.keys.map { |db_name| db_name } }
     @active_database = nil
-    #@lambda_list_all = ->{@linelist.keys.map { |db_name| db_name }}
-    #@lambda_list = ->(database_name){@linelist.keys.map { |db_name| @linelist[db_name] }}
+    # @lambda_list_all = ->{@linelist.keys.map { |db_name| db_name }}
+    # @lambda_list = ->(database_name){@linelist.keys.map { |db_name| @linelist[db_name] }}
   end
 
   # Adds an element to the database starting from the left hand side, and skipping over nils.
-  def lhs_add
-
-  end
+  def lhs_add; end
 
   # Adds an element to the database starting from the right hand side, and skipping over nils going from left to right.
-  def rhs_add
-
-  end
+  def rhs_add; end
 
   # Sets a subelement in a partition to nil.
   #
@@ -105,7 +102,7 @@ class LineDB
   # @param subelement_index [Integer] The subelement index.
   # @return [Boolean] True if successful, false otherwise.
   def nillize_partition_subelement!(partition_number, subelement_index)
-    if (@active_database)
+    if @active_database
       db[@active_database].PAD.save_partition_to_file!(partition_number)
       @data_array[partition_number][subelement_index] = nil
       return true
@@ -119,7 +116,7 @@ class LineDB
   # @param partition_number [Integer] The partition number.
   # @return [Boolean] True if successful, false otherwise.
   def revenant_partition!(partition_number)
-    if (@active_database)
+    if @active_database
       db[@active_database].PAD.load_partition_from_file!(partition_number)
       return true
     else
@@ -132,7 +129,7 @@ class LineDB
   # @param partition_number [Integer] The partition number.
   # @return [Boolean] True if successful, false otherwise.
   def kill_partition!(partition_number)
-    if (@active_database)
+    if @active_database
       db[@active_database].PAD.save_partition_to_file!(partition_number)
       db[@active_database].PAD.each_with_index do |partition_id, subelement_index|
         db[@active_database].PAD.data_arr[partition_id][subelement_index] = nil
@@ -146,7 +143,7 @@ class LineDB
   # Sets the active database.
   #
   # @param db_name [String] The name of the database.
-  def active_database=(db_name)
+  def active_database=(db_name) # rubocop:disable Style/TrivialAccessors
     @active_database = db_name
   end
 
@@ -154,7 +151,7 @@ class LineDB
   #
   # @return [PartitionedArrayDatabase, false] The active database if exists, false otherwise.
   def active_database?
-    if (@active_database)
+    if @active_database
       db[@active_database]
     else
       false
@@ -168,9 +165,7 @@ class LineDB
     @linelist.keys
   end
 
-  def databases_list
-
-  end
+  def databases_list; end
 
   # Returns a list of databases.
   #
@@ -181,7 +176,7 @@ class LineDB
 
   # Updates the list of databases.
   def update_databases
-    @lambda_list = ->{@linelist.keys.map { |db_name| db_name }}
+    @lambda_list = -> { @linelist.keys.map { |db_name| db_name } }
   end
 
   # Returns the specified databases.
@@ -277,3 +272,5 @@ end
 # rubocop:enable Metrics/ParameterLists
 
 # Q: how do I resolve a merge conflict?
+
+# rubocop:enable Metrics/ClassLength, Metrics/MethodLength, Style/RedundantReturn

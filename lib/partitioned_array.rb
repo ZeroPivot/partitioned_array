@@ -1,4 +1,4 @@
-# rubocop:disable Style/MutableConstant
+# rubocop:disable Style/MutableConstant, Metrics/ParameterLists, Style/ParenthesesAroundCondition, Style/NegatedIf, Lint/UnusedBlockArgument, Lint/NonAtomicFileOperation, Style/FileWrite, Style/HashSyntax, Style/IfInsideElse, Style/RedundantReturn, Style/BlockComments, Style/SymbolProc, Style/FrozenStringLiteralComment
 # rubocop:disable Style/GuardClause
 # rubocop:disable Style/ConditionalAssignment
 # rubocop:disable Style/StringLiterals
@@ -15,6 +15,7 @@
 
 
 # CHANGELOG
+# VERSION v4.0.3-release - prettify linter
 # VERSION v4.0.2-release - 2023 - July - 4 ("Black Summer, Half Moon") [07/04/2023] - MAJOR UPDATE!
 # MAJOR BUG FIXES:
 # fixed another `gets` debug-bug in PartitionedArray
@@ -201,32 +202,30 @@ class PartitionedArray
     @dynamically_allocates = dynamically_allocates
   end
 
+  # by definition, when you revive one element, that entire partiton is also a revenant
+  def revenant_partition!(partition_number)
+    # possible code could go here that would keep tabs on the revenant partition(s) in question.
+    # for now, just delete the partition
+    #  delete_partition!(partition_number)
+    load_partition_from_file!(partition_number)
+  end
 
-      # by definition, when you revive one element, that entire partiton is also a revenant
-      def revenant_partition!(partition_number)
-        # possible code could go here that would keep tabs on the revenant partition(s) in question.
-        # for now, just delete the partition
-      #  delete_partition!(partition_number)
-        load_partition_from_file!(partition_number)
-      end
+  def kill_partition!(partition_number)
+    delete_partition!(partition_number)
+  end
 
-
-    def kill_partition!(partition_number)
-      delete_partition!(partition_number)
-    end
-
-  #SimulWolf: I'm not sure if this is a good idea, but I'm going to try it out
-  #ArityWolf: fast_set is a good idea, but it will remain untested for a while,
+  # SimulWolf: I'm not sure if this is a good idea, but I'm going to try it out
+  # ArityWolf: fast_set is a good idea, but it will remain untested for a while,
   #           because it is not used in the codebase yet.
-  #SimulWolf: I'm going to use it in the codebase
-  #ArityWolf: I'm going to use it in the codebase
-  #ArityWolf: But seriously, let's play some Everquest on the REAL LIVE server; so much to explore as a druid...
+  # SimulWolf: I'm going to use it in the codebase
+  # ArityWolf: I'm going to use it in the codebase
+  # ArityWolf: But seriously, let's play some Everquest on the REAL LIVE server; so much to explore as a druid...
   def fast_set(id, data_hash)
     if id <= @data_arr.size - 1
       if @data_arr[id].nil?
         @data_arr[id] = {}
       elsif @data_arr[id].instance_of?(Hash)
-        #return @data_arr[id]
+        # return @data_arr[id]
         @data_arr[id] = data_hash
       end
     end
@@ -238,17 +237,17 @@ class PartitionedArray
         @data_arr[id] = {}
       elsif @data_arr[id].instance_of?(Hash)
         return @data_arr[id]
-        #@data_arr[id] = data_hash
+        # @data_arr[id] = data_hash
       end
     end
   end
 
   # 2/7/2023 10:39AM
-  #examine closely later (also: this was never imnplemented in DragonRuby's PartitionedArray classes)
+  # examine closely later (also: this was never imnplemented in DragonRuby's PartitionedArray classes)
   def [](*ids, hash: false, label_ranges: @label_ranges, label_integer: @label_integer)
-    #puts "ids: #{ids[0]}"
+    # puts "ids: #{ids[0]}"
     @elements = []
-    if (ids[0] == "all" || ids[0] == :all)
+    if ids.first == "all" || ids.first == :all
       # setup for "all" or :all as an only argument in the array subscript for now to get the entire @data_arr
       0.upto(@data_arr.size - 1) do |element_id|
         # puts "element_id: #{element_id}"
@@ -256,30 +255,31 @@ class PartitionedArray
       end
       return @elements
     end
-    return get(ids[0], hash: hash) if (ids.size==1 && ids[0].is_a?(Integer) && !label_integer)
-    return { ids[0] => get(ids[0], hash: hash) } if ids.size==1 && ids[0].is_a?(Integer) && label_integer
-    #return get(id, hash: hash) if id.is_a? Integer
+    return get(ids.first, hash: hash) if ids.size == 1 && ids.first.is_a?(Integer) && !label_integer
+
+    return { ids.first => get(ids.first, hash: hash) } if ids.size == 1 && ids.first.is_a?(Integer) && label_integer
+
+    # return get(id, hash: hash) if id.is_a? Integer
     ids.map do |id|
       case id
       when Integer
-        if (label_integer)
+        if label_integer
           { id => get(id, hash: hash) } if label_integer
         else
           get(id, hash: hash) if !label_integer
         end
 
       when Range
-        if (label_ranges)
-          id.to_a.map { |i| { i => get(i, hash: hash) }} if label_ranges
+        if label_ranges
+          id.to_a.map { |i| { i => get(i, hash: hash) } } if label_ranges
         else
           id.to_a.map { |i| get(i, hash: hash) } if !label_ranges
         end
       else
         raise "Invalid id type: #{id.class}"
       end
-
     end
-    #return id.to_a.map { |i| { i => get(i, hash: hash)} } if id.is_a? Range
+    # return id.to_a.map { |i| { i => get(i, hash: hash)} } if id.is_a? Range
   end
   ### LABEL_INTEGER LABEL_RANGES end here
 
@@ -301,15 +301,15 @@ class PartitionedArray
   end
 
   def load_dynamically_allocates_from_file!
-    File.open(@db_path + '/' + 'dynamically_allocates.json', 'r') do |file|
+    File.open("#{@db_path}/dynamically_allocates.json", 'r') do |file|
       @dynamically_allocates = JSON.parse(file.read)
     end
   end
 
   def save_dynamically_allocates_to_file!
-    #puts "in PA: @dynamically_allocates = #{@dynamically_allocates}"
-    FileUtils.touch(@db_path + '/' + 'dynamically_allocates.json')
-    File.open(@db_path + '/' + 'dynamically_allocates.json', 'w') do |file|
+    # puts "in PA: @dynamically_allocates = #{@dynamically_allocates}"
+    FileUtils.touch("#{@db_path}/dynamically_allocates.json")
+    File.open("#{@db_path}/dynamically_allocates.json", 'w') do |file|
       file.write(@dynamically_allocates.to_json)
     end
   end
@@ -343,13 +343,13 @@ class PartitionedArray
   # but works for binary space partitioning
   def delete_partition!(partition_id)
     # delete the partition id data
-    debug "Partition ID: #{partition_id}"
-      a = @data_arr[range_db_get(@range_arr, partition_id)]
-      if (a.all? { |x| x.nil? } == false)
-        a.each_with_index do |item, index|
-          @data_arr[a[index]["id"]] = nil
-        end
+    # debug "Partition ID: #{partition_id}"
+    a = @data_arr[range_db_get(@range_arr, partition_id)]
+    if (a.all? { |x| x.nil? } == false)
+      a.each_with_index do |item, index|
+        @data_arr[a[index]["id"]] = nil
       end
+    end
   end
 
   def get_partition(partition_id)
@@ -382,8 +382,6 @@ class PartitionedArray
     end
   end
 
-
-
   # We define the add_left routine as starting from the end of @data_arr, and working the way back
   # until we find the first element that is nilm if no elements return nil, then return nil as well
   def add(return_added_element_id: true, &block)
@@ -398,12 +396,12 @@ class PartitionedArray
 
     element_id_to_return = nil
     @data_arr.each_with_index do |element, element_index|
-      #puts "element: #{element}"
+      # puts "element: #{element}"
       if element == {} && block_given? # (if element is nill, no data is added because the partition is "offline")
         block.call(@data_arr[element_index]) # seems == to block.call(element)
         if @dynamically_allocates && (element_index == @db_size - 1 && at_capacity?)
-          @partition_addition_amount.times { add_partition } #if element_index == @data_arr.size - 1 # easier code; add if you reach the end of the array
-          #save_all_to_files! # save the data to the files -- superceded by save_partition_to_file! below
+          @partition_addition_amount.times { add_partition } # if element_index == @data_arr.size - 1 # easier code; add if you reach the end of the array
+          # save_all_to_files! # save the data to the files -- superceded by save_partition_to_file! below
           # ...
           # WTF!? This is a bug! It should be saving the partition that was just added, not all of them!
           partition_id = get_partition_id(element_index)
@@ -422,17 +420,16 @@ class PartitionedArray
   def add_nosave(return_added_element_id: true, &block)
     element_id_to_return = nil
     @data_arr.each_with_index do |element, element_index|
-      #puts "element: #{element}"
+      # puts "element: #{element}"
       if element == {} && block_given? # (if element is nill, no data is added because the partition is "offline")
         block.call(@data_arr[element_index]) # seems == to block.call(element)
         if @dynamically_allocates && (element_index == @db_size - 1 && at_capacity?)
-          @partition_addition_amount.times { add_partition } #if element_index == @data_arr.size - 1 # easier code; add if you reach the end of the array
-          #save_all_to_files! # save the data to the files -- superceded by save_partition_to_file! below
+          @partition_addition_amount.times { add_partition } # if element_index == @data_arr.size - 1 # easier code; add if you reach the end of the array
+          # save_all_to_files! # save the data to the files -- superceded by save_partition_to_file! below
           # ...
           # WTF!? This is a bug! It should be saving the partition that was just added, not all of them!
-          #partition_id = get_partition_id(element_index)
-          #save_partition_to_file!(partition_id) # save the data to the files; needs to be optimized
-
+          # partition_id = get_partition_id(element_index)
+          # save_partition_to_file!(partition_id) # save the data to the files; needs to be optimized
         end
         element_id_to_return = element_index
         break
@@ -443,11 +440,9 @@ class PartitionedArray
     return element_id_to_return if return_added_element_id
   end
 
-
   # add_immediate
   # adds directly to @data_arr; PartitionedArray loses its place and nothing will work right unless the data structure is patched live
-  def add_imm(return_added_element_id: true, &block)
-  end
+  def add_imm(return_added_element_id: true, &block); end
 
   # create an initial database (instance variable)
   # later on, make this so it will load a database if its there, and if there's no data, create a standard database then save it
@@ -465,7 +460,6 @@ class PartitionedArray
         end
         partition += partition_amount_and_offset
         @range_arr << ((partition - partition_amount_and_offset + 1)..partition)
-
       end
 
       x = 0 # offset test, for debug purposes
@@ -473,11 +467,10 @@ class PartitionedArray
       @rel_arr = @data_arr.size.times.map { |i| i } # for an array that fills to less than the max of @rel_arr
       @allocated = true
     else
-      debug 'Initial database has been already allocated.'
+      puts 'Initial database has been already allocated.'
     end
-    #debug "@data_arr element count: #{@data_arr.flatten.count - 1}"
-    #debug "@data_arr: #{@data_arr}"
-
+    # debug "@data_arr element count: #{@data_arr.flatten.count - 1}"
+    # debug "@data_arr: #{@data_arr}"
     @allocated = true
   end
 
@@ -487,7 +480,8 @@ class PartitionedArray
   # The idea first came up during the research of the partitioned array equation.
   def get(id, hash: false)
     return nil unless @allocated # if the database has not been allocated, return nil
-    #return nil if id.nil? # if the id is nil, return nil. This is a safety check.
+
+    # return nil if id.nil? # if the id is nil, return nil. This is a safety check.
 
     ### Commented this code out on 2022-08-11 in light of fixing add_partition
     # return @data_arr.first if id.zero?
@@ -518,9 +512,9 @@ class PartitionedArray
 
       # Special case; composing the array_id
       if db_index.zero?
-        array_id = relative_id - db_index * @partition_amount_and_offset
+        array_id = relative_id - (db_index * @partition_amount_and_offset)
       else
-        array_id = (relative_id - db_index * @partition_amount_and_offset) - 1
+        array_id = (relative_id - (db_index * @partition_amount_and_offset)) - 1
       end
 
       debug "The value was found at #{array_id} in the array (data_arr)"
@@ -536,7 +530,7 @@ class PartitionedArray
   def add_partition
     last_range_num = @range_arr.last.to_a.last + 1
     debug "last_range_num: #{last_range_num}"
-    @range_arr << (last_range_num..(last_range_num + @partition_amount_and_offset - 1)) #works
+    @range_arr << (last_range_num..(last_range_num + @partition_amount_and_offset - 1)) # works
 
     (last_range_num..(last_range_num + @partition_amount_and_offset - 1)).to_a.each do |i|
       @data_arr << {}
@@ -550,7 +544,7 @@ class PartitionedArray
 
   def string2range(range_string)
     split_range = range_string.split("..")
-    split_range[0].to_i..split_range[1].to_i
+    split_range.first.to_i..split_range[1].to_i
   end
 
   def debug_and_pause(message)
@@ -571,7 +565,7 @@ class PartitionedArray
     path = "#{@db_path}/#{@db_name}"
     @partition_amount_and_offset = File.open("#{path}/partition_amount_and_offset.json", 'r') { |f| JSON.parse(f.read) }
     @range_arr = File.open("#{path}/range_arr.json", 'r') { |f| JSON.parse(f.read) }
-    @range_arr.map!{ |range_element| string2range(range_element) }
+    @range_arr.map! { |range_element| string2range(range_element) }
     @rel_arr = File.open("#{path}/rel_arr.json", 'r') { |f| JSON.parse(f.read) }
     @db_size = File.open("#{path}/db_size.json", 'r') { |f| JSON.parse(f.read) }
     data_arr_set_partitions = []
@@ -596,14 +590,14 @@ class PartitionedArray
     # @data_arr = File.open("#{path}/data_arr.json", 'r') { |f| JSON.parse(f.read) } # can write the entire array to disk for certain operations
     @partition_amount_and_offset = File.open("#{path}/partition_amount_and_offset.json", 'r') { |f| JSON.parse(f.read) }
     @range_arr = File.open("#{path}/range_arr.json", 'r') { |f| JSON.parse(f.read) }
-    @range_arr.map!{|range_element| string2range(range_element) }
+    @range_arr.map! { |range_element| string2range(range_element) }
     @rel_arr = File.open("#{path}/rel_arr.json", 'r') { |f| JSON.parse(f.read) }
     sliced_range_arr = @range_arr[partition_id].to_a.map { |range_element| range_element }
     partition_data = File.open("#{path}/#{@db_name}_part_#{partition_id}.json", 'r') { |f| JSON.parse(f.read) }
-    ((sliced_range_arr[0].to_i)..(sliced_range_arr[-1].to_i)).to_a.each do |range_element|
+    ((sliced_range_arr.first.to_i)..(sliced_range_arr.last.to_i)).to_a.each do |range_element|
       @data_arr[range_element] = partition_data[range_element]
     end
-  #p   @data_arr[@range_arr[partition_id]].to_s
+    # p   @data_arr[@range_arr[partition_id]].to_s
   end
 
   def save_partition_to_file!(partition_id, db_folder: @db_folder)
@@ -630,7 +624,7 @@ class PartitionedArray
     unless Dir.exist?(db_path)
       Dir.mkdir(db_path)
     end
-    
+
     path = "#{db_path}/#{db_name}"
 
     unless Dir.exist?(path)
@@ -639,12 +633,12 @@ class PartitionedArray
 
     save_partition_addition_amount_to_file!
     save_dynamically_allocates_to_file!
-    File.open("#{path}/#{db_folder}/partition_amount_and_offset.json", 'w'){|f| f.write(@partition_amount_and_offset.to_json) }
-    File.open("#{path}/#{db_folder}/range_arr.json", 'w'){|f| f.write(@range_arr.to_json) }
-    File.open("#{path}/#{db_folder}/rel_arr.json", 'w'){|f| f.write(@rel_arr.to_json) }
-    File.open("#{path}/#{db_folder}/db_size.json", 'w'){|f| f.write(@db_size.to_json) }
-    debug path
-    0.upto(@db_size-1) do |index|
+    File.open("#{path}/#{db_folder}/partition_amount_and_offset.json", 'w') { |f| f.write(@partition_amount_and_offset.to_json) }
+    File.open("#{path}/#{db_folder}/range_arr.json", 'w') { |f| f.write(@range_arr.to_json) }
+    File.open("#{path}/#{db_folder}/rel_arr.json", 'w') { |f| f.write(@rel_arr.to_json) }
+    File.open("#{path}/#{db_folder}/db_size.json", 'w') { |f| f.write(@db_size.to_json) }
+    # debug path
+    0.upto(@db_size - 1) do |index|
       FileUtils.touch("#{path}/#{db_folder}/#{@db_name}_part_#{index}.json")
       File.open("#{path}/#{@db_name}_part_#{index}.json", 'w') do |f|
         partition = get_partition(index)
@@ -665,4 +659,4 @@ end
 # rubocop:enable Style/StringLiterals
 # rubocop:enable Style/ConditionalAssignment
 # rubocop:enable Style/GuardClause
-# rubocop:enable Style/MutableConstant
+# rubocop:enable Style/MutableConstant, Metrics/ParameterLists, Style/ParenthesesAroundCondition, Style/NegatedIf, Lint/UnusedBlockArgument, Lint/NonAtomicFileOperation, Style/FileWrite, Style/HashSyntax, Style/IfInsideElse, Style/RedundantReturn, Style/BlockComments, Style/SymbolProc, Style/FrozenStringLiteralComment

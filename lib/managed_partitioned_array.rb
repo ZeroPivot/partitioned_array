@@ -1,11 +1,12 @@
+# rubocop:disable Layout/LineLength, Metrics/ClassLength, Metrics/AbcSize, Metrics/MethodLength, Metrics/ParameterLists, Style/ExplicitBlockArgument, Style/StringLiterals, Style/NegatedIfElseCondition, Style/FileWrite, Style/RedundantReturn, Style/HashSyntax, Style/IdenticalConditionalBranches, Style/NegatedIf, Style/FrozenStringLiteralComment, Style/BlockComments, Style/MutableConstant, Style/GuardClause, Style/EmptyElse
 require_relative 'partitioned_array'
- # VERSION v3.0.0-release and v3.0.0-dragonruby
- # VERSION 2.2.3alpha - 11:10AM - 2023/19/02 - 11:13AM
- # CHANGES that also need to be added to dragonruby
- # initialize_max_partition_archive_id2! and changing the initialize_max_partition_archive_id! to initialize_max_partition_archive_id2! in the initialize method
- # create_basedir! and create_basedir_once! and adding create_basedir_once! to the save_everything_to_files! method
- # save_everything_to_files! has been changed as well
- # Main goal and result of changes: The algorithm no longer writes to file on initialization, which allows for using it just as a data structure alone
+# VERSION v3.0.0-release and v3.0.0-dragonruby
+# VERSION 2.2.3alpha - 11:10AM - 2023/19/02 - 11:13AM
+# CHANGES that also need to be added to dragonruby
+# initialize_max_partition_archive_id2! and changing the initialize_max_partition_archive_id! to initialize_max_partition_archive_id2! in the initialize method
+# create_basedir! and create_basedir_once! and adding create_basedir_once! to the save_everything_to_files! method
+# save_everything_to_files! has been changed as well
+# Main goal and result of changes: The algorithm no longer writes to file on initialization, which allows for using it just as a data structure alone
 # VERSION v2.2.2f - major bug fixes:
 =begin
     # Bug fixed 2/19/2023 - be sure to add to dragonruby -- and another bug fixed which prevented the creation of new file contexts in a MPA sense; be sure to add to dragonruby when it comes down to that (this was a major bug, which probably occured due to "fixing things")
@@ -121,7 +122,7 @@ class ManagedPartitionedArray < PartitionedArray
     @latest_id = 0 # last entry
     # @max_capacity = max_capacity_setup! # => commented out on 10/4/2022 1:32am
     @has_capacity = has_capacity
-    @max_partition_archive_id = initialize_max_partition_archive_id2! #2 corrects the intended bug of always writing to a directory upon initialization
+    @max_partition_archive_id = initialize_max_partition_archive_id2! # 2 corrects the intended bug of always writing to a directory upon initialization
     @partition_addition_amount = partition_addition_amount
     @max_capacity = max_capacity_setup!
     @dynamically_allocates = dynamically_allocates
@@ -132,14 +133,14 @@ class ManagedPartitionedArray < PartitionedArray
     super(label_integer: @label_integer, label_ranges: @label_ranges, partition_addition_amount: @partition_addition_amount, dynamically_allocates: @dynamically_allocates, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive)
   end
 
-  #iterates @data_arr
+  # iterates @data_arr
   def iterate
     0.upto(@latest_id) do |i|
       yield i
     end
   end
 
-# probably a shallow copy if the hashes go too deep
+  # probably a shallow copy if the hashes go too deep
   def replicate
     @data_arr.flat_map do |partition|
       partition.nil? ? {} : partition.to_a
@@ -155,7 +156,7 @@ class ManagedPartitionedArray < PartitionedArray
   # changed 2/19/2023 11:04AM
   def save_everything_to_files!
     create_basedir_once!
-    save_all_to_files! #PartitionedArray#save_all_to_files!
+    save_all_to_files! # PartitionedArray#save_all_to_files!
     save_last_entry_to_file!
     save_partition_archive_id_to_file!
     save_max_partition_archive_id_to_file!
@@ -178,14 +179,14 @@ class ManagedPartitionedArray < PartitionedArray
   # added 2/19/2023
   # be sure tto add to dragonruby library
   def create_basedir!
-    FileUtils.mkdir_p(@db_path) unless Dir.exist?(@db_path)
+    FileUtils.mkdir_p(@db_path)
   end
 
   # changes added on 2/19/2023 11:03AM
   def initialize_max_partition_archive_id2!
     # if the file exists, load it
-    if File.exist?(File.join("#{@db_path}", "max_partition_archive_id.json"))
-      File.open(File.join("#{@db_path}", "max_partition_archive_id.json"), "r") do |f|
+    if File.exist?(File.join(@db_path, "max_partition_archive_id.json"))
+      File.open(File.join(@db_path, "max_partition_archive_id.json"), "r") do |f|
         @max_partition_archive_id = JSON.parse(f.read)
       end
     else
@@ -196,25 +197,26 @@ class ManagedPartitionedArray < PartitionedArray
 
   def initialize_max_partition_archive_id!
     # if the max_partition_archive_id.json file does not exist, create it and set it to 0
-    if !File.exist?(File.join("#{@db_path}", "max_partition_archive_id.json"))
+    if !File.exist?(File.join(@db_path, "max_partition_archive_id.json"))
       FileUtils.mkdir_p(@db_path)
-      File.open(File.join("#{@db_path}", "max_partition_archive_id.json"), "w") do |f|
+      File.open(File.join(@db_path, "max_partition_archive_id.json"), "w") do |f|
         f.write(0)
       end
       @max_partition_archive_id = 0
     else
-    # if the max_partition_archive_id.json file does exist, load it
-    File.open(File.join("#{@db_path}", "max_partition_archive_id.json"), "r") do |f|
-      @max_partition_archive_id = JSON.parse(f.read)
-    end
+      # if the max_partition_archive_id.json file does exist, load it
+      File.open(File.join(@db_path, "max_partition_archive_id.json"), "r") do |f|
+        @max_partition_archive_id = JSON.parse(f.read)
+      end
     end
   end
+
   # one keyword available: :data_arr_size
   def max_capacity_setup!
-    #p "@max_capacity: #{@max_capacity}"#{@max_capacity} if DEBUGGING"
-    if (@max_capacity == "data_arr_size")
-      #@max_capacity = (0..(db_size * (partition_amount_and_offset))).to_a.size - 1
-      #@partition_addition_amount = partition_addition_amount
+    # p "@max_capacity: #{@max_capacity}"#{@max_capacity} if DEBUGGING"
+    if @max_capacity == "data_arr_size"
+      # @max_capacity = (0..(db_size * (partition_amount_and_offset))).to_a.size - 1
+      # @partition_addition_amount = partition_addition_amount
       return "data_arr_size"
     else
       return max_capacity
@@ -242,62 +244,61 @@ class ManagedPartitionedArray < PartitionedArray
     p "endless_add: #{@endless_add}"
   end
 
-    # Bug fixed 2/19/2023 - be sure to add to dragonruby -- and another bug fixed which prevented the creation of new file contexts in a MPA sense; be sure to add to dragonruby when it comes down to that (this was a major bug, which probably occured due to "fixing things") - removed partition_archive_id from arguments
-    def archive_and_new_db!(label_integer: @label_integer, label_ranges: @label_ranges, auto_allocate: true, partition_addition_amount: @partition_addition_amount, max_capacity: @max_capacity, has_capacity: @has_capacity, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive)
-      save_everything_to_files!
-      @partition_archive_id += 1
-      increment_max_partition_archive_id!
-      temp = ManagedPartitionedArray.new(partition_addition_amount: partition_addition_amount, has_capacity: has_capacity, label_integer: label_integer, label_ranges: label_ranges, max_capacity: max_capacity, partition_archive_id: @partition_archive_id, db_size: db_size, partition_amount_and_offset: partition_amount_and_offset, db_path: db_path, db_name: db_name)
-      temp.allocate if auto_allocate
-      #puts "creating new db"
-      return temp
-    end
+  # Bug fixed 2/19/2023 - removed partition_archive_id from arguments
+  def archive_and_new_db!(label_integer: @label_integer, label_ranges: @label_ranges, auto_allocate: true, partition_addition_amount: @partition_addition_amount, max_capacity: @max_capacity, has_capacity: @has_capacity, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive)
+    save_everything_to_files!
+    @partition_archive_id += 1
+    increment_max_partition_archive_id!
+    temp = ManagedPartitionedArray.new(partition_addition_amount: partition_addition_amount, has_capacity: has_capacity, label_integer: label_integer, label_ranges: label_ranges, max_capacity: max_capacity, partition_archive_id: @partition_archive_id, db_size: db_size, partition_amount_and_offset: partition_amount_and_offset, db_path: db_path, db_name: db_name) # rubocop:disable Style/HashSyntax
+    temp.allocate if auto_allocate
+    # puts "creating new db"
+    return temp
+  end
 
-    # Bugs fixed in 2 below functions - Be sure to add to dragonruby functions (2/19/2023)
-    ## ex ManagedPartitionedArray#load_archive_no_auto_allocate!(partition_archive_id: partition_archive_id, ...)
-    def load_archive_no_auto_allocate!(label_integer: @label_integer, label_ranges: @label_ranges, has_capacity: @has_capacity, dynamically_allocates: @dynamically_allocates, endless_add: @endless_add, partition_archive_id: @max_partition_archive_id, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive, max_capacity: @max_capacity, partition_addition_amount: @partition_addition_amount)
-      temp = ManagedPartitionedArray.new(has_capacity: has_capacity, label_integer: label_integer, label_ranges: label_ranges, dynamically_allocates: dynamically_allocates, endless_add: endless_add, max_capacity: max_capacity, partition_archive_id: partition_archive_id, db_size: db_size, partition_amount_and_offset: partition_amount_and_offset, db_path: db_path, db_name: db_name, partition_addition_amount: partition_addition_amount)
-      return temp
-    end
+  # Bugs fixed in 2 below functions
+  ## ex ManagedPartitionedArray#load_archive_no_auto_allocate!(partition_archive_id: partition_archive_id, ...)
+  def load_archive_no_auto_allocate!(label_integer: @label_integer, label_ranges: @label_ranges, has_capacity: @has_capacity, dynamically_allocates: @dynamically_allocates, endless_add: @endless_add, partition_archive_id: @max_partition_archive_id, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive, max_capacity: @max_capacity, partition_addition_amount: @partition_addition_amount)
+    temp = ManagedPartitionedArray.new(has_capacity: has_capacity, label_integer: label_integer, label_ranges: label_ranges, dynamically_allocates: dynamically_allocates, endless_add: endless_add, max_capacity: max_capacity, partition_archive_id: partition_archive_id, db_size: db_size, partition_amount_and_offset: partition_amount_and_offset, db_path: db_path, db_name: db_name, partition_addition_amount: partition_addition_amount)
+    return temp
+  end
 
-    # Bug Fixed below; be sure to add to dragonruby
-    # ex ManagedPartitionedArray#load_from_archive!(partition_archive_id: partition_archive_id, ...)
-    def load_from_archive!(label_integer: @label_integer, label_ranges: @label_ranges, has_capacity: @has_capacity, dynamically_allocates: @dynamically_allocates, endless_add: @endless_add, partition_archive_id: @max_partition_archive_id, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive, max_capacity: @max_capacity, partition_addition_amount: @partition_addition_amount)
-      temp = ManagedPartitionedArray.new(has_capacity: has_capacity, label_integer: label_integer, label_ranges: label_ranges, dynamically_allocates: dynamically_allocates, endless_add: endless_add, max_capacity: max_capacity, partition_archive_id: partition_archive_id, db_size: db_size, partition_amount_and_offset: partition_amount_and_offset, db_path: db_path, db_name: db_name, partition_addition_amount: partition_addition_amount)
-      temp.load_everything_from_files!
-      return temp
-    end
+  # Bug Fixed below; be sure to add to dragonruby
+  # ex ManagedPartitionedArray#load_from_archive!(partition_archive_id: partition_archive_id, ...)
+  def load_from_archive!(label_integer: @label_integer, label_ranges: @label_ranges, has_capacity: @has_capacity, dynamically_allocates: @dynamically_allocates, endless_add: @endless_add, partition_archive_id: @max_partition_archive_id, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive, max_capacity: @max_capacity, partition_addition_amount: @partition_addition_amount)
+    temp = ManagedPartitionedArray.new(has_capacity: has_capacity, label_integer: label_integer, label_ranges: label_ranges, dynamically_allocates: dynamically_allocates, endless_add: endless_add, max_capacity: max_capacity, partition_archive_id: partition_archive_id, db_size: db_size, partition_amount_and_offset: partition_amount_and_offset, db_path: db_path, db_name: db_name, partition_addition_amount: partition_addition_amount)
+    temp.load_everything_from_files!
+    return temp
+  end
 
   # Added 2/19/2023 (FileUtils.mkdir_p); this is a bug fix--add to dragonruby
   def save_last_entry_to_file!
-    if @partition_archive_id == 0
+    if @partition_archive_id.zero?
       File.open(File.join("#{@db_path}/#{db_name_with_archive(db_name: @original_db_name)}", 'last_entry.json'), 'w') do |file|
-        file.write((@latest_id).to_json)
+        file.write(@latest_id.to_json)
       end
     else
       # FileUtils mkdir added on 2/19/2023; this is a bug fix--add to dragonruby
-      FileUtils.mkdir_p(File.join("#{@db_path}", "#{db_name_with_archive(db_name: @original_db_name)}")) if !File.directory? File.join("#{@db_path}", "#{db_name_with_archive(db_name: @original_db_name)}")
+      FileUtils.mkdir_p(File.join(@db_path, db_name_with_archive(db_name: @original_db_name))) if !File.directory?
+      File.join(@db_path, db_name_with_archive(db_name: @original_db_name))
       File.open(File.join("#{@db_path}/#{db_name_with_archive(db_name: @original_db_name)}", 'last_entry.json'), 'w') do |file|
-        file.write((@latest_id).to_json)
+        file.write(@latest_id.to_json)
       end
     end
   end
 
-#### lagel_integer and label_ranges v2.1.1 changes end here
+  # ### label_integer and label_ranges v2.1.1 changes end here
   # ManagedPartitionedArray#at_capacity? checks to see if the partitioned array is at its capacity. It is imperative to use this when going through an iterator.
   def at_capacity?
     return false if @has_capacity == false
+
     case @max_capacity
-      when "data_arr_size"
-        if @latest_id >= @data_arr.size
-          return true
-        end
-      when Integer
-        if ((@latest_id >= @max_capacity) && @has_capacity)
-          return true
-        end
-      else
-        return false
+    when "data_arr_size"
+      return true if @latest_id >= @data_arr.size
+
+    when Integer
+      return true if (@latest_id >= @max_capacity) && @has_capacity
+    else
+      return false
     end
   end
 
@@ -308,11 +309,11 @@ class ManagedPartitionedArray < PartitionedArray
       add_partition
 
       # efficiency implementation (not really tested...)
-      partition_to_save = get(@latest_id+1, hash: true)["db_index"]
+      partition_to_save = get(@latest_id + 1, hash: true)["db_index"]
       save_partition_to_file!(partition_to_save) if save_on_partition_add
 
-      #save_everything_to_files! if save_on_partition_add
-    elsif at_capacity?# && @max_capacity && @has_capacity #guards against adding any additional entries
+      # save_everything_to_files! if save_on_partition_add
+    elsif at_capacity? # && @max_capacity && @has_capacity #guards against adding any additional entries
       return false
     else
       # PASS, additional code later is a possibility, but this code all takes place before super(), anyways
@@ -322,7 +323,7 @@ class ManagedPartitionedArray < PartitionedArray
   end
 
   def load_everything_from_files!
-    load_from_files! #PartitionedArray#load_from_files!
+    load_from_files! # PartitionedArray#load_from_files!
     load_last_entry_from_file!
     load_max_partition_archive_id_from_file!
     load_partition_archive_id_from_file!
@@ -370,19 +371,19 @@ class ManagedPartitionedArray < PartitionedArray
 
   def increment_max_partition_archive_id!
     @max_partition_archive_id += 1
-    File.open(@db_path + '/' + "max_partition_archive_id.json", "w") do |f|
+    File.open("#{@db_path}/max_partition_archive_id.json", "w") do |f|
       f.write(@max_partition_archive_id)
     end
   end
 
   def save_db_name_with_no_archive_to_file!
-    File.open(File.join("#{@db_path}", "db_name_with_no_archive.json"), "w") do |f|
+    File.open(File.join(@db_path, "db_name_with_no_archive.json"), "w") do |f|
       f.write(@original_db_name.to_json)
     end
   end
 
   def load_db_name_with_no_archive_from_file!
-    File.open(File.join("#{@db_path}", "db_name_with_no_archive.json"), "r") do |f|
+    File.open(File.join(@db_path, "db_name_with_no_archive.json"), "r") do |f|
       @original_db_name = JSON.parse(f.read)
     end
   end
@@ -479,10 +480,12 @@ class ManagedPartitionedArray < PartitionedArray
   end
 
   def strip_archived_db_name(db_name: @original_db_name)
-    #return db_name.sub(/\[.+\]/, '')
+    # return db_name.sub(/\[.+\]/, '')
     # from dragonruby implementation; doesn't use regular expressions
-    return db_name.split('[')[0]
+    return db_name.split('[').first
   end
   alias save! save_everything_to_files!
   alias load! load_everything_from_files!
 end
+
+# rubocop:enable Layout/LineLength, Metrics/ClassLength, Metrics/AbcSize, Metrics/MethodLength, Metrics/ParameterLists, Style/ExplicitBlockArgument, Style/StringLiterals, Style/NegatedIfElseCondition, Style/FileWrite, Style/RedundantReturn, Style/HashSyntax, Style/IdenticalConditionalBranches, Style/NegatedIf, Style/FrozenStringLiteralComment, Style/BlockComments, Style/MutableConstant, Style/GuardClause, Style/EmptyElse

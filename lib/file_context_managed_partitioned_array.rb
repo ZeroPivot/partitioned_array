@@ -1,4 +1,4 @@
-# rubocop:disable Style/FrozenStringLiteralComment
+# rubocop:disable Style/FrozenStringLiteralComment, Style/HashEachMethods, Style/HashSyntax, Lint/MissingCopEnableDirective
 # rubocop:disable Lint/RedundantCopDisableDirective
 # rubocop:disable Layout/ClosingParenthesisIndentation
 # rubocop:disable Layout/MultilineMethodDefinitionBraceLayout
@@ -135,8 +135,8 @@ class FileContextManagedPartitionedArray
                  fcmpa_db_max_capacity: FCMPA_DB_MAX_CAPACITY,
                  fcmpa_db_partition_archive_id: FCMPA_DB_PARTITION_ARCHIVE_ID,
                  fcmpa_db_index_location: FCMPA_DB_INDEX_LOCATION,
-                  label_integer: LABEL_INTEGER,
-                  label_ranges: LABEL_RANGES
+                 label_integer: LABEL_INTEGER,
+                 label_ranges: LABEL_RANGES
                  )
 
 
@@ -170,7 +170,7 @@ class FileContextManagedPartitionedArray
 
     @label_integer = label_integer
     @label_ranges = label_ranges
-    #p "integer label: #{@label_integer}"
+    # p "integer label: #{@label_integer}"
     load_indexer_db!
   end
 
@@ -184,9 +184,7 @@ class FileContextManagedPartitionedArray
                                                        db_name: @fcmpa_db_indexer_name,
                                                        db_path: @fcmpa_db_folder_name,
                                                        max_capacity: @fcmpa_db_max_capacity,
-                                                       partition_archive_id: @fcmpa_db_partition_archive_id
-                                                       )
-
+                                                       partition_archive_id: @fcmpa_db_partition_archive_id)
     @fcmpa_db_indexer_db.allocate
     begin
       @fcmpa_db_indexer_db.load_everything_from_files!
@@ -200,7 +198,7 @@ class FileContextManagedPartitionedArray
   end
 
   # Create a new database to be stored and ran by the FCMPA
-  def new_database(database_index_name_str, fcmpa_db_index_location: @fcmpa_db_index_location, db_name: @db_name, db_path: @db_path, only_path: false, only_name: false, initial_autosave: true)
+  def new_database(database_index_name_str, fcmpa_db_index_location: @fcmpa_db_index_location, db_name: @db_name, db_path: @db_path, initial_autosave: true)
     db_name_str = database_index_name_str
     # Returns false if the database already exists
     return false unless @fcmpa_db_indexer_db.get(fcmpa_db_index_location)["db_name"].nil? # guard clause to prevent overwriting the database index file
@@ -247,7 +245,7 @@ class FileContextManagedPartitionedArray
   def add_database_to_index(database_index_name, database_path, database_name, fcmpa_db_index_location: @fcmpa_db_index_location)
     # timestamp_str = @timestamp_str # the string to give uniqueness to each database file context
     @fcmpa_db_indexer_db.set(fcmpa_db_index_location) do |entry|
-      entry[database_index_name] = {"db_path" => database_path, "db_name" => database_name}
+      entry[database_index_name] = { "db_path" => database_path, "db_name" => database_name }
     end
     @fcmpa_db_indexer_db.save_everything_to_files!
   end
@@ -267,7 +265,7 @@ class FileContextManagedPartitionedArray
   end
 
   # left off making it so that the database auto allocates and auto loads and saves on call
-  def start_database!(database_index_name, raise_on_no_db: false, db_name: @db_name, db_path: @db_path, only_path: false, only_name: false)
+  def start_database!(database_index_name, raise_on_no_db: false, db_name: @db_name, db_path: @db_path)
     db_index = @fcmpa_db_indexer_db.get(@fcmpa_db_index_location)
     if db_index[database_index_name].nil?
       raise if raise_on_no_db
@@ -288,7 +286,7 @@ class FileContextManagedPartitionedArray
                                                                                  db_path: db_path,
                                                                                  partition_archive_id: @db_partition_archive_id,
                                                                                  label_integer: @label_integer,
-                                                                                 label_ranges: @label_ranges )
+                                                                                 label_ranges: @label_ranges)
       begin
         @fcmpa_active_databases[database_index_name].load_everything_from_files!
         # debug "database loaded"
@@ -317,7 +315,7 @@ class FileContextManagedPartitionedArray
   end
 
   def save_databases!
-    @fcmpa_active_databases.each do |key, _|
+    @fcmpa_active_databases.each do |key, _| # rubocop:disable Style/HashEachMethods
       @fcmpa_active_databases[key].save_everything_to_files!
     end
   end
@@ -327,7 +325,7 @@ class FileContextManagedPartitionedArray
   end
 
   def load_databases!
-    @fcmpa_active_databases.each do |key, _|
+    @fcmpa_active_databases.each do |key, _| # rubocop:disable Style/HashEachMethods
       start_database!(@fcmpa_active_databases[key])
     end
   end
@@ -393,4 +391,4 @@ end
 # rubocop:enable Layout/MultilineMethodDefinitionBraceLayout
 # rubocop:enable Layout/ClosingParenthesisIndentation
 # rubocop:enable Lint/RedundantCopDisableDirective
-# rubocop:enable Style/FrozenStringLiteralComment
+# rubocop:enable Style/FrozenStringLiteralComment, Style/HashEachMethods, Style/HashSyntax, Lint/MissingCopEnableDirective

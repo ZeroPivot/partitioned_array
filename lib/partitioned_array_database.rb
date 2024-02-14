@@ -1,3 +1,4 @@
+# rubocop:disable Style/MutableConstant, Metrics/MethodLength, Metrics/ParameterLists, Layout/LineLength, Lint/DuplicateMethods, Style/FrozenStringLiteralComment, Style/Documentation
 require_relative 'file_context_managed_partitioned_array_manager'
 
 # VERSION v0.0.7 - partition_addition_amount -> db_partition_addition_amount
@@ -10,6 +11,7 @@ require_relative 'file_context_managed_partitioned_array_manager'
 
 class PartitionedArrayDatabase
   attr_accessor :database_folder_name, :pad
+
   FCMPAM_DB_INDEX_NAME = 'FCMPAM_DB_INDEX'
   DB_NAME = 'FCMPAM_DB'
   PARTITION_AMOUNT = 20
@@ -26,7 +28,7 @@ class PartitionedArrayDatabase
   DATABASE_FOLDER_NAME = './default' # folder name in terms of a full or relative path
   FCMPAM = FileContextManagedPartitionedArrayManager
   # For a change of database variables, check the file constants in the file_context_managed_partitioned_array_manager.rb library, etc.
-  def initialize(partition_addition_amount: PARTITION_ADDITION_AMOUNT, label_integer: LABEL_INTEGER, label_ranges: LABEL_RANGES, traverse_hash: TRAVERSE_HASH, partition_amount: PARTITION_AMOUNT, database_folder_name: DATABASE_FOLDER_NAME, endless_add: ENDLESS_ADD, has_capacity: DB_HAS_CAPACITY, dynamically_allocates: DYNAMICALLY_ALLOCATES, db_size: DATABASE_SIZE)
+  def initialize(partition_addition_amount: PARTITION_ADDITION_AMOUNT, label_integer: LABEL_INTEGER, label_ranges: LABEL_RANGES, traverse_hash: TRAVERSE_HASH, partition_amount: PARTITION_AMOUNT, database_folder_name: DATABASE_FOLDER_NAME, endless_add: ENDLESS_ADD, has_capacity: DB_HAS_CAPACITY, dynamically_allocates: DYNAMICALLY_ALLOCATES, db_size: DATABASE_SIZE) # rubocop:disable Layout/LineLength
     @database_folder_name = database_folder_name
     @endless_add = endless_add
     @has_capacity = has_capacity
@@ -37,15 +39,14 @@ class PartitionedArrayDatabase
     @label_integer = label_integer
     @label_ranges = label_ranges
     @partition_addition_amount = partition_addition_amount
-    #puts @partition_addition_amount
+    # puts @partition_addition_amount
     @pad = FCMPAM.new(db_partition_addition_amount: @partition_addition_amount, label_integer: @label_integer, label_ranges: @label_ranges, traverse_hash: @traverse_hash, db_partition_amount_and_offset: @partition_amount, db_has_capacity: @has_capacity, db_dynamically_allocates: @dynamically_allocates, db_size: @db_size, db_path: "#{database_folder_name}/#{DB_NAME}", fcmpa_db_folder_name: "#{database_folder_name}/#{FCMPAM_DB_INDEX_NAME}")
   end
-  def pad
 
-    #puts pad.traverse_hash
-    #p @pad.traverse_hash
+  def pad # rubocop:disable Style/TrivialAccessors
+    # puts pad.traverse_hash
+    # p @pad.traverse_hash
     @pad
-
   end
 
   alias db pad
@@ -57,4 +58,6 @@ end
 PAD = PartitionedArrayDatabase
 
 # Path: lib/partitioned_array_database.rb
-#a = PAD.new
+# a = PAD.new
+
+# rubocop:enable Style/MutableConstant, Metrics/MethodLength, Metrics/ParameterLists, Layout/LineLength, Lint/DuplicateMethods, Style/FrozenStringLiteralComment, Style/Documentation

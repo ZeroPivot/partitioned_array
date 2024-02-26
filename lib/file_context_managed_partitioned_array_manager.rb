@@ -309,7 +309,7 @@ class FileContextManagedPartitionedArrayManager
           hash[database_name] = { "db_name" => database_name, "db_path" => @db_path+"/DB_#{database_name}", "db_table_name" => old_db_table_name << database_table }
         end
       else
-        debug "Table already exists, not updating..."
+        # debug "Table already exists, not updating..."
       end
     end
 

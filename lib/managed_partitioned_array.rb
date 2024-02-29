@@ -136,7 +136,7 @@ class ManagedPartitionedArray < PartitionedArray
   # iterates @data_arr
   def iterate
     0.upto(@latest_id) do |i|
-      yield i
+      yield @data_arr[i]
     end
   end
 

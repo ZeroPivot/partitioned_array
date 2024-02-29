@@ -134,9 +134,16 @@ class ManagedPartitionedArray < PartitionedArray
   end
 
   # iterates @data_arr
-  def iterate
+  def iterate(yield_id: false)
     0.upto(@latest_id) do |i|
-      yield @data_arr[i]
+      yield @data_arr[i] if !yield_id
+      yield @data_arr[i].index, @data_arr[i] if yield_id
+    end
+  end
+
+  def iterate_not_nil
+    0.upto(@latest_id) do |i|
+      yield @data_arr[i] unless @data_arr[i].nil?
     end
   end
 

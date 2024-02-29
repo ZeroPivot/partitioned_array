@@ -1,5 +1,8 @@
 # rubocop:disable Layout/LineLength, Metrics/ClassLength, Metrics/AbcSize, Metrics/MethodLength, Metrics/ParameterLists, Style/ExplicitBlockArgument, Style/StringLiterals, Style/NegatedIfElseCondition, Style/FileWrite, Style/RedundantReturn, Style/HashSyntax, Style/IdenticalConditionalBranches, Style/NegatedIf, Style/FrozenStringLiteralComment, Style/BlockComments, Style/MutableConstant, Style/GuardClause, Style/EmptyElse
 require_relative 'partitioned_array'
+
+# ADDENDUM: VERSION v3.3.0 release alongside DogBlog (2023/2/29 3:39PM)
+# iterate() and iterate_not_nil() added to ManagedPartitionedArray
 # VERSION v3.0.0-release and v3.0.0-dragonruby
 # VERSION 2.2.3alpha - 11:10AM - 2023/19/02 - 11:13AM
 # CHANGES that also need to be added to dragonruby

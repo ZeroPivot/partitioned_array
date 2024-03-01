@@ -96,6 +96,10 @@ class LineDB
   # Adds an element to the database starting from the right hand side, and skipping over nils going from left to right.
   def rhs_add; end
 
+  
+
+
+
   # Sets a subelement in a partition to nil.
   #
   # @param partition_number [Integer] The partition number.

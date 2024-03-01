@@ -150,6 +150,11 @@ class ManagedPartitionedArray < PartitionedArray
     end
   end
 
+  def save_partition_by_id_to_file!(id)
+    db_index = get(id, hash: true)["db_index"]
+    save_partition_to_file!(db_index)
+  end
+
   # probably a shallow copy if the hashes go too deep
   def replicate
     @data_arr.flat_map do |partition|

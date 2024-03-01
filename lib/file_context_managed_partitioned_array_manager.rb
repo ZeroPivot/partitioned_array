@@ -341,7 +341,7 @@ class FileContextManagedPartitionedArrayManager
 
   # the index is the database name, and man_db maintains the databases defined by the index
   def new_database!(database_name)
-    @man_index.start_database!(database_name, db_path: @db_path+"/MAN_DB_INDEX/INDEX", only_path: true, only_name: false, db_name: "INDEX")
+    @man_index.start_database!(database_name, db_path: @db_path+"/MAN_DB_INDEX/INDEX", db_name: "INDEX")
     # @man_db.start_database!(DATABASE_LIST_NAME, db_path: @db_path+"/MAN_DB_TABLE/#{DATABASE_LIST_NAME}/TABLE", only_path: true, only_name: true, db_name: "TABLE")
     index = []
     index = @man_db.db(DATABASE_LIST_NAME).get(0)[DATABASE_LIST_NAME]

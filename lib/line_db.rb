@@ -8,8 +8,9 @@
 
 require_relative "file_methods"
 require_relative "partitioned_array_database"
-# VERSION v4.1.1-release: iterate() and iterate_not_nil() in ManagedPartitionedArray class
-# VERSION v4.1.0-release: cleanup of all files.
+# VERSION v4.0.4-release
+# * iterate() and iterate_not_nil() in ManagedPartitionedArray class
+# * cleanup of all files.
 # VERSION v4.0.0-release: synchronized with PartitionedArray
 #################
 # which decomposes to FileContextManagedPartitionedArrayManager objects;
@@ -95,10 +96,6 @@ class LineDB
 
   # Adds an element to the database starting from the right hand side, and skipping over nils going from left to right.
   def rhs_add; end
-
-  
-
-
 
   # Sets a subelement in a partition to nil.
   #

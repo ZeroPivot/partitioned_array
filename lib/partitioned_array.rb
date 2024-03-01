@@ -15,6 +15,7 @@
 
 
 # CHANGELOG
+# VERSION v4.0.4-release
 # VERSION v4.0.3-release - prettify linter
 # VERSION v4.0.2-release - 2023 - July - 4 ("Black Summer, Half Moon") [07/04/2023] - MAJOR UPDATE!
 # MAJOR BUG FIXES:

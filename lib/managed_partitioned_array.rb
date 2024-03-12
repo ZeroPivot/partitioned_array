@@ -322,7 +322,7 @@ class ManagedPartitionedArray < PartitionedArray
   end
 
   # added 3/11/2024 10:11PM
-  def add_at_last(return_added_element_id: true, save_on_partition_add: true, save_last_entry_to_file: true &block) # for not adding into {} in a 
+  def add_at_last(return_added_element_id: true, save_on_partition_add: true, save_last_entry_to_file: true, &block) # for not adding into {} in a 
     raise "No block given" if !block_given?
     if @endless_add && @data_arr[@latest_id].nil? # might need @dynamically_allocates
       

@@ -336,7 +336,7 @@ class ManagedPartitionedArray < PartitionedArray
 
     @latest_id += 1
     block.call(@data_arr[@latest_id]) if block_given?
-    save_partition_to_file!(@latest_id) if save_on_partition_add
+    save_partition_by_id_to_file!(@latest_id) if save_on_partition_add
     save_last_entry_to_file! if save_last_entry_to_file # bug fix 3/11/2024
     return @latest_id if return_added_element_id
   end

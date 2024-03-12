@@ -402,11 +402,11 @@ class PartitionedArray
         block.call(@data_arr[element_index]) # seems == to block.call(element)
         if @dynamically_allocates && (element_index == @db_size - 1 && at_capacity?)
           @partition_addition_amount.times { add_partition } # if element_index == @data_arr.size - 1 # easier code; add if you reach the end of the array
-          # save_all_to_files! # save the data to the files -- superceded by save_partition_to_file! below
+          save_all_to_files! # save the data to the files -- superceded by save_partition_to_file! below
           # ...
           # WTF!? This is a bug! It should be saving the partition that was just added, not all of them!
-          partition_id = get_partition_id(element_index)
-          save_partition_to_file!(partition_id) # save the data to the files; needs to be optimized
+          #partition_id = get_partition_id(element_index)
+          #save_partition_to_file!(partition_id) # save the data to the files; needs to be optimized
 
         end
         element_id_to_return = element_index

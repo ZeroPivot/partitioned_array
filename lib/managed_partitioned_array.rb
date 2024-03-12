@@ -1,7 +1,8 @@
 # rubocop:disable Layout/LineLength, Metrics/ClassLength, Metrics/AbcSize, Metrics/MethodLength, Metrics/ParameterLists, Style/ExplicitBlockArgument, Style/StringLiterals, Style/NegatedIfElseCondition, Style/FileWrite, Style/RedundantReturn, Style/HashSyntax, Style/IdenticalConditionalBranches, Style/NegatedIf, Style/FrozenStringLiteralComment, Style/BlockComments, Style/MutableConstant, Style/GuardClause, Style/EmptyElse
 require_relative 'partitioned_array'
 
-
+# VERSION v3.3.4 - 3/11/2024 10:32
+# various bug fixes; save latest id on add (when it would otherwise have to rely oon saves made from elsewhere?)
 # VERSION v3.3.3 - 3/11/2024 10:11PM
 # add_at_last method added to ManagedPartitionedArray (add at the @latest_id, and save to disk with arguments)
 # ADDENDUM: VERSION v3.3.0 release alongside DogBlog (2023/2/29 3:39PM)
@@ -321,19 +322,22 @@ class ManagedPartitionedArray < PartitionedArray
   end
 
   # added 3/11/2024 10:11PM
-  def add_at_last(return_added_element_id: true, save_on_partition_add: true, &block) # for not adding into {} in a 
+  def add_at_last(return_added_element_id: true, save_on_partition_add: true, save_last_entry_to_file: true &block) # for not adding into {} in a 
     raise "No block given" if !block_given?
     if @endless_add && @data_arr[@latest_id].nil? # might need @dynamically_allocates
-      @partition_addition_amount.times { add_partition }
+      
       partition_to_save = get(@latest_id + 1, hash: true)["db_index"]
-      save_partition__by_id_to_file!(partition_to_save) if save_on_partition_add
-    elsif at_capacity? # && @max_capacity && @has_capacity #guards against adding any additional entries
-      return false
+      save_partition_to_file!(partition_to_save) if save_on_partition_add
+    elsif @dynamically_allocates && at_capacity? # && @max_capacity && @has_capacity #guards against adding any additional entries
+      @partition_addition_amount.times { add_partition }
+      save_everything_to_files! if save_on_partition_add
+      #return false
     end
 
     @latest_id += 1
     block.call(@data_arr[@latest_id]) if block_given?
     save_partition_to_file!(@latest_id) if save_on_partition_add
+    save_last_entry_to_file! if save_last_entry_to_file # bug fix 3/11/2024
     return @latest_id if return_added_element_id
   end
 
@@ -341,7 +345,7 @@ class ManagedPartitionedArray < PartitionedArray
 
 
   # runtime complexity: O(n)
-  def add(return_added_element_id: true, save_on_partition_add: true, &block)
+  def add(return_added_element_id: true, save_on_partition_add: true, save_last_entry_to_file: true, &block)
     # endless add addition here
     if @endless_add && @data_arr[@latest_id].nil?
       add_partition
@@ -357,6 +361,7 @@ class ManagedPartitionedArray < PartitionedArray
       # PASS, additional code later is a possibility, but this code all takes place before super(), anyways
     end
     @latest_id += 1
+    save_last_entry_to_file! if save_last_entry_to_file # bug fix 3/11/2024 10:29PM
     super(return_added_element_id: return_added_element_id, &block)
   end
 

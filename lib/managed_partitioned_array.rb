@@ -324,15 +324,12 @@ class ManagedPartitionedArray < PartitionedArray
   # added 3/11/2024 10:11PM
   def add_at_last(return_added_element_id: true, save_on_partition_add: true, save_last_entry_to_file: true, &block) # for not adding into {} in a 
     raise "No block given" if !block_given?
-    if @endless_add && @data_arr[@latest_id].nil? # might need @dynamically_allocates
-      
-      partition_to_save = get(@latest_id + 1, hash: true)["db_index"]
-      save_partition_to_file!(partition_to_save) if save_on_partition_add
-    elsif @dynamically_allocates && at_capacity? # && @max_capacity && @has_capacity #guards against adding any additional entries
+  
+    if @latest_id==@data_arr.size-1 && @dynamically_allocates && @endless_add # might need @dynamically_allocates
       @partition_addition_amount.times { add_partition }
       save_everything_to_files! if save_on_partition_add
-      #return false
     end
+  
 
     @latest_id += 1
     block.call(@data_arr[@latest_id]) if block_given?
@@ -347,7 +344,7 @@ class ManagedPartitionedArray < PartitionedArray
   # runtime complexity: O(n)
   def add(return_added_element_id: true, save_on_partition_add: true, save_last_entry_to_file: true, &block)
     # endless add addition here
-    if @endless_add && @data_arr[@latest_id].nil?
+    if @endless_add && @data_arr[@latest_id+1].nil?
       add_partition
 
       # efficiency implementation (not really tested...)

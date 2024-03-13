@@ -21,3 +21,5 @@ PA = PartitionedArray
 # LineDatabase.PAD.FCMPAM.FCMPA.(MPA < PA)
 #                 =
 # LineDB.PAD.FCMPAM.FCMPA.MPA
+# configure username and email in git?
+# git config --global user.name "John Doe"

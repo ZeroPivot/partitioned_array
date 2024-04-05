@@ -322,17 +322,18 @@ class ManagedPartitionedArray < PartitionedArray
   end
 
   # added 3/11/2024 10:11PM
-  def add_at_last(return_added_element_id: true, save_on_partition_add: true, save_last_entry_to_file: true, &block) # for not adding into {} in a 
+  def add_at_last(return_added_element_id: true, save_on_partition_add: true, save_last_entry_to_file: true, &block) # for not adding into {} in a
     raise "No block given" if !block_given?
-  
+
     if @latest_id==@data_arr.size-1 && @dynamically_allocates && @endless_add # might need @dynamically_allocates
       @partition_addition_amount.times { add_partition }
       save_everything_to_files! if save_on_partition_add
     end
-  
 
-    @latest_id += 1
+
+
     block.call(@data_arr[@latest_id]) if block_given?
+    @latest_id += 1 # potential bug fix
     save_partition_by_id_to_file!(@latest_id) if save_on_partition_add
     save_last_entry_to_file! if save_last_entry_to_file # bug fix 3/11/2024
     return @latest_id if return_added_element_id

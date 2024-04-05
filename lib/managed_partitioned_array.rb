@@ -333,16 +333,15 @@ class ManagedPartitionedArray < PartitionedArray
     if @latest_id == 0
      # potential bug fix
      block.call(@data_arr[@latest_id]) if block_given?
-
-    else
      @latest_id += 1
+    else
      block.call(@data_arr[@latest_id]) if block_given?
-
+     @latest_id += 1
     end
 
     save_partition_by_id_to_file!(@latest_id) if save_on_partition_add
     save_last_entry_to_file! if save_last_entry_to_file # bug fix 3/11/2024
-    return @latest_id if return_added_element_id
+    return @latest_id-1 if return_added_element_id #bugfix
   end
 
 

@@ -8,6 +8,10 @@
 
 require_relative "file_methods"
 require_relative "partitioned_array_database"
+# VERSION REVERT; UNIVERSAL VERSION FOR ALL PARTITONED ARRAY CLASSES:
+# v1.0.0f
+## notes: all of partitioned array and the line_db.rb database have been field tested, battle tested and approved.
+#######
 # VERSION v4.0.4-release
 # * iterate() and iterate_not_nil() in ManagedPartitionedArray class
 # * cleanup of all files.

@@ -153,6 +153,21 @@ class ManagedPartitionedArray < PartitionedArray
     end
   end
 
+  def rehasher!
+    
+    a = ManagedPartitionedArray.new(label_integer: @label_integer, label_ranges: @label_ranges, partition_addition_amount: @partition_addition_amount, dynamically_allocates: @dynamically_allocates, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive)
+    a.allocate
+    @data_arr.each_with_index do |element, index|
+      a.data_arr[index] = @data_arr[index] unless element.nil?
+      a.latest_id += 1 unless element.nil?
+      break if element == @data_arr[@latest_id]
+    end
+    self.data_arr = a.data_arr
+    self.latest_id = a.latest_id
+    self.save_everything_to_files!
+    #a.save_everything_to_files!
+  end
+
   def save_partition_by_id_to_file!(id)
     db_index = get(id, hash: true)["db_index"]
     save_partition_to_file!(db_index)

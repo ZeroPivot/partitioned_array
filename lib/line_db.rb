@@ -98,6 +98,12 @@ class LineDB
   # Adds an element to the database starting from the left hand side, and skipping over nils.
   def lhs_add; end
 
+
+
+
+
+
+
   # Adds an element to the database starting from the right hand side, and skipping over nils going from left to right.
   def rhs_add; end
 
@@ -207,6 +213,7 @@ class LineDB
   # @return [PartitionedArrayDatabase] The specified database.
   def db(db_name)
     @linelist[db_name]
+    @active_database = db_name
   end
 
   # Removes a database.

@@ -8,7 +8,10 @@
 
 require_relative "file_methods"
 require_relative "partitioned_array_database"
-# VERSION REVERT; UNIVERSAL VERSION FOR ALL PARTITONED ARRAY CLASSES:
+# v1.0.1-release for all of the partitioned array classes and line_db
+# rehasher!, a method that rehashes the database, and saves it to the files. Rehashing implies that all nils and {}'s are removed and the array is kinda remade...
+#
+## VERSION REVERT; UNIVERSAL VERSION FOR ALL PARTITONED ARRAY CLASSES:
 # v1.0.0f
 ## notes: all of partitioned array and the line_db.rb database have been field tested, battle tested and approved.
 #######

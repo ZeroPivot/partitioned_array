@@ -1,6 +1,7 @@
 # rubocop:disable Layout/LineLength, Metrics/ClassLength, Metrics/AbcSize, Metrics/MethodLength, Metrics/ParameterLists, Style/StringLiterals, Style/NegatedIfElseCondition, Style/FileWrite, Style/RedundantReturn, Style/HashSyntax, Style/IdenticalConditionalBranches, Style/NegatedIf, Style/FrozenStringLiteralComment, Style/BlockComments, Style/MutableConstant, Style/GuardClause, Style/EmptyElse
 require_relative 'partitioned_array'
-
+# VERSIONS -- SEE line_db.rb
+# NOTE: rehasher! works. rehasher! takes out all empty or nil data entries
 # VERSION v3.3.4 - 3/11/2024 10:32
 # various bug fixes; save latest id on add (when it would otherwise have to rely oon saves made from elsewhere?)
 # VERSION v3.3.3 - 3/11/2024 10:11PM
@@ -140,33 +141,39 @@ class ManagedPartitionedArray < PartitionedArray
   end
 
   # iterates @data_arr
-  def iterate(yield_id: false)
-    0.upto(@latest_id) do |i|
-      yield @data_arr[i] if !yield_id
-      yield @data_arr[i].index, @data_arr[i] if yield_id
+    def iterate(yield_id: false)
+      0.upto(@latest_id) do |i|
+        yield @data_arr[i] if !yield_id
+        yield @data_arr[i].index, @data_arr[i] if yield_id
+      end
     end
-  end
 
-  def iterate_not_nil
-    0.upto(@latest_id) do |i|
-      yield @data_arr[i] unless @data_arr[i].nil?
-    end
-  end
+    def rehasher!
+      new_data_arr = []
+      new_latest_id = 1
 
-  def rehasher!
-    
-    a = ManagedPartitionedArray.new(label_integer: @label_integer, label_ranges: @label_ranges, partition_addition_amount: @partition_addition_amount, dynamically_allocates: @dynamically_allocates, db_size: @db_size, partition_amount_and_offset: @partition_amount_and_offset, db_path: @db_path, db_name: @db_name_with_archive)
-    a.allocate
-    @data_arr.each_with_index do |element, index|
-      a.data_arr[index] = @data_arr[index] unless element.nil?
-      a.latest_id += 1 unless element.nil?
-      break if element == @data_arr[@latest_id]
+      0.upto(@data_arr.size) do |i|
+
+        if data_arr[i].nil?
+          next
+        end
+
+        if i < data_arr.size - 1 && !data_arr[i].empty?
+          new_latest_id = i
+          new_data_arr << data_arr[i]
+        elsif i > latest_id
+          new_data_arr << {}
+        end
+      end
+
+      self.data_arr = new_data_arr
+      self.latest_id = new_latest_id
+      self.save_everything_to_files!
     end
-    self.data_arr = a.data_arr
-    self.latest_id = a.latest_id
-    self.save_everything_to_files!
-    #a.save_everything_to_files!
-  end
+
+
+
+
 
   def save_partition_by_id_to_file!(id)
     db_index = get(id, hash: true)["db_index"]

@@ -1,5 +1,14 @@
 # LineDB, The Partitioned Array, Managed Partitioned Array and File Context Managed Partitioned Array/Manager, and the Partitioned Array Database: Fundamental Data Structures and Array-Of-Hashes Database System
 
+# Update 7/13/2024
+
+The following instructions below are only truly useful to understand the PartitionedArray and ManagedParittionedArray. For true usage, see line_db.rb, which implements a database system in Ruby which allows for an ArrayOfHashes Data Structure Algorithm to be stored in Memory, and seems to be more efficient than generating New Ruby Arrays which are dynamically allocated on the fly, whereas @data_arr in the MPA/PA/LineDB data structure follows a dynamic allocation scheme where extensions of @data_arr are added in chunks using the MPA.add_partition() Instance Method call.
+
+For help or requests, DM me on my X.com account: https://X.com/FieldYeen
+
+
+
+---------------------------------------------------------------------------------------------------------------------------
 
 
 

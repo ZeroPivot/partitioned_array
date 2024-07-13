@@ -60,6 +60,7 @@ GEM
     parser (3.3.0.5)
       ast (~> 2.4.1)
       racc
+    prism (0.29.0)
     public_suffix (5.0.4)
     puma (6.4.2)
       nio4r (~> 2.0)
@@ -93,6 +94,10 @@ GEM
       unicode-display_width (>= 2.4.0, < 3.0)
     rubocop-ast (1.31.2)
       parser (>= 3.3.0.4)
+    ruby-lsp (0.17.1)
+      language_server-protocol (~> 3.17.0)
+      prism (>= 0.29.0, < 0.30)
+      sorbet-runtime (>= 0.5.10782)
     ruby-progressbar (1.13.0)
     rubyntlm (0.6.3)
     solargraph (0.50.0)
@@ -111,6 +116,7 @@ GEM
       thor (~> 1.0)
       tilt (~> 2.0)
       yard (~> 0.9, >= 0.9.24)
+    sorbet-runtime (0.5.11391)
     thin (1.6.2)
       daemons (>= 1.0.9)
       eventmachine (>= 1.0.0)
@@ -143,10 +149,11 @@ DEPENDENCIES
   ripper-tags
   roda
   rubocop
+  ruby-lsp
   solargraph
   thin
   win32ole
   yaml
 
 BUNDLED WITH
-   2.5.9
+   2.5.10

@@ -1,7 +1,0 @@
-{
-  "bookmarks.experimental.enableNewStickyEngine": true,
-  "editor.stickyTabStops": true,
-  "bookmarks.useWorkaroundForFormatters": true,
-  "editor.stickyScroll.enabled": true,
-  "editor.fontVariations": false
-}

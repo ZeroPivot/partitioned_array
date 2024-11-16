@@ -1,0 +1,1 @@
+rbs prototype rb file_context_managed_partitioned_array.rb

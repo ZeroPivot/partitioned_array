@@ -1,2 +1,0 @@
-# NOTE: this version of the partitioned arrays are for use in dragonruby only
-# VERSION: MPA-DR-1.0.0-alpha (MPA-mod/PA-mod in dragonruby folder)

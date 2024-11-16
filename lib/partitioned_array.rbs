@@ -1,0 +1,172 @@
+# PartitionedArray class, a data structure that is partitioned at a lower level, but functions as an almost-normal array at the high level
+class PartitionedArray
+  @label_integer: untyped
+
+  @label_ranges: untyped
+
+  @db_size: untyped
+
+  @partition_amount_and_offset: untyped
+
+  @allocated: untyped
+
+  @db_path: untyped
+
+  @data_arr: untyped
+
+  @range_arr: untyped
+
+  @rel_arr: untyped
+
+  @db_name: untyped
+
+  @partition_addition_amount: untyped
+
+  @dynamically_allocates: untyped
+
+  # puts "ids: #{ids[0]}"
+  @elements: untyped
+
+  # Access individual instance variables with caution...
+  attr_accessor range_arr: untyped
+
+  # Access individual instance variables with caution...
+  attr_accessor rel_arr: untyped
+
+  # Access individual instance variables with caution...
+  attr_accessor db_size: untyped
+
+  # Access individual instance variables with caution...
+  attr_accessor data_arr: untyped
+
+  # Access individual instance variables with caution...
+  attr_accessor partition_amount_and_offset: untyped
+
+  # Access individual instance variables with caution...
+  attr_accessor db_path: untyped
+
+  # Access individual instance variables with caution...
+  attr_accessor db_name: untyped
+
+  # Access individual instance variables with caution...
+  attr_accessor partition_addition_amount: untyped
+
+  # DB_SIZE > PARTITION_AMOUNT
+  PARTITION_AMOUNT: 3
+
+  OFFSET: 1
+
+  DB_SIZE: 10
+
+  DEFAULT_PATH: "./CGMFS"
+
+  DEBUGGING: false
+
+  PAUSE_DEBUG: false
+
+  DB_NAME: "partitioned_array_slice"
+
+  PARTITION_ADDITION_AMOUNT: 1
+
+  DYNAMICALLY_ALLOCATES: true
+
+  LABEL_INTEGER: false
+
+  LABEL_RANGES: false
+
+  def initialize: (?label_integer: untyped, ?label_ranges: untyped, ?partition_addition_amount: untyped, ?dynamically_allocates: untyped, ?db_size: untyped, ?partition_amount_and_offset: untyped, ?db_path: untyped, ?db_name: untyped) -> void
+
+  # by definition, when you revive one element, that entire partiton is also a revenant
+  def revenant_partition!: (untyped partition_number) -> untyped
+
+  def kill_partition!: (untyped partition_number) -> untyped
+
+  # SimulWolf: I'm not sure if this is a good idea, but I'm going to try it out
+  # ArityWolf: fast_set is a good idea, but it will remain untested for a while,
+  #           because it is not used in the codebase yet.
+  # SimulWolf: I'm going to use it in the codebase
+  # ArityWolf: I'm going to use it in the codebase
+  # ArityWolf: But seriously, let's play some Everquest on the REAL LIVE server; so much to explore as a druid...
+  def fast_set: (untyped id, untyped data_hash) -> (untyped | untyped | nil | nil)
+
+  def fast_get: (untyped id) -> (untyped | untyped | nil | nil)
+
+  # 2/7/2023 10:39AM
+  # examine closely later (also: this was never imnplemented in DragonRuby's PartitionedArray classes)
+  def []: (*untyped ids, ?hash: bool, ?label_ranges: untyped, ?label_integer: untyped) -> (untyped | ::Hash[untyped, untyped])
+
+  def range_db_get: (untyped range_arr, untyped db_num) -> untyped
+
+  def debug: (untyped string) -> (untyped | nil)
+
+  def delete: (untyped id) -> untyped
+
+  def load_dynamically_allocates_from_file!: () -> untyped
+
+  def save_dynamically_allocates_to_file!: () -> untyped
+
+  def delete_partition_subelement: (untyped id, untyped partition_id) -> untyped
+
+  def set_partition_subelement: (untyped id, untyped partition_id) ?{ (?) -> untyped } -> untyped
+
+  # delete the partition's array named partition, by id
+  # loopy, non-trivial code that may not work as intended,
+  # but works for binary space partitioning
+  def delete_partition!: (untyped partition_id) -> untyped
+
+  def get_partition: (untyped partition_id) -> untyped
+
+  # TODO: Class#set(integer id) -> boolean
+  # Will yield a hash to some element id within the data array, to which you could use a block and modify said data
+  def set: (untyped id) ?{ (?) -> untyped } -> (untyped | nil)
+
+  # We define the add_left routine as starting from the end of @data_arr, and working the way back
+  # until we find the first element that is nilm if no elements return nil, then return nil as well
+  def add: (?return_added_element_id: bool) ?{ (?) -> untyped } -> untyped
+
+  def add_nosave: (?return_added_element_id: bool) ?{ (?) -> untyped } -> untyped
+
+  # add_immediate
+  # adds directly to @data_arr; PartitionedArray loses its place and nothing will work right unless the data structure is patched live
+  def add_imm: (?return_added_element_id: bool) { (?) -> untyped } -> nil
+
+  # create an initial database (instance variable)
+  # later on, make this so it will load a database if its there, and if there's no data, create a standard database then save it
+  # Set to work with the default constants
+  def allocate: (?db_size: untyped, ?partition_amount_and_offset: untyped, ?override: bool) -> untyped
+
+  # Returns a hash based on the array element you are searching for.
+  # Haven't done much research afterwards on the idea of
+  # whether the binary search is necessary, but it seems like it is.
+  # The idea first came up during the research of the partitioned array equation.
+  def get: (untyped id, ?hash: bool) -> (nil | untyped)
+
+  def add_partition: () -> untyped
+
+  def string2range: (untyped range_string) -> ::Range[untyped]
+
+  def debug_and_pause: (untyped message) -> untyped
+
+  # loads the files within the directory CGMFS/partitioned_array_slice
+  # needed things
+  # range_arr => it is the array of ranges that the database is divided into
+  # data_arr => it is output to json
+  # rel_arr => it is output to json
+  # part_} => it is taken from the range_arr subdivisions; perform a map and load it into the database, one by one
+  def load_from_files!: () -> untyped
+
+  def all_empty_partitions?: () -> untyped
+
+  def dup_data_arr!: () -> untyped
+
+  # Plan: be able to dump @data_arr to disk anytime you want
+  def load_partition_from_file!: (untyped partition_id) -> untyped
+
+  def save_partition_to_file!: (untyped partition_id, ?db_folder: untyped) -> untyped
+
+  def save_partition_addition_amount_to_file!: (?db_folder: untyped) -> untyped
+
+  def load_partition_addition_amount_from_file!: (?db_folder: untyped) -> untyped
+
+  def save_all_to_files!: (?db_folder: untyped, ?db_path: untyped, ?db_name: untyped) -> untyped
+end

@@ -1,0 +1,62 @@
+# Node structure for the Red-Black Tree
+class Node
+  @data: untyped
+
+  @color: untyped
+
+  @object: untyped
+
+  @left: untyped
+
+  @right: untyped
+
+  @parent: untyped
+
+  attr_accessor data: untyped
+
+  attr_accessor color: untyped
+
+  attr_accessor left: untyped
+
+  attr_accessor right: untyped
+
+  attr_accessor parent: untyped
+
+  attr_accessor object: untyped
+
+  def initialize: (untyped data) -> void
+end
+
+# Red-Black Tree class
+class RedBlackTree
+  @nil: untyped
+
+  @root: untyped
+
+  def initialize: () -> void
+
+  # Utility function to perform left rotation
+  def left_rotate: (untyped x) -> untyped
+
+  # Utility function to perform right rotation
+  def right_rotate: (untyped x) -> untyped
+
+  # Function to fix Red-Black Tree properties after
+  # insertion
+  def fix_insert: (untyped k) -> untyped
+
+  # Inorder traversal helper function
+  def inorder_helper: (untyped node) -> (untyped | nil)
+
+  # Search helper function
+  def search_helper: (untyped node, untyped data) -> untyped
+
+  # Insert function
+  def insert: (untyped data) -> (nil | untyped)
+
+  # Inorder traversal
+  def inorder: () -> untyped
+
+  # Search function
+  def search: (untyped data) -> untyped
+end

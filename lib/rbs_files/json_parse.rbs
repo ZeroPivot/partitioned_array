@@ -1,0 +1,14 @@
+DEBUG: true
+
+# equire 'json'
+class JSONeval
+  def self.range_arr2ruby: (untyped json_string) -> untyped
+
+  def self.data_arr2ruby: (untyped json_string) -> untyped
+
+  def self.rel_arr2ruby: (untyped json_string) -> nil
+
+  def self.ruby2json: (untyped ruby_ds) -> untyped
+
+  def self.json2ruby: (untyped json_string) -> untyped
+end

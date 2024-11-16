@@ -1,0 +1,185 @@
+# LineDB: Line Database - Create a database of PartitionedArrayDatabase objects;
+class LineDB
+  @label_integer: untyped
+
+  @label_ranges: untyped
+
+  @parent_folder: untyped
+
+  @database_folder_name: untyped
+
+  @database_file_name: untyped
+
+  @endless_add: untyped
+
+  @database_partiton_amount: untyped
+
+  @has_capacity: untyped
+
+  @db_size: untyped
+
+  @dynamically_allocates: untyped
+
+  @traverse_hash: untyped
+
+  @linelist: untyped
+
+  @lambda_list: untyped
+
+  @active_database: untyped
+
+  attr_accessor parent_folder: untyped
+
+  attr_accessor database_folder_name: untyped
+
+  attr_accessor linelist: untyped
+
+  attr_accessor database_file_name: untyped
+
+  attr_accessor endless_add: untyped
+
+  attr_accessor has_capacity: untyped
+
+  attr_accessor db_size: untyped
+
+  attr_accessor dynamically_allocates: untyped
+
+  attr_accessor partition_amount: untyped
+
+  attr_accessor traverse_hash: untyped
+
+  include FileMethods
+
+  PAD: untyped
+
+  # # Fallback Constants; a database folder and a db_list.txt file in the database folder must be present. ###
+  # # db_list.txt must contain line separated sets of database names (see "lib/line_database_setup.rb") ###
+  PARENT_FOLDER: "./db/CGMFS_db"
+
+  DATABASE_FOLDER_NAME: "db"
+
+  DATABASE_FILE_NAME: "./db/db_list.txt"
+
+  # # Suggested Constants ###
+  ENDLESS_ADD: true
+
+  HAS_CAPACITY: true
+
+  DATABASE_SIZE: 100
+
+  DYNAMICALLY_ALLOCATES: true
+
+  DATABASE_PARTITION_AMOUNT: 20
+
+  TRAVERSE_HASH: true
+
+  LABEL_INTEGER: false
+
+  LABEL_RANGES: false
+
+  # Initializes a new instance of the LineDB class.
+  #
+  # @param label_integer [Boolean] Whether to label integers.
+  # @param label_ranges [Boolean] Whether to label ranges.
+  # @param traverse_hash [Boolean] Whether to traverse the hash.
+  # @param database_partition_amount [Integer] The number of partitions in the database.
+  # @param database_file_name [String] The name of the database file.
+  # @param endless_add [Boolean] Whether to allow endless adding to the database.
+  # @param has_capacity [Boolean] Whether the database has a capacity.
+  # @param db_size [Integer] The size of the database.
+  # @param dynamically_allocates [Boolean] Whether the database dynamically allocates memory.
+  # @param parent_folder [String] The parent folder of the database.
+  # @param database_folder_name [String] The name of the database folder.
+  def initialize: (?label_integer: untyped, ?label_ranges: untyped, ?traverse_hash: untyped, ?database_partition_amount: untyped, ?database_file_name: untyped, ?endless_add: untyped, ?has_capacity: untyped, ?db_size: untyped, ?dynamically_allocates: untyped, ?parent_folder: untyped, ?database_folder_name: untyped) -> void
+
+  # Adds an element to the database starting from the left hand side, and skipping over nils.
+  def lhs_add: () -> nil
+
+  # Adds an element to the database starting from the right hand side, and skipping over nils going from left to right.
+  def rhs_add: () -> nil
+
+  # Sets a subelement in a partition to nil.
+  #
+  # @param partition_number [Integer] The partition number.
+  # @param subelement_index [Integer] The subelement index.
+  # @return [Boolean] True if successful, false otherwise.
+  def nillize_partition_subelement!: (untyped partition_number, untyped subelement_index) -> (true | false)
+
+  # Makes a partition and its subelements revenant.
+  #
+  # @param partition_number [Integer] The partition number.
+  # @return [Boolean] True if successful, false otherwise.
+  def revenant_partition!: (untyped partition_number) -> (true | false)
+
+  # Deletes a partition and sets all its subelements to nil.
+  #
+  # @param partition_number [Integer] The partition number.
+  # @return [Boolean] True if successful, false otherwise.
+  def kill_partition!: (untyped partition_number) -> (true | false)
+
+  # Sets the active database.
+  #
+  # @param db_name [String] The name of the database.
+  def active_database=: (untyped db_name) -> untyped
+
+  # Checks if there is an active database.
+  #
+  # @return [PartitionedArrayDatabase, false] The active database if exists, false otherwise.
+  def active_database?: () -> (untyped | false)
+
+  # Returns a list of active databases.
+  #
+  # @return [Array<String>] The list of active databases.
+  def list_databases: () -> untyped
+
+  def databases_list: () -> nil
+
+  # Returns a list of databases.
+  #
+  # @return [Array<String>] The list of databases.
+  def databases: () -> untyped
+
+  # Updates the list of databases.
+  def update_databases: () -> untyped
+
+  # Returns the specified databases.
+  #
+  # @param db_names [Array<String>] The names of the databases.
+  # @return [PartitionedArrayDatabase, Array<PartitionedArrayDatabase>] The specified databases.
+  def []: (*untyped db_names) -> untyped
+
+  # Reloads the database.
+  def reload: () -> untyped
+
+  # Returns the specified database.
+  #
+  # @param db_name [String] The name of the database.
+  # @return [PartitionedArrayDatabase] The specified database.
+  def db: (untyped db_name) -> untyped
+
+  # Removes a database.
+  #
+  # @param db_name [String] The name of the database.
+  def remove_db!: (untyped db_name) -> untyped
+
+  # Deletes a database.
+  #
+  # @param db_name [String] The name of the database.
+  def delete_db!: (untyped db_name) -> untyped
+
+  # Adds a database.
+  #
+  # @param db_name [String] The name of the database.
+  def add_db!: (untyped db_name) -> untyped
+
+  # ## Low level methods (but we don't enforce it lol, because they can still have their uses) ####
+  # private
+  def load_pad_single: (untyped db_name, ?parent_folder: untyped) -> untyped
+
+  def remove_pad_single: (untyped db_name) -> untyped
+
+  # TODO: implement rm_rf for dragonruby on windows and linux, and maybe android
+  def delete_pad_single: (untyped db_name) -> untyped
+
+  def load_pad: (?parent_folder: untyped) -> untyped
+end

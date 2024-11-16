@@ -1,11 +1,11 @@
 # rubocop:disable Style/FrozenStringLiteralComment, Style/MutableConstant, Style/StringLiterals, Style/SymbolProc, Style/WordArray, Lint/RedundantCopDisableDirective
 # VERSION 1.0.1-release - First release
 
-DB_LIST = "./database/db_list.txt"
+DB_LIST = "./db/db_list.txt"
 
 
 def create_db_list_file_mkdir
-  FileUtils.mkdir_p("./database")
+  FileUtils.mkdir_p("./db")
   FileUtils.touch(DB_LIST)
 end
 
@@ -49,17 +49,6 @@ def remove_line(name, filename = DB_LIST)
   lines = read_file_lines(filename)
   lines = lines.delete(name)
   write_lines(lines, filename)
-end
-
-def test1
-  write_lines(["database_1", "database_2", "database_3", "database_4"])
-end # rubocop:disable Style/WordArray
-
-def test
-  a = read_file_lines
-  puts a
-  puts array_duplicates?("test", a)
-  write_line("test") if !array_duplicates?("test", a) # rubocop:disable Style/NegatedIf
 end
 
 # rubocop:enable Style/FrozenStringLiteralComment, Style/MutableConstant, Style/StringLiterals, Style/SymbolProc, Style/WordArray, Lint/RedundantCopDisableDirective

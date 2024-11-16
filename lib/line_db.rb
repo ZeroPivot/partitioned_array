@@ -8,6 +8,8 @@
 
 require_relative "file_methods"
 require_relative "partitioned_array_database"
+# LineDB_[M]PA-v1.0.2-release
+# updated 
 # v1.0.1-release for all of the partitioned array classes and line_db
 # rehasher!, a method that rehashes the database, and saves it to the files. Rehashing implies that all nils and {}'s are removed and the array is kinda remade...
 #

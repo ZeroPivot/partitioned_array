@@ -1,8 +1,0 @@
-# Managers
-module LineDatabaseFactory
-  def self.line_db: () -> untyped
-end
-
-class FileMethodsManager
-  include FileMethods
-end

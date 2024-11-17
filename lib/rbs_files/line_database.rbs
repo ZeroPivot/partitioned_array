@@ -1,6 +1,0 @@
-# VERSION 1.0.0-release - First release
-PARENT_FOLDER: "./PAD_db"
-
-class Object
-  def load_pad: (?parent_folder: untyped) -> untyped
-end

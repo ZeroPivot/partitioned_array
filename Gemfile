@@ -7,7 +7,6 @@ gem 'rerun'
 gem 'net-uri'
 gem 'net-http'
 gem 'rake'
-gem 'solargraph'
 gem 'ocran'
 gem "win32ole"
 gem "mechanize"

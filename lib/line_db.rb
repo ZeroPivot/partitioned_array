@@ -6,6 +6,22 @@
 # rubocop:disable Style/MutableConstant
 # rubocop:disable Style/StringLiterals
 
+# Fundamental low level JSON compression system...
+# # partitioned_array ... LineDB ... LineDB_[M]PA ... LineDB_[M]PA-v1.0.2-release
+require 'oj'
+Oj.mimic_JSON
+# ...and the rest of the libraries
+require 'fileutils'
+require 'json'
+require 'yaml'
+require 'zlib'
+require_relative "partitioned_array"
+require_relative "line_reader"
+require_relative "file_context_managed_partitioned_array_manager"
+require_relative "managed_partitioned_array"
+require_relative "partitioned_array_database"
+require_relative "line_db"
+
 require_relative "file_methods"
 require_relative "partitioned_array_database"
 # LineDB_[M]PA-v1.0.2-release

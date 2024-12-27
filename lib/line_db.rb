@@ -16,11 +16,9 @@ require 'json'
 require 'yaml'
 require 'zlib'
 require_relative "partitioned_array"
-require_relative "line_reader"
 require_relative "file_context_managed_partitioned_array_manager"
 require_relative "managed_partitioned_array"
 require_relative "partitioned_array_database"
-require_relative "line_db"
 
 require_relative "file_methods"
 require_relative "partitioned_array_database"
@@ -118,12 +116,6 @@ class LineDB
 
   # Adds an element to the database starting from the left hand side, and skipping over nils.
   def lhs_add; end
-
-
-
-
-
-
 
   # Adds an element to the database starting from the right hand side, and skipping over nils going from left to right.
   def rhs_add; end

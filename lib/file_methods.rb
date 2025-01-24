@@ -3,9 +3,9 @@ module FileMethods
   DB_LIST = './db/db_list.txt'
   DB_DIR = './db'
 
-  def make_db(db_dir = DB_DIR)
-    FileUtils.mkdir_p(db_dir)
-    FileUtils.touch(DB_LIST)
+  def make_db(db_dir: '/db', db_list: '/db/db_list.txt')
+    FileUtils.mkdir_p("#{Dir.pwd + db_dir}")
+    FileUtils.touch("#{Dir.pwd + db_list}")
   end
 
   def read_lines(array)

@@ -29,7 +29,7 @@ module FileMethods
   end
 
   def remove_line(line, filename = DB_LIST)
-    lines = read_file_lines
+    lines = read_file_lines(filename)
     lines.delete(line)
     File.open(filename, 'w') do |f|
       lines.each do |line|
